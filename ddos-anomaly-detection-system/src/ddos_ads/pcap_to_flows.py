@@ -1,0 +1,436 @@
+"""Packet capture (tshark), flow extraction (cicflowmeter), and schema alignment."""
+
+from __future__ import annotations
+
+import argparse
+from pathlib import Path
+import re
+import shutil
+import subprocess
+import sys
+import time
+from typing import Dict, List, Optional, Tuple
+import pandas as pd
+
+from ddos_ads.config import load_config
+from ddos_ads.features import load_selected_features
+from ddos_ads.utils import parse_cic_timestamp, setup_logger
+
+logger = setup_logger("ddos_ads.pcap_to_flows")
+
+# Explicit canonical mapping from cicflowmeter snake_case names to CIC-DDoS2019 title-case names
+CICFLOWMETER_TO_CIC2019_MAP: Dict[str, str] = {
+    # Timestamps & 5-tuple
+    "timestamp": "Timestamp",
+    "src_ip": "Source IP",
+    "dst_ip": "Destination IP",
+    "src_port": "Source Port",
+    "dst_port": "Destination Port",
+    "protocol": "Protocol",
+    "flow_id": "Flow ID",
+    # Basic flow statistics
+    "flow_duration": "Flow Duration",
+    "tot_fwd_pkts": "Total Fwd Packets",
+    "tot_bwd_pkts": "Total Backward Packets",
+    "totlen_fwd_pkts": "Total Length of Fwd Packets",
+    "totlen_bwd_pkts": "Total Length of Bwd Packets",
+    "fwd_pkt_len_max": "Fwd Packet Length Max",
+    "fwd_pkt_len_min": "Fwd Packet Length Min",
+    "fwd_pkt_len_mean": "Fwd Packet Length Mean",
+    "fwd_pkt_len_std": "Fwd Packet Length Std",
+    "bwd_pkt_len_max": "Bwd Packet Length Max",
+    "bwd_pkt_len_min": "Bwd Packet Length Min",
+    "bwd_pkt_len_mean": "Bwd Packet Length Mean",
+    "bwd_pkt_len_std": "Bwd Packet Length Std",
+    "flow_byts_s": "Flow Bytes/s",
+    "flow_pkts_s": "Flow Packets/s",
+    "flow_iat_mean": "Flow IAT Mean",
+    "flow_iat_std": "Flow IAT Std",
+    "flow_iat_max": "Flow IAT Max",
+    "flow_iat_min": "Flow IAT Min",
+    "fwd_iat_tot": "Fwd IAT Total",
+    "fwd_iat_mean": "Fwd IAT Mean",
+    "fwd_iat_std": "Fwd IAT Std",
+    "fwd_iat_max": "Fwd IAT Max",
+    "fwd_iat_min": "Fwd IAT Min",
+    "bwd_iat_tot": "Bwd IAT Total",
+    "bwd_iat_mean": "Bwd IAT Mean",
+    "bwd_iat_std": "Bwd IAT Std",
+    "bwd_iat_max": "Bwd IAT Max",
+    "bwd_iat_min": "Bwd IAT Min",
+    # Header & Flag statistics
+    "fwd_psh_flags": "Fwd PSH Flags",
+    "bwd_psh_flags": "Bwd PSH Flags",
+    "fwd_urg_flags": "Fwd URG Flags",
+    "bwd_urg_flags": "Bwd URG Flags",
+    "fwd_header_len": "Fwd Header Length",
+    "bwd_header_len": "Bwd Header Length",
+    "fwd_pkts_s": "Fwd Packets/s",
+    "bwd_pkts_s": "Bwd Packets/s",
+    "pkt_len_min": "Min Packet Length",
+    "pkt_len_max": "Max Packet Length",
+    "pkt_len_mean": "Packet Length Mean",
+    "pkt_len_std": "Packet Length Std",
+    "pkt_len_var": "Packet Length Variance",
+    "fin_flag_cnt": "FIN Flag Count",
+    "syn_flag_cnt": "SYN Flag Count",
+    "rst_flag_cnt": "RST Flag Count",
+    "psh_flag_cnt": "PSH Flag Count",
+    "ack_flag_cnt": "ACK Flag Count",
+    "urg_flag_cnt": "URG Flag Count",
+    "cwe_flag_count": "CWE Flag Count",
+    "cwr_flag_count": "CWE Flag Count",
+    "ece_flag_cnt": "ECE Flag Count",
+    "down_up_ratio": "Down/Up Ratio",
+    "pkt_size_avg": "Average Packet Size",
+    "fwd_seg_size_avg": "Avg Fwd Segment Size",
+    "bwd_seg_size_avg": "Avg Bwd Segment Size",
+    "subflow_fwd_pkts": "Subflow Fwd Packets",
+    "subflow_fwd_byts": "Subflow Fwd Bytes",
+    "subflow_bwd_pkts": "Subflow Bwd Packets",
+    "subflow_bwd_byts": "Subflow Bwd Bytes",
+    "init_fwd_win_byts": "Init_Win_bytes_forward",
+    "init_bwd_win_byts": "Init_Win_bytes_backward",
+    "fwd_act_data_pkts": "act_data_pkt_fwd",
+    "fwd_seg_size_min": "min_seg_size_forward",
+    "active_mean": "Active Mean",
+    "active_std": "Active Std",
+    "active_max": "Active Max",
+    "active_min": "Active Min",
+    "idle_mean": "Idle Mean",
+    "idle_std": "Idle Std",
+    "idle_max": "Idle Max",
+    "idle_min": "Idle Min",
+}
+
+
+def normalize_column_name(col: str) -> str:
+    """Normalize string for fuzzy matching (lowercase, alphanumeric only)."""
+    return re.sub(r"[^a-z0-9]", "", col.lower())
+
+
+def align_flow_dataframe(
+    raw_df: pd.DataFrame,
+    target_features: List[str],
+    label: Optional[str] = None,
+) -> Tuple[pd.DataFrame, pd.DataFrame]:
+    """
+    Align raw flow DataFrame from cicflowmeter to the exact CIC-DDoS2019 feature representation.
+
+    Returns:
+        (features_df, metadata_df):
+          - features_df: DataFrame ordered exactly according to target_features with 0-filled missing values.
+          - metadata_df: DataFrame containing 5-tuple (src_ip, dst_ip, src_port, dst_port, protocol, timestamp).
+    """
+    df = raw_df.copy()
+    # Strip whitespace
+    df.columns = [str(c).strip() for c in df.columns]
+
+    # Map columns using explicit dictionary
+    rename_dict = {}
+    for col in df.columns:
+        clean_col = col.lower()
+        if clean_col in CICFLOWMETER_TO_CIC2019_MAP:
+            rename_dict[col] = CICFLOWMETER_TO_CIC2019_MAP[clean_col]
+
+    df = df.rename(columns=rename_dict)
+
+    # Secondary fuzzy mapping fallback for unmatched columns
+    normalized_existing = {normalize_column_name(c): c for c in df.columns}
+    for target in target_features:
+        if target not in df.columns:
+            norm_target = normalize_column_name(target)
+            if norm_target in normalized_existing:
+                df = df.rename(columns={normalized_existing[norm_target]: target})
+
+    # Extract metadata columns (5-tuple + Timestamp)
+    meta_cols = ["Timestamp", "Source IP", "Destination IP", "Source Port", "Destination Port", "Protocol"]
+    metadata_df = pd.DataFrame(index=df.index)
+
+    for m in meta_cols:
+        if m in df.columns:
+            metadata_df[m] = df[m]
+        else:
+            metadata_df[m] = "Unknown"
+
+    if "Timestamp" in metadata_df.columns and metadata_df["Timestamp"].iloc[0] != "Unknown":
+        metadata_df["Timestamp"] = parse_cic_timestamp(metadata_df["Timestamp"])
+    else:
+        metadata_df["Timestamp"] = pd.Timestamp.now()
+
+    # Fill and align model features
+    missing_features = []
+    features_df = pd.DataFrame(index=df.index)
+
+    for target in target_features:
+        if target in df.columns:
+            features_df[target] = pd.to_numeric(df[target], errors="coerce").fillna(0.0)
+        else:
+            features_df[target] = 0.0
+            missing_features.append(target)
+
+    if missing_features:
+        logger.warning(
+            f"SCHEMA ALIGNMENT WARNING: {len(missing_features)} features were missing from flow capture "
+            f"and filled with 0.0: {missing_features[:10]}{'...' if len(missing_features) > 10 else ''}"
+        )
+
+    # Optional label injection for lab validation
+    if label is not None:
+        metadata_df["Label"] = label
+        metadata_df["Label_Binary"] = 0 if label.upper() == "BENIGN" else 1
+
+    return features_df, metadata_df
+
+
+def check_feature_scales(
+    lab_flow_df: pd.DataFrame,
+    train_benign_df: pd.DataFrame,
+    feature_cols: List[str],
+    ratio_threshold: float = 100.0,
+) -> Tuple[pd.DataFrame, List[str]]:
+    """
+    Compare min, median, and max of each feature for a lab PCAP's benign flows
+    against train benign flows, flagging any feature differing by more than ratio_threshold.
+    """
+    rows = []
+    flagged = []
+
+    for f in feature_cols:
+        if f not in train_benign_df.columns or f not in lab_flow_df.columns:
+            continue
+
+        tr_series = pd.to_numeric(train_benign_df[f], errors="coerce").dropna()
+        lab_series = pd.to_numeric(lab_flow_df[f], errors="coerce").dropna()
+
+        if tr_series.empty or lab_series.empty:
+            continue
+
+        tr_min, tr_med, tr_max = float(tr_series.min()), float(tr_series.median()), float(tr_series.max())
+        lab_min, lab_med, lab_max = float(lab_series.min()), float(lab_series.median()), float(lab_series.max())
+
+        ratio_med = "N/A"
+        ratio_max = "N/A"
+        is_flagged = False
+        reasons = []
+
+        if tr_med > 0 and lab_med > 0:
+            r = lab_med / tr_med
+            ratio_med = f"{r:.2f}x" if r >= 1 else f"1/{1/r:.1f}x"
+            if r > ratio_threshold or r < (1.0 / ratio_threshold):
+                is_flagged = True
+                reasons.append(f"median({ratio_med})")
+
+        if tr_max > 0 and lab_max > 0:
+            r_m = lab_max / tr_max
+            ratio_max = f"{r_m:.2f}x" if r_m >= 1 else f"1/{1/r_m:.1f}x"
+            if r_m > ratio_threshold or r_m < (1.0 / ratio_threshold):
+                is_flagged = True
+                reasons.append(f"max({ratio_max})")
+
+        status = "FLAGGED" if is_flagged else "OK"
+        if is_flagged:
+            flagged.append(f)
+
+        rows.append({
+            "Feature": f,
+            "Train_Min": tr_min,
+            "Train_Med": tr_med,
+            "Train_Max": tr_max,
+            "Lab_Min": lab_min,
+            "Lab_Med": lab_med,
+            "Lab_Max": lab_max,
+            "Med_Ratio": ratio_med,
+            "Max_Ratio": ratio_max,
+            "Status": status,
+            "Reason": ", ".join(reasons) if reasons else "None",
+        })
+
+    df_summary = pd.DataFrame(rows)
+
+    print("\n" + "=" * 120)
+    print("                 FEATURE SCALE VALIDATION: LAB PCAP FLOWS vs TRAIN BENIGN FLOWS")
+    print("=" * 120)
+    header = (
+        f"| {'Feature':<28} | {'Train [Min, Med, Max]':<28} | {'Lab [Min, Med, Max]':<28} | "
+        f"{'Med Ratio':<10} | {'Max Ratio':<10} | {'Status':<8} |"
+    )
+    sep = f"|{'-'*30}|{'-'*30}|{'-'*30}|{'-'*12}|{'-'*12}|{'-'*10}|"
+    print(header)
+    print(sep)
+
+    for _, r in df_summary.iterrows():
+        tr_str = f"[{r['Train_Min']:.1f}, {r['Train_Med']:.1f}, {r['Train_Max']:.1f}]"
+        lab_str = f"[{r['Lab_Min']:.1f}, {r['Lab_Med']:.1f}, {r['Lab_Max']:.1f}]"
+        print(
+            f"| {r['Feature']:<28} | {tr_str:<28} | {lab_str:<28} | "
+            f"{r['Med_Ratio']:<10} | {r['Max_Ratio']:<10} | {r['Status']:<8} |"
+        )
+    print(sep)
+    print(f"Total Features Analyzed: {len(df_summary)} | Flagged (> {ratio_threshold}x): {len(flagged)}")
+    if flagged:
+        print(f"Flagged features to inspect for unit mismatches: {flagged}")
+    print("=" * 120 + "\n")
+
+    return df_summary, flagged
+
+
+def capture_pcap(
+    interface: str,
+    duration_sec: int,
+    output_pcap: Path,
+    bpf_filter: Optional[str] = None,
+    tshark_path: str = "/usr/bin/tshark",
+) -> Path:
+    """Capture network traffic using tshark."""
+    output_pcap.parent.mkdir(parents=True, exist_ok=True)
+    tshark_bin = shutil.which(tshark_path) or shutil.which("tshark")
+    if not tshark_bin:
+        raise RuntimeError("tshark binary not found. Install wireshark / tshark package.")
+
+    cmd = [
+        tshark_bin,
+        "-i", interface,
+        "-a", f"duration:{duration_sec}",
+        "-w", str(output_pcap),
+    ]
+    if bpf_filter:
+        cmd.extend(["-f", bpf_filter])
+
+    logger.info(f"Executing packet capture on '{interface}' for {duration_sec}s -> {output_pcap}...")
+    result = subprocess.run(cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
+    if result.returncode != 0 and not output_pcap.is_file():
+        raise RuntimeError(f"tshark capture failed (exit {result.returncode}): {result.stderr}")
+
+    logger.info(f"Capture complete. Output size: {output_pcap.stat().st_size if output_pcap.is_file() else 0} bytes.")
+    return output_pcap
+
+
+def convert_pcap_to_flows(
+    pcap_path: Path,
+    output_dir: Path,
+    cicflowmeter_bin: str = "cicflowmeter",
+) -> List[Path]:
+    """Convert PCAP file into CSV flows using cicflowmeter."""
+    output_dir.mkdir(parents=True, exist_ok=True)
+    csv_out = output_dir / f"{pcap_path.stem}_flows.csv"
+
+    # First attempt direct Python invocation to avoid CLI positional argument quirks
+    try:
+        from cicflowmeter.sniffer import create_sniffer
+        logger.info(f"Extracting flows using cicflowmeter Python module from {pcap_path}...")
+        sniffer, session = create_sniffer(
+            input_file=str(pcap_path),
+            input_interface=None,
+            output_mode="csv",
+            output=str(csv_out),
+            fields=None,
+            verbose=False,
+        )
+        sniffer.start()
+        sniffer.join()
+        if hasattr(session, "_gc_stop"):
+            session._gc_stop.set()
+        session.flush_flows()
+        if csv_out.is_file() and csv_out.stat().st_size > 0:
+            logger.info(f"Flow conversion finished: {csv_out.name} ({csv_out.stat().st_size} bytes).")
+            return [csv_out]
+    except Exception as exc:
+        logger.warning(f"Direct Python cicflowmeter extraction encountered: {exc}. Trying CLI fallback...")
+
+    bin_path = shutil.which(cicflowmeter_bin) or shutil.which("cicflowmeter")
+    if bin_path:
+        cmd = [bin_path, "-f", str(pcap_path), "-c", str(csv_out)]
+        logger.info(f"Running cicflowmeter CLI: {' '.join(cmd)}")
+        _ = subprocess.run(cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
+
+    csvs = list(output_dir.glob("*.csv"))
+    logger.info(f"Flow conversion finished. {len(csvs)} CSV files present in {output_dir}.")
+    return csvs
+
+
+def main() -> None:
+    parser = argparse.ArgumentParser(description="PCAP capture, flow conversion, and schema alignment.")
+    subparsers = parser.add_subparsers(dest="subcommand", required=True)
+
+    # Capture
+    p_cap = subparsers.add_parser("capture", help="Capture live traffic to PCAP using tshark.")
+    p_cap.add_argument("--interface", "-i", type=str, default="any", help="Network interface.")
+    p_cap.add_argument("--duration", "-d", type=int, default=5, help="Capture duration in seconds.")
+    p_cap.add_argument("--filter", "-f", type=str, default="ip or ip6", help="BPF capture filter.")
+    p_cap.add_argument("--out", "-o", type=str, default=None, help="Output PCAP path.")
+
+    # Convert
+    p_conv = subparsers.add_parser("convert", help="Convert PCAP to CSV flows via cicflowmeter.")
+    p_conv.add_argument("--pcap", "-p", type=str, required=True, help="Input PCAP path.")
+    p_conv.add_argument("--out-dir", "-o", type=str, default=None, help="Output directory for flows.")
+
+    # Align
+    p_align = subparsers.add_parser("align", help="Align flow CSV to CIC-DDoS2019 features.")
+    p_align.add_argument("--flow-csv", "-c", type=str, required=True, help="Input cicflowmeter CSV.")
+    p_align.add_argument("--out-csv", "-o", type=str, required=True, help="Output aligned CSV path.")
+    p_align.add_argument("--label", "-l", type=str, default=None, help="Optional label to inject.")
+
+    # All
+    p_all = subparsers.add_parser("all", help="Capture, convert, and align end-to-end.")
+    p_all.add_argument("--interface", "-i", type=str, default="any", help="Network interface.")
+    p_all.add_argument("--duration", "-d", type=int, default=5, help="Capture duration.")
+    p_all.add_argument("--filter", "-f", type=str, default="ip or ip6", help="BPF filter.")
+
+    # Check Scales
+    p_check = subparsers.add_parser("check-scales", help="Validate feature scales between lab flows and train benign.")
+    p_check.add_argument("--flow-csv", "-c", type=str, required=True, help="Input lab flow CSV.")
+    p_check.add_argument("--threshold", "-t", type=float, default=100.0, help="Discrepancy ratio threshold (default: 100.0).")
+
+    args = parser.parse_args()
+    config = load_config()
+
+    if args.subcommand == "capture":
+        out = Path(args.out) if args.out else config.get_path("capture_dir") / f"capture_{int(time.time())}.pcap"
+        capture_pcap(args.interface, args.duration, out, bpf_filter=args.filter)
+
+    elif args.subcommand == "convert":
+        pcap_in = Path(args.pcap)
+        out_dir = Path(args.out_dir) if args.out_dir else config.get_path("flows_dir")
+        convert_pcap_to_flows(pcap_in, out_dir)
+
+    elif args.subcommand == "align":
+        features_path = config.get_path("models_dir") / "features.json"
+        if not features_path.is_file():
+            logger.error(f"Models not found. Run: make train")
+            sys.exit(1)
+        feats = load_selected_features(features_path)
+        raw_df = pd.read_csv(args.flow_csv)
+        feat_df, meta_df = align_flow_dataframe(raw_df, feats, label=args.label)
+        combined = pd.concat([meta_df, feat_df], axis=1)
+        combined.to_csv(args.out_csv, index=False)
+        logger.info(f"Aligned flows written to {args.out_csv}")
+
+    elif args.subcommand == "check-scales":
+        import joblib
+        features_path = config.get_path("models_dir") / "features.json"
+        scaler_path = config.get_path("models_dir") / "scaler.joblib"
+        train_path = config.get_path("processed_data_dir") / "train.parquet"
+
+        if not features_path.is_file() or not scaler_path.is_file() or not train_path.is_file():
+            logger.error("Required model/dataset files not found. Run: make preprocess")
+            sys.exit(1)
+
+        feats = load_selected_features(features_path)
+        scaler = joblib.load(scaler_path)
+        df_train = pd.read_parquet(train_path)
+
+        train_benign = df_train[df_train["Label_Binary"] == 0]
+        raw_train_b = pd.DataFrame(scaler.inverse_transform(train_benign[feats].values), columns=feats)
+
+        lab_raw = pd.read_csv(args.flow_csv)
+        if any(f not in lab_raw.columns for f in feats):
+            lab_feat, _ = align_flow_dataframe(lab_raw, feats)
+        else:
+            lab_feat = lab_raw[feats]
+
+        check_feature_scales(lab_feat, raw_train_b, feats, ratio_threshold=args.threshold)
+
+
+if __name__ == "__main__":
+    main()

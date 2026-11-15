@@ -1,0 +1,87 @@
+{
+  "random_forest": {
+    "train_time_sec": 2.0289,
+    "model_size_bytes": 4799913,
+    "model_size_mb": 4.58,
+    "timestamp": "2026-11-15T15:07:54.063882",
+    "metrics": {
+      "val_f1": 0.9995095176923975,
+      "val_precision": 1.0,
+      "val_recall": 0.9990195162947054,
+      "val_roc_auc": 0.9999402225057775
+    }
+  },
+  "knn": {
+    "train_time_sec": 4.9535,
+    "model_size_bytes": 2700820,
+    "model_size_mb": 2.58,
+    "timestamp": "2026-11-15T15:29:15.244159",
+    "metrics": {
+      "best_params": {
+        "k": 5,
+        "weights": "distance"
+      },
+      "val_f1": 0.9972078593588418,
+      "val_precision": 0.9998963085856492,
+      "val_recall": 0.9945338283828383,
+      "val_roc_auc": 0.9979685057321522
+    }
+  },
+  "lstm": {
+    "train_time_sec": 0.0,
+    "model_size_bytes": 239305,
+    "model_size_mb": 0.23,
+    "timestamp": "2026-11-15T15:39:10.996083",
+    "metrics": {
+      "seeds": [
+        42,
+        43,
+        44
+      ],
+      "seed_runs": [
+        {
+          "seed": 42,
+          "best_val_loss": 1.915719699990555e-06,
+          "val_f1": 1.0,
+          "val_roc_auc": 1.0,
+          "epochs_trained": 15,
+          "elapsed_sec": 0.0
+        },
+        {
+          "seed": 43,
+          "best_val_loss": 1.6000529956160826e-05,
+          "val_f1": 0.9999357202545478,
+          "val_roc_auc": 1.0,
+          "epochs_trained": 15,
+          "elapsed_sec": 0.0
+        },
+        {
+          "seed": 44,
+          "best_val_loss": 5.7297924485816655e-06,
+          "val_f1": 1.0,
+          "val_roc_auc": 1.0,
+          "epochs_trained": 10,
+          "elapsed_sec": 0.0
+        }
+      ],
+      "val_loss_mean": 7.882014034911015e-06,
+      "val_loss_std": 5.9480816686601485e-06,
+      "val_loss_spread": [
+        1.915719699990555e-06,
+        1.6000529956160826e-05
+      ],
+      "val_f1_mean": 0.9999785734181826,
+      "val_f1_std": 3.0301762601464023e-05,
+      "val_f1_spread": [
+        0.9999357202545478,
+        1.0
+      ],
+      "val_auc_mean": 1.0,
+      "val_auc_std": 0.0,
+      "val_auc_spread": [
+        1.0,
+        1.0
+      ]
+    }
+  }
+}

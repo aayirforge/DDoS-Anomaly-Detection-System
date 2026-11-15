@@ -1,0 +1,155 @@
+{
+  "dataset": "CIC-DDoS2019",
+  "generated_at": "2026-11-15T12:27:28.433302",
+  "total_files": 2,
+  "total_standalone_csvs": 0,
+  "total_zip_archives": 2,
+  "files": [],
+  "standalone_csv_files": [],
+  "zip_archives": [
+    {
+      "archive_filename": "CSV-01-12.zip",
+      "archive_size_bytes": 2330434641,
+      "archive_size_mb": 2222.48,
+      "sha256": "d5224f73b59f2be783b620bc7046f4bf467c1fe226cfdbc036359ab40f32930d",
+      "contained_csv_count": 11,
+      "members": [
+        {
+          "member_name": "01-12/UDPLag.csv",
+          "uncompressed_bytes": 157968770,
+          "uncompressed_mb": 150.65,
+          "crc32": "0x5d5e840e",
+          "is_readable_csv": true
+        },
+        {
+          "member_name": "01-12/TFTP.csv",
+          "uncompressed_bytes": 9302011115,
+          "uncompressed_mb": 8871.09,
+          "crc32": "0x1551fa84",
+          "is_readable_csv": true
+        },
+        {
+          "member_name": "01-12/Syn.csv",
+          "uncompressed_bytes": 637312127,
+          "uncompressed_mb": 607.79,
+          "crc32": "0x17111941",
+          "is_readable_csv": true
+        },
+        {
+          "member_name": "01-12/DrDoS_UDP.csv",
+          "uncompressed_bytes": 1506039371,
+          "uncompressed_mb": 1436.27,
+          "crc32": "0x4f67583f",
+          "is_readable_csv": true
+        },
+        {
+          "member_name": "01-12/DrDoS_SSDP.csv",
+          "uncompressed_bytes": 1252686219,
+          "uncompressed_mb": 1194.65,
+          "crc32": "0xea51a179",
+          "is_readable_csv": true
+        },
+        {
+          "member_name": "01-12/DrDoS_SNMP.csv",
+          "uncompressed_bytes": 2172579815,
+          "uncompressed_mb": 2071.93,
+          "crc32": "0x9ba6008e",
+          "is_readable_csv": true
+        },
+        {
+          "member_name": "01-12/DrDoS_NTP.csv",
+          "uncompressed_bytes": 645008606,
+          "uncompressed_mb": 615.13,
+          "crc32": "0x9d154c31",
+          "is_readable_csv": true
+        },
+        {
+          "member_name": "01-12/DrDoS_NetBIOS.csv",
+          "uncompressed_bytes": 1697479829,
+          "uncompressed_mb": 1618.84,
+          "crc32": "0x9b9f7629",
+          "is_readable_csv": true
+        },
+        {
+          "member_name": "01-12/DrDoS_MSSQL.csv",
+          "uncompressed_bytes": 1889181756,
+          "uncompressed_mb": 1801.66,
+          "crc32": "0x25548be9",
+          "is_readable_csv": true
+        },
+        {
+          "member_name": "01-12/DrDoS_LDAP.csv",
+          "uncompressed_bytes": 917302277,
+          "uncompressed_mb": 874.81,
+          "crc32": "0xc4cab0a3",
+          "is_readable_csv": true
+        },
+        {
+          "member_name": "01-12/DrDoS_DNS.csv",
+          "uncompressed_bytes": 2133307948,
+          "uncompressed_mb": 2034.48,
+          "crc32": "0x5f7b66a5",
+          "is_readable_csv": true
+        }
+      ]
+    },
+    {
+      "archive_filename": "CSV-03-11.zip",
+      "archive_size_bytes": 918815761,
+      "archive_size_mb": 876.25,
+      "sha256": "a81d8ce59a819d13e6bfea4e4812d6d144d0572b6d2c42d8e0c0a8cf1c26c263",
+      "contained_csv_count": 7,
+      "members": [
+        {
+          "member_name": "03-11/UDPLag.csv",
+          "uncompressed_bytes": 319793413,
+          "uncompressed_mb": 304.98,
+          "crc32": "0x9402b54",
+          "is_readable_csv": true
+        },
+        {
+          "member_name": "03-11/UDP.csv",
+          "uncompressed_bytes": 1792797298,
+          "uncompressed_mb": 1709.74,
+          "crc32": "0xffdccb24",
+          "is_readable_csv": true
+        },
+        {
+          "member_name": "03-11/LDAP.csv",
+          "uncompressed_bytes": 871398918,
+          "uncompressed_mb": 831.03,
+          "crc32": "0x65d59865",
+          "is_readable_csv": true
+        },
+        {
+          "member_name": "03-11/MSSQL.csv",
+          "uncompressed_bytes": 2386225228,
+          "uncompressed_mb": 2275.68,
+          "crc32": "0x53a59805",
+          "is_readable_csv": true
+        },
+        {
+          "member_name": "03-11/NetBIOS.csv",
+          "uncompressed_bytes": 1418468105,
+          "uncompressed_mb": 1352.76,
+          "crc32": "0x2623098",
+          "is_readable_csv": true
+        },
+        {
+          "member_name": "03-11/Portmap.csv",
+          "uncompressed_bytes": 78611080,
+          "uncompressed_mb": 74.97,
+          "crc32": "0xbeda52ef",
+          "is_readable_csv": true
+        },
+        {
+          "member_name": "03-11/Syn.csv",
+          "uncompressed_bytes": 1877372065,
+          "uncompressed_mb": 1790.4,
+          "crc32": "0xba43246c",
+          "is_readable_csv": true
+        }
+      ]
+    }
+  ]
+}

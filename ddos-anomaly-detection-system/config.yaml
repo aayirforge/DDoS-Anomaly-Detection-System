@@ -1,0 +1,186 @@
+# ==============================================================================
+# DDoS Anomaly Detection System (ddos_ads) Master Configuration
+# ==============================================================================
+
+# Relative directory paths (resolved relative to repository root)
+paths:
+  raw_data_dir: "data/raw"
+  processed_data_dir: "data/processed"
+  capture_dir: "data/capture"
+  flows_dir: "data/flows"
+  models_dir: "models"
+  results_dir: "results"
+  logs_dir: "logs"
+
+# Data Acquisition
+download:
+  # Kaggle dataset slug: Placeholder comment. Update with exact Kaggle mirror or your own slug
+  kaggle_dataset_slug: "chethuhn/network-intrusion-dataset"
+  days:
+    - "01-12"  # Training & same-day validation/test day
+    - "03-11"  # Cross-day test day
+  max_files: null
+  cic_info_url: "https://www.unb.ca/cic/datasets/ddos-2019.html"
+  # Support reading directly from raw zip archives without uncompressing to disk
+  read_from_zip: true
+  zip_files:
+    train_zip: "CSV-01-12.zip"
+    test_zip: "CSV-03-11.zip"
+  # Planned files to process (excludes 9.3GB TFTP.csv to prevent disk exhaustion)
+  planned_files:
+    "01-12":
+      - "01-12/DrDoS_DNS.csv"
+      - "01-12/DrDoS_NTP.csv"
+      - "01-12/DrDoS_SNMP.csv"
+      - "01-12/DrDoS_UDP.csv"
+      - "01-12/Syn.csv"
+      - "01-12/UDPLag.csv"
+      - "01-12/DrDoS_MSSQL.csv"
+      - "01-12/DrDoS_NetBIOS.csv"
+      - "01-12/DrDoS_LDAP.csv"
+      - "01-12/DrDoS_SSDP.csv"
+    "03-11":
+      - "03-11/Syn.csv"
+      - "03-11/Portmap.csv"
+      - "03-11/NetBIOS.csv"
+      - "03-11/LDAP.csv"
+      - "03-11/MSSQL.csv"
+      - "03-11/UDP.csv"
+      - "03-11/UDPLag.csv"
+
+# Preprocessing & Feature Engineering
+preprocessing:
+  sample_size: 300000
+  chunk_size: 100000
+  correlation_threshold: 0.95
+  top_k_features: 25
+  random_seed: 42
+  min_benign_per_split: 500  # Minimum warning threshold for benign representation
+  # Day assignment patterns for matching file or folder path names
+  train_day_pattern: "01-12"
+  cross_day_pattern: "03-11"
+  # Time splits applied chronologically WITHIN each attack file
+  train_ratio: 0.70
+  val_ratio: 0.15
+  test_ratio: 0.15
+  # Identifier & non-numeric metadata columns dropped by name from feature representation
+  drop_identifier_columns:
+    - "Flow ID"
+    - "Source IP"
+    - "Destination IP"
+    - "Source Port"
+    - "Unnamed: 0"
+    - "Simulated"
+    - "SimillarHTTP"
+    - "SimilarHTTP"
+    - "Inbound"
+  # Drop Destination Port to prevent models from learning trivial lab setup artifacts
+  # (e.g., memorizing port 53=DNS, 123=NTP, 389=LDAP rather than traffic dynamics)
+  drop_destination_port: true
+  # Canonical label normalization mapping across days
+  label_normalization_map:
+    DrDoS_DNS: "DNS"
+    DrDoS_NTP: "NTP"
+    DrDoS_SNMP: "SNMP"
+    DrDoS_UDP: "UDP"
+    UDP: "UDP"
+    DrDoS_MSSQL: "MSSQL"
+    MSSQL: "MSSQL"
+    DrDoS_NetBIOS: "NetBIOS"
+    NetBIOS: "NetBIOS"
+    DrDoS_LDAP: "LDAP"
+    LDAP: "LDAP"
+    DrDoS_SSDP: "SSDP"
+    Syn: "Syn"
+    UDPLag: "UDPLag"
+    UDP-lag: "UDPLag"
+    Portmap: "Portmap"
+    PortScan: "PortScan"
+    TFTP: "TFTP"
+    WebDDoS: "WebDDoS"
+    BENIGN: "BENIGN"
+
+# Windowing parameters for sequence models (LSTM)
+windowing:
+  window_size: 10
+  step_size: 5
+
+# Model Training Hyperparameters
+models:
+  random_forest:
+    n_estimators: 100
+    max_depth: 20
+    min_samples_split: 5
+    class_weight: "balanced"
+    n_jobs: -1
+    cv_folds: 3
+    param_grid:
+      n_estimators: [50, 100]
+      max_depth: [10, 20]
+  knn:
+    subsample_train_size: 25000
+    candidate_k: [3, 5, 7, 11]
+    candidate_weights: ["uniform", "distance"]
+    n_jobs: -1
+  lstm:
+    hidden_dim: 64
+    num_layers: 2
+    dropout: 0.2
+    batch_size: 128
+    learning_rate: 0.001
+    weight_decay: 0.00001
+    epochs: 15
+    patience: 4
+    pos_weight: 1.0
+
+# Evaluation
+evaluation:
+  target_max_fpr: 0.01  # Target maximum false positive rate (1%)
+  threshold_step: 0.01
+
+# Network Packet Capture & Flow Conversion
+capture:
+  interface: "any"
+  chunk_duration_sec: 5
+  bpf_filter: "ip or ip6"
+  tshark_path: "/usr/bin/tshark"
+  cicflowmeter_bin: "cicflowmeter"
+
+# Live Detection Engine & Mitigation Controls
+live_detection:
+  default_model: "rf"  # rf | knn | lstm | ensemble
+  threshold: 0.50
+  consecutive_suspicious_windows: 3
+  per_ip_cooldown_sec: 300
+  buffer_flush_sec: 10
+  # Destination-aggregated decision rule (alert-only by default)
+  dest_aggregation_time_bin_sec: 30
+  dest_anomaly_fraction_threshold: 0.50
+  dest_min_flows_per_bin: 10
+  dest_consecutive_windows: 2
+  dest_alert_only: true
+
+mitigation:
+  # SAFETY FIRST: default mode is ALWAYS alert-only (no active packet dropping)
+  enable_blocking: false
+  dry_run: false
+  nftables_table: "ddos_ads"
+  nftables_chain: "filter_in"
+  rule_timeout_sec: 3600  # 1 hour auto-expiring rule
+  # User configurable RFC 1918 internal IP exemption (default off)
+  exempt_rfc1918: false
+  # Mandatory whitelisted addresses: Localhost, Default Gateway, and System DNS resolvers
+  # are always dynamically protected regardless of configuration.
+  whitelist_ips:
+    - "127.0.0.1"
+    - "::1"
+    - "0.0.0.0"
+
+# Service API
+api:
+  host: "0.0.0.0"
+  port: 8000
+
+# Streamlit Dashboard
+dashboard:
+  port: 8501

@@ -1,0 +1,15 @@
+# Top-level gitignore
+.venv/
+**/__pycache__/
+**/*.py[cod]
+**/.pytest_cache/
+**/.cache/
+**/data/raw/*.zip
+**/data/raw/CSV-*
+**/data/processed/*.parquet
+**/data/processed/*.npz
+**/data/capture/*.pcap
+**/data/flows/*.csv
+**/logs/*.log
+**/logs/*.db
+**/logs/*.csv
