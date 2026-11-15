@@ -82,7 +82,7 @@ All-benign window ($k=0$) FPR: LSTM = 0.00076, RF-mean = 0.00000, KNN-mean = 0.0
 | k = 9 | 1 Benign + 9 Attack | 0.998 | 0.993 | 0.989 | 0.854 | 0.996 |
 
 #### Onset Order Sensitivity Summary
-- **Homogeneous Windows:** Order sensitivity is **absent** on real homogeneous windows: randomly permuting the 10 flows inside each cross-day test window resulted in a recall change of 0.00000 (0.00000 -> 0.00000) and an FPR change of 0.00000 (0.00000 -> 0.00000).
+- **Homogeneous Windows:** Order sensitivity is **absent** on real homogeneous windows: randomly permuting the 10 flows inside each cross-day test window resulted in a recall change of -0.00008 (0.99775 -> 0.99767) and an FPR change of -0.00033 (0.00076 -> 0.00044).
 - **Mixed Transition Windows:** Order sensitivity is **present** on synthetic mixed windows, especially near the detection threshold at $k = 7$ and $k = 8$. At $k = 7$, recall is 0.467 (First) vs. 0.396 (Last) vs. 0.443 (Random). At $k = 8$, placing attack flows at the beginning (`First`) yields a recall of 0.934, compared to 0.758 when placed at the end (`Last`)—a difference of 17.6 percentage points (0.789 for Random). By $k = 9$, recall converges to 0.998 (First), 0.993 (Last), and 0.989 (Random).
 
 ## 5. Day 2 Benign File-Ordered Blocks Provenance & Per-File Time Ranges

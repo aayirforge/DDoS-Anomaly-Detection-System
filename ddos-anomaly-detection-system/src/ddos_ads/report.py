@@ -182,14 +182,17 @@ def generate_report(metrics_path: Path, results_dir: Path, out_path: Path) -> st
     k8 = next((r for r in k_results if r["k"] == 8), {})
     k9 = next((r for r in k_results if r["k"] == 9), {})
 
-    shuffle_abl = m.get("shuffle_ablation", {}).get("cross_day_window_test", {})
+    shuffle_abl = m.get("shuffle_ablation", {})
+    orig = shuffle_abl.get("original", {})
+    shuf = shuffle_abl.get("shuffled", {})
+    delta = shuffle_abl.get("delta", {})
 
     lines.append("#### Onset Order Sensitivity Summary")
     lines.append(
         "- **Homogeneous Windows:** Order sensitivity is **absent** on real homogeneous windows: randomly permuting the 10 flows inside each "
-        f"cross-day test window resulted in a recall change of {shuffle_abl.get('delta_recall', 0.0):.5f} ({shuffle_abl.get('unshuffled_recall', 0.0):.5f} -> "
-        f"{shuffle_abl.get('shuffled_recall', 0.0):.5f}) and an FPR change of {shuffle_abl.get('delta_fpr', 0.0):.5f} "
-        f"({shuffle_abl.get('unshuffled_fpr', 0.0):.5f} -> {shuffle_abl.get('shuffled_fpr', 0.0):.5f})."
+        f"cross-day test window resulted in a recall change of {delta.get('delta_recall', 0.0):.5f} ({orig.get('recall', 0.0):.5f} -> "
+        f"{shuf.get('recall', 0.0):.5f}) and an FPR change of {delta.get('delta_fpr', 0.0):.5f} "
+        f"({orig.get('fpr', 0.0):.5f} -> {shuf.get('fpr', 0.0):.5f})."
     )
     lines.append(
         "- **Mixed Transition Windows:** Order sensitivity is **present** on synthetic mixed windows, especially near the detection threshold "
@@ -282,7 +285,7 @@ def generate_report(metrics_path: Path, results_dir: Path, out_path: Path) -> st
     assert f"{k8.get('lstm_attack_first', 0.0):.3f}" in report_content
     assert f"{k8.get('lstm_attack_last', 0.0):.3f}" in report_content
     assert f"{k8.get('lstm_attack_random', 0.0):.3f}" in report_content
-    assert f"{shuffle_abl.get('delta_recall', 0.0):.5f}" in report_content
+    assert f"{delta.get('delta_recall', 0.0):.5f}" in report_content
 
     out_path.parent.mkdir(parents=True, exist_ok=True)
     with open(out_path, "w", encoding="utf-8") as f:
