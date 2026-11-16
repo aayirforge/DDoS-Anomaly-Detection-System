@@ -39,19 +39,28 @@ Different attack vectors produce fundamentally different packet-level and flow-l
      - **Condition B (Volumetric Single-Source Flood):** $\ge 50$ incomplete handshakes/s (any source count).
      - Trigger **`ALERT_SYN_FLOOD`**. Alert-only by default.
 
-2. **Packet-Level Dual-Condition UDP Rule (UDP Defense — Frozen on Session 2c):**
-   - Counts incoming UDP datagrams (`ip.proto == 17`) per destination IP in 1-second bins.
-   - Evaluated on Session 2c benchmark (benign multi-protocol max = 25 pps including streaming RTP; 30, 80, 300 pps floods):
+### 2. Primary Defense Detectors & Transfer Experiment Architecture
+
+1. **Packet-Level Incomplete TCP Handshake Rule (Primary SYN Defense):**
+   - Tracks incoming TCP SYN packets destined to the victim (`172.20.0.2`) across a **continuous sliding 1-second window**.
+   - Handshake completion timeout: $N = 2.0\text{ s}$. If a SYN packet does not observe a completed 3-way handshake (SYN $\to$ SYN-ACK $\to$ ACK) within $2.000\text{ s}$, it is confirmed incomplete.
+   - **Condition A (Distributed / Multi-Source Flood):** $\ge 15\text{ incomplete SYNs in sliding 1.0s}$ from $\ge 3\text{ distinct source IPs}$ (target-concentrated $\le 2$ ports/hosts) $\longrightarrow$ `ALERT_SYN_FLOOD`.
+   - **Condition B (Concentrated Single-Source / Low-Rate Flood):** $\ge 20\text{ incomplete SYNs in sliding 1.0s window}$ (target-concentrated $\le 2$ ports/hosts) $\longrightarrow$ `ALERT_SYN_FLOOD`.
+     - *Principle & Margin:* Formulated on Sessions 2 and 2b benign baselines, where the maximum concentrated incomplete SYN count is exactly 2. The threshold of 20 provides a safety margin of $+18$ incomplete SYNs (10x benign maximum) and guarantees detection delay $\le 2.5\text{ s}$ at 50 pps ($19/50\text{s} + 2.0\text{s} = 2.38\text{s}$).
+   - **Reconnaissance Port / Host Scan Separation:** $\ge 15\text{ incomplete SYNs in sliding 1.0s}$ AND ($\ge 3\text{ distinct destination ports}$ OR $\ge 3\text{ distinct destination IPs}$) $\longrightarrow$ `ALERT_SCAN` (classified separately; zero flood false alarms).
+
+2. **Packet-Level Dual-Condition UDP Rule (Primary UDP Defense — Frozen on Session 2c):**
+   - Counts incoming UDP datagrams (`ip.proto == 17`) per destination IP across 1-second bins.
+   - Evaluated on Session 2c benchmark (benign multi-protocol peak = 25 pps including streaming RTP; 30, 80, 300 pps floods):
      - **Condition 1 (Volumetric UDP Flood):** $\ge 40\text{ UDP packets/s}$ per destination IP (any port distribution).
      - **Condition 2 (Random-Port UDP Flood):** $\ge 30\text{ UDP packets/s}$ per destination IP **AND** $\ge 10\text{ distinct destination ports/s}$.
    - **Safety Margin:** Provides $\ge 15\text{ pps}$ margin above benign peak rates (25 pps) while achieving 100% recall on floods $\ge 30\text{ pps}$ with 0.00% FPR. Alert-only.
 
-3. **Flow-Level Anomaly Classifier (Step-Size 5 Windows):**
-   - **Champion Pre-Registered Model:** `KNN Robust 14 (Log1p + Clip [-5, 5]) (Window-Max)`.
-   - **Features (14):** Bwd Packets/s, Down/Up Ratio, Bwd Packet Length Mean, Bwd Packet Length Max, Total Length of Bwd Packets, Bwd Header Length, Flow Packets/s, Total Backward Packets, Bwd Packet Length Min, Flow Bytes/s, Total Length of Fwd Packets, Total Fwd Packets, Fwd Packet Length Max, Idle Std.
-   - **Window Aggregation:** Window size 10 flows, step size 5 flows inside each capture stream.
-   - **Fixed Threshold:** $1.0000$ (achieving 0.83% Benign FPR on Session 2 Java windows).
-   - **Evaluation Boundary:** Scored strictly on extracted flow records with $\ge 2$ packets.
+3. **Flow-Level Anomaly Classifier (Transferability Diagnostic Only — NOT a Primary Detector):**
+   - **Diagnostic Role:** Flow models (KNN Robust 14, Random Forest, LSTM) are evaluated strictly as an experimental transferability diagnostic to study cross-environment drift and feature stability on multi-packet flows ($\ge 2$ packets/flow).
+   - **EXCLUSION FROM OR UNION:** Flow models are **NOT** primary defense detectors and are **NOT** included in the active defense logical OR union. The primary active defense system union counts packet rules only.
+   - **Champion Transfer Candidate:** `KNN Robust 14 (Log1p + Clip [-5, 5]) (Window-Max)` at fixed threshold $1.0000$ (and calibrated threshold $0.8086$).
+   - **Evaluation Boundary:** Scored strictly on extracted flow records with $\ge 2$ packets where flows exist.
 
 ---
 
@@ -61,13 +70,14 @@ Before initiating any Session 3 live capture, the following success criteria are
 
 | Evaluation Dimension | Metric Target | Evaluation Basis & Bin Definition |
 | :--- | :---: | :--- |
-| **Benign False Alarm Rate (FPR)** | **$\le 1.0\%$** per-bin FPR | **Packet Rules:** 1-second non-overlapping bins across $\ge 15$ minutes of benign traffic ($900\text{ s}$ total). Allowed false bins: **$\le 9\text{ seconds}$**. <br>**Flow Models:** Step-size 5 windows. Allowed false bins: **$\le 1.0\%$ of total benign windows**. |
-| **Combined Benign False Alarm Rate** | **$\le 1.0\%$** combined FPR | Logical OR union of alerted 1-second bins across all active detectors: **$\le 9\text{ false alarm seconds}$** total across the 900s benign baseline. |
-| **High-Rate Attack Recall (200, 500, 1000 pps)** | **$\ge 95.0\%$** recall | Evaluated across 1-second bins during attack active duration across all 3 independent repeats. |
-| **Low-Rate Attack Recall (50 pps)** | **$\ge 80.0\%$** recall | Evaluated across 1-second bins during 50 pps attack runs across all 3 independent repeats. |
-| **Packet-Rule Real Detection Delay (High-Rate $\ge 100$ pps)** | **$\le 2.5\text{ seconds}$** | Wall-clock delay including completion timeout ($\Delta t_{\text{packet}} + N_{\text{timeout}}$) for TCP SYN floods; $\le 1.0\text{ s}$ for UDP floods. |
-| **Packet-Rule Real Detection Delay (Low-Rate 50 pps)** | **$\le 3.5\text{ seconds}$** | **Mathematical Justification:** At 50 pps, transmitting the 50 packets required to reach the volumetric threshold takes $\Delta t_{\text{packet}} = 49 / 50 = 0.98\text{ s}$. Adding the mandatory $N = 2.00\text{ s}$ completion timeout yields $\Delta t_{\text{real}} = 0.98 + 2.00 = 2.98\text{ s} \approx 3.0\text{ s}$. A $\le 2.5\text{ s}$ threshold is physically impossible for single-source 50 pps floods. |
-| **Flow-Model Detection Delay** | **$\le 5.0\text{ seconds}$** | From first attack packet arrival to the first step-5 window alert crossing where flows exist. |
+| **Packet Rules Benign False Alarm Rate (FPR)** | **$\le 1.0\%$** per-detector FPR | 1-second non-overlapping bins across $\ge 15$ minutes of benign traffic ($900\text{ s}$ total). Allowed false bins: **$\le 9\text{ seconds}$** per rule. |
+| **Combined Active Defense False Alarm Rate** | **$\le 1.0\%$** combined FPR | **Logical OR union of PACKET RULES ONLY** (Incomplete Handshake Rule $\cup$ Dual UDP Rule). Allowed false bins: **$\le 9\text{ seconds}$ total** across the 900s benign baseline. Flow models are excluded from this union. |
+| **Attack Detection Recall (All Rates: 50, 200, 500, 1000 pps)** | **$\ge 95.0\%$** recall | Evaluated across 1-second bins during attack active duration across all 3 independent repeats. Under sliding Condition B (threshold 20), 50 pps floods easily exceed the threshold in steady state. |
+| **Real Detection Delay (TCP SYN Floods: All Rates)** | **$\le 2.5\text{ seconds}$** | **Physical Justification:** Under sliding Condition B (threshold 20 incomplete SYNs), transmitting 20 packets at 50 pps takes $(20-1)/50 = 0.38\text{ s}$. Adding the $N = 2.00\text{ s}$ completion timeout yields $\Delta t_{\text{real}} = 0.38 + 2.00 = 2.38\text{ s} \le 2.5\text{ s}$. At higher rates ($\ge 100$ pps), arrival offset is $\le 0.19\text{ s}$ ($\Delta t_{\text{real}} \le 2.19\text{ s}$). |
+| **Real Detection Delay (UDP Floods: All Rates)** | **$\le 1.0\text{ second}$** | Real-time stateless packet threshold trigger. |
+| **Flow-Model Diagnostic Delay** | **$\le 5.0\text{ seconds}$** | From first attack packet arrival to the first step-5 window alert crossing where flows exist. |
+
+> **STRICT FAILURE REPORTING POLICY:** Every attack run must report the **measured offered packet rate** extracted directly from pcap timestamps via tshark. If any pre-registered target is not met (FPR $> 1.0\%$, recall $< 95.0\%$, delay $> 2.5\text{ s}$), it must be reported unambiguously as a **FAILURE** in the evaluation summary. Post-hoc threshold changes or moving criteria after capture are prohibited.
 
 ---
 

@@ -134,11 +134,12 @@
         "meets_preregistered_rule": false
       },
       "day2_cross_day": {
-        "zs_rec": 0.996,
-        "zs_fpr": 0.0294,
-        "cal_rec": 0.9899,
-        "cal_fpr": 0.0036,
-        "auc": 0.9954
+        "level": "Window (Step 5)",
+        "zs_rec": 0.9999,
+        "zs_fpr": 0.0391,
+        "cal_rec": 0.9999,
+        "cal_fpr": 0.022,
+        "auc": 0.9805
       }
     },
     "KNN Full 25 Frozen Baseline (Window-Mean)": {
@@ -159,11 +160,12 @@
         "meets_preregistered_rule": false
       },
       "day2_cross_day": {
-        "zs_rec": 0.994,
-        "zs_fpr": 0.021,
-        "cal_rec": 0.985,
-        "cal_fpr": 0.0025,
-        "auc": 0.996
+        "level": "Window (Step 5)",
+        "zs_rec": 0.9975,
+        "zs_fpr": 0.0006,
+        "cal_rec": 0.9997,
+        "cal_fpr": 0.0042,
+        "auc": 1.0
       }
     },
     "KNN Full 25 (Log1p+Clip) (Window-Max)": {

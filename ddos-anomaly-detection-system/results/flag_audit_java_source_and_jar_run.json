@@ -1,0 +1,85 @@
+{
+  "java_source_investigation": {
+    "file": "tools/cicflowmeter-java/src/main/java/cic/cs/unb/ca/jnetpcap/BasicFlow.java",
+    "hashmap_declaration_lines": {
+      "declaration": "Line 25: private HashMap<String, MutableInt> flagCounts;",
+      "instantiation": "Line 101: this.flagCounts = new HashMap<String, MutableInt>();",
+      "insertion": "Lines 268-275: flagCounts.put(\"FIN\", ...); flagCounts.put(\"SYN\", ...); flagCounts.put(\"RST\", ...); flagCounts.put(\"PSH\", ...); flagCounts.put(\"ACK\", ...); flagCounts.put(\"URG\", ...); flagCounts.put(\"CWR\", ...); flagCounts.put(\"ECE\", ...);"
+    },
+    "flawed_loop_in_dumpFlowBasedFeatures": {
+      "method": "dumpFlowBasedFeatures()",
+      "lines": "Lines 669-671",
+      "code": "for(String key: flagCounts.keySet()){\n    dump+=flagCounts.get(key).value+\",\";\n}",
+      "mechanism": "java.util.HashMap.keySet() iterates in hash-bucket order, not insertion order. Bucket index = (h ^ (h >>> 16)) & 15. This placed PSH into column 52 (labeled RST Flag Count) in the original CIC-DDoS2019 dataset."
+    },
+    "patched_sequential_dumpFlowBasedFeaturesEx": {
+      "method": "dumpFlowBasedFeaturesEx()",
+      "lines": "Lines 1198-1208",
+      "code": "/*for(String key: flagCounts.keySet()){\n    dump.append(flagCounts.get(key).value).append(separator);\n} */\ndump.append(flagCounts.get(\"FIN\").value).append(separator); //50\ndump.append(flagCounts.get(\"SYN\").value).append(separator); //51\ndump.append(flagCounts.get(\"RST\").value).append(separator); //52\ndump.append(flagCounts.get(\"PSH\").value).append(separator); //53\ndump.append(flagCounts.get(\"ACK\").value).append(separator); //54\ndump.append(flagCounts.get(\"URG\").value).append(separator); //55\ndump.append(flagCounts.get(\"CWR\").value).append(separator); //56\ndump.append(flagCounts.get(\"ECE\").value).append(separator); //57",
+      "mechanism": "The author commented out the keySet() loop and explicitly bound each column to its named flag."
+    }
+  },
+  "lab_pcap_jar_verification": {
+    "pcap": "lab/captures/test_known_flags.pcap",
+    "jar_used": "tools/SimpleFlowMeterV4-0.0.4-SNAPSHOT.jar",
+    "output_csv": "lab/captures/test_flags_out/test_known_flags_1794822493351_classic.pcap_Flow.csv",
+    "flows": [
+      {
+        "flow_id": "Flow 1 (PSH Packet)",
+        "client_port": 10001,
+        "server_port": 80,
+        "injected_flags": "SYN, SYN-ACK, ACK, PSH+ACK",
+        "extracted_fin_flag_cnt": 0,
+        "extracted_syn_flag_cnt": 2,
+        "extracted_rst_flag_cnt": 0,
+        "extracted_psh_flag_cnt": 1,
+        "extracted_ack_flag_cnt": 3,
+        "extracted_urg_flag_cnt": 0,
+        "extracted_fwd_psh_flags": 0,
+        "behavior": "PSH Flag Count changed to 1; RST Flag Count remained 0."
+      },
+      {
+        "flow_id": "Flow 2 (FIN Packet)",
+        "client_port": 10002,
+        "server_port": 80,
+        "injected_flags": "SYN, SYN-ACK, FIN+ACK",
+        "extracted_fin_flag_cnt": 1,
+        "extracted_syn_flag_cnt": 2,
+        "extracted_rst_flag_cnt": 0,
+        "extracted_psh_flag_cnt": 0,
+        "extracted_ack_flag_cnt": 2,
+        "extracted_urg_flag_cnt": 0,
+        "extracted_fwd_psh_flags": 0,
+        "behavior": "FIN Flag Count changed to 1; all other counts remained 0."
+      },
+      {
+        "flow_id": "Flow 3 (RST Packet)",
+        "client_port": 10003,
+        "server_port": 80,
+        "injected_flags": "SYN, SYN-ACK, RST",
+        "extracted_fin_flag_cnt": 0,
+        "extracted_syn_flag_cnt": 2,
+        "extracted_rst_flag_cnt": 1,
+        "extracted_psh_flag_cnt": 0,
+        "extracted_ack_flag_cnt": 1,
+        "extracted_urg_flag_cnt": 0,
+        "extracted_fwd_psh_flags": 0,
+        "behavior": "RST Flag Count changed to 1; PSH Flag Count remained 0."
+      },
+      {
+        "flow_id": "Flow 4 (URG Packet)",
+        "client_port": 10004,
+        "server_port": 80,
+        "injected_flags": "SYN, SYN-ACK, URG+ACK",
+        "extracted_fin_flag_cnt": 0,
+        "extracted_syn_flag_cnt": 2,
+        "extracted_rst_flag_cnt": 0,
+        "extracted_psh_flag_cnt": 0,
+        "extracted_ack_flag_cnt": 2,
+        "extracted_urg_flag_cnt": 1,
+        "extracted_fwd_psh_flags": 0,
+        "behavior": "URG Flag Count changed to 1; all other counts remained 0."
+      }
+    ]
+  }
+}

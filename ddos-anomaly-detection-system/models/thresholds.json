@@ -1,0 +1,123 @@
+{
+  "version": "1.2",
+  "description": "Authoritative decision thresholds for all DDoS Anomaly Detection System detectors (Phase 6)",
+  "flow_models": {
+    "RF_Full_25_Flow": {
+      "level": "Flow",
+      "decision_threshold": 0.1288,
+      "provenance": "Day 1 validation set target FPR <= 0.01 from metrics.json",
+      "features": "Full 25 features"
+    },
+    "KNN_Full_25_Flow": {
+      "level": "Flow",
+      "decision_threshold": 0.1268,
+      "provenance": "Day 1 validation set target FPR <= 0.01 from metrics.json",
+      "features": "Full 25 features"
+    },
+    "RF_Robust_14_Flow": {
+      "level": "Flow",
+      "decision_threshold": 0.697,
+      "provenance": "Day 1 validation set target FPR <= 0.01",
+      "features": "Robust 14 features"
+    }
+  },
+  "window_models": {
+    "RF_Full_25_Window_Max": {
+      "level": "Window (W=10, Step 5)",
+      "aggregation": "max",
+      "decision_threshold": 0.9094,
+      "provenance": "Day 1 validation set target FPR <= 0.01 from metrics.json window_level_rows",
+      "features": "Full 25 features"
+    },
+    "RF_Full_25_Window_Mean": {
+      "level": "Window (W=10, Step 5)",
+      "aggregation": "mean",
+      "decision_threshold": 0.7563,
+      "provenance": "Day 1 validation set target FPR <= 0.01 from metrics.json window_level_rows",
+      "features": "Full 25 features"
+    },
+    "RF_Robust_14_Window_Max": {
+      "level": "Window (W=10, Step 5)",
+      "aggregation": "max",
+      "decision_threshold": 0.9904,
+      "provenance": "Day 1 validation set target FPR <= 0.01",
+      "features": "Robust 14 features"
+    },
+    "RF_Robust_14_Window_Mean": {
+      "level": "Window (W=10, Step 5)",
+      "aggregation": "mean",
+      "decision_threshold": 0.9904,
+      "provenance": "Day 1 validation set target FPR <= 0.01",
+      "features": "Robust 14 features"
+    },
+    "KNN_Full_25_Frozen_Baseline_Window_Max": {
+      "level": "Window (W=10, Step 5)",
+      "aggregation": "max",
+      "decision_threshold": 1.0,
+      "provenance": "Day 1 validation set target FPR <= 0.01 from metrics.json window_level_rows",
+      "features": "Full 25 features"
+    },
+    "KNN_Full_25_Frozen_Baseline_Window_Mean": {
+      "level": "Window (W=10, Step 5)",
+      "aggregation": "mean",
+      "decision_threshold": 0.6482,
+      "provenance": "Day 1 validation set target FPR <= 0.01 from metrics.json window_level_rows",
+      "features": "Full 25 features"
+    },
+    "KNN_Robust_14_Std_Window_Max": {
+      "level": "Window (W=10, Step 5)",
+      "aggregation": "max",
+      "decision_threshold": 1.0,
+      "provenance": "Fixed threshold",
+      "features": "Robust 14 features (standard scaling)"
+    },
+    "KNN_Robust_14_Log1p_Champion_Window_Max": {
+      "level": "Window (W=10, Step 5)",
+      "aggregation": "max",
+      "decision_threshold_fixed": 1.0,
+      "decision_threshold_calibrated": 0.8086,
+      "provenance": "Fixed threshold 1.0000; calibrated threshold 0.8086 achieves <=1.0% FPR on Day 1 validation",
+      "features": "Robust 14 features (signed log1p + standard scaling + clip [-5, +5])"
+    },
+    "LSTM_Full_25_Window": {
+      "level": "Window (W=10, Step 5)",
+      "decision_threshold_probability": 0.9919,
+      "decision_threshold_logit": 4.8078,
+      "provenance": "Day 1 validation set target FPR <= 0.01 from metrics.json, mapped to logit space",
+      "features": "Full 25 features"
+    },
+    "Window_Stats_LR_Full_50": {
+      "level": "Window (W=10, Step 5)",
+      "decision_threshold": 0.0731,
+      "provenance": "Day 1 validation set window stats (mean+std) target FPR <= 0.01",
+      "features": "Window stats (mean + std) of Full 25 features (50 dim)"
+    },
+    "Window_Stats_LR_Robust_28": {
+      "level": "Window (W=10, Step 5)",
+      "decision_threshold": 0.6261,
+      "alternate_dense_grid_threshold": 0.6206,
+      "provenance": "Day 1 validation set window stats (mean+std) target FPR <= 0.01",
+      "features": "Window stats (mean + std) of Robust 14 features (28 dim)"
+    }
+  },
+  "packet_rules": {
+    "Packet_Incomplete_TCP_Handshake_Rule": {
+      "level": "Packet stream (sliding 1-second window)",
+      "handshake_completion_timeout_sec": 2.0,
+      "condition_a_multi_source_incomplete_syns_threshold": 15,
+      "condition_a_min_distinct_sources": 3,
+      "condition_b_sliding_concentrated_incomplete_syns_threshold": 20,
+      "condition_b_benign_maximum_observed": 2,
+      "condition_b_safety_margin": "+18 incomplete SYNs (10x benign maximum)",
+      "scan_classification_min_distinct_ports_or_hosts": 3,
+      "provenance": "Calibrated on Sessions 2 and 2b benign and attack pcaps with sliding 1s windows"
+    },
+    "Packet_Dual_Condition_UDP_Rule": {
+      "level": "Packet stream (1-second non-overlapping or sliding window)",
+      "condition_1_volumetric_udp_pkts_per_sec": 40,
+      "condition_2_random_port_udp_pkts_per_sec": 30,
+      "condition_2_min_distinct_dest_ports": 10,
+      "provenance": "Frozen on Session 2c multi-protocol benign (max 25 pkts/s) and off-grid floods (30, 80, 300 pps)"
+    }
+  }
+}

