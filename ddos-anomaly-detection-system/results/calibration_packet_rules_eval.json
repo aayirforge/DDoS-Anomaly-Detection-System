@@ -1,0 +1,98 @@
+[
+  {
+    "run_id": "calib_syn_50",
+    "attack_type": "TCP SYN Flood",
+    "nominal_rate_pps": 50,
+    "first_attack_packet_delay_sec": 2.4016,
+    "total_evaluated_seconds": 60,
+    "alerted_seconds_count": 58,
+    "recall_from_first_alert": 1.0,
+    "recall_full_60s": 0.9667,
+    "benign_false_alarm_seconds": 0,
+    "status": "PASS"
+  },
+  {
+    "run_id": "calib_syn_200",
+    "attack_type": "TCP SYN Flood",
+    "nominal_rate_pps": 200,
+    "first_attack_packet_delay_sec": 2.1397,
+    "total_evaluated_seconds": 60,
+    "alerted_seconds_count": 58,
+    "recall_from_first_alert": 1.0,
+    "recall_full_60s": 0.9667,
+    "benign_false_alarm_seconds": 0,
+    "status": "PASS"
+  },
+  {
+    "run_id": "calib_syn_500",
+    "attack_type": "TCP SYN Flood",
+    "nominal_rate_pps": 500,
+    "first_attack_packet_delay_sec": 2.0583,
+    "total_evaluated_seconds": 60,
+    "alerted_seconds_count": 58,
+    "recall_from_first_alert": 1.0,
+    "recall_full_60s": 0.9667,
+    "benign_false_alarm_seconds": 0,
+    "status": "PASS"
+  },
+  {
+    "run_id": "calib_syn_1000",
+    "attack_type": "TCP SYN Flood",
+    "nominal_rate_pps": 1000,
+    "first_attack_packet_delay_sec": 2.039,
+    "total_evaluated_seconds": 60,
+    "alerted_seconds_count": 58,
+    "recall_from_first_alert": 1.0,
+    "recall_full_60s": 0.9667,
+    "benign_false_alarm_seconds": 0,
+    "status": "PASS"
+  },
+  {
+    "run_id": "calib_udp_50",
+    "attack_type": "UDP Flood",
+    "nominal_rate_pps": 50,
+    "first_attack_packet_delay_sec": 0.7806,
+    "total_evaluated_seconds": 60,
+    "alerted_seconds_count": 60,
+    "recall_from_first_alert": 1.0,
+    "recall_full_60s": 1.0,
+    "benign_false_alarm_seconds": 0,
+    "status": "PASS"
+  },
+  {
+    "run_id": "calib_udp_200",
+    "attack_type": "UDP Flood",
+    "nominal_rate_pps": 200,
+    "first_attack_packet_delay_sec": 0.196,
+    "total_evaluated_seconds": 60,
+    "alerted_seconds_count": 60,
+    "recall_from_first_alert": 1.0,
+    "recall_full_60s": 1.0,
+    "benign_false_alarm_seconds": 0,
+    "status": "PASS"
+  },
+  {
+    "run_id": "calib_udp_500",
+    "attack_type": "UDP Flood",
+    "nominal_rate_pps": 500,
+    "first_attack_packet_delay_sec": 0.0798,
+    "total_evaluated_seconds": 60,
+    "alerted_seconds_count": 60,
+    "recall_from_first_alert": 1.0,
+    "recall_full_60s": 1.0,
+    "benign_false_alarm_seconds": 0,
+    "status": "PASS"
+  },
+  {
+    "run_id": "calib_udp_1000",
+    "attack_type": "UDP Flood",
+    "nominal_rate_pps": 1000,
+    "first_attack_packet_delay_sec": 0.0395,
+    "total_evaluated_seconds": 60,
+    "alerted_seconds_count": 60,
+    "recall_from_first_alert": 1.0,
+    "recall_full_60s": 1.0,
+    "benign_false_alarm_seconds": 0,
+    "status": "PASS"
+  }
+]

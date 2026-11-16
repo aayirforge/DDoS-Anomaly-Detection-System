@@ -1,0 +1,106 @@
+{
+  "flaw_mechanism": "dumpFlowBasedFeatures() looped over flagCounts.keySet(), dumping keys in JVM hash-bucket order (2, 4, 6, 9, 10, 11, 15), while dumpFlowBasedFeaturesEx() explicitly mapped named flags.",
+  "unidirectional_fwd_psh_rst_explanation": "In dumpFlowBasedFeatures(), hash bucket 4 (PSH) was placed into column 52 (header labeled 'RST Flag Count'). In unidirectional flows (Total Bwd Packets = 0), forward PSH packets (dumped in col 37 as Fwd PSH Flags) were also the only PSH packets in the flow, making Col 37 (Fwd PSH Flags) and Col 52 (RST Flag Count) 100.0% identical across all flows in 01-12_Syn.parquet.",
+  "four_flows_comparison": [
+    {
+      "flow_id": "Flow 1 (PSH Injected)",
+      "client_port": 10001,
+      "server_port": 80,
+      "injected_flags": "SYN, SYN-ACK, ACK, PSH+ACK",
+      "new_path_modern_jar": {
+        "FIN": 0,
+        "SYN": 2,
+        "RST": 0,
+        "PSH": 1,
+        "ACK": 3,
+        "URG": 0
+      },
+      "old_path_predicted_by_jvm_buckets": {
+        "Col 50 (FIN Header)": 0,
+        "Col 51 (SYN Header)": 1,
+        "Col 52 (RST Header)": 0,
+        "Col 53 (PSH Header)": 2,
+        "Col 54 (ACK Header)": 3,
+        "Col 55 (URG Header)": 0,
+        "Col 56 (CWE Header)": 0,
+        "Col 57 (ECE Header)": 0
+      },
+      "verification_status": "MATCHES_PREDICTED_PERMUTATION"
+    },
+    {
+      "flow_id": "Flow 2 (FIN Injected)",
+      "client_port": 10002,
+      "server_port": 80,
+      "injected_flags": "SYN, SYN-ACK, FIN+ACK",
+      "new_path_modern_jar": {
+        "FIN": 1,
+        "SYN": 2,
+        "RST": 0,
+        "PSH": 0,
+        "ACK": 2,
+        "URG": 0
+      },
+      "old_path_predicted_by_jvm_buckets": {
+        "Col 50 (FIN Header)": 0,
+        "Col 51 (SYN Header)": 0,
+        "Col 52 (RST Header)": 0,
+        "Col 53 (PSH Header)": 2,
+        "Col 54 (ACK Header)": 2,
+        "Col 55 (URG Header)": 1,
+        "Col 56 (CWE Header)": 0,
+        "Col 57 (ECE Header)": 0
+      },
+      "verification_status": "MATCHES_PREDICTED_PERMUTATION"
+    },
+    {
+      "flow_id": "Flow 3 (RST Injected)",
+      "client_port": 10003,
+      "server_port": 80,
+      "injected_flags": "SYN, SYN-ACK, RST",
+      "new_path_modern_jar": {
+        "FIN": 0,
+        "SYN": 2,
+        "RST": 1,
+        "PSH": 0,
+        "ACK": 1,
+        "URG": 0
+      },
+      "old_path_predicted_by_jvm_buckets": {
+        "Col 50 (FIN Header)": 1,
+        "Col 51 (SYN Header)": 0,
+        "Col 52 (RST Header)": 0,
+        "Col 53 (PSH Header)": 2,
+        "Col 54 (ACK Header)": 1,
+        "Col 55 (URG Header)": 0,
+        "Col 56 (CWE Header)": 0,
+        "Col 57 (ECE Header)": 0
+      },
+      "verification_status": "MATCHES_PREDICTED_PERMUTATION"
+    },
+    {
+      "flow_id": "Flow 4 (URG Injected)",
+      "client_port": 10004,
+      "server_port": 80,
+      "injected_flags": "SYN, SYN-ACK, URG+ACK",
+      "new_path_modern_jar": {
+        "FIN": 0,
+        "SYN": 2,
+        "RST": 0,
+        "PSH": 0,
+        "ACK": 2,
+        "URG": 1
+      },
+      "old_path_predicted_by_jvm_buckets": {
+        "Col 50 (FIN Header)": 0,
+        "Col 51 (SYN Header)": 0,
+        "Col 52 (RST Header)": 0,
+        "Col 53 (PSH Header)": 2,
+        "Col 54 (ACK Header)": 2,
+        "Col 55 (URG Header)": 0,
+        "Col 56 (CWE Header)": 1,
+        "Col 57 (ECE Header)": 0
+      },
+      "verification_status": "MATCHES_PREDICTED_PERMUTATION"
+    }
+  ]
+}

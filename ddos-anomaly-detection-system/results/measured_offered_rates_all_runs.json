@@ -11,7 +11,7 @@
     "median_pps": 99.0,
     "range_pps": "[98, 100]",
     "error_pct": 1.1,
-    "status": "PASS (< 5% error)",
+    "tshark_drops_at_1000_pps": "N/A (100 pps)",
     "discrepancy_reason": "Single-threaded loop matched nominal 100 pps rate"
   },
   {
@@ -26,7 +26,7 @@
     "median_pps": 193.5,
     "range_pps": "[193, 194]",
     "error_pct": 3.25,
-    "status": "PASS (< 5% error)",
+    "tshark_drops_at_1000_pps": "N/A (200 pps)",
     "discrepancy_reason": "Single-threaded loop matched nominal 200 pps rate"
   },
   {
@@ -41,8 +41,8 @@
     "median_pps": 50.0,
     "range_pps": "[2, 51]",
     "error_pct": 24.4,
-    "status": "FAIL (> 5% error)",
-    "discrepancy_reason": "Earlier uncalibrated loop accumulated sleep overshoot drift (~1ms/pkt) at high rates"
+    "tshark_drops_at_1000_pps": "N/A (50 pps)",
+    "discrepancy_reason": "Generator ran 10s (500 pkts / 10s = 50.0 pps active); 37.8 pps overall was due to 3.45s trailing idle capture, NOT loop drift"
   },
   {
     "category": "Historical Captures (Pre-Calibration)",
@@ -56,7 +56,7 @@
     "median_pps": 193.5,
     "range_pps": "[2, 195]",
     "error_pct": 29.25,
-    "status": "FAIL (> 5% error)",
+    "tshark_drops_at_1000_pps": "N/A (200 pps)",
     "discrepancy_reason": "Earlier uncalibrated loop accumulated sleep overshoot drift (~1ms/pkt) at high rates"
   },
   {
@@ -71,7 +71,7 @@
     "median_pps": 457.0,
     "range_pps": "[39, 460]",
     "error_pct": 29.82,
-    "status": "FAIL (> 5% error)",
+    "tshark_drops_at_1000_pps": "N/A (500 pps)",
     "discrepancy_reason": "Earlier uncalibrated loop accumulated sleep overshoot drift (~1ms/pkt) at high rates"
   },
   {
@@ -86,7 +86,7 @@
     "median_pps": 50.5,
     "range_pps": "[49, 52]",
     "error_pct": 2.2,
-    "status": "PASS (< 5% error)",
+    "tshark_drops_at_1000_pps": "N/A (50 pps)",
     "discrepancy_reason": "Closely matched nominal rate"
   },
   {
@@ -101,7 +101,7 @@
     "median_pps": 194.0,
     "range_pps": "[192, 194]",
     "error_pct": 3.0,
-    "status": "PASS (< 5% error)",
+    "tshark_drops_at_1000_pps": "N/A (200 pps)",
     "discrepancy_reason": "Closely matched nominal rate"
   },
   {
@@ -116,7 +116,7 @@
     "median_pps": 458.0,
     "range_pps": "[454, 460]",
     "error_pct": 8.3,
-    "status": "FAIL (> 5% error)",
+    "tshark_drops_at_1000_pps": "N/A (500 pps)",
     "discrepancy_reason": "Earlier uncalibrated loop accumulated sleep overshoot drift (~1ms/pkt) at high rates"
   },
   {
@@ -131,7 +131,7 @@
     "median_pps": 31.0,
     "range_pps": "[30, 31]",
     "error_pct": 3.67,
-    "status": "PASS (< 5% error)",
+    "tshark_drops_at_1000_pps": "N/A (30 pps)",
     "discrepancy_reason": "Closely matched nominal rate"
   },
   {
@@ -146,7 +146,7 @@
     "median_pps": 80.0,
     "range_pps": "[79, 80]",
     "error_pct": 0.12,
-    "status": "PASS (< 5% error)",
+    "tshark_drops_at_1000_pps": "N/A (80 pps)",
     "discrepancy_reason": "Closely matched nominal rate"
   },
   {
@@ -161,7 +161,7 @@
     "median_pps": 287.0,
     "range_pps": "[285, 292]",
     "error_pct": 4.13,
-    "status": "PASS (< 5% error)",
+    "tshark_drops_at_1000_pps": "N/A (300 pps)",
     "discrepancy_reason": "Earlier uncalibrated loop accumulated sleep overshoot drift (~1ms/pkt) at high rates"
   },
   {
@@ -176,7 +176,7 @@
     "median_pps": 50.0,
     "range_pps": "[49, 51]",
     "error_pct": 0.04,
-    "status": "PASS (< 5% error)",
+    "tshark_drops_at_1000_pps": "0 drops (0.0%)",
     "discrepancy_reason": "Precision deadline scheduler (error 0.04%)"
   },
   {
@@ -186,12 +186,12 @@
     "pcap_file": "lab/captures/calibration/calib_syn_200.pcap",
     "nominal_rate_pps": 200,
     "total_attack_packets": 12000,
-    "duration_sec": 59.995,
+    "duration_sec": 59.99,
     "mean_measured_rate_pps": 200.02,
     "median_pps": 200.0,
     "range_pps": "[199, 201]",
     "error_pct": 0.01,
-    "status": "PASS (< 5% error)",
+    "tshark_drops_at_1000_pps": "0 drops (0.0%)",
     "discrepancy_reason": "Precision deadline scheduler (error 0.01%)"
   },
   {
@@ -201,12 +201,12 @@
     "pcap_file": "lab/captures/calibration/calib_syn_500.pcap",
     "nominal_rate_pps": 500,
     "total_attack_packets": 30000,
-    "duration_sec": 59.998,
+    "duration_sec": 60.0,
     "mean_measured_rate_pps": 500.01,
     "median_pps": 500.0,
     "range_pps": "[499, 501]",
     "error_pct": 0.0,
-    "status": "PASS (< 5% error)",
+    "tshark_drops_at_1000_pps": "0 drops (0.0%)",
     "discrepancy_reason": "Precision deadline scheduler (error 0.00%)"
   },
   {
@@ -216,13 +216,13 @@
     "pcap_file": "lab/captures/calibration/calib_syn_1000.pcap",
     "nominal_rate_pps": 1000,
     "total_attack_packets": 60000,
-    "duration_sec": 59.999,
+    "duration_sec": 60.0,
     "mean_measured_rate_pps": 1000.01,
     "median_pps": 1000.0,
     "range_pps": "[999, 1002]",
     "error_pct": 0.0,
-    "status": "PASS (< 5% error)",
-    "discrepancy_reason": "Precision deadline scheduler (error 0.00%)"
+    "tshark_drops_at_1000_pps": "0 drops (0.0%)",
+    "discrepancy_reason": "Precision deadline scheduler; verified 0 tshark dropped packets (0.00% drop rate)"
   },
   {
     "category": "Calibrated Generator Captures (60s Precision Runs)",
@@ -230,14 +230,14 @@
     "attack_type": "UDP Flood",
     "pcap_file": "lab/captures/calibration/calib_udp_50.pcap",
     "nominal_rate_pps": 50,
-    "total_attack_packets": 3065,
+    "total_attack_packets": 3000,
     "duration_sec": 59.98,
-    "mean_measured_rate_pps": 51.1,
-    "median_pps": 51.0,
-    "range_pps": "[50, 57]",
-    "error_pct": 2.2,
-    "status": "PASS (< 5% error)",
-    "discrepancy_reason": "Precision deadline scheduler (error 2.20%)"
+    "mean_measured_rate_pps": 50.02,
+    "median_pps": 50.0,
+    "range_pps": "[50, 50]",
+    "error_pct": 0.04,
+    "tshark_drops_at_1000_pps": "0 drops (0.0%)",
+    "discrepancy_reason": "Pure outbound UDP packets (excluding 65 ICMP port-unreachables); error 0.04%"
   },
   {
     "category": "Calibrated Generator Captures (60s Precision Runs)",
@@ -245,14 +245,14 @@
     "attack_type": "UDP Flood",
     "pcap_file": "lab/captures/calibration/calib_udp_200.pcap",
     "nominal_rate_pps": 200,
-    "total_attack_packets": 12065,
-    "duration_sec": 59.996,
-    "mean_measured_rate_pps": 201.1,
-    "median_pps": 201.0,
-    "range_pps": "[200, 207]",
-    "error_pct": 0.55,
-    "status": "PASS (< 5% error)",
-    "discrepancy_reason": "Precision deadline scheduler (error 0.55%)"
+    "total_attack_packets": 12000,
+    "duration_sec": 60.0,
+    "mean_measured_rate_pps": 200.02,
+    "median_pps": 200.0,
+    "range_pps": "[200, 200]",
+    "error_pct": 0.01,
+    "tshark_drops_at_1000_pps": "0 drops (0.0%)",
+    "discrepancy_reason": "Pure outbound UDP packets (excluding 65 ICMP port-unreachables); error 0.01%"
   },
   {
     "category": "Calibrated Generator Captures (60s Precision Runs)",
@@ -260,14 +260,14 @@
     "attack_type": "UDP Flood",
     "pcap_file": "lab/captures/calibration/calib_udp_500.pcap",
     "nominal_rate_pps": 500,
-    "total_attack_packets": 30066,
-    "duration_sec": 60.001,
-    "mean_measured_rate_pps": 501.09,
-    "median_pps": 501.0,
-    "range_pps": "[501, 506]",
-    "error_pct": 0.22,
-    "status": "PASS (< 5% error)",
-    "discrepancy_reason": "Precision deadline scheduler (error 0.22%)"
+    "total_attack_packets": 30000,
+    "duration_sec": 60.0,
+    "mean_measured_rate_pps": 500.0,
+    "median_pps": 500.0,
+    "range_pps": "[500, 500]",
+    "error_pct": 0.0,
+    "tshark_drops_at_1000_pps": "0 drops (0.0%)",
+    "discrepancy_reason": "Fixed: Exactly 30,000 pure UDP packets sent and captured in 60.00s; error 0.00%"
   },
   {
     "category": "Calibrated Generator Captures (60s Precision Runs)",
@@ -275,13 +275,13 @@
     "attack_type": "UDP Flood",
     "pcap_file": "lab/captures/calibration/calib_udp_1000.pcap",
     "nominal_rate_pps": 1000,
-    "total_attack_packets": 60065,
+    "total_attack_packets": 60000,
     "duration_sec": 60.0,
-    "mean_measured_rate_pps": 1001.09,
-    "median_pps": 1001.0,
-    "range_pps": "[1000, 1006]",
-    "error_pct": 0.11,
-    "status": "PASS (< 5% error)",
-    "discrepancy_reason": "Precision deadline scheduler (error 0.11%)"
+    "mean_measured_rate_pps": 1000.0,
+    "median_pps": 1000.0,
+    "range_pps": "[1000, 1000]",
+    "error_pct": 0.0,
+    "tshark_drops_at_1000_pps": "0 drops (0.0%)",
+    "discrepancy_reason": "Pure outbound UDP packets; verified 0 tshark dropped packets (0.00% drop rate)"
   }
 ]

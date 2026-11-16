@@ -1,0 +1,38 @@
+[
+  {
+    "attack_rate": "30 pps",
+    "pcap_file": "lab/captures/session2c/lab_session2c_udp_flood_30.pcap",
+    "traffic_type": "Random Port UDP Flood (100+ ports)",
+    "config_a_thresholds": "Volumetric >=40 pkts/s OR Random Port >=30 pkts/s (>=10 ports)",
+    "config_a_recall": 1.0,
+    "config_a_delay_sec": 0.98,
+    "config_b_thresholds": "Volumetric >=100 pkts/s OR Random Port >=40 pkts/s (>=10 ports)",
+    "config_b_recall": 0.0,
+    "config_b_delay_sec": null,
+    "comparison_note": "Config B completely misses 30 pps flood (rate 31 < 40). Config A achieves 100% recall."
+  },
+  {
+    "attack_rate": "50 pps",
+    "pcap_file": "lab/captures/calibration/calib_udp_50.pcap",
+    "traffic_type": "Single-Target Port UDP Flood (Port 80)",
+    "config_a_thresholds": "Volumetric >=40 pkts/s OR Random Port >=30 pkts/s (>=10 ports)",
+    "config_a_recall": 1.0,
+    "config_a_delay_sec": 0.78,
+    "config_b_thresholds": "Volumetric >=100 pkts/s OR Random Port >=40 pkts/s (>=10 ports)",
+    "config_b_recall": 0.0,
+    "config_b_delay_sec": null,
+    "comparison_note": "Config B misses single-port 50 pps flood (rate 50 < 100). Config A achieves 100% recall."
+  },
+  {
+    "attack_rate": "80 pps",
+    "pcap_file": "lab/captures/session2c/lab_session2c_udp_flood_80.pcap",
+    "traffic_type": "Random Port UDP Flood (100+ ports)",
+    "config_a_thresholds": "Volumetric >=40 pkts/s OR Random Port >=30 pkts/s (>=10 ports)",
+    "config_a_recall": 1.0,
+    "config_a_delay_sec": 0.45,
+    "config_b_thresholds": "Volumetric >=100 pkts/s OR Random Port >=40 pkts/s (>=10 ports)",
+    "config_b_recall": 1.0,
+    "config_b_delay_sec": 0.52,
+    "comparison_note": "Both configurations alert at 80 pps. Config A detects faster due to lower threshold."
+  }
+]
