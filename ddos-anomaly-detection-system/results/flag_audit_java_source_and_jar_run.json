@@ -10,7 +10,18 @@
       "method": "dumpFlowBasedFeatures()",
       "lines": "Lines 669-671",
       "code": "for(String key: flagCounts.keySet()){\n    dump+=flagCounts.get(key).value+\",\";\n}",
-      "mechanism": "java.util.HashMap.keySet() iterates in hash-bucket order, not insertion order. Bucket index = (h ^ (h >>> 16)) & 15. This placed PSH into column 52 (labeled RST Flag Count) in the original CIC-DDoS2019 dataset."
+      "mechanism": "java.util.HashMap.keySet() iterates in hash-bucket order, not insertion order. Bucket index = (h ^ (h >>> 16)) & 15.",
+      "jvm_iteration_order": [
+        {"column_index": 50, "dataset_header_label": "FIN Flag Count", "actual_dumped_key": "RST", "bucket": 2},
+        {"column_index": 51, "dataset_header_label": "SYN Flag Count", "actual_dumped_key": "PSH", "bucket": 4},
+        {"column_index": 52, "dataset_header_label": "RST Flag Count", "actual_dumped_key": "ECE", "bucket": 6},
+        {"column_index": 53, "dataset_header_label": "PSH Flag Count", "actual_dumped_key": "SYN", "bucket": 9},
+        {"column_index": 54, "dataset_header_label": "ACK Flag Count", "actual_dumped_key": "ACK", "bucket": 9},
+        {"column_index": 55, "dataset_header_label": "URG Flag Count", "actual_dumped_key": "FIN", "bucket": 10},
+        {"column_index": 56, "dataset_header_label": "CWE Flag Count", "actual_dumped_key": "URG", "bucket": 11},
+        {"column_index": 57, "dataset_header_label": "ECE Flag Count", "actual_dumped_key": "CWR", "bucket": 15}
+      ],
+      "flawed_permutation_explanation": "In the original CIC-DDoS2019 dataset, dumpFlowBasedFeatures() iterated over flagCounts.keySet(). Because HashMap keySet() visits buckets in ascending hash order (2, 4, 6, 9, 10, 11, 15), Column 56 (labeled CWE Flag Count) actually dumped URG flags (P(CWE=1) = 0.4137 matched true URG flags), Column 55 (labeled URG Flag Count) dumped FIN flags, Column 51 (labeled SYN Flag Count) dumped PSH flags, and Column 50 (labeled FIN Flag Count) dumped RST flags."
     },
     "patched_sequential_dumpFlowBasedFeaturesEx": {
       "method": "dumpFlowBasedFeaturesEx()",
