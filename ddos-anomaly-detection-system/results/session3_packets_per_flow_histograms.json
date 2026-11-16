@@ -1,0 +1,596 @@
+{
+  "reconnaissance_port_scan_30pps": {
+    "total_reps": 3,
+    "per_rep_stats": [
+      {
+        "pcap": "session3_reconnaissance_port_scan_30pps_rep1.pcap",
+        "total_pkts": 3600,
+        "unique_tuples": 3600,
+        "reused_tuples": 0,
+        "reused_pkts": 0,
+        "hist": {
+          "1": 3600
+        }
+      },
+      {
+        "pcap": "session3_reconnaissance_port_scan_30pps_rep2.pcap",
+        "total_pkts": 3600,
+        "unique_tuples": 3600,
+        "reused_tuples": 0,
+        "reused_pkts": 0,
+        "hist": {
+          "1": 3600
+        }
+      },
+      {
+        "pcap": "session3_reconnaissance_port_scan_30pps_rep3.pcap",
+        "total_pkts": 3600,
+        "unique_tuples": 3600,
+        "reused_tuples": 0,
+        "reused_pkts": 0,
+        "hist": {
+          "1": 3600
+        }
+      }
+    ]
+  },
+  "tcp_syn_flood_1000pps": {
+    "total_reps": 3,
+    "per_rep_stats": [
+      {
+        "pcap": "session3_tcp_syn_flood_1000pps_rep1.pcap",
+        "total_pkts": 120471,
+        "unique_tuples": 54414,
+        "reused_tuples": 35826,
+        "reused_pkts": 101883,
+        "hist": {
+          "1": 18588,
+          "2": 17338,
+          "3": 10621,
+          "4": 5096,
+          "5": 1936,
+          "6": 631,
+          "7": 154,
+          "8": 40,
+          "9": 5,
+          "10": 4,
+          "11": 1
+        }
+      },
+      {
+        "pcap": "session3_tcp_syn_flood_1000pps_rep2.pcap",
+        "total_pkts": 120487,
+        "unique_tuples": 54499,
+        "reused_tuples": 35826,
+        "reused_pkts": 101814,
+        "hist": {
+          "1": 18673,
+          "2": 17277,
+          "3": 10798,
+          "4": 4994,
+          "5": 1922,
+          "6": 630,
+          "7": 154,
+          "8": 39,
+          "9": 10,
+          "10": 2
+        }
+      },
+      {
+        "pcap": "session3_tcp_syn_flood_1000pps_rep3.pcap",
+        "total_pkts": 120465,
+        "unique_tuples": 54425,
+        "reused_tuples": 35886,
+        "reused_pkts": 101926,
+        "hist": {
+          "1": 18539,
+          "2": 17208,
+          "3": 10920,
+          "4": 5086,
+          "5": 1893,
+          "6": 570,
+          "7": 164,
+          "8": 33,
+          "9": 11,
+          "10": 1
+        }
+      }
+    ]
+  },
+  "tcp_syn_flood_200pps": {
+    "total_reps": 3,
+    "per_rep_stats": [
+      {
+        "pcap": "session3_tcp_syn_flood_200pps_rep1.pcap",
+        "total_pkts": 24119,
+        "unique_tuples": 20016,
+        "reused_tuples": 3583,
+        "reused_pkts": 7686,
+        "hist": {
+          "1": 16433,
+          "2": 3105,
+          "3": 440,
+          "4": 34,
+          "5": 4
+        }
+      },
+      {
+        "pcap": "session3_tcp_syn_flood_200pps_rep2.pcap",
+        "total_pkts": 24086,
+        "unique_tuples": 20183,
+        "reused_tuples": 3452,
+        "reused_pkts": 7355,
+        "hist": {
+          "1": 16731,
+          "2": 3047,
+          "3": 361,
+          "4": 42,
+          "5": 2
+        }
+      },
+      {
+        "pcap": "session3_tcp_syn_flood_200pps_rep3.pcap",
+        "total_pkts": 24093,
+        "unique_tuples": 20018,
+        "reused_tuples": 3593,
+        "reused_pkts": 7668,
+        "hist": {
+          "1": 16425,
+          "2": 3157,
+          "3": 395,
+          "4": 36,
+          "5": 5
+        }
+      }
+    ]
+  },
+  "tcp_syn_flood_500pps": {
+    "total_reps": 3,
+    "per_rep_stats": [
+      {
+        "pcap": "session3_tcp_syn_flood_500pps_rep1.pcap",
+        "total_pkts": 60250,
+        "unique_tuples": 39167,
+        "reused_tuples": 15438,
+        "reused_pkts": 36521,
+        "hist": {
+          "1": 23729,
+          "2": 11021,
+          "3": 3399,
+          "4": 839,
+          "5": 150,
+          "6": 27,
+          "7": 2
+        }
+      },
+      {
+        "pcap": "session3_tcp_syn_flood_500pps_rep2.pcap",
+        "total_pkts": 60204,
+        "unique_tuples": 39068,
+        "reused_tuples": 15513,
+        "reused_pkts": 36649,
+        "hist": {
+          "1": 23555,
+          "2": 11091,
+          "3": 3433,
+          "4": 801,
+          "5": 166,
+          "6": 20,
+          "7": 2
+        }
+      },
+      {
+        "pcap": "session3_tcp_syn_flood_500pps_rep3.pcap",
+        "total_pkts": 60259,
+        "unique_tuples": 39131,
+        "reused_tuples": 15464,
+        "reused_pkts": 36592,
+        "hist": {
+          "1": 23667,
+          "2": 11034,
+          "3": 3434,
+          "4": 795,
+          "5": 168,
+          "6": 29,
+          "7": 4
+        }
+      }
+    ]
+  },
+  "tcp_syn_flood_50pps": {
+    "total_reps": 3,
+    "per_rep_stats": [
+      {
+        "pcap": "session3_tcp_syn_flood_50pps_rep1.pcap",
+        "total_pkts": 6016,
+        "unique_tuples": 5723,
+        "reused_tuples": 283,
+        "reused_pkts": 576,
+        "hist": {
+          "1": 5440,
+          "2": 273,
+          "3": 10
+        }
+      },
+      {
+        "pcap": "session3_tcp_syn_flood_50pps_rep2.pcap",
+        "total_pkts": 6034,
+        "unique_tuples": 5708,
+        "reused_tuples": 314,
+        "reused_pkts": 640,
+        "hist": {
+          "1": 5394,
+          "2": 303,
+          "3": 10,
+          "4": 1
+        }
+      },
+      {
+        "pcap": "session3_tcp_syn_flood_50pps_rep3.pcap",
+        "total_pkts": 6020,
+        "unique_tuples": 5703,
+        "reused_tuples": 306,
+        "reused_pkts": 623,
+        "hist": {
+          "1": 5397,
+          "2": 295,
+          "3": 11
+        }
+      }
+    ]
+  },
+  "udp_flood_random_ports_1000pps": {
+    "total_reps": 3,
+    "per_rep_stats": [
+      {
+        "pcap": "session3_udp_flood_random_ports_1000pps_rep1.pcap",
+        "total_pkts": 120123,
+        "unique_tuples": 54593,
+        "reused_tuples": 35731,
+        "reused_pkts": 101261,
+        "hist": {
+          "1": 18862,
+          "2": 17261,
+          "3": 10844,
+          "4": 4957,
+          "5": 1900,
+          "6": 568,
+          "7": 151,
+          "8": 37,
+          "9": 12,
+          "10": 1
+        }
+      },
+      {
+        "pcap": "session3_udp_flood_random_ports_1000pps_rep2.pcap",
+        "total_pkts": 120121,
+        "unique_tuples": 54672,
+        "reused_tuples": 35744,
+        "reused_pkts": 101193,
+        "hist": {
+          "1": 18928,
+          "2": 17430,
+          "3": 10612,
+          "4": 5024,
+          "5": 1914,
+          "6": 568,
+          "7": 152,
+          "8": 40,
+          "9": 2,
+          "10": 1,
+          "11": 1
+        }
+      },
+      {
+        "pcap": "session3_udp_flood_random_ports_1000pps_rep3.pcap",
+        "total_pkts": 120120,
+        "unique_tuples": 54593,
+        "reused_tuples": 35783,
+        "reused_pkts": 101310,
+        "hist": {
+          "1": 18810,
+          "2": 17217,
+          "3": 10947,
+          "4": 5082,
+          "5": 1754,
+          "6": 600,
+          "7": 133,
+          "8": 44,
+          "9": 6
+        }
+      }
+    ]
+  },
+  "udp_flood_random_ports_200pps": {
+    "total_reps": 3,
+    "per_rep_stats": [
+      {
+        "pcap": "session3_udp_flood_random_ports_200pps_rep1.pcap",
+        "total_pkts": 24125,
+        "unique_tuples": 20153,
+        "reused_tuples": 3539,
+        "reused_pkts": 7511,
+        "hist": {
+          "1": 16614,
+          "2": 3138,
+          "3": 370,
+          "4": 30,
+          "5": 1
+        }
+      },
+      {
+        "pcap": "session3_udp_flood_random_ports_200pps_rep2.pcap",
+        "total_pkts": 24125,
+        "unique_tuples": 20155,
+        "reused_tuples": 3520,
+        "reused_pkts": 7490,
+        "hist": {
+          "1": 16635,
+          "2": 3097,
+          "3": 396,
+          "4": 27
+        }
+      },
+      {
+        "pcap": "session3_udp_flood_random_ports_200pps_rep3.pcap",
+        "total_pkts": 24125,
+        "unique_tuples": 20184,
+        "reused_tuples": 3521,
+        "reused_pkts": 7462,
+        "hist": {
+          "1": 16663,
+          "2": 3135,
+          "3": 352,
+          "4": 34
+        }
+      }
+    ]
+  },
+  "udp_flood_random_ports_500pps": {
+    "total_reps": 3,
+    "per_rep_stats": [
+      {
+        "pcap": "session3_udp_flood_random_ports_500pps_rep1.pcap",
+        "total_pkts": 60122,
+        "unique_tuples": 39078,
+        "reused_tuples": 15469,
+        "reused_pkts": 36513,
+        "hist": {
+          "1": 23609,
+          "2": 11060,
+          "3": 3447,
+          "4": 784,
+          "5": 155,
+          "6": 20,
+          "7": 3
+        }
+      },
+      {
+        "pcap": "session3_udp_flood_random_ports_500pps_rep2.pcap",
+        "total_pkts": 60124,
+        "unique_tuples": 39127,
+        "reused_tuples": 15353,
+        "reused_pkts": 36350,
+        "hist": {
+          "1": 23774,
+          "2": 10942,
+          "3": 3393,
+          "4": 831,
+          "5": 161,
+          "6": 24,
+          "7": 2
+        }
+      },
+      {
+        "pcap": "session3_udp_flood_random_ports_500pps_rep3.pcap",
+        "total_pkts": 60125,
+        "unique_tuples": 39259,
+        "reused_tuples": 15331,
+        "reused_pkts": 36197,
+        "hist": {
+          "1": 23928,
+          "2": 10980,
+          "3": 3359,
+          "4": 828,
+          "5": 141,
+          "6": 19,
+          "7": 3,
+          "8": 1
+        }
+      }
+    ]
+  },
+  "udp_flood_random_ports_50pps": {
+    "total_reps": 3,
+    "per_rep_stats": [
+      {
+        "pcap": "session3_udp_flood_random_ports_50pps_rep1.pcap",
+        "total_pkts": 6125,
+        "unique_tuples": 5869,
+        "reused_tuples": 253,
+        "reused_pkts": 509,
+        "hist": {
+          "1": 5616,
+          "2": 250,
+          "3": 3
+        }
+      },
+      {
+        "pcap": "session3_udp_flood_random_ports_50pps_rep2.pcap",
+        "total_pkts": 6124,
+        "unique_tuples": 5857,
+        "reused_tuples": 259,
+        "reused_pkts": 526,
+        "hist": {
+          "1": 5598,
+          "2": 251,
+          "3": 8
+        }
+      },
+      {
+        "pcap": "session3_udp_flood_random_ports_50pps_rep3.pcap",
+        "total_pkts": 6123,
+        "unique_tuples": 5856,
+        "reused_tuples": 262,
+        "reused_pkts": 529,
+        "hist": {
+          "1": 5594,
+          "2": 257,
+          "3": 5
+        }
+      }
+    ]
+  },
+  "udp_flood_volumetric_port80_1000pps": {
+    "total_reps": 3,
+    "per_rep_stats": [
+      {
+        "pcap": "session3_udp_flood_volumetric_port80_1000pps_rep1.pcap",
+        "total_pkts": 120126,
+        "unique_tuples": 2,
+        "reused_tuples": 2,
+        "reused_pkts": 120126,
+        "hist": {
+          "126": 1,
+          "120000": 1
+        }
+      },
+      {
+        "pcap": "session3_udp_flood_volumetric_port80_1000pps_rep2.pcap",
+        "total_pkts": 120125,
+        "unique_tuples": 2,
+        "reused_tuples": 2,
+        "reused_pkts": 120125,
+        "hist": {
+          "125": 1,
+          "120000": 1
+        }
+      },
+      {
+        "pcap": "session3_udp_flood_volumetric_port80_1000pps_rep3.pcap",
+        "total_pkts": 120126,
+        "unique_tuples": 2,
+        "reused_tuples": 2,
+        "reused_pkts": 120126,
+        "hist": {
+          "126": 1,
+          "120000": 1
+        }
+      }
+    ]
+  },
+  "udp_flood_volumetric_port80_200pps": {
+    "total_reps": 3,
+    "per_rep_stats": [
+      {
+        "pcap": "session3_udp_flood_volumetric_port80_200pps_rep1.pcap",
+        "total_pkts": 24125,
+        "unique_tuples": 2,
+        "reused_tuples": 2,
+        "reused_pkts": 24125,
+        "hist": {
+          "125": 1,
+          "24000": 1
+        }
+      },
+      {
+        "pcap": "session3_udp_flood_volumetric_port80_200pps_rep2.pcap",
+        "total_pkts": 24125,
+        "unique_tuples": 2,
+        "reused_tuples": 2,
+        "reused_pkts": 24125,
+        "hist": {
+          "125": 1,
+          "24000": 1
+        }
+      },
+      {
+        "pcap": "session3_udp_flood_volumetric_port80_200pps_rep3.pcap",
+        "total_pkts": 24125,
+        "unique_tuples": 2,
+        "reused_tuples": 2,
+        "reused_pkts": 24125,
+        "hist": {
+          "125": 1,
+          "24000": 1
+        }
+      }
+    ]
+  },
+  "udp_flood_volumetric_port80_500pps": {
+    "total_reps": 3,
+    "per_rep_stats": [
+      {
+        "pcap": "session3_udp_flood_volumetric_port80_500pps_rep1.pcap",
+        "total_pkts": 60125,
+        "unique_tuples": 2,
+        "reused_tuples": 2,
+        "reused_pkts": 60125,
+        "hist": {
+          "125": 1,
+          "60000": 1
+        }
+      },
+      {
+        "pcap": "session3_udp_flood_volumetric_port80_500pps_rep2.pcap",
+        "total_pkts": 60125,
+        "unique_tuples": 2,
+        "reused_tuples": 2,
+        "reused_pkts": 60125,
+        "hist": {
+          "125": 1,
+          "60000": 1
+        }
+      },
+      {
+        "pcap": "session3_udp_flood_volumetric_port80_500pps_rep3.pcap",
+        "total_pkts": 60125,
+        "unique_tuples": 2,
+        "reused_tuples": 2,
+        "reused_pkts": 60125,
+        "hist": {
+          "125": 1,
+          "60000": 1
+        }
+      }
+    ]
+  },
+  "udp_flood_volumetric_port80_50pps": {
+    "total_reps": 3,
+    "per_rep_stats": [
+      {
+        "pcap": "session3_udp_flood_volumetric_port80_50pps_rep1.pcap",
+        "total_pkts": 6125,
+        "unique_tuples": 2,
+        "reused_tuples": 2,
+        "reused_pkts": 6125,
+        "hist": {
+          "125": 1,
+          "6000": 1
+        }
+      },
+      {
+        "pcap": "session3_udp_flood_volumetric_port80_50pps_rep2.pcap",
+        "total_pkts": 6125,
+        "unique_tuples": 2,
+        "reused_tuples": 2,
+        "reused_pkts": 6125,
+        "hist": {
+          "125": 1,
+          "6000": 1
+        }
+      },
+      {
+        "pcap": "session3_udp_flood_volumetric_port80_50pps_rep3.pcap",
+        "total_pkts": 6125,
+        "unique_tuples": 2,
+        "reused_tuples": 2,
+        "reused_pkts": 6125,
+        "hist": {
+          "125": 1,
+          "6000": 1
+        }
+      }
+    ]
+  }
+}
