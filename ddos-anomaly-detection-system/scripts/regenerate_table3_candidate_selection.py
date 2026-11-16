@@ -4,9 +4,10 @@ Regenerates candidate_model_selection.json and Table 3 strictly from stored scor
   - Pulls exact frozen Day 1 thresholds, Day 2 cross-day metrics, and Session 2 metrics.
   - Scores every column with explicit score file path / key.
   - Any column without a stored score file is marked as 'not computed'.
-  - LR row fixed to LR robust 28 (threshold 0.6261).
-  - Window-stats RF rows fixed to exact metrics from window_level_rows in metrics.json.
-  - Champion renamed to 'KNN Robust 14 In-Sample Diagnostic', Day 2 marked 'not computed'.
+  - Session 2 window-model columns marked 'unverified' unless regenerated from stored score arrays.
+  - Adds mathematical assertion: AUC <= (benign - FP)/benign when recall is 0.
+  - Fixes LR row: threshold 0.6894 to match its cited file (results/robust_subset_benchmark.json), with session 2 values marked 'unverified'.
+  - Renames champion to 'KNN Robust 14 In-Sample Diagnostic', Day 2 marked 'not computed'.
 Saves to results/candidate_model_selection.json.
 """
 
@@ -15,6 +16,21 @@ from pathlib import Path
 
 REPO_ROOT = Path("/home/kartik/Documents/AAYIR FORGE/DDoS Anomaly Detection System/ddos-anomaly-detection-system")
 RESULTS_DIR = REPO_ROOT / "results"
+
+def validate_auc_bound(recall, auc, fp, total_benign, name=""):
+    """
+    Mathematical upper bound assertion for ROC-AUC when recall is 0.0:
+    When recall is 0 at threshold T, ALL attack instances score < T.
+    If FP benign instances score >= T, then each of those FP benign instances ranks
+    strictly above every attack instance, contributing 0 to the Wilcoxon-Mann-Whitney AUC sum.
+    Therefore, AUC can never exceed (total_benign - FP) / total_benign.
+    """
+    if recall == 0.0 and total_benign > 0 and auc is not None and isinstance(auc, (int, float)):
+        max_possible_auc = (total_benign - fp) / total_benign
+        assert auc <= max_possible_auc + 1e-6, (
+            f"Mathematical impossibility for {name}: recall is 0.0, but AUC {auc:.4f} > "
+            f"(benign {total_benign} - FP {fp}) / benign {total_benign} = {max_possible_auc:.4f}"
+        )
 
 def main():
     with open(RESULTS_DIR / "metrics.json") as f:
@@ -27,15 +43,16 @@ def main():
         knn_seeds_json = json.load(f)
 
     w_rows = metrics_json.get("window_level_rows", [])
-    # Mapping for w_rows:
-    # 0: RF Max Same-Day, 1: RF Max Cross ZS, 2: RF Max Cross Cal
-    # 3: RF Mean Same-Day, 4: RF Mean Cross ZS, 5: RF Mean Cross Cal
-    # 6: KNN Max Same-Day, 7: KNN Max Cross ZS, 8: KNN Max Cross Cal
-    # 9: KNN Mean Same-Day, 10: KNN Mean Cross ZS, 11: KNN Mean Cross Cal
-    # 12: LSTM Same-Day, 13: LSTM Cross ZS, 14: LSTM Cross Cal
 
     lr_r28 = robust_json["models_evaluated"]["Logistic Regression Window-Stats (Robust 28-Stat)"]
-    knn_det = knn_seeds_json["Full_Train_Deterministic"]
+    lr_threshold = lr_r28["same_day_zero_shot"]["threshold"]  # exactly 0.6894
+    assert lr_threshold == 0.6894, f"Expected 0.6894 from robust_subset_benchmark.json, got {lr_threshold}"
+
+    # Flow model S2 numbers (evaluated on individual flow records in lab_idle_aligned + lab_busy_aligned)
+    # RF Flow: 5,486 FP / 6,014 benign flows -> 91.22%, recall = 32 / 277 = 11.55%, AUC = 0.0632
+    # KNN Flow: 1,395 FP / 6,014 benign flows -> 23.20%, recall = 1 / 277 = 0.36%, AUC = 0.3704
+    validate_auc_bound(0.1155, 0.0632, 5486, 6014, name="RF Full 25 (Flow)")
+    validate_auc_bound(0.0036, 0.3704, 1395, 6014, name="KNN Full 25 (Flow)")
 
     candidates = {
         "RF Full 25 (Flow)": {
@@ -88,10 +105,10 @@ def main():
             "data_chosen_on": "Day 1 validation split",
             "threshold_score_file": "results/metrics.json['window_level_rows'][0]['threshold']",
             "session2": {
-                "score_file": "lab/captures/session2_java_aligned/ (52 FP / 1,200 benign windows)",
-                "combined_benign_fpr": 0.0434,
-                "flood_window_recall": 0.0000,
-                "roc_auc": 0.9472,
+                "score_file": "unverified (no stored score array on disk)",
+                "combined_benign_fpr": "unverified",
+                "flood_window_recall": "unverified",
+                "roc_auc": "unverified",
                 "meets_preregistered_rule": False
             },
             "day2_cross_day": {
@@ -110,10 +127,10 @@ def main():
             "data_chosen_on": "Day 1 validation split",
             "threshold_score_file": "results/metrics.json['window_level_rows'][3]['threshold']",
             "session2": {
-                "score_file": "lab/captures/session2_java_aligned/ (15 FP / 1,200 benign windows)",
-                "combined_benign_fpr": 0.0125,
-                "flood_window_recall": 0.0000,
-                "roc_auc": 0.9620,
+                "score_file": "unverified (no stored score array on disk)",
+                "combined_benign_fpr": "unverified",
+                "flood_window_recall": "unverified",
+                "roc_auc": "unverified",
                 "meets_preregistered_rule": False
             },
             "day2_cross_day": {
@@ -132,10 +149,10 @@ def main():
             "data_chosen_on": "Day 1 validation split",
             "threshold_score_file": "results/metrics.json['window_level_rows'][6]['threshold']",
             "session2": {
-                "score_file": "lab/captures/session2_java_aligned/ (59 FP / 1,200 benign windows)",
-                "combined_benign_fpr": 0.0492,
-                "flood_window_recall": 0.0000,
-                "roc_auc": 0.9805,
+                "score_file": "unverified (no stored score array on disk)",
+                "combined_benign_fpr": "unverified",
+                "flood_window_recall": "unverified",
+                "roc_auc": "unverified",
                 "meets_preregistered_rule": False
             },
             "day2_cross_day": {
@@ -154,10 +171,10 @@ def main():
             "data_chosen_on": "Day 1 validation split",
             "threshold_score_file": "results/metrics.json['window_level_rows'][9]['threshold']",
             "session2": {
-                "score_file": "lab/captures/session2_java_aligned/ (39 FP / 1,200 benign windows)",
-                "combined_benign_fpr": 0.0325,
-                "flood_window_recall": 0.0000,
-                "roc_auc": 1.0000,
+                "score_file": "unverified (no stored score array on disk)",
+                "combined_benign_fpr": "unverified",
+                "flood_window_recall": "unverified",
+                "roc_auc": "unverified",
                 "meets_preregistered_rule": False
             },
             "day2_cross_day": {
@@ -176,10 +193,10 @@ def main():
             "data_chosen_on": "Day 1 validation split",
             "threshold_score_file": "results/metrics.json['LSTM (Same-Day Zero-Shot)']['threshold'] (+4.8078 logit, p=0.9919)",
             "session2": {
-                "score_file": "lab/captures/session2_java_aligned/ (882 FP / 1,200 benign windows)",
-                "combined_benign_fpr": 0.7350,
-                "flood_window_recall": 0.0000,
-                "roc_auc": 0.9780,
+                "score_file": "unverified (no stored score array on disk)",
+                "combined_benign_fpr": "unverified",
+                "flood_window_recall": "unverified",
+                "roc_auc": "unverified",
                 "meets_preregistered_rule": False
             },
             "day2_cross_day": {
@@ -194,14 +211,14 @@ def main():
         },
         "Window-Stats LR Robust 28": {
             "level": "Window (Step 5)",
-            "threshold": 0.6261,
+            "threshold": 0.6894,
             "data_chosen_on": "Day 1 validation split",
             "threshold_score_file": "results/robust_subset_benchmark.json['models_evaluated']['Logistic Regression Window-Stats (Robust 28-Stat)']['same_day_zero_shot']['threshold']",
             "session2": {
-                "score_file": "lab/captures/session2_java_aligned/ (15 FP / 1,200 benign windows)",
-                "combined_benign_fpr": 0.0125,
-                "flood_window_recall": 0.0000,
-                "roc_auc": 0.9320,
+                "score_file": "unverified (no stored score array on disk)",
+                "combined_benign_fpr": "unverified",
+                "flood_window_recall": "unverified",
+                "roc_auc": "unverified",
                 "meets_preregistered_rule": False
             },
             "day2_cross_day": {
@@ -220,11 +237,11 @@ def main():
             "data_chosen_on": "Session 2 Java benign windows (IN-SAMPLE / OPTIMISTIC)",
             "threshold_score_file": "results/knn_full_train_seeds_experiment.json['Full_Train_Deterministic']['threshold']",
             "session2": {
-                "score_file": "results/knn_full_train_seeds_experiment.json['Full_Train_Deterministic'] (12 FP / 1,200 windows)",
-                "combined_benign_fpr": 0.0100,
-                "flood_window_recall": 0.9630,
-                "roc_auc": 0.9610,
-                "meets_preregistered_rule": True,
+                "score_file": "unverified (no stored score array on disk)",
+                "combined_benign_fpr": "unverified",
+                "flood_window_recall": "unverified",
+                "roc_auc": "unverified",
+                "meets_preregistered_rule": False,
                 "diagnostic_nature": "IN-SAMPLE ONLY (Threshold fit directly to Session 2 benign windows)"
             },
             "day2_cross_day": {
@@ -241,7 +258,7 @@ def main():
 
     out = {
         "status": "AUTHORITATIVE_FROZEN_METRICS_V1_4",
-        "description": "Regenerated strictly from stored score files with individual provenance keys for every column.",
+        "description": "Regenerated strictly from stored score files with individual provenance keys. All unregenerated Session 2 window model columns marked unverified.",
         "flow_count_reconciliation": {
             "ground_truth_session2_benign_flows": 6014,
             "ground_truth_session2_idle_flows": 111,
@@ -261,7 +278,7 @@ def main():
     with open(RESULTS_DIR / "candidate_model_selection.json", "w") as f:
         json.dump(out, f, indent=2)
 
-    print("Successfully regenerated results/candidate_model_selection.json.")
+    print("Successfully regenerated results/candidate_model_selection.json with AUC bound assertion and unverified window columns.")
 
 if __name__ == "__main__":
     main()

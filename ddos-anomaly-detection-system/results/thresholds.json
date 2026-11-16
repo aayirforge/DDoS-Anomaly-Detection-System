@@ -79,11 +79,11 @@
     },
     "window_stats_lr_robust_28": {
       "level": "Window (Step 5)",
-      "decision_threshold_fixed": 0.6261,
+      "decision_threshold_fixed": 0.6894,
       "decision_threshold_calibrated": 0.9969,
       "data_chosen_on": "Day 1 validation split",
       "score_file": "results/robust_subset_benchmark.json['models_evaluated']['Logistic Regression Window-Stats (Robust 28-Stat)']",
-      "provenance": "Chosen on Day 1 validation split (val_threshold = 0.6261, calibrated = 0.9969)"
+      "provenance": "Chosen on Day 1 validation split (val_threshold = 0.6894, calibrated = 0.9969)"
     }
   },
   "packet_rules": {

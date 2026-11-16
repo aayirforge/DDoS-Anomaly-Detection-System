@@ -1,6 +1,6 @@
 {
   "status": "AUTHORITATIVE_FROZEN_METRICS_V1_4",
-  "description": "Regenerated strictly from stored score files with individual provenance keys for every column.",
+  "description": "Regenerated strictly from stored score files with individual provenance keys. All unregenerated Session 2 window model columns marked unverified.",
   "flow_count_reconciliation": {
     "ground_truth_session2_benign_flows": 6014,
     "ground_truth_session2_idle_flows": 111,
@@ -60,10 +60,10 @@
       "data_chosen_on": "Day 1 validation split",
       "threshold_score_file": "results/metrics.json['window_level_rows'][0]['threshold']",
       "session2": {
-        "score_file": "lab/captures/session2_java_aligned/ (52 FP / 1,200 benign windows)",
-        "combined_benign_fpr": 0.0434,
-        "flood_window_recall": 0.0,
-        "roc_auc": 0.9472,
+        "score_file": "unverified (no stored score array on disk)",
+        "combined_benign_fpr": "unverified",
+        "flood_window_recall": "unverified",
+        "roc_auc": "unverified",
         "meets_preregistered_rule": false
       },
       "day2_cross_day": {
@@ -82,10 +82,10 @@
       "data_chosen_on": "Day 1 validation split",
       "threshold_score_file": "results/metrics.json['window_level_rows'][3]['threshold']",
       "session2": {
-        "score_file": "lab/captures/session2_java_aligned/ (15 FP / 1,200 benign windows)",
-        "combined_benign_fpr": 0.0125,
-        "flood_window_recall": 0.0,
-        "roc_auc": 0.962,
+        "score_file": "unverified (no stored score array on disk)",
+        "combined_benign_fpr": "unverified",
+        "flood_window_recall": "unverified",
+        "roc_auc": "unverified",
         "meets_preregistered_rule": false
       },
       "day2_cross_day": {
@@ -104,10 +104,10 @@
       "data_chosen_on": "Day 1 validation split",
       "threshold_score_file": "results/metrics.json['window_level_rows'][6]['threshold']",
       "session2": {
-        "score_file": "lab/captures/session2_java_aligned/ (59 FP / 1,200 benign windows)",
-        "combined_benign_fpr": 0.0492,
-        "flood_window_recall": 0.0,
-        "roc_auc": 0.9805,
+        "score_file": "unverified (no stored score array on disk)",
+        "combined_benign_fpr": "unverified",
+        "flood_window_recall": "unverified",
+        "roc_auc": "unverified",
         "meets_preregistered_rule": false
       },
       "day2_cross_day": {
@@ -126,10 +126,10 @@
       "data_chosen_on": "Day 1 validation split",
       "threshold_score_file": "results/metrics.json['window_level_rows'][9]['threshold']",
       "session2": {
-        "score_file": "lab/captures/session2_java_aligned/ (39 FP / 1,200 benign windows)",
-        "combined_benign_fpr": 0.0325,
-        "flood_window_recall": 0.0,
-        "roc_auc": 1.0,
+        "score_file": "unverified (no stored score array on disk)",
+        "combined_benign_fpr": "unverified",
+        "flood_window_recall": "unverified",
+        "roc_auc": "unverified",
         "meets_preregistered_rule": false
       },
       "day2_cross_day": {
@@ -148,10 +148,10 @@
       "data_chosen_on": "Day 1 validation split",
       "threshold_score_file": "results/metrics.json['LSTM (Same-Day Zero-Shot)']['threshold'] (+4.8078 logit, p=0.9919)",
       "session2": {
-        "score_file": "lab/captures/session2_java_aligned/ (882 FP / 1,200 benign windows)",
-        "combined_benign_fpr": 0.735,
-        "flood_window_recall": 0.0,
-        "roc_auc": 0.978,
+        "score_file": "unverified (no stored score array on disk)",
+        "combined_benign_fpr": "unverified",
+        "flood_window_recall": "unverified",
+        "roc_auc": "unverified",
         "meets_preregistered_rule": false
       },
       "day2_cross_day": {
@@ -166,14 +166,14 @@
     },
     "Window-Stats LR Robust 28": {
       "level": "Window (Step 5)",
-      "threshold": 0.6261,
+      "threshold": 0.6894,
       "data_chosen_on": "Day 1 validation split",
       "threshold_score_file": "results/robust_subset_benchmark.json['models_evaluated']['Logistic Regression Window-Stats (Robust 28-Stat)']['same_day_zero_shot']['threshold']",
       "session2": {
-        "score_file": "lab/captures/session2_java_aligned/ (15 FP / 1,200 benign windows)",
-        "combined_benign_fpr": 0.0125,
-        "flood_window_recall": 0.0,
-        "roc_auc": 0.932,
+        "score_file": "unverified (no stored score array on disk)",
+        "combined_benign_fpr": "unverified",
+        "flood_window_recall": "unverified",
+        "roc_auc": "unverified",
         "meets_preregistered_rule": false
       },
       "day2_cross_day": {
@@ -192,11 +192,11 @@
       "data_chosen_on": "Session 2 Java benign windows (IN-SAMPLE / OPTIMISTIC)",
       "threshold_score_file": "results/knn_full_train_seeds_experiment.json['Full_Train_Deterministic']['threshold']",
       "session2": {
-        "score_file": "results/knn_full_train_seeds_experiment.json['Full_Train_Deterministic'] (12 FP / 1,200 windows)",
-        "combined_benign_fpr": 0.01,
-        "flood_window_recall": 0.963,
-        "roc_auc": 0.961,
-        "meets_preregistered_rule": true,
+        "score_file": "unverified (no stored score array on disk)",
+        "combined_benign_fpr": "unverified",
+        "flood_window_recall": "unverified",
+        "roc_auc": "unverified",
+        "meets_preregistered_rule": false,
         "diagnostic_nature": "IN-SAMPLE ONLY (Threshold fit directly to Session 2 benign windows)"
       },
       "day2_cross_day": {

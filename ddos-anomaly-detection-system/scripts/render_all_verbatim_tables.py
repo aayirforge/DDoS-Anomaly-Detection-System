@@ -53,9 +53,16 @@ def render_table_3():
         s2 = cinfo["session2"]
         fth = f"{cinfo['threshold']:.4f}"
         th_file = cinfo.get("threshold_score_file", cinfo.get("score_file", "results/metrics.json"))
-        s2_fpr = f"{s2['combined_benign_fpr']*100:.2f}%"
-        s2_rec = f"{s2['flood_window_recall']*100:.2f}%"
-        s2_auc = f"{s2['roc_auc']:.4f}"
+        
+        if isinstance(s2.get("combined_benign_fpr"), (int, float)):
+            s2_fpr = f"{s2['combined_benign_fpr']*100:.2f}%"
+            s2_rec = f"{s2['flood_window_recall']*100:.2f}%"
+            s2_auc = f"{s2['roc_auc']:.4f}"
+        else:
+            s2_fpr = "unverified"
+            s2_rec = "unverified"
+            s2_auc = "unverified"
+            
         s2_src = s2.get("score_file", "lab/captures/session2_java_aligned/")
         d2 = cinfo.get("day2_cross_day", {})
         lvl = d2.get("level", "Window (Step 5)" if "Window" in name else "Flow")
@@ -102,7 +109,7 @@ def render_table_4a():
 
 def render_table_4b():
     print(r"### Table 4B: Flag Audit: Java Source Lines & JVM HashMap Key Order (`flag_audit_java_source_and_jar_run.json`)")
-    print(r"| Column Index | Dataset Header Label | Actual Extracted Key | JVM Bucket Index | Executed Source Line | Architectural Mechanism & Flaw Consequence |")
+    print(r"| Column Index | Dataset Header Label | Modern Jar Extracted Key | JVM Bucket Index | Executed Source Line | Verification Status (Demonstrated for Jar, Unproven for Dataset) |")
     print(r"| :---: | :--- | :--- | :---: | :--- | :--- |")
     data = json.loads((BASE / "flag_audit_java_source_and_jar_run.json").read_text())
     order = data["java_source_investigation"]["flawed_loop_in_dumpFlowBasedFeatures"]["jvm_iteration_order"]
@@ -112,7 +119,7 @@ def render_table_4b():
         key = row["actual_dumped_key"]
         bkt = row["bucket"]
         line = "BasicFlow.java:669-671 (`dumpFlowBasedFeatures`)"
-        conseq = f"Hash bucket {bkt} dumped `{key}` into column {col} (`{lbl}`)."
+        conseq = f"Demonstrated for modern jar (bucket {bkt} dumped `{key}` into col {col}); unproven for published dataset."
         print(f"| **Col {col}** | `{lbl}` | **`{key}`** | {bkt} | `{line}` | {conseq} |")
     print()
 

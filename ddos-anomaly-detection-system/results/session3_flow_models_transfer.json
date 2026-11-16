@@ -1,0 +1,1402 @@
+[
+  {
+    "pcap": "session3_benign_baseline_900s.pcap",
+    "total_extracted_flows": 11197,
+    "flows_ge_2_pkts": 11197,
+    "n_benign_flows": 11197,
+    "n_attack_flows": 0,
+    "rf_full_25": {
+      "threshold": 0.1288,
+      "fpr": 0.9962489952665893,
+      "recall": 0.0,
+      "fp": 11155,
+      "tp": 0
+    },
+    "knn_full_25": {
+      "threshold": 0.1268,
+      "fpr": 0.2537286773242833,
+      "recall": 0.0,
+      "fp": 2841,
+      "tp": 0
+    },
+    "rf_robust_14": {
+      "threshold": 0.991,
+      "fpr": 0.0,
+      "recall": 0.0,
+      "fp": 0,
+      "tp": 0
+    },
+    "knn_robust_14_diagnostic": {
+      "threshold": 0.8363,
+      "fpr": 0.0014289541841564705,
+      "recall": 0.0,
+      "fp": 16,
+      "tp": 0
+    }
+  },
+  {
+    "pcap": "session3_reconnaissance_port_scan_30pps_rep1.pcap",
+    "total_extracted_flows": 5229,
+    "flows_ge_2_pkts": 5229,
+    "n_benign_flows": 1629,
+    "n_attack_flows": 3600,
+    "rf_full_25": {
+      "threshold": 0.1288,
+      "fpr": 0.9950890116635973,
+      "recall": 1.0,
+      "fp": 1621,
+      "tp": 3600
+    },
+    "knn_full_25": {
+      "threshold": 0.1268,
+      "fpr": 0.27010435850214853,
+      "recall": 0.0,
+      "fp": 440,
+      "tp": 0
+    },
+    "rf_robust_14": {
+      "threshold": 0.991,
+      "fpr": 0.0,
+      "recall": 0.0,
+      "fp": 0,
+      "tp": 0
+    },
+    "knn_robust_14_diagnostic": {
+      "threshold": 0.8363,
+      "fpr": 0.0012277470841006752,
+      "recall": 0.0,
+      "fp": 2,
+      "tp": 0
+    }
+  },
+  {
+    "pcap": "session3_reconnaissance_port_scan_30pps_rep2.pcap",
+    "total_extracted_flows": 5334,
+    "flows_ge_2_pkts": 5334,
+    "n_benign_flows": 1734,
+    "n_attack_flows": 3600,
+    "rf_full_25": {
+      "threshold": 0.1288,
+      "fpr": 0.9965397923875432,
+      "recall": 1.0,
+      "fp": 1728,
+      "tp": 3600
+    },
+    "knn_full_25": {
+      "threshold": 0.1268,
+      "fpr": 0.2964244521337947,
+      "recall": 0.0,
+      "fp": 514,
+      "tp": 0
+    },
+    "rf_robust_14": {
+      "threshold": 0.991,
+      "fpr": 0.0,
+      "recall": 0.0,
+      "fp": 0,
+      "tp": 0
+    },
+    "knn_robust_14_diagnostic": {
+      "threshold": 0.8363,
+      "fpr": 0.0017301038062283738,
+      "recall": 0.0,
+      "fp": 3,
+      "tp": 0
+    }
+  },
+  {
+    "pcap": "session3_reconnaissance_port_scan_30pps_rep3.pcap",
+    "total_extracted_flows": 5201,
+    "flows_ge_2_pkts": 5201,
+    "n_benign_flows": 1601,
+    "n_attack_flows": 3600,
+    "rf_full_25": {
+      "threshold": 0.1288,
+      "fpr": 0.9975015615240475,
+      "recall": 1.0,
+      "fp": 1597,
+      "tp": 3600
+    },
+    "knn_full_25": {
+      "threshold": 0.1268,
+      "fpr": 0.2910680824484697,
+      "recall": 0.0,
+      "fp": 466,
+      "tp": 0
+    },
+    "rf_robust_14": {
+      "threshold": 0.991,
+      "fpr": 0.0,
+      "recall": 0.0,
+      "fp": 0,
+      "tp": 0
+    },
+    "knn_robust_14_diagnostic": {
+      "threshold": 0.8363,
+      "fpr": 0.0012492192379762648,
+      "recall": 0.0,
+      "fp": 2,
+      "tp": 0
+    }
+  },
+  {
+    "pcap": "session3_tcp_syn_flood_1000pps_rep1.pcap",
+    "total_extracted_flows": 37676,
+    "flows_ge_2_pkts": 37676,
+    "n_benign_flows": 1721,
+    "n_attack_flows": 35955,
+    "rf_full_25": {
+      "threshold": 0.1288,
+      "fpr": 0.9970947123765252,
+      "recall": 0.44355444305381725,
+      "fp": 1716,
+      "tp": 15948
+    },
+    "knn_full_25": {
+      "threshold": 0.1268,
+      "fpr": 0.28588030214991283,
+      "recall": 0.22836879432624113,
+      "fp": 492,
+      "tp": 8211
+    },
+    "rf_robust_14": {
+      "threshold": 0.991,
+      "fpr": 0.0,
+      "recall": 0.015324711444861633,
+      "fp": 0,
+      "tp": 551
+    },
+    "knn_robust_14_diagnostic": {
+      "threshold": 0.8363,
+      "fpr": 0.0017431725740848344,
+      "recall": 0.43382005284383257,
+      "fp": 3,
+      "tp": 15598
+    }
+  },
+  {
+    "pcap": "session3_tcp_syn_flood_1000pps_rep2.pcap",
+    "total_extracted_flows": 37749,
+    "flows_ge_2_pkts": 37749,
+    "n_benign_flows": 1794,
+    "n_attack_flows": 35955,
+    "rf_full_25": {
+      "threshold": 0.1288,
+      "fpr": 0.9977703455964325,
+      "recall": 0.4418300653594771,
+      "fp": 1790,
+      "tp": 15886
+    },
+    "knn_full_25": {
+      "threshold": 0.1268,
+      "fpr": 0.29208472686733555,
+      "recall": 0.2266722291753581,
+      "fp": 524,
+      "tp": 8150
+    },
+    "rf_robust_14": {
+      "threshold": 0.991,
+      "fpr": 0.0,
+      "recall": 0.013989709358920873,
+      "fp": 0,
+      "tp": 503
+    },
+    "knn_robust_14_diagnostic": {
+      "threshold": 0.8363,
+      "fpr": 0.002787068004459309,
+      "recall": 0.43662911973299956,
+      "fp": 5,
+      "tp": 15699
+    }
+  },
+  {
+    "pcap": "session3_tcp_syn_flood_1000pps_rep3.pcap",
+    "total_extracted_flows": 37686,
+    "flows_ge_2_pkts": 37686,
+    "n_benign_flows": 1679,
+    "n_attack_flows": 36007,
+    "rf_full_25": {
+      "threshold": 0.1288,
+      "fpr": 0.9964264443120905,
+      "recall": 0.44430249673674566,
+      "fp": 1673,
+      "tp": 15998
+    },
+    "knn_full_25": {
+      "threshold": 0.1268,
+      "fpr": 0.3001786777843955,
+      "recall": 0.22937206654261671,
+      "fp": 504,
+      "tp": 8259
+    },
+    "rf_robust_14": {
+      "threshold": 0.991,
+      "fpr": 0.0,
+      "recall": 0.013330741244757964,
+      "fp": 0,
+      "tp": 480
+    },
+    "knn_robust_14_diagnostic": {
+      "threshold": 0.8363,
+      "fpr": 0.0023823704586063135,
+      "recall": 0.43594301108117867,
+      "fp": 4,
+      "tp": 15697
+    }
+  },
+  {
+    "pcap": "session3_tcp_syn_flood_200pps_rep1.pcap",
+    "total_extracted_flows": 5248,
+    "flows_ge_2_pkts": 5248,
+    "n_benign_flows": 1661,
+    "n_attack_flows": 3587,
+    "rf_full_25": {
+      "threshold": 0.1288,
+      "fpr": 0.9963877182420229,
+      "recall": 0.12935600780596598,
+      "fp": 1655,
+      "tp": 464
+    },
+    "knn_full_25": {
+      "threshold": 0.1268,
+      "fpr": 0.27453341360626127,
+      "recall": 0.055478115416782825,
+      "fp": 456,
+      "tp": 199
+    },
+    "rf_robust_14": {
+      "threshold": 0.991,
+      "fpr": 0.0,
+      "recall": 0.0,
+      "fp": 0,
+      "tp": 0
+    },
+    "knn_robust_14_diagnostic": {
+      "threshold": 0.8363,
+      "fpr": 0.0012040939193257074,
+      "recall": 0.15834959576247562,
+      "fp": 2,
+      "tp": 568
+    }
+  },
+  {
+    "pcap": "session3_tcp_syn_flood_200pps_rep2.pcap",
+    "total_extracted_flows": 5149,
+    "flows_ge_2_pkts": 5149,
+    "n_benign_flows": 1697,
+    "n_attack_flows": 3452,
+    "rf_full_25": {
+      "threshold": 0.1288,
+      "fpr": 0.9970536240424278,
+      "recall": 0.11037079953650059,
+      "fp": 1692,
+      "tp": 381
+    },
+    "knn_full_25": {
+      "threshold": 0.1268,
+      "fpr": 0.27224513847967,
+      "recall": 0.044322132097334876,
+      "fp": 462,
+      "tp": 153
+    },
+    "rf_robust_14": {
+      "threshold": 0.991,
+      "fpr": 0.0,
+      "recall": 0.0,
+      "fp": 0,
+      "tp": 0
+    },
+    "knn_robust_14_diagnostic": {
+      "threshold": 0.8363,
+      "fpr": 0.0017678255745433118,
+      "recall": 0.1552723059096176,
+      "fp": 3,
+      "tp": 536
+    }
+  },
+  {
+    "pcap": "session3_tcp_syn_flood_200pps_rep3.pcap",
+    "total_extracted_flows": 5217,
+    "flows_ge_2_pkts": 5217,
+    "n_benign_flows": 1623,
+    "n_attack_flows": 3594,
+    "rf_full_25": {
+      "threshold": 0.1288,
+      "fpr": 0.9975354282193469,
+      "recall": 0.11602671118530884,
+      "fp": 1619,
+      "tp": 417
+    },
+    "knn_full_25": {
+      "threshold": 0.1268,
+      "fpr": 0.2618607516943931,
+      "recall": 0.05063995548135782,
+      "fp": 425,
+      "tp": 182
+    },
+    "rf_robust_14": {
+      "threshold": 0.991,
+      "fpr": 0.0,
+      "recall": 0.0,
+      "fp": 0,
+      "tp": 0
+    },
+    "knn_robust_14_diagnostic": {
+      "threshold": 0.8363,
+      "fpr": 0.0012322858903265558,
+      "recall": 0.15164162493043962,
+      "fp": 2,
+      "tp": 545
+    }
+  },
+  {
+    "pcap": "session3_tcp_syn_flood_500pps_rep1.pcap",
+    "total_extracted_flows": 16989,
+    "flows_ge_2_pkts": 16989,
+    "n_benign_flows": 1532,
+    "n_attack_flows": 15457,
+    "rf_full_25": {
+      "threshold": 0.1288,
+      "fpr": 0.9973890339425587,
+      "recall": 0.23853270362942355,
+      "fp": 1528,
+      "tp": 3687
+    },
+    "knn_full_25": {
+      "threshold": 0.1268,
+      "fpr": 0.2839425587467363,
+      "recall": 0.12123956783334412,
+      "fp": 435,
+      "tp": 1874
+    },
+    "rf_robust_14": {
+      "threshold": 0.991,
+      "fpr": 0.0,
+      "recall": 0.001229216536197192,
+      "fp": 0,
+      "tp": 19
+    },
+    "knn_robust_14_diagnostic": {
+      "threshold": 0.8363,
+      "fpr": 0.0013054830287206266,
+      "recall": 0.26589894546160314,
+      "fp": 2,
+      "tp": 4110
+    }
+  },
+  {
+    "pcap": "session3_tcp_syn_flood_500pps_rep2.pcap",
+    "total_extracted_flows": 17153,
+    "flows_ge_2_pkts": 17153,
+    "n_benign_flows": 1624,
+    "n_attack_flows": 15529,
+    "rf_full_25": {
+      "threshold": 0.1288,
+      "fpr": 0.9938423645320197,
+      "recall": 0.2347865284306781,
+      "fp": 1614,
+      "tp": 3646
+    },
+    "knn_full_25": {
+      "threshold": 0.1268,
+      "fpr": 0.2801724137931034,
+      "recall": 0.11932513362096722,
+      "fp": 455,
+      "tp": 1853
+    },
+    "rf_robust_14": {
+      "threshold": 0.991,
+      "fpr": 0.0,
+      "recall": 0.0009015390559598171,
+      "fp": 0,
+      "tp": 14
+    },
+    "knn_robust_14_diagnostic": {
+      "threshold": 0.8363,
+      "fpr": 0.0018472906403940886,
+      "recall": 0.2660828128018546,
+      "fp": 3,
+      "tp": 4132
+    }
+  },
+  {
+    "pcap": "session3_tcp_syn_flood_500pps_rep3.pcap",
+    "total_extracted_flows": 17129,
+    "flows_ge_2_pkts": 17129,
+    "n_benign_flows": 1643,
+    "n_attack_flows": 15486,
+    "rf_full_25": {
+      "threshold": 0.1288,
+      "fpr": 0.9951308581862447,
+      "recall": 0.2413793103448276,
+      "fp": 1635,
+      "tp": 3738
+    },
+    "knn_full_25": {
+      "threshold": 0.1268,
+      "fpr": 0.26232501521606816,
+      "recall": 0.12185199535063929,
+      "fp": 431,
+      "tp": 1887
+    },
+    "rf_robust_14": {
+      "threshold": 0.991,
+      "fpr": 0.0,
+      "recall": 0.0010977657238796332,
+      "fp": 0,
+      "tp": 17
+    },
+    "knn_robust_14_diagnostic": {
+      "threshold": 0.8363,
+      "fpr": 0.0036518563603164943,
+      "recall": 0.2646906883636833,
+      "fp": 6,
+      "tp": 4099
+    }
+  },
+  {
+    "pcap": "session3_tcp_syn_flood_50pps_rep1.pcap",
+    "total_extracted_flows": 1879,
+    "flows_ge_2_pkts": 1879,
+    "n_benign_flows": 1596,
+    "n_attack_flows": 283,
+    "rf_full_25": {
+      "threshold": 0.1288,
+      "fpr": 0.9962406015037594,
+      "recall": 0.07773851590106007,
+      "fp": 1590,
+      "tp": 22
+    },
+    "knn_full_25": {
+      "threshold": 0.1268,
+      "fpr": 0.2775689223057644,
+      "recall": 0.007067137809187279,
+      "fp": 443,
+      "tp": 2
+    },
+    "rf_robust_14": {
+      "threshold": 0.991,
+      "fpr": 0.0,
+      "recall": 0.0,
+      "fp": 0,
+      "tp": 0
+    },
+    "knn_robust_14_diagnostic": {
+      "threshold": 0.8363,
+      "fpr": 0.0012531328320802004,
+      "recall": 0.08833922261484099,
+      "fp": 2,
+      "tp": 25
+    }
+  },
+  {
+    "pcap": "session3_tcp_syn_flood_50pps_rep2.pcap",
+    "total_extracted_flows": 1996,
+    "flows_ge_2_pkts": 1996,
+    "n_benign_flows": 1682,
+    "n_attack_flows": 314,
+    "rf_full_25": {
+      "threshold": 0.1288,
+      "fpr": 0.995243757431629,
+      "recall": 0.12738853503184713,
+      "fp": 1674,
+      "tp": 40
+    },
+    "knn_full_25": {
+      "threshold": 0.1268,
+      "fpr": 0.25921521997621877,
+      "recall": 0.012738853503184714,
+      "fp": 436,
+      "tp": 4
+    },
+    "rf_robust_14": {
+      "threshold": 0.991,
+      "fpr": 0.0,
+      "recall": 0.0,
+      "fp": 0,
+      "tp": 0
+    },
+    "knn_robust_14_diagnostic": {
+      "threshold": 0.8363,
+      "fpr": 0.0011890606420927466,
+      "recall": 0.08598726114649681,
+      "fp": 2,
+      "tp": 27
+    }
+  },
+  {
+    "pcap": "session3_tcp_syn_flood_50pps_rep3.pcap",
+    "total_extracted_flows": 1958,
+    "flows_ge_2_pkts": 1958,
+    "n_benign_flows": 1652,
+    "n_attack_flows": 306,
+    "rf_full_25": {
+      "threshold": 0.1288,
+      "fpr": 0.9975786924939467,
+      "recall": 0.08496732026143791,
+      "fp": 1648,
+      "tp": 26
+    },
+    "knn_full_25": {
+      "threshold": 0.1268,
+      "fpr": 0.24031476997578693,
+      "recall": 0.006535947712418301,
+      "fp": 397,
+      "tp": 2
+    },
+    "rf_robust_14": {
+      "threshold": 0.991,
+      "fpr": 0.0,
+      "recall": 0.0,
+      "fp": 0,
+      "tp": 0
+    },
+    "knn_robust_14_diagnostic": {
+      "threshold": 0.8363,
+      "fpr": 0.0012106537530266344,
+      "recall": 0.09803921568627451,
+      "fp": 2,
+      "tp": 30
+    }
+  },
+  {
+    "pcap": "session3_udp_flood_random_ports_1000pps_rep1.pcap",
+    "total_extracted_flows": 37422,
+    "flows_ge_2_pkts": 37422,
+    "n_benign_flows": 1691,
+    "n_attack_flows": 35731,
+    "rf_full_25": {
+      "threshold": 0.1288,
+      "fpr": 0.9952690715552928,
+      "recall": 1.0,
+      "fp": 1683,
+      "tp": 35731
+    },
+    "knn_full_25": {
+      "threshold": 0.1268,
+      "fpr": 0.2838557066824364,
+      "recall": 0.8394391424813188,
+      "fp": 480,
+      "tp": 29994
+    },
+    "rf_robust_14": {
+      "threshold": 0.991,
+      "fpr": 0.0,
+      "recall": 0.0,
+      "fp": 0,
+      "tp": 0
+    },
+    "knn_robust_14_diagnostic": {
+      "threshold": 0.8363,
+      "fpr": 0.0011827321111768185,
+      "recall": 0.029414234138423218,
+      "fp": 2,
+      "tp": 1051
+    }
+  },
+  {
+    "pcap": "session3_udp_flood_random_ports_1000pps_rep2.pcap",
+    "total_extracted_flows": 37431,
+    "flows_ge_2_pkts": 37431,
+    "n_benign_flows": 1687,
+    "n_attack_flows": 35744,
+    "rf_full_25": {
+      "threshold": 0.1288,
+      "fpr": 0.997628927089508,
+      "recall": 1.0,
+      "fp": 1683,
+      "tp": 35744
+    },
+    "knn_full_25": {
+      "threshold": 0.1268,
+      "fpr": 0.2940130409010077,
+      "recall": 0.8394695613249776,
+      "fp": 496,
+      "tp": 30006
+    },
+    "rf_robust_14": {
+      "threshold": 0.991,
+      "fpr": 0.0,
+      "recall": 0.0,
+      "fp": 0,
+      "tp": 0
+    },
+    "knn_robust_14_diagnostic": {
+      "threshold": 0.8363,
+      "fpr": 0.0017783046828689982,
+      "recall": 0.02901186213070725,
+      "fp": 3,
+      "tp": 1037
+    }
+  },
+  {
+    "pcap": "session3_udp_flood_random_ports_1000pps_rep3.pcap",
+    "total_extracted_flows": 37509,
+    "flows_ge_2_pkts": 37509,
+    "n_benign_flows": 1726,
+    "n_attack_flows": 35783,
+    "rf_full_25": {
+      "threshold": 0.1288,
+      "fpr": 0.9982618771726536,
+      "recall": 1.0,
+      "fp": 1723,
+      "tp": 35783
+    },
+    "knn_full_25": {
+      "threshold": 0.1268,
+      "fpr": 0.29721900347624564,
+      "recall": 0.8372690942626387,
+      "fp": 513,
+      "tp": 29960
+    },
+    "rf_robust_14": {
+      "threshold": 0.991,
+      "fpr": 0.0,
+      "recall": 0.0,
+      "fp": 0,
+      "tp": 0
+    },
+    "knn_robust_14_diagnostic": {
+      "threshold": 0.8363,
+      "fpr": 0.0011587485515643105,
+      "recall": 0.03076880082720845,
+      "fp": 2,
+      "tp": 1101
+    }
+  },
+  {
+    "pcap": "session3_udp_flood_random_ports_200pps_rep1.pcap",
+    "total_extracted_flows": 5121,
+    "flows_ge_2_pkts": 5121,
+    "n_benign_flows": 1582,
+    "n_attack_flows": 3539,
+    "rf_full_25": {
+      "threshold": 0.1288,
+      "fpr": 0.9962073324905183,
+      "recall": 1.0,
+      "fp": 1576,
+      "tp": 3539
+    },
+    "knn_full_25": {
+      "threshold": 0.1268,
+      "fpr": 0.26422250316055623,
+      "recall": 0.9686352076857869,
+      "fp": 418,
+      "tp": 3428
+    },
+    "rf_robust_14": {
+      "threshold": 0.991,
+      "fpr": 0.0,
+      "recall": 0.0,
+      "fp": 0,
+      "tp": 0
+    },
+    "knn_robust_14_diagnostic": {
+      "threshold": 0.8363,
+      "fpr": 0.0012642225031605564,
+      "recall": 0.009042102288782142,
+      "fp": 2,
+      "tp": 32
+    }
+  },
+  {
+    "pcap": "session3_udp_flood_random_ports_200pps_rep2.pcap",
+    "total_extracted_flows": 5142,
+    "flows_ge_2_pkts": 5142,
+    "n_benign_flows": 1622,
+    "n_attack_flows": 3520,
+    "rf_full_25": {
+      "threshold": 0.1288,
+      "fpr": 0.9956843403205918,
+      "recall": 1.0,
+      "fp": 1615,
+      "tp": 3520
+    },
+    "knn_full_25": {
+      "threshold": 0.1268,
+      "fpr": 0.28298397040690504,
+      "recall": 0.9704545454545455,
+      "fp": 459,
+      "tp": 3416
+    },
+    "rf_robust_14": {
+      "threshold": 0.991,
+      "fpr": 0.0,
+      "recall": 0.0,
+      "fp": 0,
+      "tp": 0
+    },
+    "knn_robust_14_diagnostic": {
+      "threshold": 0.8363,
+      "fpr": 0.0012330456226880395,
+      "recall": 0.00909090909090909,
+      "fp": 2,
+      "tp": 32
+    }
+  },
+  {
+    "pcap": "session3_udp_flood_random_ports_200pps_rep3.pcap",
+    "total_extracted_flows": 5133,
+    "flows_ge_2_pkts": 5133,
+    "n_benign_flows": 1612,
+    "n_attack_flows": 3521,
+    "rf_full_25": {
+      "threshold": 0.1288,
+      "fpr": 0.9981389578163772,
+      "recall": 1.0,
+      "fp": 1609,
+      "tp": 3521
+    },
+    "knn_full_25": {
+      "threshold": 0.1268,
+      "fpr": 0.27543424317617865,
+      "recall": 0.9673388241976711,
+      "fp": 444,
+      "tp": 3406
+    },
+    "rf_robust_14": {
+      "threshold": 0.991,
+      "fpr": 0.0,
+      "recall": 0.0,
+      "fp": 0,
+      "tp": 0
+    },
+    "knn_robust_14_diagnostic": {
+      "threshold": 0.8363,
+      "fpr": 0.0012406947890818859,
+      "recall": 0.010224368077250781,
+      "fp": 2,
+      "tp": 36
+    }
+  },
+  {
+    "pcap": "session3_udp_flood_random_ports_500pps_rep1.pcap",
+    "total_extracted_flows": 17096,
+    "flows_ge_2_pkts": 17096,
+    "n_benign_flows": 1627,
+    "n_attack_flows": 15469,
+    "rf_full_25": {
+      "threshold": 0.1288,
+      "fpr": 0.9938537185003073,
+      "recall": 1.0,
+      "fp": 1617,
+      "tp": 15469
+    },
+    "knn_full_25": {
+      "threshold": 0.1268,
+      "fpr": 0.26429010448678547,
+      "recall": 0.9188699980606374,
+      "fp": 430,
+      "tp": 14214
+    },
+    "rf_robust_14": {
+      "threshold": 0.991,
+      "fpr": 0.0,
+      "recall": 0.0,
+      "fp": 0,
+      "tp": 0
+    },
+    "knn_robust_14_diagnostic": {
+      "threshold": 0.8363,
+      "fpr": 0.001229256299938537,
+      "recall": 0.02068653435904066,
+      "fp": 2,
+      "tp": 320
+    }
+  },
+  {
+    "pcap": "session3_udp_flood_random_ports_500pps_rep2.pcap",
+    "total_extracted_flows": 16957,
+    "flows_ge_2_pkts": 16957,
+    "n_benign_flows": 1604,
+    "n_attack_flows": 15353,
+    "rf_full_25": {
+      "threshold": 0.1288,
+      "fpr": 0.9975062344139651,
+      "recall": 1.0,
+      "fp": 1600,
+      "tp": 15353
+    },
+    "knn_full_25": {
+      "threshold": 0.1268,
+      "fpr": 0.26932668329177056,
+      "recall": 0.9183872858724679,
+      "fp": 432,
+      "tp": 14100
+    },
+    "rf_robust_14": {
+      "threshold": 0.991,
+      "fpr": 0.0,
+      "recall": 0.0,
+      "fp": 0,
+      "tp": 0
+    },
+    "knn_robust_14_diagnostic": {
+      "threshold": 0.8363,
+      "fpr": 0.0024937655860349127,
+      "recall": 0.021168501270110076,
+      "fp": 4,
+      "tp": 325
+    }
+  },
+  {
+    "pcap": "session3_udp_flood_random_ports_500pps_rep3.pcap",
+    "total_extracted_flows": 16997,
+    "flows_ge_2_pkts": 16997,
+    "n_benign_flows": 1666,
+    "n_attack_flows": 15331,
+    "rf_full_25": {
+      "threshold": 0.1288,
+      "fpr": 0.9945978391356542,
+      "recall": 1.0,
+      "fp": 1657,
+      "tp": 15331
+    },
+    "knn_full_25": {
+      "threshold": 0.1268,
+      "fpr": 0.26410564225690275,
+      "recall": 0.9216619920422673,
+      "fp": 440,
+      "tp": 14130
+    },
+    "rf_robust_14": {
+      "threshold": 0.991,
+      "fpr": 0.0,
+      "recall": 0.0,
+      "fp": 0,
+      "tp": 0
+    },
+    "knn_robust_14_diagnostic": {
+      "threshold": 0.8363,
+      "fpr": 0.001800720288115246,
+      "recall": 0.019046376622529514,
+      "fp": 3,
+      "tp": 292
+    }
+  },
+  {
+    "pcap": "session3_udp_flood_random_ports_50pps_rep1.pcap",
+    "total_extracted_flows": 1877,
+    "flows_ge_2_pkts": 1877,
+    "n_benign_flows": 1624,
+    "n_attack_flows": 253,
+    "rf_full_25": {
+      "threshold": 0.1288,
+      "fpr": 0.9950738916256158,
+      "recall": 1.0,
+      "fp": 1616,
+      "tp": 253
+    },
+    "knn_full_25": {
+      "threshold": 0.1268,
+      "fpr": 0.27216748768472904,
+      "recall": 0.9960474308300395,
+      "fp": 442,
+      "tp": 252
+    },
+    "rf_robust_14": {
+      "threshold": 0.991,
+      "fpr": 0.0,
+      "recall": 0.0,
+      "fp": 0,
+      "tp": 0
+    },
+    "knn_robust_14_diagnostic": {
+      "threshold": 0.8363,
+      "fpr": 0.0018472906403940886,
+      "recall": 0.003952569169960474,
+      "fp": 3,
+      "tp": 1
+    }
+  },
+  {
+    "pcap": "session3_udp_flood_random_ports_50pps_rep2.pcap",
+    "total_extracted_flows": 1884,
+    "flows_ge_2_pkts": 1884,
+    "n_benign_flows": 1625,
+    "n_attack_flows": 259,
+    "rf_full_25": {
+      "threshold": 0.1288,
+      "fpr": 0.9963076923076923,
+      "recall": 1.0,
+      "fp": 1619,
+      "tp": 259
+    },
+    "knn_full_25": {
+      "threshold": 0.1268,
+      "fpr": 0.27507692307692305,
+      "recall": 0.9922779922779923,
+      "fp": 447,
+      "tp": 257
+    },
+    "rf_robust_14": {
+      "threshold": 0.991,
+      "fpr": 0.0,
+      "recall": 0.0,
+      "fp": 0,
+      "tp": 0
+    },
+    "knn_robust_14_diagnostic": {
+      "threshold": 0.8363,
+      "fpr": 0.0012307692307692308,
+      "recall": 0.0,
+      "fp": 2,
+      "tp": 0
+    }
+  },
+  {
+    "pcap": "session3_udp_flood_random_ports_50pps_rep3.pcap",
+    "total_extracted_flows": 1888,
+    "flows_ge_2_pkts": 1888,
+    "n_benign_flows": 1626,
+    "n_attack_flows": 262,
+    "rf_full_25": {
+      "threshold": 0.1288,
+      "fpr": 0.991389913899139,
+      "recall": 1.0,
+      "fp": 1612,
+      "tp": 262
+    },
+    "knn_full_25": {
+      "threshold": 0.1268,
+      "fpr": 0.2564575645756458,
+      "recall": 0.9961832061068703,
+      "fp": 417,
+      "tp": 261
+    },
+    "rf_robust_14": {
+      "threshold": 0.991,
+      "fpr": 0.0,
+      "recall": 0.0,
+      "fp": 0,
+      "tp": 0
+    },
+    "knn_robust_14_diagnostic": {
+      "threshold": 0.8363,
+      "fpr": 0.0024600246002460025,
+      "recall": 0.003816793893129771,
+      "fp": 4,
+      "tp": 1
+    }
+  },
+  {
+    "pcap": "session3_udp_flood_volumetric_port80_1000pps_rep1.pcap",
+    "total_extracted_flows": 1755,
+    "flows_ge_2_pkts": 1755,
+    "n_benign_flows": 1753,
+    "n_attack_flows": 2,
+    "rf_full_25": {
+      "threshold": 0.1288,
+      "fpr": 0.9960068454078722,
+      "recall": 1.0,
+      "fp": 1746,
+      "tp": 2
+    },
+    "knn_full_25": {
+      "threshold": 0.1268,
+      "fpr": 0.28636622932116373,
+      "recall": 0.5,
+      "fp": 502,
+      "tp": 1
+    },
+    "rf_robust_14": {
+      "threshold": 0.991,
+      "fpr": 0.0,
+      "recall": 0.0,
+      "fp": 0,
+      "tp": 0
+    },
+    "knn_robust_14_diagnostic": {
+      "threshold": 0.8363,
+      "fpr": 0.0011409013120365088,
+      "recall": 0.5,
+      "fp": 2,
+      "tp": 1
+    }
+  },
+  {
+    "pcap": "session3_udp_flood_volumetric_port80_1000pps_rep2.pcap",
+    "total_extracted_flows": 1723,
+    "flows_ge_2_pkts": 1723,
+    "n_benign_flows": 1721,
+    "n_attack_flows": 2,
+    "rf_full_25": {
+      "threshold": 0.1288,
+      "fpr": 0.9970947123765252,
+      "recall": 1.0,
+      "fp": 1716,
+      "tp": 2
+    },
+    "knn_full_25": {
+      "threshold": 0.1268,
+      "fpr": 0.2707728065078443,
+      "recall": 0.5,
+      "fp": 466,
+      "tp": 1
+    },
+    "rf_robust_14": {
+      "threshold": 0.991,
+      "fpr": 0.0,
+      "recall": 0.0,
+      "fp": 0,
+      "tp": 0
+    },
+    "knn_robust_14_diagnostic": {
+      "threshold": 0.8363,
+      "fpr": 0.0011621150493898896,
+      "recall": 0.5,
+      "fp": 2,
+      "tp": 1
+    }
+  },
+  {
+    "pcap": "session3_udp_flood_volumetric_port80_1000pps_rep3.pcap",
+    "total_extracted_flows": 1816,
+    "flows_ge_2_pkts": 1816,
+    "n_benign_flows": 1814,
+    "n_attack_flows": 2,
+    "rf_full_25": {
+      "threshold": 0.1288,
+      "fpr": 0.9972436604189636,
+      "recall": 1.0,
+      "fp": 1809,
+      "tp": 2
+    },
+    "knn_full_25": {
+      "threshold": 0.1268,
+      "fpr": 0.28114663726571115,
+      "recall": 0.5,
+      "fp": 510,
+      "tp": 1
+    },
+    "rf_robust_14": {
+      "threshold": 0.991,
+      "fpr": 0.0,
+      "recall": 0.0,
+      "fp": 0,
+      "tp": 0
+    },
+    "knn_robust_14_diagnostic": {
+      "threshold": 0.8363,
+      "fpr": 0.0011025358324145535,
+      "recall": 0.5,
+      "fp": 2,
+      "tp": 1
+    }
+  },
+  {
+    "pcap": "session3_udp_flood_volumetric_port80_200pps_rep1.pcap",
+    "total_extracted_flows": 1598,
+    "flows_ge_2_pkts": 1598,
+    "n_benign_flows": 1596,
+    "n_attack_flows": 2,
+    "rf_full_25": {
+      "threshold": 0.1288,
+      "fpr": 0.9962406015037594,
+      "recall": 1.0,
+      "fp": 1590,
+      "tp": 2
+    },
+    "knn_full_25": {
+      "threshold": 0.1268,
+      "fpr": 0.26378446115288223,
+      "recall": 0.5,
+      "fp": 421,
+      "tp": 1
+    },
+    "rf_robust_14": {
+      "threshold": 0.991,
+      "fpr": 0.0,
+      "recall": 0.0,
+      "fp": 0,
+      "tp": 0
+    },
+    "knn_robust_14_diagnostic": {
+      "threshold": 0.8363,
+      "fpr": 0.0012531328320802004,
+      "recall": 0.5,
+      "fp": 2,
+      "tp": 1
+    }
+  },
+  {
+    "pcap": "session3_udp_flood_volumetric_port80_200pps_rep2.pcap",
+    "total_extracted_flows": 1591,
+    "flows_ge_2_pkts": 1591,
+    "n_benign_flows": 1589,
+    "n_attack_flows": 2,
+    "rf_full_25": {
+      "threshold": 0.1288,
+      "fpr": 0.9943360604153556,
+      "recall": 1.0,
+      "fp": 1580,
+      "tp": 2
+    },
+    "knn_full_25": {
+      "threshold": 0.1268,
+      "fpr": 0.27438640654499685,
+      "recall": 0.5,
+      "fp": 436,
+      "tp": 1
+    },
+    "rf_robust_14": {
+      "threshold": 0.991,
+      "fpr": 0.0,
+      "recall": 0.0,
+      "fp": 0,
+      "tp": 0
+    },
+    "knn_robust_14_diagnostic": {
+      "threshold": 0.8363,
+      "fpr": 0.0012586532410320957,
+      "recall": 0.5,
+      "fp": 2,
+      "tp": 1
+    }
+  },
+  {
+    "pcap": "session3_udp_flood_volumetric_port80_200pps_rep3.pcap",
+    "total_extracted_flows": 1635,
+    "flows_ge_2_pkts": 1635,
+    "n_benign_flows": 1633,
+    "n_attack_flows": 2,
+    "rf_full_25": {
+      "threshold": 0.1288,
+      "fpr": 0.994488671157379,
+      "recall": 1.0,
+      "fp": 1624,
+      "tp": 2
+    },
+    "knn_full_25": {
+      "threshold": 0.1268,
+      "fpr": 0.24188609920391918,
+      "recall": 0.5,
+      "fp": 395,
+      "tp": 1
+    },
+    "rf_robust_14": {
+      "threshold": 0.991,
+      "fpr": 0.0,
+      "recall": 0.0,
+      "fp": 0,
+      "tp": 0
+    },
+    "knn_robust_14_diagnostic": {
+      "threshold": 0.8363,
+      "fpr": 0.001224739742804654,
+      "recall": 0.5,
+      "fp": 2,
+      "tp": 1
+    }
+  },
+  {
+    "pcap": "session3_udp_flood_volumetric_port80_500pps_rep1.pcap",
+    "total_extracted_flows": 1660,
+    "flows_ge_2_pkts": 1660,
+    "n_benign_flows": 1658,
+    "n_attack_flows": 2,
+    "rf_full_25": {
+      "threshold": 0.1288,
+      "fpr": 0.9945717732207479,
+      "recall": 1.0,
+      "fp": 1649,
+      "tp": 2
+    },
+    "knn_full_25": {
+      "threshold": 0.1268,
+      "fpr": 0.27020506634499397,
+      "recall": 0.5,
+      "fp": 448,
+      "tp": 1
+    },
+    "rf_robust_14": {
+      "threshold": 0.991,
+      "fpr": 0.0,
+      "recall": 0.0,
+      "fp": 0,
+      "tp": 0
+    },
+    "knn_robust_14_diagnostic": {
+      "threshold": 0.8363,
+      "fpr": 0.0012062726176115801,
+      "recall": 0.5,
+      "fp": 2,
+      "tp": 1
+    }
+  },
+  {
+    "pcap": "session3_udp_flood_volumetric_port80_500pps_rep2.pcap",
+    "total_extracted_flows": 1672,
+    "flows_ge_2_pkts": 1672,
+    "n_benign_flows": 1670,
+    "n_attack_flows": 2,
+    "rf_full_25": {
+      "threshold": 0.1288,
+      "fpr": 0.9946107784431137,
+      "recall": 1.0,
+      "fp": 1661,
+      "tp": 2
+    },
+    "knn_full_25": {
+      "threshold": 0.1268,
+      "fpr": 0.25209580838323353,
+      "recall": 0.5,
+      "fp": 421,
+      "tp": 1
+    },
+    "rf_robust_14": {
+      "threshold": 0.991,
+      "fpr": 0.0,
+      "recall": 0.0,
+      "fp": 0,
+      "tp": 0
+    },
+    "knn_robust_14_diagnostic": {
+      "threshold": 0.8363,
+      "fpr": 0.0029940119760479044,
+      "recall": 0.5,
+      "fp": 5,
+      "tp": 1
+    }
+  },
+  {
+    "pcap": "session3_udp_flood_volumetric_port80_500pps_rep3.pcap",
+    "total_extracted_flows": 1698,
+    "flows_ge_2_pkts": 1698,
+    "n_benign_flows": 1696,
+    "n_attack_flows": 2,
+    "rf_full_25": {
+      "threshold": 0.1288,
+      "fpr": 0.9935141509433962,
+      "recall": 1.0,
+      "fp": 1685,
+      "tp": 2
+    },
+    "knn_full_25": {
+      "threshold": 0.1268,
+      "fpr": 0.2641509433962264,
+      "recall": 0.5,
+      "fp": 448,
+      "tp": 1
+    },
+    "rf_robust_14": {
+      "threshold": 0.991,
+      "fpr": 0.0,
+      "recall": 0.0,
+      "fp": 0,
+      "tp": 0
+    },
+    "knn_robust_14_diagnostic": {
+      "threshold": 0.8363,
+      "fpr": 0.001768867924528302,
+      "recall": 0.5,
+      "fp": 3,
+      "tp": 1
+    }
+  },
+  {
+    "pcap": "session3_udp_flood_volumetric_port80_50pps_rep1.pcap",
+    "total_extracted_flows": 1587,
+    "flows_ge_2_pkts": 1587,
+    "n_benign_flows": 1585,
+    "n_attack_flows": 2,
+    "rf_full_25": {
+      "threshold": 0.1288,
+      "fpr": 0.9962145110410094,
+      "recall": 1.0,
+      "fp": 1579,
+      "tp": 2
+    },
+    "knn_full_25": {
+      "threshold": 0.1268,
+      "fpr": 0.2561514195583596,
+      "recall": 0.5,
+      "fp": 406,
+      "tp": 1
+    },
+    "rf_robust_14": {
+      "threshold": 0.991,
+      "fpr": 0.0,
+      "recall": 0.0,
+      "fp": 0,
+      "tp": 0
+    },
+    "knn_robust_14_diagnostic": {
+      "threshold": 0.8363,
+      "fpr": 0.0018927444794952682,
+      "recall": 0.5,
+      "fp": 3,
+      "tp": 1
+    }
+  },
+  {
+    "pcap": "session3_udp_flood_volumetric_port80_50pps_rep2.pcap",
+    "total_extracted_flows": 1623,
+    "flows_ge_2_pkts": 1623,
+    "n_benign_flows": 1621,
+    "n_attack_flows": 2,
+    "rf_full_25": {
+      "threshold": 0.1288,
+      "fpr": 0.9925971622455274,
+      "recall": 1.0,
+      "fp": 1609,
+      "tp": 2
+    },
+    "knn_full_25": {
+      "threshold": 0.1268,
+      "fpr": 0.25848241826033314,
+      "recall": 0.5,
+      "fp": 419,
+      "tp": 1
+    },
+    "rf_robust_14": {
+      "threshold": 0.991,
+      "fpr": 0.0,
+      "recall": 0.0,
+      "fp": 0,
+      "tp": 0
+    },
+    "knn_robust_14_diagnostic": {
+      "threshold": 0.8363,
+      "fpr": 0.0012338062924120913,
+      "recall": 0.5,
+      "fp": 2,
+      "tp": 1
+    }
+  },
+  {
+    "pcap": "session3_udp_flood_volumetric_port80_50pps_rep3.pcap",
+    "total_extracted_flows": 1611,
+    "flows_ge_2_pkts": 1611,
+    "n_benign_flows": 1609,
+    "n_attack_flows": 2,
+    "rf_full_25": {
+      "threshold": 0.1288,
+      "fpr": 0.9962709757613425,
+      "recall": 1.0,
+      "fp": 1603,
+      "tp": 2
+    },
+    "knn_full_25": {
+      "threshold": 0.1268,
+      "fpr": 0.25854568054692356,
+      "recall": 0.5,
+      "fp": 416,
+      "tp": 1
+    },
+    "rf_robust_14": {
+      "threshold": 0.991,
+      "fpr": 0.0,
+      "recall": 0.0,
+      "fp": 0,
+      "tp": 0
+    },
+    "knn_robust_14_diagnostic": {
+      "threshold": 0.8363,
+      "fpr": 0.0018645121193287756,
+      "recall": 0.5,
+      "fp": 3,
+      "tp": 1
+    }
+  }
+]
