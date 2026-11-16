@@ -1,0 +1,119 @@
+{
+  "metadata": {
+    "experiment": "Session 2c UDP Multi-Protocol & Flood Benchmark",
+    "benign_protocols": "DNS (UDP:53), NTP (UDP:123), Echo (UDP:7), Streaming RTP (UDP:5004, 15 pps), Bursty HTTP (TCP:80)",
+    "flood_rates_tested": [
+      30,
+      80,
+      300
+    ]
+  },
+  "per_scenario_udp_rates": {
+    "benign": {
+      "total_packets": 1211,
+      "duration_seconds": 56,
+      "steady_state_seconds": 54,
+      "rate_stats": {
+        "min": 19,
+        "median": 21.0,
+        "p95": 25.0,
+        "max": 25
+      }
+    },
+    "flood_30": {
+      "total_packets": 807,
+      "duration_seconds": 26,
+      "steady_state_seconds": 24,
+      "rate_stats": {
+        "min": 30,
+        "median": 31.0,
+        "p95": 31.0,
+        "max": 31
+      }
+    },
+    "flood_80": {
+      "total_packets": 2082,
+      "duration_seconds": 26,
+      "steady_state_seconds": 24,
+      "rate_stats": {
+        "min": 79,
+        "median": 80.0,
+        "p95": 80.0,
+        "max": 80
+      }
+    },
+    "flood_300": {
+      "total_packets": 7480,
+      "duration_seconds": 27,
+      "steady_state_seconds": 25,
+      "rate_stats": {
+        "min": 285,
+        "median": 287.0,
+        "p95": 292.0,
+        "max": 292
+      }
+    }
+  },
+  "single_threshold_sweep": [
+    {
+      "threshold_udp_pps": 25,
+      "benign_fps": 4,
+      "benign_total_sec": 54,
+      "benign_fpr": 0.0741,
+      "recall_30_pps": 1.0,
+      "recall_80_pps": 1.0,
+      "recall_300_pps": 1.0
+    },
+    {
+      "threshold_udp_pps": 30,
+      "benign_fps": 0,
+      "benign_total_sec": 54,
+      "benign_fpr": 0.0,
+      "recall_30_pps": 1.0,
+      "recall_80_pps": 1.0,
+      "recall_300_pps": 1.0
+    },
+    {
+      "threshold_udp_pps": 35,
+      "benign_fps": 0,
+      "benign_total_sec": 54,
+      "benign_fpr": 0.0,
+      "recall_30_pps": 0.0,
+      "recall_80_pps": 1.0,
+      "recall_300_pps": 1.0
+    },
+    {
+      "threshold_udp_pps": 40,
+      "benign_fps": 0,
+      "benign_total_sec": 54,
+      "benign_fpr": 0.0,
+      "recall_30_pps": 0.0,
+      "recall_80_pps": 1.0,
+      "recall_300_pps": 1.0
+    },
+    {
+      "threshold_udp_pps": 50,
+      "benign_fps": 0,
+      "benign_total_sec": 54,
+      "benign_fpr": 0.0,
+      "recall_30_pps": 0.0,
+      "recall_80_pps": 1.0,
+      "recall_300_pps": 1.0
+    }
+  ],
+  "frozen_dual_udp_rule": {
+    "name": "Packet-Level Dual-Condition UDP Rule (Frozen on Session 2c)",
+    "condition_1_volumetric": "udp_packets_per_sec >= 40 (any destination port distribution)",
+    "condition_2_random_port_flood": "udp_packets_per_sec >= 30 AND distinct_dst_ports >= 10",
+    "safety_margin": "Benign max UDP rate was 25 pps (streaming RTP @ 15 pps + DNS/NTP/Echo @ 10 pps across 4 ports). Thresholds 30 and 40 provide >= 5 pps margin.",
+    "action": "Alert-Only (Passive Logging)",
+    "evaluation_results": {
+      "benign_fpr": 0.0,
+      "benign_fps": 0,
+      "benign_total_seconds": 54,
+      "recall_30_pps": 1.0,
+      "recall_80_pps": 1.0,
+      "recall_300_pps": 1.0
+    }
+  }
+}

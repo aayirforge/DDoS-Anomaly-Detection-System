@@ -1,0 +1,17 @@
+{
+  "victim-web": {
+    "repository": "lab-victim-web",
+    "tag": "latest",
+    "image_id_sha256": "b2b905c60aeb5538b82a9fab4f2a34c51ab98145262cfc02e334778841cc6297"
+  },
+  "benign-client": {
+    "repository": "lab-benign-client",
+    "tag": "latest",
+    "image_id_sha256": "57b3535c16934f531e0c03c7bfa9276b9ceca1c1a278b34013e5706b410ece46"
+  },
+  "traffic-generator": {
+    "repository": "lab-traffic-generator",
+    "tag": "latest",
+    "image_id_sha256": "7cc398fd865c7f52dec5c55ca96ca8e20727bb2cdc264361180ad50bebcf4ff4"
+  }
+}

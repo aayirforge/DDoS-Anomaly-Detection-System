@@ -1,0 +1,278 @@
+{
+  "metadata": {
+    "model": "KNN Robust 14 (Log1p+Clip) (Window-Max)",
+    "explanation_of_shift": "The shift from FPR 1.00% / recall 96.3% / AUC 0.961 to 0.83% / 31.5% / 0.989 occurred because: 1. Training rows: The earlier exploratory script trained on the FULL Day 1 training set (N = 170,884) with uniform weights (weights='uniform'), where discrete step posteriors (k/5 in {0, 0.2, 0.4, 0.6, 0.8, 1.0}) caused 52/54 flood windows to tie at score 1.0 (96.3% recall at exactly 12/1200 FPs = 1.00% FPR). 2. Distance weighting & 25k subsample: In recompute_candidate_selection_preregistered.py, the model was aligned with the frozen baseline's training protocol (weights='distance' on a 25,000 Day 1 subsample with seed 42). Under distance weighting, nearest neighbor distances break the discrete ties, yielding continuous posteriors with higher rank-order discrimination (AUC 0.9886 vs 0.9610). At the exact fixed threshold 1.0000, 10 benign windows and 17 flood windows score >= 1.0000 (FPR = 0.83%, recall = 31.48%). When the threshold is calibrated to achieve the full allowable 1.00% FPR (12 FPs), recall increases.",
+    "features": [
+      "Bwd Packets/s",
+      "Down/Up Ratio",
+      "Bwd Packet Length Mean",
+      "Bwd Packet Length Max",
+      "Total Length of Bwd Packets",
+      "Bwd Header Length",
+      "Flow Packets/s",
+      "Total Backward Packets",
+      "Bwd Packet Length Min",
+      "Flow Bytes/s",
+      "Total Length of Fwd Packets",
+      "Total Fwd Packets",
+      "Fwd Packet Length Max",
+      "Idle Std"
+    ],
+    "n_benign_windows": 1200,
+    "n_flood_windows": 54
+  },
+  "experiments": [
+    {
+      "setup": "25k Subsample",
+      "subsample_size": 25000,
+      "weights": "distance",
+      "seed": 42,
+      "roc_auc": 0.9888,
+      "fixed_threshold_1_0": {
+        "threshold": 1.0,
+        "false_positives": 10,
+        "benign_fpr": 0.0083,
+        "true_positives": 17,
+        "flood_recall": 0.3148
+      },
+      "constrained_fpr_1_0": {
+        "threshold": 0.8086,
+        "false_positives": 12,
+        "benign_fpr": 0.01,
+        "true_positives": 49,
+        "flood_recall": 0.9074
+      }
+    },
+    {
+      "setup": "25k Subsample",
+      "subsample_size": 25000,
+      "weights": "distance",
+      "seed": 123,
+      "roc_auc": 0.999,
+      "fixed_threshold_1_0": {
+        "threshold": 1.0,
+        "false_positives": 0,
+        "benign_fpr": 0.0,
+        "true_positives": 12,
+        "flood_recall": 0.2222
+      },
+      "constrained_fpr_1_0": {
+        "threshold": 0.8016,
+        "false_positives": 12,
+        "benign_fpr": 0.01,
+        "true_positives": 52,
+        "flood_recall": 0.963
+      }
+    },
+    {
+      "setup": "25k Subsample",
+      "subsample_size": 25000,
+      "weights": "distance",
+      "seed": 456,
+      "roc_auc": 0.9729,
+      "fixed_threshold_1_0": {
+        "threshold": 1.0,
+        "false_positives": 0,
+        "benign_fpr": 0.0,
+        "true_positives": 15,
+        "flood_recall": 0.2778
+      },
+      "constrained_fpr_1_0": {
+        "threshold": 0.6942,
+        "false_positives": 12,
+        "benign_fpr": 0.01,
+        "true_positives": 52,
+        "flood_recall": 0.963
+      }
+    },
+    {
+      "setup": "25k Subsample",
+      "subsample_size": 25000,
+      "weights": "distance",
+      "seed": 789,
+      "roc_auc": 0.9761,
+      "fixed_threshold_1_0": {
+        "threshold": 1.0,
+        "false_positives": 0,
+        "benign_fpr": 0.0,
+        "true_positives": 17,
+        "flood_recall": 0.3148
+      },
+      "constrained_fpr_1_0": {
+        "threshold": 0.5307,
+        "false_positives": 12,
+        "benign_fpr": 0.01,
+        "true_positives": 52,
+        "flood_recall": 0.963
+      }
+    },
+    {
+      "setup": "25k Subsample",
+      "subsample_size": 25000,
+      "weights": "distance",
+      "seed": 1000,
+      "roc_auc": 0.7333,
+      "fixed_threshold_1_0": {
+        "threshold": 1.0,
+        "false_positives": 2,
+        "benign_fpr": 0.0017,
+        "true_positives": 19,
+        "flood_recall": 0.3519
+      },
+      "constrained_fpr_1_0": {
+        "threshold": 0.6047,
+        "false_positives": 12,
+        "benign_fpr": 0.01,
+        "true_positives": 19,
+        "flood_recall": 0.3519
+      }
+    },
+    {
+      "setup": "25k Subsample",
+      "subsample_size": 25000,
+      "weights": "uniform",
+      "seed": 42,
+      "roc_auc": 0.6865,
+      "fixed_threshold_1_0": {
+        "threshold": 1.0,
+        "false_positives": 10,
+        "benign_fpr": 0.0083,
+        "true_positives": 17,
+        "flood_recall": 0.3148
+      },
+      "constrained_fpr_1_0": {
+        "threshold": 0.8,
+        "false_positives": 12,
+        "benign_fpr": 0.01,
+        "true_positives": 19,
+        "flood_recall": 0.3519
+      }
+    },
+    {
+      "setup": "25k Subsample",
+      "subsample_size": 25000,
+      "weights": "uniform",
+      "seed": 123,
+      "roc_auc": 0.8543,
+      "fixed_threshold_1_0": {
+        "threshold": 1.0,
+        "false_positives": 0,
+        "benign_fpr": 0.0,
+        "true_positives": 12,
+        "flood_recall": 0.2222
+      },
+      "constrained_fpr_1_0": {
+        "threshold": 0.801,
+        "false_positives": 0,
+        "benign_fpr": 0.0,
+        "true_positives": 12,
+        "flood_recall": 0.2222
+      }
+    },
+    {
+      "setup": "25k Subsample",
+      "subsample_size": 25000,
+      "weights": "uniform",
+      "seed": 456,
+      "roc_auc": 0.9485,
+      "fixed_threshold_1_0": {
+        "threshold": 1.0,
+        "false_positives": 0,
+        "benign_fpr": 0.0,
+        "true_positives": 15,
+        "flood_recall": 0.2778
+      },
+      "constrained_fpr_1_0": {
+        "threshold": 0.801,
+        "false_positives": 0,
+        "benign_fpr": 0.0,
+        "true_positives": 15,
+        "flood_recall": 0.2778
+      }
+    },
+    {
+      "setup": "25k Subsample",
+      "subsample_size": 25000,
+      "weights": "uniform",
+      "seed": 789,
+      "roc_auc": 0.9435,
+      "fixed_threshold_1_0": {
+        "threshold": 1.0,
+        "false_positives": 0,
+        "benign_fpr": 0.0,
+        "true_positives": 17,
+        "flood_recall": 0.3148
+      },
+      "constrained_fpr_1_0": {
+        "threshold": 0.601,
+        "false_positives": 0,
+        "benign_fpr": 0.0,
+        "true_positives": 19,
+        "flood_recall": 0.3519
+      }
+    },
+    {
+      "setup": "25k Subsample",
+      "subsample_size": 25000,
+      "weights": "uniform",
+      "seed": 1000,
+      "roc_auc": 0.8522,
+      "fixed_threshold_1_0": {
+        "threshold": 1.0,
+        "false_positives": 2,
+        "benign_fpr": 0.0017,
+        "true_positives": 19,
+        "flood_recall": 0.3519
+      },
+      "constrained_fpr_1_0": {
+        "threshold": 0.601,
+        "false_positives": 6,
+        "benign_fpr": 0.005,
+        "true_positives": 19,
+        "flood_recall": 0.3519
+      }
+    },
+    {
+      "setup": "Full Train Set (No Subsample)",
+      "subsample_size": 207023,
+      "weights": "distance",
+      "seed": "All (None)",
+      "roc_auc": 0.961,
+      "fixed_threshold_1_0": {
+        "threshold": 1.0,
+        "false_positives": 12,
+        "benign_fpr": 0.01,
+        "true_positives": 52,
+        "flood_recall": 0.963
+      },
+      "constrained_fpr_1_0": {
+        "threshold": 1.0,
+        "false_positives": 12,
+        "benign_fpr": 0.01,
+        "true_positives": 52,
+        "flood_recall": 0.963
+      }
+    },
+    {
+      "setup": "Full Train Set (No Subsample)",
+      "subsample_size": 207023,
+      "weights": "uniform",
+      "seed": "All (None)",
+      "roc_auc": 0.961,
+      "fixed_threshold_1_0": {
+        "threshold": 1.0,
+        "false_positives": 12,
+        "benign_fpr": 0.01,
+        "true_positives": 52,
+        "flood_recall": 0.963
+      },
+      "constrained_fpr_1_0": {
+        "threshold": 1.0,
+        "false_positives": 12,
+        "benign_fpr": 0.01,
+        "true_positives": 52,
+        "flood_recall": 0.963
+      }
+    }
+  ]
+}
