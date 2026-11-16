@@ -1,0 +1,652 @@
+{
+  "Bwd Packets/s": {
+    "lab": {
+      "p5": 0.32087791274213523,
+      "p50": 6018.054162487462,
+      "p95": 13290.881546763027,
+      "is_binary": false
+    },
+    "train": {
+      "p5": 0.0,
+      "p50": 62.25103759765625,
+      "p95": 12269.9384765625,
+      "is_binary": false
+    },
+    "day2": {
+      "p5": 0.0,
+      "p50": 37.94921875,
+      "p95": 17543.859375
+    },
+    "tr_overlap": true,
+    "d2_overlap": true,
+    "ks_tr": 0.734382886143172,
+    "ks_d2": 0.728818052097145,
+    "binary_mismatch": false,
+    "status": "HIGH_SHIFT",
+    "reasons": "High KS distance (D_tr=0.73, D_d2=0.73)"
+  },
+  "URG Flag Count": {
+    "lab": {
+      "p5": 0.0,
+      "p50": 0.0,
+      "p95": 0.0,
+      "is_binary": true
+    },
+    "train": {
+      "p5": 0.0,
+      "p50": 0.0,
+      "p95": 1.0,
+      "is_binary": true
+    },
+    "day2": {
+      "p5": 0.0,
+      "p50": 0.0,
+      "p95": 1.0
+    },
+    "tr_overlap": true,
+    "d2_overlap": true,
+    "ks_tr": 0.38954420286876823,
+    "ks_d2": 0.4359181182010421,
+    "binary_mismatch": false,
+    "status": "MOD_SHIFT",
+    "reasons": "Moderate shift (D_tr=0.39, D_d2=0.44)"
+  },
+  "Down/Up Ratio": {
+    "lab": {
+      "p5": 0.8571428571428571,
+      "p50": 0.8571428571428571,
+      "p95": 1.0,
+      "is_binary": false
+    },
+    "train": {
+      "p5": 0.0,
+      "p50": 1.0,
+      "p95": 3.0,
+      "is_binary": false
+    },
+    "day2": {
+      "p5": 0.0,
+      "p50": 1.0,
+      "p95": 3.0
+    },
+    "tr_overlap": true,
+    "d2_overlap": true,
+    "ks_tr": 0.6738525923184766,
+    "ks_d2": 0.588623733505397,
+    "binary_mismatch": false,
+    "status": "MOD_SHIFT",
+    "reasons": "Moderate shift (D_tr=0.67, D_d2=0.59)"
+  },
+  "Bwd Packet Length Mean": {
+    "lab": {
+      "p5": 96.14285714285714,
+      "p50": 156.16666666666666,
+      "p95": 21918.20833333333,
+      "is_binary": false
+    },
+    "train": {
+      "p5": -9.5367431640625e-07,
+      "p50": 48.0,
+      "p95": 496.64173889160156,
+      "is_binary": false
+    },
+    "day2": {
+      "p5": -9.5367431640625e-07,
+      "p50": 41.44444274902344,
+      "p95": 629.5833129882812
+    },
+    "tr_overlap": true,
+    "d2_overlap": true,
+    "ks_tr": 0.7200265183751899,
+    "ks_d2": 0.7371341702433658,
+    "binary_mismatch": false,
+    "status": "HIGH_SHIFT",
+    "reasons": "High KS distance (D_tr=0.72, D_d2=0.74)"
+  },
+  "Bwd Packet Length Max": {
+    "lab": {
+      "p5": 184.0,
+      "p50": 475.0,
+      "p95": 65226.0,
+      "is_binary": false
+    },
+    "train": {
+      "p5": 0.0,
+      "p50": 51.0,
+      "p95": 2860.0,
+      "is_binary": false
+    },
+    "day2": {
+      "p5": 0.0,
+      "p50": 46.0,
+      "p95": 2709.0
+    },
+    "tr_overlap": true,
+    "d2_overlap": true,
+    "ks_tr": 0.8293520701404277,
+    "ks_d2": 0.8101432609542725,
+    "binary_mismatch": false,
+    "status": "HIGH_SHIFT",
+    "reasons": "High KS distance (D_tr=0.83, D_d2=0.81)"
+  },
+  "Init_Win_bytes_forward": {
+    "lab": {
+      "p5": 64240.0,
+      "p50": 64240.0,
+      "p95": 64240.0,
+      "is_binary": false
+    },
+    "train": {
+      "p5": -1.0,
+      "p50": 252.0,
+      "p95": 64240.00390625,
+      "is_binary": false
+    },
+    "day2": {
+      "p5": -1.0,
+      "p50": 255.0,
+      "p95": 29200.0
+    },
+    "tr_overlap": true,
+    "d2_overlap": false,
+    "ks_tr": 0.9311152529113783,
+    "ks_d2": 0.9954019211099264,
+    "binary_mismatch": false,
+    "status": "HIGH_SHIFT",
+    "reasons": "High KS distance (D_tr=0.93, D_d2=1.00)"
+  },
+  "Init_Win_bytes_backward": {
+    "lab": {
+      "p5": 65160.0,
+      "p50": 65160.0,
+      "p95": 65160.0,
+      "is_binary": false
+    },
+    "train": {
+      "p5": -1.0,
+      "p50": -1.0,
+      "p95": 29200.0,
+      "is_binary": false
+    },
+    "day2": {
+      "p5": -1.0,
+      "p50": 0.0,
+      "p95": 29200.0
+    },
+    "tr_overlap": false,
+    "d2_overlap": false,
+    "ks_tr": 0.9994231728489066,
+    "ks_d2": 0.997952552227626,
+    "binary_mismatch": false,
+    "status": "DISJOINT",
+    "reasons": "No p5-p95 overlap with Train or Day 2"
+  },
+  "Total Length of Bwd Packets": {
+    "lab": {
+      "p5": 590.0,
+      "p50": 938.0,
+      "p95": 526103.0,
+      "is_binary": false
+    },
+    "train": {
+      "p5": 0.0,
+      "p50": 106.0,
+      "p95": 9227.0,
+      "is_binary": false
+    },
+    "day2": {
+      "p5": 0.0,
+      "p50": 94.0,
+      "p95": 12098.0
+    },
+    "tr_overlap": true,
+    "d2_overlap": true,
+    "ks_tr": 0.8543407676867678,
+    "ks_d2": 0.8169885444667313,
+    "binary_mismatch": false,
+    "status": "HIGH_SHIFT",
+    "reasons": "High KS distance (D_tr=0.85, D_d2=0.82)"
+  },
+  "Bwd IAT Total": {
+    "lab": {
+      "p5": 633.0,
+      "p50": 1187.49999999995,
+      "p95": 41130174.75,
+      "is_binary": false
+    },
+    "train": {
+      "p5": 0.0,
+      "p50": 3.0,
+      "p95": 110339772.0,
+      "is_binary": false
+    },
+    "day2": {
+      "p5": 0.0,
+      "p50": 3.0,
+      "p95": 113195104.0
+    },
+    "tr_overlap": true,
+    "d2_overlap": true,
+    "ks_tr": 0.7892513815425278,
+    "ks_d2": 0.7485459381444157,
+    "binary_mismatch": false,
+    "status": "HIGH_SHIFT",
+    "reasons": "High KS distance (D_tr=0.79, D_d2=0.75)"
+  },
+  "Bwd IAT Min": {
+    "lab": {
+      "p5": 19.0,
+      "p50": 54.0,
+      "p95": 108.0,
+      "is_binary": false
+    },
+    "train": {
+      "p5": 0.0,
+      "p50": 2.0,
+      "p95": 3.0,
+      "is_binary": false
+    },
+    "day2": {
+      "p5": 0.0,
+      "p50": 1.0,
+      "p95": 3.0
+    },
+    "tr_overlap": false,
+    "d2_overlap": false,
+    "ks_tr": 0.9841042531296698,
+    "ks_d2": 0.9733938812893221,
+    "binary_mismatch": false,
+    "status": "DISJOINT",
+    "reasons": "No p5-p95 overlap with Train or Day 2"
+  },
+  "Bwd Header Length": {
+    "lab": {
+      "p5": 120.0,
+      "p50": 120.0,
+      "p95": 500.0,
+      "is_binary": false
+    },
+    "train": {
+      "p5": 0.0,
+      "p50": 40.0,
+      "p95": 648.0,
+      "is_binary": false
+    },
+    "day2": {
+      "p5": 0.0,
+      "p50": 40.0,
+      "p95": 1008.0
+    },
+    "tr_overlap": true,
+    "d2_overlap": true,
+    "ks_tr": 0.8065671575371232,
+    "ks_d2": 0.7610659651532489,
+    "binary_mismatch": false,
+    "status": "HIGH_SHIFT",
+    "reasons": "High KS distance (D_tr=0.81, D_d2=0.76)"
+  },
+  "Flow Packets/s": {
+    "lab": {
+      "p5": 0.6678744335750431,
+      "p50": 12993.506493506495,
+      "p95": 27675.934759892767,
+      "is_binary": false
+    },
+    "train": {
+      "p5": 0.5625,
+      "p50": 191.75,
+      "p95": 63829.8125,
+      "is_binary": false
+    },
+    "day2": {
+      "p5": 0.5,
+      "p50": 180.0625,
+      "p95": 1000000.0
+    },
+    "tr_overlap": true,
+    "d2_overlap": true,
+    "ks_tr": 0.6543202957443074,
+    "ks_d2": 0.6022550286221549,
+    "binary_mismatch": false,
+    "status": "MOD_SHIFT",
+    "reasons": "Moderate shift (D_tr=0.65, D_d2=0.60)"
+  },
+  "Bwd IAT Max": {
+    "lab": {
+      "p5": 283.0,
+      "p50": 513.0,
+      "p95": 40994037.25,
+      "is_binary": false
+    },
+    "train": {
+      "p5": -0.0625,
+      "p50": 3.0,
+      "p95": 10192101.0,
+      "is_binary": false
+    },
+    "day2": {
+      "p5": -0.0625,
+      "p50": 3.0,
+      "p95": 58162990.0
+    },
+    "tr_overlap": true,
+    "d2_overlap": true,
+    "ks_tr": 0.7862241704594548,
+    "ks_d2": 0.7410786757212956,
+    "binary_mismatch": false,
+    "status": "HIGH_SHIFT",
+    "reasons": "High KS distance (D_tr=0.79, D_d2=0.74)"
+  },
+  "Total Backward Packets": {
+    "lab": {
+      "p5": 6.0,
+      "p50": 6.0,
+      "p95": 25.0,
+      "is_binary": false
+    },
+    "train": {
+      "p5": 0.0,
+      "p50": 2.0,
+      "p95": 28.0,
+      "is_binary": false
+    },
+    "day2": {
+      "p5": 0.0,
+      "p50": 2.0,
+      "p95": 38.0
+    },
+    "tr_overlap": true,
+    "d2_overlap": true,
+    "ks_tr": 0.8138007278794848,
+    "ks_d2": 0.7742333257950487,
+    "binary_mismatch": false,
+    "status": "HIGH_SHIFT",
+    "reasons": "High KS distance (D_tr=0.81, D_d2=0.77)"
+  },
+  "Bwd IAT Mean": {
+    "lab": {
+      "p5": 79.81388888888888,
+      "p50": 191.18333333325,
+      "p95": 3397565.5909090913,
+      "is_binary": false
+    },
+    "train": {
+      "p5": 0.0,
+      "p50": 3.0,
+      "p95": 3343622.25,
+      "is_binary": false
+    },
+    "day2": {
+      "p5": 0.0,
+      "p50": 3.0,
+      "p95": 3451005.5
+    },
+    "tr_overlap": true,
+    "d2_overlap": true,
+    "ks_tr": 0.7780423263173613,
+    "ks_d2": 0.7315746288948277,
+    "binary_mismatch": false,
+    "status": "HIGH_SHIFT",
+    "reasons": "High KS distance (D_tr=0.78, D_d2=0.73)"
+  },
+  "Bwd Packet Length Min": {
+    "lab": {
+      "p5": 66.0,
+      "p50": 66.0,
+      "p95": 66.0,
+      "is_binary": false
+    },
+    "train": {
+      "p5": 0.0,
+      "p50": 0.0,
+      "p95": 159.0,
+      "is_binary": false
+    },
+    "day2": {
+      "p5": 0.0,
+      "p50": 6.0,
+      "p95": 122.5
+    },
+    "tr_overlap": true,
+    "d2_overlap": true,
+    "ks_tr": 0.7190812222509041,
+    "ks_d2": 0.7867733758416741,
+    "binary_mismatch": false,
+    "status": "HIGH_SHIFT",
+    "reasons": "High KS distance (D_tr=0.72, D_d2=0.79)"
+  },
+  "Flow Bytes/s": {
+    "lab": {
+      "p5": 79.63506040117508,
+      "p50": 1419300.3330358758,
+      "p95": 238497794.19154936,
+      "is_binary": false
+    },
+    "train": {
+      "p5": 0.0,
+      "p50": 4032.0,
+      "p95": 191232.0,
+      "is_binary": false
+    },
+    "day2": {
+      "p5": 0.0,
+      "p50": 6656.0,
+      "p95": 6000000.0
+    },
+    "tr_overlap": true,
+    "d2_overlap": true,
+    "ks_tr": 0.8171890400253483,
+    "ks_d2": 0.7665169127656154,
+    "binary_mismatch": false,
+    "status": "HIGH_SHIFT",
+    "reasons": "High KS distance (D_tr=0.82, D_d2=0.77)"
+  },
+  "Protocol": {
+    "lab": {
+      "p5": 6.0,
+      "p50": 6.0,
+      "p95": 6.0,
+      "is_binary": false
+    },
+    "train": {
+      "p5": 6.0,
+      "p50": 6.0,
+      "p95": 17.0,
+      "is_binary": false
+    },
+    "day2": {
+      "p5": 6.0,
+      "p50": 6.0,
+      "p95": 17.0
+    },
+    "tr_overlap": true,
+    "d2_overlap": true,
+    "ks_tr": 0.40696910191059743,
+    "ks_d2": 0.32417173210162054,
+    "binary_mismatch": false,
+    "status": "MOD_SHIFT",
+    "reasons": "Moderate shift (D_tr=0.41, D_d2=0.32)"
+  },
+  "Total Length of Fwd Packets": {
+    "lab": {
+      "p5": 598.0,
+      "p50": 608.0,
+      "p95": 1862.0,
+      "is_binary": false
+    },
+    "train": {
+      "p5": -0.000244140625,
+      "p50": 70.0,
+      "p95": 3371.0,
+      "is_binary": false
+    },
+    "day2": {
+      "p5": -0.000244140625,
+      "p50": 72.0,
+      "p95": 4517.0
+    },
+    "tr_overlap": true,
+    "d2_overlap": true,
+    "ks_tr": 0.8469031276971765,
+    "ks_d2": 0.7979333347866844,
+    "binary_mismatch": false,
+    "status": "HIGH_SHIFT",
+    "reasons": "High KS distance (D_tr=0.85, D_d2=0.80)"
+  },
+  "CWE Flag Count": {
+    "lab": {
+      "p5": 0.0,
+      "p50": 0.0,
+      "p95": 0.0,
+      "is_binary": true
+    },
+    "train": {
+      "p5": -1.862645149230957e-09,
+      "p50": -1.862645149230957e-09,
+      "p95": 1.0,
+      "is_binary": true
+    },
+    "day2": {
+      "p5": -1.862645149230957e-09,
+      "p50": -1.862645149230957e-09,
+      "p95": 1.0
+    },
+    "tr_overlap": true,
+    "d2_overlap": true,
+    "ks_tr": 0.7874316715301467,
+    "ks_d2": 0.7814741339844347,
+    "binary_mismatch": false,
+    "status": "HIGH_SHIFT",
+    "reasons": "High KS distance (D_tr=0.79, D_d2=0.78)"
+  },
+  "Fwd PSH Flags": {
+    "lab": {
+      "p5": 1.0,
+      "p50": 1.0,
+      "p95": 1.0,
+      "is_binary": true
+    },
+    "train": {
+      "p5": 0.0,
+      "p50": 0.0,
+      "p95": 1.0,
+      "is_binary": true
+    },
+    "day2": {
+      "p5": 0.0,
+      "p50": 0.0,
+      "p95": 1.0
+    },
+    "tr_overlap": true,
+    "d2_overlap": true,
+    "ks_tr": 0.9002081796303788,
+    "ks_d2": 0.8669765543204515,
+    "binary_mismatch": false,
+    "status": "HIGH_SHIFT",
+    "reasons": "High KS distance (D_tr=0.90, D_d2=0.87)"
+  },
+  "Total Fwd Packets": {
+    "lab": {
+      "p5": 7.0,
+      "p50": 7.0,
+      "p95": 26.0,
+      "is_binary": false
+    },
+    "train": {
+      "p5": 1.0,
+      "p50": 2.0,
+      "p95": 32.0,
+      "is_binary": false
+    },
+    "day2": {
+      "p5": 1.0,
+      "p50": 2.0,
+      "p95": 40.0
+    },
+    "tr_overlap": true,
+    "d2_overlap": true,
+    "ks_tr": 0.825735284969247,
+    "ks_d2": 0.7743036237106982,
+    "binary_mismatch": false,
+    "status": "HIGH_SHIFT",
+    "reasons": "High KS distance (D_tr=0.83, D_d2=0.77)"
+  },
+  "Fwd Packet Length Max": {
+    "lab": {
+      "p5": 186.0,
+      "p50": 195.0,
+      "p95": 239.0,
+      "is_binary": false
+    },
+    "train": {
+      "p5": 0.0,
+      "p50": 35.0,
+      "p95": 709.0,
+      "is_binary": false
+    },
+    "day2": {
+      "p5": 0.0,
+      "p50": 35.0,
+      "p95": 989.0
+    },
+    "tr_overlap": true,
+    "d2_overlap": true,
+    "ks_tr": 0.8487115202827669,
+    "ks_d2": 0.8014213773408035,
+    "binary_mismatch": false,
+    "status": "HIGH_SHIFT",
+    "reasons": "High KS distance (D_tr=0.85, D_d2=0.80)"
+  },
+  "Idle Std": {
+    "lab": {
+      "p5": 0.0,
+      "p50": 0.0,
+      "p95": 0.0,
+      "is_binary": true
+    },
+    "train": {
+      "p5": 0.0,
+      "p50": 0.0,
+      "p95": 220208.21875,
+      "is_binary": false
+    },
+    "day2": {
+      "p5": 0.0,
+      "p50": 0.0,
+      "p95": 352761.5
+    },
+    "tr_overlap": true,
+    "d2_overlap": true,
+    "ks_tr": 0.09305001849492422,
+    "ks_d2": 0.12293169976673712,
+    "binary_mismatch": true,
+    "status": "MISMATCH",
+    "reasons": "Binary mismatch (Train=False, Lab=True)"
+  },
+  "ACK Flag Count": {
+    "lab": {
+      "p5": 1.0,
+      "p50": 1.0,
+      "p95": 1.0,
+      "is_binary": true
+    },
+    "train": {
+      "p5": 0.0,
+      "p50": 0.0,
+      "p95": 0.9999999403953552,
+      "is_binary": true
+    },
+    "day2": {
+      "p5": 0.0,
+      "p50": 0.0,
+      "p95": 0.9999999403953552
+    },
+    "tr_overlap": false,
+    "d2_overlap": false,
+    "ks_tr": 0.9995875721748694,
+    "ks_d2": 0.9995875721748694,
+    "binary_mismatch": false,
+    "status": "DISJOINT",
+    "reasons": "No p5-p95 overlap with Train or Day 2"
+  }
+}

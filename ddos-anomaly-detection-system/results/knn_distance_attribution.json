@@ -1,0 +1,281 @@
+{
+  "lab_benign_flows_evaluated": 6014,
+  "n_neighbors": 5,
+  "total_mean_squared_euclidean_distance": 332165.6337,
+  "mean_euclidean_distance": 181.6286,
+  "top_5_features": [
+    {
+      "rank": 1,
+      "feature": "Bwd IAT Min",
+      "mean_squared_distance_contribution": 332074.9065,
+      "percentage_of_total_squared_distance": 99.9727,
+      "mean_absolute_difference_zscore": 178.606,
+      "scaler_std_on_train": 3.7703315672999476,
+      "scaler_mean_on_train": 0.5133632494940176
+    },
+    {
+      "rank": 2,
+      "feature": "Bwd Packet Length Min",
+      "mean_squared_distance_contribution": 25.3331,
+      "percentage_of_total_squared_distance": 0.0076,
+      "mean_absolute_difference_zscore": 1.8462,
+      "scaler_std_on_train": 26.472173122104223,
+      "scaler_mean_on_train": 4.909420692386837
+    },
+    {
+      "rank": 3,
+      "feature": "Init_Win_bytes_forward",
+      "mean_squared_distance_contribution": 22.2824,
+      "percentage_of_total_squared_distance": 0.0067,
+      "mean_absolute_difference_zscore": 2.727,
+      "scaler_std_on_train": 7285.504514044859,
+      "scaler_mean_on_train": 2033.0860145974118
+    },
+    {
+      "rank": 4,
+      "feature": "Fwd PSH Flags",
+      "mean_squared_distance_contribution": 7.9255,
+      "percentage_of_total_squared_distance": 0.0024,
+      "mean_absolute_difference_zscore": 0.8557,
+      "scaler_std_on_train": 0.1079659674393605,
+      "scaler_mean_on_train": 0.01179579080585249
+    },
+    {
+      "rank": 5,
+      "feature": "Down/Up Ratio",
+      "mean_squared_distance_contribution": 5.18,
+      "percentage_of_total_squared_distance": 0.0016,
+      "mean_absolute_difference_zscore": 1.113,
+      "scaler_std_on_train": 0.4887931382969172,
+      "scaler_mean_on_train": 0.13414451534370578
+    }
+  ],
+  "all_25_features": [
+    {
+      "rank": 1,
+      "feature": "Bwd IAT Min",
+      "mean_squared_distance_contribution": 332074.9065,
+      "percentage_of_total_squared_distance": 99.9727,
+      "mean_absolute_difference_zscore": 178.606,
+      "scaler_std_on_train": 3.7703315672999476,
+      "scaler_mean_on_train": 0.5133632494940176
+    },
+    {
+      "rank": 2,
+      "feature": "Bwd Packet Length Min",
+      "mean_squared_distance_contribution": 25.3331,
+      "percentage_of_total_squared_distance": 0.0076,
+      "mean_absolute_difference_zscore": 1.8462,
+      "scaler_std_on_train": 26.472173122104223,
+      "scaler_mean_on_train": 4.909420692386837
+    },
+    {
+      "rank": 3,
+      "feature": "Init_Win_bytes_forward",
+      "mean_squared_distance_contribution": 22.2824,
+      "percentage_of_total_squared_distance": 0.0067,
+      "mean_absolute_difference_zscore": 2.727,
+      "scaler_std_on_train": 7285.504514044859,
+      "scaler_mean_on_train": 2033.0860145974118
+    },
+    {
+      "rank": 4,
+      "feature": "Fwd PSH Flags",
+      "mean_squared_distance_contribution": 7.9255,
+      "percentage_of_total_squared_distance": 0.0024,
+      "mean_absolute_difference_zscore": 0.8557,
+      "scaler_std_on_train": 0.1079659674393605,
+      "scaler_mean_on_train": 0.01179579080585249
+    },
+    {
+      "rank": 5,
+      "feature": "Down/Up Ratio",
+      "mean_squared_distance_contribution": 5.18,
+      "percentage_of_total_squared_distance": 0.0016,
+      "mean_absolute_difference_zscore": 1.113,
+      "scaler_std_on_train": 0.4887931382969172,
+      "scaler_mean_on_train": 0.13414451534370578
+    },
+    {
+      "rank": 6,
+      "feature": "URG Flag Count",
+      "mean_squared_distance_contribution": 4.4322,
+      "percentage_of_total_squared_distance": 0.0013,
+      "mean_absolute_difference_zscore": 0.9441,
+      "scaler_std_on_train": 0.21300771009481706,
+      "scaler_mean_on_train": 0.04764204943412085
+    },
+    {
+      "rank": 7,
+      "feature": "CWE Flag Count",
+      "mean_squared_distance_contribution": 4.2066,
+      "percentage_of_total_squared_distance": 0.0013,
+      "mean_absolute_difference_zscore": 0.6755,
+      "scaler_std_on_train": 0.16058673749915495,
+      "scaler_mean_on_train": 0.026489810310931637
+    },
+    {
+      "rank": 8,
+      "feature": "ACK Flag Count",
+      "mean_squared_distance_contribution": 4.2016,
+      "percentage_of_total_squared_distance": 0.0013,
+      "mean_absolute_difference_zscore": 1.6459,
+      "scaler_std_on_train": 0.3917335095436263,
+      "scaler_mean_on_train": 0.1892833163464929
+    },
+    {
+      "rank": 9,
+      "feature": "Bwd Packet Length Mean",
+      "mean_squared_distance_contribution": 3.871,
+      "percentage_of_total_squared_distance": 0.0012,
+      "mean_absolute_difference_zscore": 0.9386,
+      "scaler_std_on_train": 98.6109352334341,
+      "scaler_mean_on_train": 13.708280154736917
+    },
+    {
+      "rank": 10,
+      "feature": "Total Backward Packets",
+      "mean_squared_distance_contribution": 3.5991,
+      "percentage_of_total_squared_distance": 0.0011,
+      "mean_absolute_difference_zscore": 0.5503,
+      "scaler_std_on_train": 15.161408262441041,
+      "scaler_mean_on_train": 1.0647077860914005
+    },
+    {
+      "rank": 11,
+      "feature": "Bwd IAT Total",
+      "mean_squared_distance_contribution": 2.4936,
+      "percentage_of_total_squared_distance": 0.0008,
+      "mean_absolute_difference_zscore": 0.2965,
+      "scaler_std_on_train": 10967208.810832355,
+      "scaler_mean_on_train": 1421758.4433323834
+    },
+    {
+      "rank": 12,
+      "feature": "Protocol",
+      "mean_squared_distance_contribution": 2.4076,
+      "percentage_of_total_squared_distance": 0.0007,
+      "mean_absolute_difference_zscore": 1.0335,
+      "scaler_std_on_train": 4.722040438829767,
+      "scaler_mean_on_train": 14.359201634600986
+    },
+    {
+      "rank": 13,
+      "feature": "Bwd IAT Max",
+      "mean_squared_distance_contribution": 1.4538,
+      "percentage_of_total_squared_distance": 0.0004,
+      "mean_absolute_difference_zscore": 0.2379,
+      "scaler_std_on_train": 6601046.54414045,
+      "scaler_mean_on_train": 835010.1693096902
+    },
+    {
+      "rank": 14,
+      "feature": "Bwd Packet Length Max",
+      "mean_squared_distance_contribution": 1.3766,
+      "percentage_of_total_squared_distance": 0.0004,
+      "mean_absolute_difference_zscore": 0.6004,
+      "scaler_std_on_train": 490.15394570013666,
+      "scaler_mean_on_train": 44.95500982982567
+    },
+    {
+      "rank": 15,
+      "feature": "Total Length of Bwd Packets",
+      "mean_squared_distance_contribution": 1.0871,
+      "percentage_of_total_squared_distance": 0.0003,
+      "mean_absolute_difference_zscore": 0.2348,
+      "scaler_std_on_train": 51069.45556003783,
+      "scaler_mean_on_train": 898.7129449384851
+    },
+    {
+      "rank": 16,
+      "feature": "Bwd IAT Mean",
+      "mean_squared_distance_contribution": 0.4684,
+      "percentage_of_total_squared_distance": 0.0001,
+      "mean_absolute_difference_zscore": 0.102,
+      "scaler_std_on_train": 1653137.8734549521,
+      "scaler_mean_on_train": 184352.76952184192
+    },
+    {
+      "rank": 17,
+      "feature": "Fwd Packet Length Max",
+      "mean_squared_distance_contribution": 0.1801,
+      "percentage_of_total_squared_distance": 0.0001,
+      "mean_absolute_difference_zscore": 0.2065,
+      "scaler_std_on_train": 552.9836959053804,
+      "scaler_mean_on_train": 571.9452862725398
+    },
+    {
+      "rank": 18,
+      "feature": "Idle Std",
+      "mean_squared_distance_contribution": 0.1213,
+      "percentage_of_total_squared_distance": 0.0,
+      "mean_absolute_difference_zscore": 0.0267,
+      "scaler_std_on_train": 2242572.8512965213,
+      "scaler_mean_on_train": 618362.2339741794
+    },
+    {
+      "rank": 19,
+      "feature": "Bwd Packets/s",
+      "mean_squared_distance_contribution": 0.0743,
+      "percentage_of_total_squared_distance": 0.0,
+      "mean_absolute_difference_zscore": 0.1128,
+      "scaler_std_on_train": 20113.04164059532,
+      "scaler_mean_on_train": 731.6025777137025
+    },
+    {
+      "rank": 20,
+      "feature": "Total Length of Fwd Packets",
+      "mean_squared_distance_contribution": 0.0183,
+      "percentage_of_total_squared_distance": 0.0,
+      "mean_absolute_difference_zscore": 0.0399,
+      "scaler_std_on_train": 11239.64026558245,
+      "scaler_mean_on_train": 3454.093496857837
+    },
+    {
+      "rank": 21,
+      "feature": "Init_Win_bytes_backward",
+      "mean_squared_distance_contribution": 0.0143,
+      "percentage_of_total_squared_distance": 0.0,
+      "mean_absolute_difference_zscore": 0.05,
+      "scaler_std_on_train": 4179.235542246409,
+      "scaler_mean_on_train": 474.6997724890471
+    },
+    {
+      "rank": 22,
+      "feature": "Total Fwd Packets",
+      "mean_squared_distance_contribution": 0.0003,
+      "percentage_of_total_squared_distance": 0.0,
+      "mean_absolute_difference_zscore": 0.0066,
+      "scaler_std_on_train": 1278.3764612524549,
+      "scaler_mean_on_train": 27.461842403984097
+    },
+    {
+      "rank": 23,
+      "feature": "Flow Packets/s",
+      "mean_squared_distance_contribution": 0.0001,
+      "percentage_of_total_squared_distance": 0.0,
+      "mean_absolute_difference_zscore": 0.005,
+      "scaler_std_on_train": 833513.4468022493,
+      "scaler_mean_on_train": 596966.7147352691
+    },
+    {
+      "rank": 24,
+      "feature": "Flow Bytes/s",
+      "mean_squared_distance_contribution": 0.0,
+      "percentage_of_total_squared_distance": 0.0,
+      "mean_absolute_difference_zscore": 0.0007,
+      "scaler_std_on_train": 971553348.8721399,
+      "scaler_mean_on_train": 556405260.9406182
+    },
+    {
+      "rank": 25,
+      "feature": "Bwd Header Length",
+      "mean_squared_distance_contribution": 0.0,
+      "percentage_of_total_squared_distance": 0.0,
+      "mean_absolute_difference_zscore": 0.0,
+      "scaler_std_on_train": 38514321.92751611,
+      "scaler_mean_on_train": -698110.6313598006
+    }
+  ],
+  "takeaway": "The single feature 'Bwd IAT Min' accounts for 99.97% of the total squared distance between lab benign flows and their 5 nearest training neighbors. This occurs because 'Bwd IAT Min' has an extremely small empirical standard deviation on Day 1 training (3.770332), amplifying even minor millisecond-scale network timing fluctuations by a factor of 1/sigma^2."
+}

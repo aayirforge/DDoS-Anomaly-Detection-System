@@ -1,0 +1,32 @@
+{
+  "LSTM (Logit Space)": {
+    "roc_auc_vs_idle": 1.0,
+    "roc_auc_vs_busy": 1.0,
+    "roc_auc_vs_combined": 1.0,
+    "space": "raw logits"
+  },
+  "Logistic Regression (Window Stats)": {
+    "roc_auc_vs_idle": 1.0,
+    "roc_auc_vs_busy": 1.0,
+    "roc_auc_vs_combined": 1.0,
+    "space": "probabilities"
+  },
+  "Logistic Regression (Window Stats - Logit Space)": {
+    "roc_auc_vs_idle": 1.0,
+    "roc_auc_vs_busy": 1.0,
+    "roc_auc_vs_combined": 1.0,
+    "space": "decision function (logits)"
+  },
+  "KNN Window-Mean": {
+    "roc_auc_vs_idle": 0.1704,
+    "roc_auc_vs_busy": 0.366,
+    "roc_auc_vs_combined": 0.3621,
+    "space": "window mean"
+  },
+  "KNN Window-Max": {
+    "roc_auc_vs_idle": 0.1704,
+    "roc_auc_vs_busy": 0.366,
+    "roc_auc_vs_combined": 0.3621,
+    "space": "window max"
+  }
+}

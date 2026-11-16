@@ -1,0 +1,69 @@
+{
+  "frozen_rule_configuration": {
+    "rule_name": "SYN_Without_Completed_Handshake_Per_Destination",
+    "threshold_incomplete_syns_per_sec": 10,
+    "threshold_distinct_sources": 1,
+    "time_bin_seconds": 1.0,
+    "action": "Alert-Only (No packet drop)",
+    "freeze_basis": "Calibrated and frozen strictly on Session 2 captures."
+  },
+  "session2_evaluation_summary": {
+    "benign_idle_bins": 60,
+    "benign_idle_triggered_false_alarms": 0,
+    "benign_busy_bins": 61,
+    "benign_busy_triggered_false_alarms": 0,
+    "total_benign_seconds": 121,
+    "benign_false_alarm_rate_per_sec": 0.0,
+    "syn_flood_duration_seconds": 60,
+    "syn_flood_detected_seconds": 60,
+    "syn_flood_detection_recall": 1.0,
+    "first_detection_second": 0
+  },
+  "captures": {
+    "lab_idle": {
+      "duration_seconds": 60,
+      "incomplete_syns_per_sec": {
+        "min": 0,
+        "median": 0.0,
+        "mean": 0.0,
+        "max": 0
+      },
+      "distinct_sources_per_sec": {
+        "min": 0,
+        "median": 0.0,
+        "mean": 0.0,
+        "max": 0
+      }
+    },
+    "lab_busy": {
+      "duration_seconds": 61,
+      "incomplete_syns_per_sec": {
+        "min": 0,
+        "median": 0.0,
+        "mean": 0.0,
+        "max": 0
+      },
+      "distinct_sources_per_sec": {
+        "min": 0,
+        "median": 0.0,
+        "mean": 0.0,
+        "max": 0
+      }
+    },
+    "lab_syn_flood": {
+      "duration_seconds": 60,
+      "incomplete_syns_per_sec": {
+        "min": 87,
+        "median": 94.0,
+        "mean": 93.7,
+        "max": 98
+      },
+      "distinct_sources_per_sec": {
+        "min": 1,
+        "median": 1.0,
+        "mean": 1.0,
+        "max": 1
+      }
+    }
+  }
+}

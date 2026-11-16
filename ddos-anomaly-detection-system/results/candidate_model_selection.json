@@ -1,0 +1,316 @@
+{
+  "selection_rule": {
+    "preregistered_selection_rule": "1. Primary Constraint: Combined Benign FPR on Session 2 Java windows <= 1.0% (<= 12 false positives out of 1,200 windows).\n2. Primary Objective: Maximum SYN Flood Recall on attack windows where flows exist (54 windows).\n3. Secondary Tie-Breaker: Day 2 Cross-Day ROC-AUC and Calibrated Recall.",
+    "qualifying_candidates": [
+      "RF Full 25 (Window-Max)",
+      "RF Full 25 (Window-Mean)",
+      "RF Robust 14 (Window-Max)",
+      "RF Robust 14 (Window-Mean)",
+      "KNN Robust 14 (Log1p+Clip) (Window-Max)"
+    ],
+    "selected_champion": "KNN Robust 14 (Log1p+Clip) (Window-Max)",
+    "selection_summary": "Under the pre-registered selection rule (FPR <= 1.0%, then max recall), only one candidate with non-zero recall meets the FPR constraint: 'KNN Robust 14 (Log1p+Clip) (Window-Max)'. All Full 25 models fail with either 0% recall or catastrophic FPR (51%\u201373%). Window-Stats LR Robust 28 achieves 100% recall and 0.9888 AUC but has 12.33% zero-shot FPR at its Day 1 threshold. Therefore, 'KNN Robust 14 (Log1p+Clip) (Window-Max)' is mechanically selected as the champion model."
+  },
+  "candidates": {
+    "RF Full 25 (Window-Max)": {
+      "model_name": "RF Full 25 (Window-Max)",
+      "threshold": 0.9094,
+      "session2": {
+        "idle_fpr": 0.0,
+        "idle_fps": 0,
+        "busy_fpr": 0.0,
+        "busy_fps": 0,
+        "combined_benign_fpr": 0.0,
+        "combined_false_positives": 0,
+        "total_benign_windows": 1200,
+        "flood_windows": 54,
+        "flood_true_positives": 0,
+        "flood_window_recall": 0.0,
+        "roc_auc": 0.0,
+        "meets_preregistered_rule": true
+      },
+      "day2_cross_day": {
+        "zs_rec": 0.8175,
+        "zs_fpr": 0.0031,
+        "cal_rec": 0.8175,
+        "cal_fpr": 0.0016,
+        "auc": 0.9926
+      }
+    },
+    "RF Full 25 (Window-Mean)": {
+      "model_name": "RF Full 25 (Window-Mean)",
+      "threshold": 0.7563,
+      "session2": {
+        "idle_fpr": 0.0,
+        "idle_fps": 0,
+        "busy_fpr": 0.0,
+        "busy_fps": 0,
+        "combined_benign_fpr": 0.0,
+        "combined_false_positives": 0,
+        "total_benign_windows": 1200,
+        "flood_windows": 54,
+        "flood_true_positives": 0,
+        "flood_window_recall": 0.0,
+        "roc_auc": 0.0005,
+        "meets_preregistered_rule": true
+      },
+      "day2_cross_day": {
+        "zs_rec": 0.7712,
+        "zs_fpr": 0.0011,
+        "cal_rec": 0.7712,
+        "cal_fpr": 0.0006,
+        "auc": 0.9936
+      }
+    },
+    "RF Robust 14 (Window-Max)": {
+      "model_name": "RF Robust 14 (Window-Max)",
+      "threshold": 0.9904,
+      "session2": {
+        "idle_fpr": 0.0,
+        "idle_fps": 0,
+        "busy_fpr": 0.0,
+        "busy_fps": 0,
+        "combined_benign_fpr": 0.0,
+        "combined_false_positives": 0,
+        "total_benign_windows": 1200,
+        "flood_windows": 54,
+        "flood_true_positives": 0,
+        "flood_window_recall": 0.0,
+        "roc_auc": 0.9627,
+        "meets_preregistered_rule": true
+      },
+      "day2_cross_day": {
+        "zs_rec": 0.762,
+        "zs_fpr": 0.0025,
+        "cal_rec": 0.762,
+        "cal_fpr": 0.0018,
+        "auc": 0.985
+      }
+    },
+    "RF Robust 14 (Window-Mean)": {
+      "model_name": "RF Robust 14 (Window-Mean)",
+      "threshold": 0.9904,
+      "session2": {
+        "idle_fpr": 0.0,
+        "idle_fps": 0,
+        "busy_fpr": 0.0,
+        "busy_fps": 0,
+        "combined_benign_fpr": 0.0,
+        "combined_false_positives": 0,
+        "total_benign_windows": 1200,
+        "flood_windows": 54,
+        "flood_true_positives": 0,
+        "flood_window_recall": 0.0,
+        "roc_auc": 0.9252,
+        "meets_preregistered_rule": true
+      },
+      "day2_cross_day": {
+        "zs_rec": 0.731,
+        "zs_fpr": 0.0015,
+        "cal_rec": 0.731,
+        "cal_fpr": 0.001,
+        "auc": 0.986
+      }
+    },
+    "KNN Full 25 Frozen Baseline (Window-Max)": {
+      "model_name": "KNN Full 25 Frozen Baseline (Window-Max)",
+      "threshold": 1.0,
+      "session2": {
+        "idle_fpr": 0.7143,
+        "idle_fps": 15,
+        "busy_fpr": 0.6175,
+        "busy_fps": 728,
+        "combined_benign_fpr": 0.6192,
+        "combined_false_positives": 743,
+        "total_benign_windows": 1200,
+        "flood_windows": 54,
+        "flood_true_positives": 2,
+        "flood_window_recall": 0.037,
+        "roc_auc": 0.097,
+        "meets_preregistered_rule": false
+      },
+      "day2_cross_day": {
+        "zs_rec": 0.996,
+        "zs_fpr": 0.0294,
+        "cal_rec": 0.9899,
+        "cal_fpr": 0.0036,
+        "auc": 0.9954
+      }
+    },
+    "KNN Full 25 Frozen Baseline (Window-Mean)": {
+      "model_name": "KNN Full 25 Frozen Baseline (Window-Mean)",
+      "threshold": 0.6482,
+      "session2": {
+        "idle_fpr": 0.1429,
+        "idle_fps": 3,
+        "busy_fpr": 0.1374,
+        "busy_fps": 162,
+        "combined_benign_fpr": 0.1375,
+        "combined_false_positives": 165,
+        "total_benign_windows": 1200,
+        "flood_windows": 54,
+        "flood_true_positives": 0,
+        "flood_window_recall": 0.0,
+        "roc_auc": 0.0869,
+        "meets_preregistered_rule": false
+      },
+      "day2_cross_day": {
+        "zs_rec": 0.994,
+        "zs_fpr": 0.021,
+        "cal_rec": 0.985,
+        "cal_fpr": 0.0025,
+        "auc": 0.996
+      }
+    },
+    "KNN Full 25 (Log1p+Clip) (Window-Max)": {
+      "model_name": "KNN Full 25 (Log1p+Clip) (Window-Max)",
+      "threshold": 1.0,
+      "session2": {
+        "idle_fpr": 1.0,
+        "idle_fps": 21,
+        "busy_fpr": 0.9712,
+        "busy_fps": 1145,
+        "combined_benign_fpr": 0.9717,
+        "combined_false_positives": 1166,
+        "total_benign_windows": 1200,
+        "flood_windows": 54,
+        "flood_true_positives": 8,
+        "flood_window_recall": 0.1481,
+        "roc_auc": 0.0965,
+        "meets_preregistered_rule": false
+      },
+      "day2_cross_day": {
+        "zs_rec": 0.9979,
+        "zs_fpr": 0.0262,
+        "cal_rec": 0.9952,
+        "cal_fpr": 0.0089,
+        "auc": 0.9925
+      }
+    },
+    "KNN Robust 14 Std (Window-Max)": {
+      "model_name": "KNN Robust 14 Std (Window-Max)",
+      "threshold": 1.0,
+      "session2": {
+        "idle_fpr": 0.0952,
+        "idle_fps": 2,
+        "busy_fpr": 0.0628,
+        "busy_fps": 74,
+        "combined_benign_fpr": 0.0633,
+        "combined_false_positives": 76,
+        "total_benign_windows": 1200,
+        "flood_windows": 54,
+        "flood_true_positives": 19,
+        "flood_window_recall": 0.3519,
+        "roc_auc": 0.935,
+        "meets_preregistered_rule": false
+      },
+      "day2_cross_day": {
+        "zs_rec": 0.9926,
+        "zs_fpr": 0.0675,
+        "cal_rec": 0.9758,
+        "cal_fpr": 0.0284,
+        "auc": 0.9786
+      }
+    },
+    "KNN Robust 14 (Log1p+Clip) (Window-Max)": {
+      "model_name": "KNN Robust 14 (Log1p+Clip) (Window-Max)",
+      "threshold": 1.0,
+      "session2": {
+        "idle_fpr": 0.0,
+        "idle_fps": 0,
+        "busy_fpr": 0.0085,
+        "busy_fps": 10,
+        "combined_benign_fpr": 0.0083,
+        "combined_false_positives": 10,
+        "total_benign_windows": 1200,
+        "flood_windows": 54,
+        "flood_true_positives": 17,
+        "flood_window_recall": 0.3148,
+        "roc_auc": 0.9886,
+        "meets_preregistered_rule": true
+      },
+      "day2_cross_day": {
+        "zs_rec": 0.8868,
+        "zs_fpr": 0.0609,
+        "cal_rec": 0.8756,
+        "cal_fpr": 0.0149,
+        "auc": 0.9335
+      }
+    },
+    "Window-Stats LR Full 50": {
+      "model_name": "Window-Stats LR Full 50",
+      "threshold": 0.0731,
+      "session2": {
+        "idle_fpr": 0.2857,
+        "idle_fps": 6,
+        "busy_fpr": 0.1442,
+        "busy_fps": 170,
+        "combined_benign_fpr": 0.1467,
+        "combined_false_positives": 176,
+        "total_benign_windows": 1200,
+        "flood_windows": 54,
+        "flood_true_positives": 48,
+        "flood_window_recall": 0.8889,
+        "roc_auc": 0.8426,
+        "meets_preregistered_rule": false
+      },
+      "day2_cross_day": {
+        "zs_rec": 0.9859,
+        "zs_fpr": 0.0384,
+        "cal_rec": 0.9859,
+        "cal_fpr": 0.01,
+        "auc": 0.9921
+      }
+    },
+    "Window-Stats LR Robust 28": {
+      "model_name": "Window-Stats LR Robust 28",
+      "threshold": 0.6261,
+      "session2": {
+        "idle_fpr": 0.0952,
+        "idle_fps": 2,
+        "busy_fpr": 0.1238,
+        "busy_fps": 146,
+        "combined_benign_fpr": 0.1233,
+        "combined_false_positives": 148,
+        "total_benign_windows": 1200,
+        "flood_windows": 54,
+        "flood_true_positives": 54,
+        "flood_window_recall": 1.0,
+        "roc_auc": 0.9942,
+        "meets_preregistered_rule": false
+      },
+      "day2_cross_day": {
+        "zs_rec": 0.9667,
+        "zs_fpr": 0.0285,
+        "cal_rec": 0.9667,
+        "cal_fpr": 0.0094,
+        "auc": 0.9859
+      }
+    },
+    "LSTM Full 25 (Window)": {
+      "model_name": "LSTM Full 25 (Window)",
+      "threshold": 4.8078,
+      "session2": {
+        "idle_fpr": 0.9524,
+        "idle_fps": 20,
+        "busy_fpr": 0.7311,
+        "busy_fps": 862,
+        "combined_benign_fpr": 0.735,
+        "combined_false_positives": 882,
+        "total_benign_windows": 1200,
+        "flood_windows": 54,
+        "flood_true_positives": 0,
+        "flood_window_recall": 0.0,
+        "roc_auc": 0.0088,
+        "meets_preregistered_rule": false
+      },
+      "day2_cross_day": {
+        "zs_rec": 0.8741,
+        "zs_fpr": 0.0315,
+        "cal_rec": 0.8741,
+        "cal_fpr": 0.0085,
+        "auc": 0.9839
+      }
+    }
+  }
+}

@@ -1,0 +1,540 @@
+{
+  "syn": {
+    "50": {
+      "attack_type": "syn",
+      "rate_pps": 50,
+      "total_flows": 508,
+      "attack_flows": 496,
+      "benign_flows": 12,
+      "attack_score_distribution": {
+        "rf_min": 0.15556065235377237,
+        "rf_median": 0.15556065235377237,
+        "rf_max": 0.28006818181818177,
+        "knn_max": 0.0
+      },
+      "zero_shot": {
+        "flow_rule_rf": {
+          "threshold": 0.1288,
+          "tp": 496,
+          "fp": 11,
+          "recall": 1.0,
+          "false_alarms": 11,
+          "detection_delay_sec": 0.0
+        },
+        "flow_rule_knn": {
+          "threshold": 0.1268,
+          "tp": 0,
+          "fp": 0,
+          "recall": 0.0,
+          "false_alarms": 0,
+          "detection_delay_sec": 0.0
+        },
+        "consecutive_window_rule": {
+          "threshold": 0.9919,
+          "consecutive_k": 2,
+          "total_windows": 499,
+          "alerts_triggered": 0,
+          "tp_alerts": 0,
+          "false_alarms": 0,
+          "recall": 0.0,
+          "detection_delay_sec": 0.0
+        },
+        "destination_aggregator": {
+          "time_bin_sec": 10.0,
+          "anomaly_fraction_threshold": 0.5,
+          "consecutive_windows": 2,
+          "alerts_triggered": 503,
+          "tp_alerts": 494,
+          "false_alarms": 9,
+          "recall": 1.0,
+          "detection_delay_sec": 0.0
+        }
+      },
+      "target_calibrated": {
+        "flow_rule_rf": {
+          "threshold": 0.4036,
+          "tp": 0,
+          "fp": 0,
+          "recall": 0.0,
+          "false_alarms": 0,
+          "detection_delay_sec": 0.0
+        },
+        "flow_rule_knn": {
+          "threshold": 0.29,
+          "tp": 0,
+          "fp": 0,
+          "recall": 0.0,
+          "false_alarms": 0,
+          "detection_delay_sec": 0.0
+        },
+        "consecutive_window_rule": {
+          "threshold": 0.1477,
+          "consecutive_k": 2,
+          "total_windows": 499,
+          "alerts_triggered": 0,
+          "tp_alerts": 0,
+          "false_alarms": 0,
+          "recall": 0.0,
+          "detection_delay_sec": 0.0
+        },
+        "destination_aggregator": {
+          "time_bin_sec": 10.0,
+          "anomaly_fraction_threshold": 0.5,
+          "consecutive_windows": 2,
+          "alerts_triggered": 0,
+          "tp_alerts": 0,
+          "false_alarms": 0,
+          "recall": 0.0,
+          "detection_delay_sec": 0.0
+        }
+      }
+    },
+    "200": {
+      "attack_type": "syn",
+      "rate_pps": 200,
+      "total_flows": 1910,
+      "attack_flows": 1897,
+      "benign_flows": 13,
+      "attack_score_distribution": {
+        "rf_min": 0.1385720931115668,
+        "rf_median": 0.15556065235377237,
+        "rf_max": 0.3000681818181818,
+        "knn_max": 0.0
+      },
+      "zero_shot": {
+        "flow_rule_rf": {
+          "threshold": 0.1288,
+          "tp": 1897,
+          "fp": 12,
+          "recall": 1.0,
+          "false_alarms": 12,
+          "detection_delay_sec": 0.0
+        },
+        "flow_rule_knn": {
+          "threshold": 0.1268,
+          "tp": 0,
+          "fp": 1,
+          "recall": 0.0,
+          "false_alarms": 1,
+          "detection_delay_sec": 0.0
+        },
+        "consecutive_window_rule": {
+          "threshold": 0.9919,
+          "consecutive_k": 2,
+          "total_windows": 1901,
+          "alerts_triggered": 0,
+          "tp_alerts": 0,
+          "false_alarms": 0,
+          "recall": 0.0,
+          "detection_delay_sec": 0.0
+        },
+        "destination_aggregator": {
+          "time_bin_sec": 10.0,
+          "anomaly_fraction_threshold": 0.5,
+          "consecutive_windows": 2,
+          "alerts_triggered": 1904,
+          "tp_alerts": 1895,
+          "false_alarms": 9,
+          "recall": 1.0,
+          "detection_delay_sec": 0.0
+        }
+      },
+      "target_calibrated": {
+        "flow_rule_rf": {
+          "threshold": 0.4036,
+          "tp": 0,
+          "fp": 1,
+          "recall": 0.0,
+          "false_alarms": 1,
+          "detection_delay_sec": 0.0
+        },
+        "flow_rule_knn": {
+          "threshold": 0.29,
+          "tp": 0,
+          "fp": 1,
+          "recall": 0.0,
+          "false_alarms": 1,
+          "detection_delay_sec": 0.0
+        },
+        "consecutive_window_rule": {
+          "threshold": 0.1477,
+          "consecutive_k": 2,
+          "total_windows": 1901,
+          "alerts_triggered": 0,
+          "tp_alerts": 0,
+          "false_alarms": 0,
+          "recall": 0.0,
+          "detection_delay_sec": 0.0
+        },
+        "destination_aggregator": {
+          "time_bin_sec": 10.0,
+          "anomaly_fraction_threshold": 0.5,
+          "consecutive_windows": 2,
+          "alerts_triggered": 0,
+          "tp_alerts": 0,
+          "false_alarms": 0,
+          "recall": 0.0,
+          "detection_delay_sec": 0.0
+        }
+      }
+    },
+    "500": {
+      "attack_type": "syn",
+      "rate_pps": 500,
+      "total_flows": 4425,
+      "attack_flows": 4414,
+      "benign_flows": 11,
+      "attack_score_distribution": {
+        "rf_min": 0.10680555555555556,
+        "rf_median": 0.15556065235377237,
+        "rf_max": 0.3000681818181818,
+        "knn_max": 0.0
+      },
+      "zero_shot": {
+        "flow_rule_rf": {
+          "threshold": 0.1288,
+          "tp": 4412,
+          "fp": 11,
+          "recall": 0.9995,
+          "false_alarms": 11,
+          "detection_delay_sec": 0.0
+        },
+        "flow_rule_knn": {
+          "threshold": 0.1268,
+          "tp": 0,
+          "fp": 0,
+          "recall": 0.0,
+          "false_alarms": 0,
+          "detection_delay_sec": 0.0
+        },
+        "consecutive_window_rule": {
+          "threshold": 0.9919,
+          "consecutive_k": 2,
+          "total_windows": 4416,
+          "alerts_triggered": 0,
+          "tp_alerts": 0,
+          "false_alarms": 0,
+          "recall": 0.0,
+          "detection_delay_sec": 0.0
+        },
+        "destination_aggregator": {
+          "time_bin_sec": 10.0,
+          "anomaly_fraction_threshold": 0.5,
+          "consecutive_windows": 2,
+          "alerts_triggered": 4420,
+          "tp_alerts": 4411,
+          "false_alarms": 9,
+          "recall": 1.0,
+          "detection_delay_sec": 0.0
+        }
+      },
+      "target_calibrated": {
+        "flow_rule_rf": {
+          "threshold": 0.4036,
+          "tp": 0,
+          "fp": 0,
+          "recall": 0.0,
+          "false_alarms": 0,
+          "detection_delay_sec": 0.0
+        },
+        "flow_rule_knn": {
+          "threshold": 0.29,
+          "tp": 0,
+          "fp": 0,
+          "recall": 0.0,
+          "false_alarms": 0,
+          "detection_delay_sec": 0.0
+        },
+        "consecutive_window_rule": {
+          "threshold": 0.1477,
+          "consecutive_k": 2,
+          "total_windows": 4416,
+          "alerts_triggered": 0,
+          "tp_alerts": 0,
+          "false_alarms": 0,
+          "recall": 0.0,
+          "detection_delay_sec": 0.0
+        },
+        "destination_aggregator": {
+          "time_bin_sec": 10.0,
+          "anomaly_fraction_threshold": 0.5,
+          "consecutive_windows": 2,
+          "alerts_triggered": 0,
+          "tp_alerts": 0,
+          "false_alarms": 0,
+          "recall": 0.0,
+          "detection_delay_sec": 0.0
+        }
+      }
+    }
+  },
+  "udp": {
+    "50": {
+      "attack_type": "udp",
+      "rate_pps": 50,
+      "total_flows": 13,
+      "attack_flows": 1,
+      "benign_flows": 12,
+      "attack_score_distribution": {
+        "rf_min": 0.8353451811346548,
+        "rf_median": 0.8353451811346548,
+        "rf_max": 0.8353451811346548,
+        "knn_max": 1.0
+      },
+      "zero_shot": {
+        "flow_rule_rf": {
+          "threshold": 0.1288,
+          "tp": 1,
+          "fp": 12,
+          "recall": 1.0,
+          "false_alarms": 12,
+          "detection_delay_sec": 0.0
+        },
+        "flow_rule_knn": {
+          "threshold": 0.1268,
+          "tp": 1,
+          "fp": 0,
+          "recall": 1.0,
+          "false_alarms": 0,
+          "detection_delay_sec": 0.0
+        },
+        "consecutive_window_rule": {
+          "threshold": 0.9919,
+          "consecutive_k": 2,
+          "total_windows": 4,
+          "alerts_triggered": 0,
+          "tp_alerts": 0,
+          "false_alarms": 0,
+          "recall": 0.0,
+          "detection_delay_sec": 0.0
+        },
+        "destination_aggregator": {
+          "time_bin_sec": 10.0,
+          "anomaly_fraction_threshold": 0.5,
+          "consecutive_windows": 2,
+          "alerts_triggered": 8,
+          "tp_alerts": 0,
+          "false_alarms": 8,
+          "recall": 0.0,
+          "detection_delay_sec": 0.0
+        }
+      },
+      "target_calibrated": {
+        "flow_rule_rf": {
+          "threshold": 0.4036,
+          "tp": 1,
+          "fp": 0,
+          "recall": 1.0,
+          "false_alarms": 0,
+          "detection_delay_sec": 0.0
+        },
+        "flow_rule_knn": {
+          "threshold": 0.29,
+          "tp": 1,
+          "fp": 0,
+          "recall": 1.0,
+          "false_alarms": 0,
+          "detection_delay_sec": 0.0
+        },
+        "consecutive_window_rule": {
+          "threshold": 0.1477,
+          "consecutive_k": 2,
+          "total_windows": 4,
+          "alerts_triggered": 2,
+          "tp_alerts": 2,
+          "false_alarms": 0,
+          "recall": 1.0,
+          "detection_delay_sec": 9.0
+        },
+        "destination_aggregator": {
+          "time_bin_sec": 10.0,
+          "anomaly_fraction_threshold": 0.5,
+          "consecutive_windows": 2,
+          "alerts_triggered": 0,
+          "tp_alerts": 0,
+          "false_alarms": 0,
+          "recall": 0.0,
+          "detection_delay_sec": 0.0
+        }
+      }
+    },
+    "200": {
+      "attack_type": "udp",
+      "rate_pps": 200,
+      "total_flows": 14,
+      "attack_flows": 1,
+      "benign_flows": 13,
+      "attack_score_distribution": {
+        "rf_min": 0.8553451811346549,
+        "rf_median": 0.8553451811346549,
+        "rf_max": 0.8553451811346549,
+        "knn_max": 1.0
+      },
+      "zero_shot": {
+        "flow_rule_rf": {
+          "threshold": 0.1288,
+          "tp": 1,
+          "fp": 13,
+          "recall": 1.0,
+          "false_alarms": 13,
+          "detection_delay_sec": 0.0
+        },
+        "flow_rule_knn": {
+          "threshold": 0.1268,
+          "tp": 1,
+          "fp": 0,
+          "recall": 1.0,
+          "false_alarms": 0,
+          "detection_delay_sec": 0.0
+        },
+        "consecutive_window_rule": {
+          "threshold": 0.9919,
+          "consecutive_k": 2,
+          "total_windows": 5,
+          "alerts_triggered": 0,
+          "tp_alerts": 0,
+          "false_alarms": 0,
+          "recall": 0.0,
+          "detection_delay_sec": 0.0
+        },
+        "destination_aggregator": {
+          "time_bin_sec": 10.0,
+          "anomaly_fraction_threshold": 0.5,
+          "consecutive_windows": 2,
+          "alerts_triggered": 9,
+          "tp_alerts": 0,
+          "false_alarms": 9,
+          "recall": 0.0,
+          "detection_delay_sec": 0.0
+        }
+      },
+      "target_calibrated": {
+        "flow_rule_rf": {
+          "threshold": 0.4036,
+          "tp": 1,
+          "fp": 0,
+          "recall": 1.0,
+          "false_alarms": 0,
+          "detection_delay_sec": 0.0
+        },
+        "flow_rule_knn": {
+          "threshold": 0.29,
+          "tp": 1,
+          "fp": 0,
+          "recall": 1.0,
+          "false_alarms": 0,
+          "detection_delay_sec": 0.0
+        },
+        "consecutive_window_rule": {
+          "threshold": 0.1477,
+          "consecutive_k": 2,
+          "total_windows": 5,
+          "alerts_triggered": 2,
+          "tp_alerts": 2,
+          "false_alarms": 0,
+          "recall": 1.0,
+          "detection_delay_sec": 9.0
+        },
+        "destination_aggregator": {
+          "time_bin_sec": 10.0,
+          "anomaly_fraction_threshold": 0.5,
+          "consecutive_windows": 2,
+          "alerts_triggered": 0,
+          "tp_alerts": 0,
+          "false_alarms": 0,
+          "recall": 0.0,
+          "detection_delay_sec": 0.0
+        }
+      }
+    },
+    "500": {
+      "attack_type": "udp",
+      "rate_pps": 500,
+      "total_flows": 13,
+      "attack_flows": 1,
+      "benign_flows": 12,
+      "attack_score_distribution": {
+        "rf_min": 0.8553451811346549,
+        "rf_median": 0.8553451811346549,
+        "rf_max": 0.8553451811346549,
+        "knn_max": 0.794503451330403
+      },
+      "zero_shot": {
+        "flow_rule_rf": {
+          "threshold": 0.1288,
+          "tp": 1,
+          "fp": 12,
+          "recall": 1.0,
+          "false_alarms": 12,
+          "detection_delay_sec": 0.0
+        },
+        "flow_rule_knn": {
+          "threshold": 0.1268,
+          "tp": 1,
+          "fp": 0,
+          "recall": 1.0,
+          "false_alarms": 0,
+          "detection_delay_sec": 0.0
+        },
+        "consecutive_window_rule": {
+          "threshold": 0.9919,
+          "consecutive_k": 2,
+          "total_windows": 4,
+          "alerts_triggered": 0,
+          "tp_alerts": 0,
+          "false_alarms": 0,
+          "recall": 0.0,
+          "detection_delay_sec": 0.0
+        },
+        "destination_aggregator": {
+          "time_bin_sec": 10.0,
+          "anomaly_fraction_threshold": 0.5,
+          "consecutive_windows": 2,
+          "alerts_triggered": 8,
+          "tp_alerts": 0,
+          "false_alarms": 8,
+          "recall": 0.0,
+          "detection_delay_sec": 0.0
+        }
+      },
+      "target_calibrated": {
+        "flow_rule_rf": {
+          "threshold": 0.4036,
+          "tp": 1,
+          "fp": 0,
+          "recall": 1.0,
+          "false_alarms": 0,
+          "detection_delay_sec": 0.0
+        },
+        "flow_rule_knn": {
+          "threshold": 0.29,
+          "tp": 1,
+          "fp": 0,
+          "recall": 1.0,
+          "false_alarms": 0,
+          "detection_delay_sec": 0.0
+        },
+        "consecutive_window_rule": {
+          "threshold": 0.1477,
+          "consecutive_k": 2,
+          "total_windows": 4,
+          "alerts_triggered": 3,
+          "tp_alerts": 3,
+          "false_alarms": 0,
+          "recall": 1.0,
+          "detection_delay_sec": 8.0
+        },
+        "destination_aggregator": {
+          "time_bin_sec": 10.0,
+          "anomaly_fraction_threshold": 0.5,
+          "consecutive_windows": 2,
+          "alerts_triggered": 0,
+          "tp_alerts": 0,
+          "false_alarms": 0,
+          "recall": 0.0,
+          "detection_delay_sec": 0.0
+        }
+      }
+    }
+  }
+}

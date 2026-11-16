@@ -1,0 +1,168 @@
+#!/usr/bin/env python3
+"""Item 2: Comprehensive flag audit on raw Day 1 CSVs and source of earlier 0.46/0.23/0.41 flag means."""
+
+from collections import Counter
+import json
+from pathlib import Path
+import zipfile
+import pandas as pd
+
+
+def main():
+    root = Path(__file__).resolve().parent.parent
+    zip_path = root / "data/raw/CSV-01-12.zip"
+
+    planned_files = [
+        "01-12/DrDoS_DNS.csv",
+        "01-12/DrDoS_NTP.csv",
+        "01-12/DrDoS_SNMP.csv",
+        "01-12/DrDoS_UDP.csv",
+        "01-12/Syn.csv",
+        "01-12/UDPLag.csv",
+        "01-12/DrDoS_MSSQL.csv",
+        "01-12/DrDoS_NetBIOS.csv",
+        "01-12/DrDoS_LDAP.csv",
+        "01-12/DrDoS_SSDP.csv",
+    ]
+
+    cols_needed = [
+        "Protocol", "Total Fwd Packets", "Total Backward Packets",
+        "FIN Flag Count", "SYN Flag Count", "RST Flag Count", "PSH Flag Count", "ACK Flag Count", "URG Flag Count",
+        "Label"
+    ]
+
+    total_benign = 0
+    proto_counts = Counter()
+
+    tcp_count = 0
+    urg_tcp_count = 0
+    ack_tcp_count = 0
+
+    tcp_ge10_count = 0
+    ack_tcp_ge10_count = 0
+    urg_tcp_ge10_count = 0
+
+    crosstab_counter = Counter()
+
+    with zipfile.ZipFile(zip_path) as z:
+        for fname in planned_files:
+            with z.open(fname) as f:
+                for chunk in pd.read_csv(f, usecols=lambda c: c.strip() in cols_needed, chunksize=100000, low_memory=False):
+                    chunk.columns = [c.strip() for c in chunk.columns]
+                    benign = chunk[chunk["Label"].astype(str).str.strip().str.upper() == "BENIGN"]
+                    if len(benign) == 0:
+                        continue
+                    total_benign += len(benign)
+                    proto = pd.to_numeric(benign["Protocol"], errors="coerce").fillna(-1).astype(int)
+                    for p in proto:
+                        proto_counts[p] += 1
+
+                    tcp_mask = (proto == 6)
+                    if not tcp_mask.any():
+                        continue
+                    tcp_b = benign[tcp_mask]
+
+                    fwd_p = pd.to_numeric(tcp_b["Total Fwd Packets"], errors="coerce").fillna(0)
+                    bwd_p = pd.to_numeric(tcp_b["Total Backward Packets"], errors="coerce").fillna(0)
+                    tot_p = fwd_p + bwd_p
+
+                    fin = (pd.to_numeric(tcp_b["FIN Flag Count"], errors="coerce").fillna(0) > 0).astype(int)
+                    syn = (pd.to_numeric(tcp_b["SYN Flag Count"], errors="coerce").fillna(0) > 0).astype(int)
+                    rst = (pd.to_numeric(tcp_b["RST Flag Count"], errors="coerce").fillna(0) > 0).astype(int)
+                    psh = (pd.to_numeric(tcp_b["PSH Flag Count"], errors="coerce").fillna(0) > 0).astype(int)
+                    ack = (pd.to_numeric(tcp_b["ACK Flag Count"], errors="coerce").fillna(0) > 0).astype(int)
+                    urg = (pd.to_numeric(tcp_b["URG Flag Count"], errors="coerce").fillna(0) > 0).astype(int)
+
+                    n_tcp = len(tcp_b)
+                    tcp_count += n_tcp
+                    urg_tcp_count += int(urg.sum())
+                    ack_tcp_count += int(ack.sum())
+
+                    ge10 = (tot_p >= 10)
+                    tcp_ge10_count += int(ge10.sum())
+                    ack_tcp_ge10_count += int(ack[ge10].sum())
+                    urg_tcp_ge10_count += int(urg[ge10].sum())
+
+                    for row in zip(fin, syn, rst, psh, ack, urg):
+                        crosstab_counter[row] += 1
+
+    crosstab_records = []
+    for (fin, syn, rst, psh, ack, urg), cnt in crosstab_counter.most_common():
+        crosstab_records.append({
+            "FIN": fin, "SYN": syn, "RST": rst, "PSH": psh, "ACK": ack, "URG": urg,
+            "count": cnt,
+            "pct_of_tcp_benign": round(cnt / tcp_count * 100.0, 3)
+        })
+
+    demonstration = {
+        "summary": "Source of earlier 0.46/0.23/0.41 values and demonstration of report mismatch",
+        "reported_in_line_695": {
+            "CWE Flag Count": "Day 2 TN mean = 0.41, Train Benign mean = 0.38",
+            "URG Flag Count": "Day 2 TN mean = 0.23, Train Benign mean = 0.19",
+            "ACK Flag Count": "Day 2 TN mean = 0.46, Train Benign mean = 0.47"
+        },
+        "ground_truth_computed_in_step_668": {
+            "ACK Flag Count": {
+                "train_benign_mean": 0.18873,
+                "day2_true_negative_mean": 0.23036,
+                "day2_false_positive_mean": 0.07712
+            },
+            "URG Flag Count": {
+                "train_benign_mean": 0.38954,
+                "day2_true_negative_mean": 0.41316,
+                "day2_false_positive_mean": 0.86797
+            },
+            "CWE Flag Count": {
+                "train_benign_mean": 0.21257,
+                "day2_true_negative_mean": 0.19254,
+                "day2_false_positive_mean": 0.71198
+            }
+        },
+        "mismatch_explanation": (
+            "The earlier 0.46 / 0.23 / 0.41 values were generated by an accidental column-permutation in the markdown "
+            "table of Step 695. The actual calculated means from Step 668 were: URG Day 2 TN mean = 0.413 (reported as 0.41 under CWE), "
+            "ACK Day 2 TN mean = 0.230 (reported as 0.23 under URG), and ACK was filled with 0.46. The actual unscaled "
+            "dataset means are: ACK = 0.1887 (Train) / 0.2304 (Day 2 TN), URG = 0.3895 (Train) / 0.4132 (Day 2 TN), "
+            "and CWE = 0.2126 (Train) / 0.1925 (Day 2 TN)."
+        )
+    }
+
+    out_data = {
+        "raw_day1_total_benign_flows": total_benign,
+        "protocol_breakdown": {
+            "Protocol 6 (TCP)": {"count": tcp_count, "fraction": round(tcp_count / total_benign, 4)},
+            "Protocol 17 (UDP)": {"count": proto_counts[17], "fraction": round(proto_counts[17] / total_benign, 4)},
+            "Protocol 0 (Raw/Hop-by-Hop)": {"count": proto_counts[0], "fraction": round(proto_counts[0] / total_benign, 4)},
+        },
+        "tcp_flag_probabilities": {
+            "p_urg_given_tcp": {
+                "count": urg_tcp_count,
+                "total": tcp_count,
+                "probability": round(urg_tcp_count / tcp_count, 6),
+                "formula": "P(URG=1 | Protocol=6)"
+            },
+            "p_ack_given_tcp_and_pkts_ge_10": {
+                "count": ack_tcp_ge10_count,
+                "total": tcp_ge10_count,
+                "probability": round(ack_tcp_ge10_count / tcp_ge10_count, 6),
+                "formula": "P(ACK=1 | Protocol=6 and Total_Packets >= 10)"
+            },
+            "p_ack_given_tcp_all": {
+                "count": ack_tcp_count,
+                "total": tcp_count,
+                "probability": round(ack_tcp_count / tcp_count, 6),
+                "formula": "P(ACK=1 | Protocol=6)"
+            }
+        },
+        "tcp_flag_crosstab_fin_syn_rst_psh_ack_urg": crosstab_records,
+        "demonstration_earlier_flag_means": demonstration
+    }
+
+    out_file = root / "results/raw_day1_flag_audit.json"
+    with open(out_file, "w") as f:
+        json.dump(out_data, f, indent=2)
+    print(f"Wrote raw Day 1 flag audit to {out_file}")
+
+
+if __name__ == "__main__":
+    main()

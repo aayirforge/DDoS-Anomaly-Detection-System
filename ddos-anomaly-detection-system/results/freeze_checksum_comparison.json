@@ -1,0 +1,99 @@
+{
+  "freeze_tag": "v1.0-phase5-freeze",
+  "comparison_summary": "All 5 core model artifacts and results/metrics.json are 100% byte-identical (SHA-256 verified) to tag v1.0-phase5-freeze. Zero models have been retrained or altered.",
+  "model_and_metric_checksums": [
+    {
+      "file": "models/features.json",
+      "freeze_tag_sha256": "78e4bb0674bae3faafbd35f266a2af84f2e3062c9c8a1ca91c9f1ecb6c88bef0",
+      "current_disk_sha256": "78e4bb0674bae3faafbd35f266a2af84f2e3062c9c8a1ca91c9f1ecb6c88bef0",
+      "status": "IDENTICAL"
+    },
+    {
+      "file": "models/knn.joblib",
+      "freeze_tag_sha256": "3046dcae25a433fae4189f7a1a9999de87420cddfe55d98de007b18b2be9c698",
+      "current_disk_sha256": "3046dcae25a433fae4189f7a1a9999de87420cddfe55d98de007b18b2be9c698",
+      "status": "IDENTICAL"
+    },
+    {
+      "file": "models/lstm.pt",
+      "freeze_tag_sha256": "0b170db97a3f0f7ddff9a8a2fb1491af0830749a72b84e992c9d4415e2d16217",
+      "current_disk_sha256": "0b170db97a3f0f7ddff9a8a2fb1491af0830749a72b84e992c9d4415e2d16217",
+      "status": "IDENTICAL"
+    },
+    {
+      "file": "models/rf.joblib",
+      "freeze_tag_sha256": "ad7bda7e8d8ffe3cf4a5a7328c3bb8cc96de53f4b01ffc2bdbcbaf868bebee39",
+      "current_disk_sha256": "ad7bda7e8d8ffe3cf4a5a7328c3bb8cc96de53f4b01ffc2bdbcbaf868bebee39",
+      "status": "IDENTICAL"
+    },
+    {
+      "file": "models/scaler.joblib",
+      "freeze_tag_sha256": "81f3846a014e21e983becfeff46c0da62c0561722c141929b0c1822cdc6cc402",
+      "current_disk_sha256": "81f3846a014e21e983becfeff46c0da62c0561722c141929b0c1822cdc6cc402",
+      "status": "IDENTICAL"
+    },
+    {
+      "file": "results/metrics.json",
+      "freeze_tag_sha256": "fd90376dfc076323dfd60b64a07693201b5f29a39650da7e72e6150f6ed60d44",
+      "current_disk_sha256": "fd90376dfc076323dfd60b64a07693201b5f29a39650da7e72e6150f6ed60d44",
+      "status": "IDENTICAL"
+    }
+  ],
+  "frozen_thresholds": {
+    "rf_flow": 0.1288,
+    "knn_flow": 0.1268,
+    "rf_window_max": 0.9094,
+    "rf_window_mean": 0.7563,
+    "knn_window_max": 1.0,
+    "knn_window_mean": 0.6482,
+    "lstm_window_prob": 0.9919,
+    "lstm_window_logit": 4.8078
+  },
+  "artifacts_changed_since_freeze": [
+    {
+      "artifact": "results/report.md",
+      "type": "Documentation & Benchmark Record",
+      "reason": "Appended Section 8 recording isolated lab Session 2 benchmarks; formally recorded invalidation notice for flawed Python cicflowmeter port; verified removal of speculative TCP teardown explanation."
+    },
+    {
+      "artifact": "src/ddos_ads/pcap_to_flows.py",
+      "type": "Code / Extractor Interface",
+      "reason": "Added Java CICFlowMeter execution backend as primary extractor; added Direction Inversion Rule for server-to-client flows; binarized flags and verified microsecond IAT scaling."
+    },
+    {
+      "artifact": "src/ddos_ads/report.py",
+      "type": "Code / Report Generator",
+      "reason": "Extended make report verification to enforce zero-hardcoded numbers and validate lab benchmark tables from JSON."
+    },
+    {
+      "artifact": "tests/test_column_alignment.py",
+      "type": "Tests",
+      "reason": "Added unit tests verifying microsecond IAT units and binary flag sets {0, 1}."
+    },
+    {
+      "artifact": "tests/test_extractor_regression.py",
+      "type": "Tests (New)",
+      "reason": "Added regression test validating flow packet and byte counts against tshark ground truth across >= 50 flows per pcap."
+    },
+    {
+      "artifact": ".gitignore",
+      "type": "Configuration",
+      "reason": "Added ignore patterns for large binary .pcap packet capture files."
+    },
+    {
+      "artifact": "lab/",
+      "type": "Lab Environment & Artifacts",
+      "reason": "Created internal-only Docker network setup, traffic generation scripts, and session3_plan.md containing frozen packet-level rules and pre-registered success criteria."
+    },
+    {
+      "artifact": "scripts/",
+      "type": "Auditing & Benchmark Scripts",
+      "reason": "Created audit scripts for raw CSV flag bitmask investigation, KNN distance weighting reconciliation, pre-registered candidate model selection, and handshake rule evaluation."
+    },
+    {
+      "artifact": "results/*.json (Session 2 diagnostics)",
+      "type": "Results Data",
+      "reason": "Generated authoritative JSON benchmark outputs: raw_day1_flag_audit.json, knn_preprocessing_experiment.json, candidate_model_selection.json, session2b_handshake_rule_eval.json, and cicflowmeter_java_vs_python_agreement.json."
+    }
+  ]
+}

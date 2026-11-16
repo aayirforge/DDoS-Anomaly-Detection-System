@@ -1,0 +1,57 @@
+{
+  "explanation": "The exact Kolmogorov-Smirnov distance between two Bernoulli distributions with proportions p1 and p2 is sup_x |F1(x) - F2(x)| = |p1 - p2|.",
+  "binary_features_ks": [
+    {
+      "feature": "ACK Flag Count",
+      "train_ones": 4592,
+      "train_total": 24331,
+      "train_p1": 0.1887,
+      "train_p1_str": "4,592 / 24,331 (0.1887)",
+      "lab_ones": 6014,
+      "lab_total": 6014,
+      "lab_p1": 1.0,
+      "lab_p1_str": "6,014 / 6,014 (1.0000)",
+      "exact_ks_distance": 0.8113,
+      "formula": "|P(train=1) - P(lab=1)| = |k_train/N_train - k_lab/N_lab|"
+    },
+    {
+      "feature": "URG Flag Count",
+      "train_ones": 9478,
+      "train_total": 24331,
+      "train_p1": 0.3895,
+      "train_p1_str": "9,478 / 24,331 (0.3895)",
+      "lab_ones": 0,
+      "lab_total": 6014,
+      "lab_p1": 0.0,
+      "lab_p1_str": "0 / 6,014 (0.0000)",
+      "exact_ks_distance": 0.3895,
+      "formula": "|P(train=1) - P(lab=1)| = |k_train/N_train - k_lab/N_lab|"
+    },
+    {
+      "feature": "CWE Flag Count",
+      "train_ones": 5172,
+      "train_total": 24331,
+      "train_p1": 0.2126,
+      "train_p1_str": "5,172 / 24,331 (0.2126)",
+      "lab_ones": 0,
+      "lab_total": 6014,
+      "lab_p1": 0.0,
+      "lab_p1_str": "0 / 6,014 (0.0000)",
+      "exact_ks_distance": 0.2126,
+      "formula": "|P(train=1) - P(lab=1)| = |k_train/N_train - k_lab/N_lab|"
+    },
+    {
+      "feature": "Fwd PSH Flags",
+      "train_ones": 2418,
+      "train_total": 24331,
+      "train_p1": 0.0994,
+      "train_p1_str": "2,418 / 24,331 (0.0994)",
+      "lab_ones": 0,
+      "lab_total": 6014,
+      "lab_p1": 0.0,
+      "lab_p1_str": "0 / 6,014 (0.0000)",
+      "exact_ks_distance": 0.0994,
+      "formula": "|P(train=1) - P(lab=1)| = |k_train/N_train - k_lab/N_lab|"
+    }
+  ]
+}

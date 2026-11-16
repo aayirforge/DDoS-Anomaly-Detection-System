@@ -1,0 +1,295 @@
+{
+  "metadata": {
+    "protocol": "Day 1 training only. Evaluated using exact frozen model hyperparameters: KNeighborsClassifier(n_neighbors=5, weights='distance'), subsampled to 25,000 Day 1 train flows (seed 42). Signed log1p: sign(x) * log1p(|x|) on continuous heavy-tailed features, StandardScaler on train only, z-scores clipped to [-5.0, +5.0].",
+    "explanation_baseline_difference": "The earlier KNN preprocessing table reported AUC 0.9893 and calibrated FPR 1.60% because it instantiated KNeighborsClassifier with default uniform weights (weights='uniform') on the full 170,884 un-subsampled train set. The frozen model (models/knn.joblib, checksum 3046dcae...) uses distance weighting (weights='distance') fitted on a 25,000-flow Day 1 subsample, which outputs continuous distance-weighted posteriors rather than 6 discrete probabilities, yielding AUC 0.9954 and calibrated FPR 0.36% (at threshold 0.8200) on Cross-Day test.",
+    "negative_values_handling_log1p": "log1p(x) is mathematically undefined for x <= -1. To robustly handle negative values (such as -1 in Init_Win_bytes and negative timing/header artifacts like -2.12e9 in Bwd Header Length), we apply the continuous, odd signed log1p: signed_log1p(x) = sign(x) * log(1 + |x|). This maps 0 to 0, x > 0 to log(1 + x), and negative values to -log(1 + |x|) without producing NaNs, dampening extreme negative outliers while preserving polarity.",
+    "heavy_tailed_features_full_25": [
+      "Bwd Packets/s",
+      "Down/Up Ratio",
+      "Bwd Packet Length Mean",
+      "Bwd Packet Length Max",
+      "Init_Win_bytes_forward",
+      "Init_Win_bytes_backward",
+      "Total Length of Bwd Packets",
+      "Bwd IAT Total",
+      "Bwd IAT Min",
+      "Bwd Header Length",
+      "Flow Packets/s",
+      "Bwd IAT Max",
+      "Total Backward Packets",
+      "Bwd IAT Mean",
+      "Bwd Packet Length Min",
+      "Flow Bytes/s",
+      "Total Length of Fwd Packets",
+      "Total Fwd Packets",
+      "Fwd Packet Length Max",
+      "Idle Std"
+    ],
+    "heavy_tailed_features_robust_14": [
+      "Bwd Packets/s",
+      "Down/Up Ratio",
+      "Bwd Packet Length Mean",
+      "Bwd Packet Length Max",
+      "Total Length of Bwd Packets",
+      "Bwd Header Length",
+      "Flow Packets/s",
+      "Total Backward Packets",
+      "Bwd Packet Length Min",
+      "Flow Bytes/s",
+      "Total Length of Fwd Packets",
+      "Total Fwd Packets",
+      "Fwd Packet Length Max",
+      "Idle Std"
+    ],
+    "clip_range": [
+      -5.0,
+      5.0
+    ]
+  },
+  "experiments": {
+    "Full 25 - Frozen Model Baseline (Standard Scaling)": {
+      "validation_threshold": 0.1952,
+      "calibrated_threshold": 0.82,
+      "same_day_zero_shot": {
+        "threshold": 0.1952,
+        "benign_count": 3137,
+        "attack_count": 41088,
+        "tp": 40940,
+        "fp": 40,
+        "tn": 3097,
+        "fn": 148,
+        "precision": 0.999,
+        "recall": 0.9964,
+        "f1_score": 0.9977,
+        "fpr": 0.0128,
+        "fpr_ci": [
+          0.00938,
+          0.01732
+        ],
+        "roc_auc": 0.9973,
+        "pr_auc": 0.9998
+      },
+      "cross_day_zero_shot": {
+        "threshold": 0.1952,
+        "benign_count": 45871,
+        "attack_count": 72180,
+        "tp": 71890,
+        "fp": 1349,
+        "tn": 44522,
+        "fn": 290,
+        "precision": 0.9816,
+        "recall": 0.996,
+        "f1_score": 0.9887,
+        "fpr": 0.0294,
+        "fpr_ci": [
+          0.0279,
+          0.03099
+        ],
+        "roc_auc": 0.9954,
+        "pr_auc": 0.9975
+      },
+      "cross_day_calibrated": {
+        "threshold": 0.82,
+        "benign_count": 22936,
+        "attack_count": 72180,
+        "tp": 71448,
+        "fp": 82,
+        "tn": 22854,
+        "fn": 732,
+        "precision": 0.9989,
+        "recall": 0.9899,
+        "f1_score": 0.9943,
+        "fpr": 0.0036,
+        "fpr_ci": [
+          0.00288,
+          0.00444
+        ],
+        "roc_auc": 0.9967,
+        "pr_auc": 0.9991
+      }
+    },
+    "Full 25 - Log1p + Clip [-5, 5]": {
+      "validation_threshold": 0.5081,
+      "calibrated_threshold": 1.0,
+      "same_day_zero_shot": {
+        "threshold": 0.5081,
+        "benign_count": 3137,
+        "attack_count": 41088,
+        "tp": 41000,
+        "fp": 39,
+        "tn": 3098,
+        "fn": 88,
+        "precision": 0.999,
+        "recall": 0.9979,
+        "f1_score": 0.9985,
+        "fpr": 0.0124,
+        "fpr_ci": [
+          0.00911,
+          0.01695
+        ],
+        "roc_auc": 0.9965,
+        "pr_auc": 0.9997
+      },
+      "cross_day_zero_shot": {
+        "threshold": 0.5081,
+        "benign_count": 45871,
+        "attack_count": 72180,
+        "tp": 72031,
+        "fp": 1203,
+        "tn": 44668,
+        "fn": 149,
+        "precision": 0.9836,
+        "recall": 0.9979,
+        "f1_score": 0.9907,
+        "fpr": 0.0262,
+        "fpr_ci": [
+          0.0248,
+          0.02773
+        ],
+        "roc_auc": 0.9925,
+        "pr_auc": 0.9954
+      },
+      "cross_day_calibrated": {
+        "threshold": 1.0,
+        "benign_count": 22936,
+        "attack_count": 72180,
+        "tp": 71832,
+        "fp": 204,
+        "tn": 22732,
+        "fn": 348,
+        "precision": 0.9972,
+        "recall": 0.9952,
+        "f1_score": 0.9962,
+        "fpr": 0.0089,
+        "fpr_ci": [
+          0.00776,
+          0.01019
+        ],
+        "roc_auc": 0.9951,
+        "pr_auc": 0.9985
+      }
+    },
+    "Robust 14 - Standard Scaling": {
+      "validation_threshold": 0.5,
+      "calibrated_threshold": 1.0,
+      "same_day_zero_shot": {
+        "threshold": 0.5,
+        "benign_count": 3137,
+        "attack_count": 41088,
+        "tp": 40907,
+        "fp": 157,
+        "tn": 2980,
+        "fn": 181,
+        "precision": 0.9962,
+        "recall": 0.9956,
+        "f1_score": 0.9959,
+        "fpr": 0.05,
+        "fpr_ci": [
+          0.04295,
+          0.05824
+        ],
+        "roc_auc": 0.9845,
+        "pr_auc": 0.9988
+      },
+      "cross_day_zero_shot": {
+        "threshold": 0.5,
+        "benign_count": 45871,
+        "attack_count": 72180,
+        "tp": 71645,
+        "fp": 3098,
+        "tn": 42773,
+        "fn": 535,
+        "precision": 0.9586,
+        "recall": 0.9926,
+        "f1_score": 0.9753,
+        "fpr": 0.0675,
+        "fpr_ci": [
+          0.06528,
+          0.06987
+        ],
+        "roc_auc": 0.9786,
+        "pr_auc": 0.9867
+      },
+      "cross_day_calibrated": {
+        "threshold": 1.0,
+        "benign_count": 22936,
+        "attack_count": 72180,
+        "tp": 70432,
+        "fp": 652,
+        "tn": 22284,
+        "fn": 1748,
+        "precision": 0.9908,
+        "recall": 0.9758,
+        "f1_score": 0.9832,
+        "fpr": 0.0284,
+        "fpr_ci": [
+          0.02635,
+          0.03066
+        ],
+        "roc_auc": 0.9839,
+        "pr_auc": 0.9949
+      }
+    },
+    "Robust 14 - Log1p + Clip [-5, 5]": {
+      "validation_threshold": 0.5,
+      "calibrated_threshold": 1.0,
+      "same_day_zero_shot": {
+        "threshold": 0.5,
+        "benign_count": 3137,
+        "attack_count": 41088,
+        "tp": 40954,
+        "fp": 115,
+        "tn": 3022,
+        "fn": 134,
+        "precision": 0.9972,
+        "recall": 0.9967,
+        "f1_score": 0.997,
+        "fpr": 0.0367,
+        "fpr_ci": [
+          0.03063,
+          0.04382
+        ],
+        "roc_auc": 0.9862,
+        "pr_auc": 0.9989
+      },
+      "cross_day_zero_shot": {
+        "threshold": 0.5,
+        "benign_count": 45871,
+        "attack_count": 72180,
+        "tp": 64006,
+        "fp": 2795,
+        "tn": 43076,
+        "fn": 8174,
+        "precision": 0.9582,
+        "recall": 0.8868,
+        "f1_score": 0.9211,
+        "fpr": 0.0609,
+        "fpr_ci": [
+          0.05878,
+          0.06316
+        ],
+        "roc_auc": 0.9335,
+        "pr_auc": 0.9687
+      },
+      "cross_day_calibrated": {
+        "threshold": 1.0,
+        "benign_count": 22936,
+        "attack_count": 72180,
+        "tp": 63203,
+        "fp": 342,
+        "tn": 22594,
+        "fn": 8977,
+        "precision": 0.9946,
+        "recall": 0.8756,
+        "f1_score": 0.9313,
+        "fpr": 0.0149,
+        "fpr_ci": [
+          0.01342,
+          0.01656
+        ],
+        "roc_auc": 0.9393,
+        "pr_auc": 0.984
+      }
+    }
+  }
+}

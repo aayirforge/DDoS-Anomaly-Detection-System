@@ -1,0 +1,265 @@
+{
+  "lab_benign_re_evaluation": {
+    "Random Forest (Flow)": {
+      "model_type": "flow",
+      "val_threshold": 0.1288,
+      "cal_threshold": 0.4846,
+      "zero_shot": {
+        "idle": {
+          "total": 144,
+          "fp": 144,
+          "fpr": 1.0
+        },
+        "busy": {
+          "total": 7130,
+          "fp": 6071,
+          "fpr": 0.8515
+        }
+      },
+      "target_calibrated": {
+        "cal_set_size": 72,
+        "eval_idle_2nd_half": {
+          "total": 72,
+          "fp": 1,
+          "fpr": 0.0139
+        },
+        "busy": {
+          "total": 7130,
+          "fp": 1,
+          "fpr": 0.0001
+        }
+      }
+    },
+    "KNN (Flow)": {
+      "model_type": "flow",
+      "val_threshold": 0.1268,
+      "cal_threshold": 0.4206,
+      "zero_shot": {
+        "idle": {
+          "total": 144,
+          "fp": 12,
+          "fpr": 0.0833
+        },
+        "busy": {
+          "total": 7130,
+          "fp": 216,
+          "fpr": 0.0303
+        }
+      },
+      "target_calibrated": {
+        "cal_set_size": 72,
+        "eval_idle_2nd_half": {
+          "total": 72,
+          "fp": 1,
+          "fpr": 0.0139
+        },
+        "busy": {
+          "total": 7130,
+          "fp": 1,
+          "fpr": 0.0001
+        }
+      }
+    },
+    "LSTM (Window)": {
+      "model_type": "window",
+      "val_threshold": 0.9919,
+      "cal_threshold": 0.0,
+      "zero_shot": {
+        "idle": {
+          "total": 135,
+          "fp": 0,
+          "fpr": 0.0
+        },
+        "busy": {
+          "total": 7121,
+          "fp": 0,
+          "fpr": 0.0
+        }
+      },
+      "target_calibrated": {
+        "cal_set_size": 63,
+        "eval_idle_2nd_half": {
+          "total": 63,
+          "fp": 1,
+          "fpr": 0.0159
+        },
+        "busy": {
+          "total": 7121,
+          "fp": 11,
+          "fpr": 0.0015
+        }
+      }
+    },
+    "RF Window-Max": {
+      "model_type": "window",
+      "val_threshold": 0.1288,
+      "cal_threshold": 0.7841,
+      "zero_shot": {
+        "idle": {
+          "total": 135,
+          "fp": 135,
+          "fpr": 1.0
+        },
+        "busy": {
+          "total": 7121,
+          "fp": 6809,
+          "fpr": 0.9562
+        }
+      },
+      "target_calibrated": {
+        "cal_set_size": 63,
+        "eval_idle_2nd_half": {
+          "total": 63,
+          "fp": 10,
+          "fpr": 0.1587
+        },
+        "busy": {
+          "total": 7121,
+          "fp": 0,
+          "fpr": 0.0
+        }
+      }
+    },
+    "RF Window-Mean": {
+      "model_type": "window",
+      "val_threshold": 0.1288,
+      "cal_threshold": 0.3475,
+      "zero_shot": {
+        "idle": {
+          "total": 135,
+          "fp": 135,
+          "fpr": 1.0
+        },
+        "busy": {
+          "total": 7121,
+          "fp": 6763,
+          "fpr": 0.9497
+        }
+      },
+      "target_calibrated": {
+        "cal_set_size": 63,
+        "eval_idle_2nd_half": {
+          "total": 63,
+          "fp": 3,
+          "fpr": 0.0476
+        },
+        "busy": {
+          "total": 7121,
+          "fp": 584,
+          "fpr": 0.082
+        }
+      }
+    },
+    "KNN Window-Mean": {
+      "model_type": "window",
+      "val_threshold": 0.1268,
+      "cal_threshold": 0.1184,
+      "zero_shot": {
+        "idle": {
+          "total": 135,
+          "fp": 0,
+          "fpr": 0.0
+        },
+        "busy": {
+          "total": 7121,
+          "fp": 0,
+          "fpr": 0.0
+        }
+      },
+      "target_calibrated": {
+        "cal_set_size": 63,
+        "eval_idle_2nd_half": {
+          "total": 63,
+          "fp": 0,
+          "fpr": 0.0
+        },
+        "busy": {
+          "total": 7121,
+          "fp": 0,
+          "fpr": 0.0
+        }
+      }
+    },
+    "KNN Window-Max": {
+      "model_type": "window",
+      "val_threshold": 0.1268,
+      "cal_threshold": 1.0,
+      "zero_shot": {
+        "idle": {
+          "total": 135,
+          "fp": 89,
+          "fpr": 0.6593
+        },
+        "busy": {
+          "total": 7121,
+          "fp": 1908,
+          "fpr": 0.2679
+        }
+      },
+      "target_calibrated": {
+        "cal_set_size": 63,
+        "eval_idle_2nd_half": {
+          "total": 63,
+          "fp": 10,
+          "fpr": 0.1587
+        },
+        "busy": {
+          "total": 7121,
+          "fp": 10,
+          "fpr": 0.0014
+        }
+      }
+    }
+  },
+  "roc_auc_vs_lab_syn_flood": {
+    "Random Forest (Flow)": {
+      "roc_auc_vs_idle": 0.0009,
+      "roc_auc_vs_busy": 0.1531,
+      "roc_auc_vs_combined_benign": 0.1501,
+      "syn_sample_size": 6807,
+      "benign_sample_size": 7274
+    },
+    "KNN (Flow)": {
+      "roc_auc_vs_idle": 0.4583,
+      "roc_auc_vs_busy": 0.4849,
+      "roc_auc_vs_combined_benign": 0.4843,
+      "syn_sample_size": 6807,
+      "benign_sample_size": 7274
+    },
+    "LSTM (Window)": {
+      "roc_auc_vs_idle": 1.0,
+      "roc_auc_vs_busy": 1.0,
+      "roc_auc_vs_combined_benign": 1.0,
+      "syn_sample_size": 6798,
+      "benign_sample_size": 7265
+    },
+    "RF Window-Max": {
+      "roc_auc_vs_idle": 0.0,
+      "roc_auc_vs_busy": 0.0441,
+      "roc_auc_vs_combined_benign": 0.0433,
+      "syn_sample_size": 6798,
+      "benign_sample_size": 7265
+    },
+    "RF Window-Mean": {
+      "roc_auc_vs_idle": 0.0,
+      "roc_auc_vs_busy": 0.0646,
+      "roc_auc_vs_combined_benign": 0.0633,
+      "syn_sample_size": 6798,
+      "benign_sample_size": 7265
+    },
+    "KNN Window-Mean": {
+      "roc_auc_vs_idle": 0.1704,
+      "roc_auc_vs_busy": 0.366,
+      "roc_auc_vs_combined_benign": 0.3621,
+      "syn_sample_size": 6798,
+      "benign_sample_size": 7265
+    },
+    "KNN Window-Max": {
+      "roc_auc_vs_idle": 0.1704,
+      "roc_auc_vs_busy": 0.366,
+      "roc_auc_vs_combined_benign": 0.3621,
+      "syn_sample_size": 6798,
+      "benign_sample_size": 7265
+    }
+  }
+}

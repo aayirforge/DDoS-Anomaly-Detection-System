@@ -1,0 +1,118 @@
+{
+  "day1_raw_csv_summary": {
+    "source": "Day 1 Original CSV Files (data/raw/CSV-01-12.zip)",
+    "total_benign_flows": 31616,
+    "ack_count": 5483,
+    "urg_count": 13501,
+    "cwe_count": 6223,
+    "p_ack": 0.173425,
+    "p_urg": 0.427031,
+    "p_cwe": 0.196831,
+    "by_protocol": {
+      "0": {
+        "protocol_name": "Protocol 0 (Hop-by-Hop/Raw)",
+        "total_flows": 1056,
+        "fraction_of_all_benign": 0.0334,
+        "ack_count": 0,
+        "urg_count": 0,
+        "cwe_count": 0,
+        "p_ack": 0.0,
+        "p_urg": 0.0,
+        "p_cwe": 0.0
+      },
+      "6": {
+        "protocol_name": "Protocol 6 (TCP)",
+        "total_flows": 18874,
+        "fraction_of_all_benign": 0.597,
+        "ack_count": 5483,
+        "urg_count": 13501,
+        "cwe_count": 6223,
+        "p_ack": 0.290505,
+        "p_urg": 0.715323,
+        "p_cwe": 0.329713
+      },
+      "17": {
+        "protocol_name": "Protocol 17 (UDP)",
+        "total_flows": 11686,
+        "fraction_of_all_benign": 0.3696,
+        "ack_count": 0,
+        "urg_count": 0,
+        "cwe_count": 0,
+        "p_ack": 0.0,
+        "p_urg": 0.0,
+        "p_cwe": 0.0
+      }
+    }
+  },
+  "day1_train_parquet_summary": {
+    "source": "Day 1 Training Split (data/processed/train.parquet)",
+    "total_benign_flows": 24331,
+    "p_ack": 0.18873,
+    "p_urg": 0.389544,
+    "p_cwe": 0.212568,
+    "by_protocol": {
+      "0": {
+        "protocol_name": "Protocol 0 (Hop-by-Hop/Raw)",
+        "total_flows": 392,
+        "fraction_of_split": 0.0161,
+        "p_ack": 0.0,
+        "p_urg": 0.0,
+        "p_cwe": 0.0
+      },
+      "6": {
+        "protocol_name": "Protocol 6 (TCP)",
+        "total_flows": 14027,
+        "fraction_of_split": 0.5765,
+        "p_ack": 0.327369,
+        "p_urg": 0.675697,
+        "p_cwe": 0.368717
+      },
+      "17": {
+        "protocol_name": "Protocol 17 (UDP)",
+        "total_flows": 9912,
+        "fraction_of_split": 0.4074,
+        "p_ack": 0.0,
+        "p_urg": 0.0,
+        "p_cwe": 0.0
+      }
+    }
+  },
+  "day2_cross_test_parquet_summary": {
+    "source": "Day 2 Cross-Day Test Split (data/processed/test_cross_day.parquet)",
+    "total_benign_flows": 45871,
+    "p_ack": 0.22269,
+    "p_urg": 0.435918,
+    "p_cwe": 0.218526,
+    "by_protocol": {
+      "0": {
+        "protocol_name": "Protocol 0 (Hop-by-Hop/Raw)",
+        "total_flows": 759,
+        "fraction_of_split": 0.0165,
+        "p_ack": 0.0,
+        "p_urg": 0.0,
+        "p_cwe": 0.0
+      },
+      "6": {
+        "protocol_name": "Protocol 6 (TCP)",
+        "total_flows": 30223,
+        "fraction_of_split": 0.6589,
+        "p_ack": 0.337988,
+        "p_urg": 0.661615,
+        "p_cwe": 0.331668
+      },
+      "17": {
+        "protocol_name": "Protocol 17 (UDP)",
+        "total_flows": 14889,
+        "fraction_of_split": 0.3246,
+        "p_ack": 0.0,
+        "p_urg": 0.0,
+        "p_cwe": 0.0
+      }
+    }
+  },
+  "explanation": {
+    "disagreement_root_cause": "1. Multi-Protocol Dilution: Day 1 and Day 2 CIC-DDoS2019 benign captures contain 37-41% UDP flows (Protocol 17) and ~3% raw IP flows (Protocol 0), for which TCP flag fields (ACK, URG, CWE) are strictly 0. When aggregating across all protocols without conditioning, P(ACK=1) appears as only ~17.3% in Day 1 raw CSVs, 18.9% in the Day 1 train split, and 22.3% in Day 2 test.",
+    "conditioned_tcp_consistency": "2. TCP Agreement across Datasets: When conditioned strictly on Protocol 6 (TCP), the flag frequencies are highly consistent across Day 1 and Day 2: P(ACK=1|TCP) is 29.1% (Day 1 raw), 32.7% (Day 1 train split), and 33.8% (Day 2 test). Similarly, P(URG=1|TCP) is 71.5% (Day 1 raw), 67.6% (Day 1 train), and 66.2% (Day 2 test).",
+    "contrast_with_lab": "3. Lab Environment Homogeneity: In contrast to CIC-DDoS2019's diverse background mix, the isolated lab benign traffic consists exclusively of HTTP/1.1 client browsing and API traffic over TCP (100% Protocol 6). Every data exchange and teardown packet in Linux TCP carries the ACK bit, yielding P(ACK=1) = 1.0000, while URG and CWE are completely absent (0.0000). Thus, the apparent distribution mismatch was exacerbated by protocol mixing in the evaluation tables and by comparing standardized z-score parquet columns without inverse scaling."
+  }
+}

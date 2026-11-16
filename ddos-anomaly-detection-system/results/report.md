@@ -132,3 +132,72 @@ Resampling: $R = 1000$ replicates over contiguous blocks of 20 windows.
 | **False Positive Rate (FPR)** | 0.00076 | [0.00037, 0.00158] | [0.00023, 0.00138] |
 | **Detection Recall** | 0.99775 | [0.99679, 0.99842] | [0.99537, 0.99969] |
 
+## 8. Isolated Lab Benchmark: Session 2 Java CICFlowMeter Evaluation
+
+> [!CAUTION]
+> **INVALIDATION NOTICE — Earlier Python-Extractor Lab Results Marked INVALID:**
+> All earlier lab evaluations and metrics computed using the Python `cicflowmeter` port (Session 1 and preliminary Session 2 extractions) are officially marked **INVALID** due to two severe bugs in the Python library:
+> 1. **Initial Packet Duplication Bug:** In `cicflowmeter/flow_session.py`, `Flow(pkt)` was followed immediately by `flow.add_packet(pkt)`, causing the first packet of every flow to be counted twice ($1 \to 2, 2 \to 3$).
+> 2. **Wire vs. Payload Length Discrepancy:** The Python extractor recorded layer-2/3 packet length (54 bytes) rather than layer-4 TCP payload length (0 bytes for pure control packets), skewing length statistics by $54 \times 2 = 108$ bytes.
+> All authoritative lab results below and going forward strictly require the verified Java CICFlowMeter v4 backend, verified against `tshark` ground-truth packet counts in `tests/test_extractor_regression.py`.
+
+> **Ground Truth:** Metrics generated from `results/lab_session2_java_eval.json` using official Java CICFlowMeter with Direction Inversion Rule.
+
+### 8.1 Reconciliation of SYN Capture Flows (5,672 vs 5,622)
+
+In `lab_syn_flood.pcap`, 5,672 total flows were extracted by the Python port:
+- **Attack SYN Flows (`172.20.0.3`):** 5,622 flows
+- **Benign Background HTTP Flows (`172.20.0.4`):** 49 flows
+- **Docker Host Multicast SSDP (`172.20.0.1`):** 1 flows
+- **Sum Verified:** 5,672 flows
+
+### 8.2 SYN Flood Feature Extraction: Payload vs Packet Length
+
+| Extractor Backend | Flows ($N$) | Total Length of Fwd Packets [Min, Med, Max] | Fwd Packet Length Max [Min, Med, Max] | Extraction Basis |
+| :--- | :---: | :---: | :---: | :--- |
+| **Python cicflowmeter** | 5,622 | [108.0, 108.0, 270.0] | [54.0, 54.0, 54.0] | Total IP/TCP Packet Length (40B/54B headers included) |
+| **Java CICFlowMeter** | 277 | [0.0, 0.0, 0.0] | [0.0, 0.0, 0.0] | TCP Payload Length (0B for pure SYNs, matching CIC-DDoS2019) |
+
+### 8.3 25-Feature Distribution Comparison (Train Benign vs Java Session 2 Benign)
+
+| Feature | Type | Train Benign [Min, P5, Med, P95, Max] or P(1) | Lab Benign [Min, P5, Med, P95, Max] or P(1) | KS Distance | P5-P95 Overlap |
+| :--- | :---: | :---: | :---: | :---: | :---: |
+| Bwd Packets/s | Continuous | [0.0, 0.0, 62.2, 12269.9, 2000000.0] | [0.1, 97.5, 199.2, 4226.4, 181818.2] | 0.8070 | True |
+| URG Flag Count | Binary | 9,478 / 24,331 (0.3895) | 0 / 6,014 (0.0000) | 0.3895 | N/A (Binary) |
+| Down/Up Ratio | Continuous | [0.0, 0.0, 1.0, 3.0, 23.0] | [0.0, 0.0, 1.0, 1.0, 3.0] | 0.1973 | True |
+| Bwd Packet Length Mean | Continuous | [-0.0, -0.0, 48.0, 496.6, 5011.1] | [0.0, 0.0, 43.5, 1427.4, 1448.0] | 0.4146 | True |
+| Bwd Packet Length Max | Continuous | [0.0, 0.0, 51.0, 2860.0, 37960.0] | [0.0, 0.0, 118.0, 1448.0, 1448.0] | 0.3357 | True |
+| Init_Win_bytes_forward | Continuous | [-1.0, -1.0, 252.0, 64240.0, 65535.0] | [0.0, 63.0, 108.0, 64240.0, 64240.0] | 0.4235 | True |
+| Init_Win_bytes_backward | Continuous | [-1.0, -1.0, -1.0, 29200.0, 65535.0] | [64.0, 64.0, 64.0, 64.0, 64.0] | 0.5584 | True |
+| Total Length of Bwd Packets | Continuous | [0.0, 0.0, 106.0, 9227.0, 8829488.0] | [0.0, 0.0, 125.0, 84056.4, 536186.0] | 0.1020 | True |
+| Bwd IAT Total | Continuous | [0.0, 0.0, 3.0, 110339772.0, 119841024.0] | [0.0, 0.0, 1391.5, 64507.4, 44717015.0] | 0.5077 | True |
+| Bwd IAT Min | Continuous | [0.0, 0.0, 2.0, 3.0, 168.0] | [0.0, 0.0, 100.0, 2060.9, 12767.0] | 0.5949 | True |
+| Bwd Header Length | Continuous | [-2125438080.0, 0.0, 40.0, 648.0, 37264.0] | [32.0, 32.0, 72.0, 1945.2, 12072.0] | 0.4145 | True |
+| Flow Packets/s | Continuous | [0.1, 0.6, 191.8, 63829.8, 3000000.0] | [0.2, 185.0, 511.2, 7610.5, 181818.2] | 0.7116 | True |
+| Bwd IAT Max | Continuous | [-0.1, -0.1, 3.0, 10192101.0, 109011160.0] | [0.0, 0.0, 1367.5, 26690.5, 44699172.0] | 0.4991 | True |
+| Total Backward Packets | Continuous | [0.0, 0.0, 2.0, 28.0, 1862.0] | [1.0, 1.0, 2.0, 60.7, 377.0] | 0.2397 | True |
+| Bwd IAT Mean | Continuous | [0.0, 0.0, 3.0, 3343622.2, 54505588.0] | [0.0, 0.0, 693.2, 11695.3, 18251312.0] | 0.4955 | True |
+| Bwd Packet Length Min | Continuous | [0.0, 0.0, 0.0, 159.0, 1460.0] | [0.0, 0.0, 0.0, 130.0, 1448.0] | 0.2932 | True |
+| Flow Bytes/s | Continuous | [0.0, 0.0, 4032.0, 191232.0, 1715000064.0] | [0.0, 0.0, 17791.2, 5301185.2, 24900928.3] | 0.3678 | True |
+| Protocol | Continuous | [0.0, 6.0, 6.0, 17.0, 17.0] | [6.0, 6.0, 6.0, 6.0, 6.0] | 0.4074 | True |
+| Total Length of Fwd Packets | Continuous | [-0.0, -0.0, 70.0, 3371.0, 130324.0] | [0.0, 0.0, 0.0, 209.0, 209.0] | 0.3039 | True |
+| CWE Flag Count | Binary | 5,172 / 24,331 (0.2126) | 0 / 6,014 (0.0000) | 0.7874 | N/A (Binary) |
+| Fwd PSH Flags | Binary | 2,418 / 24,331 (0.0994) | 0 / 6,014 (0.0000) | 0.0994 | N/A (Binary) |
+| Total Fwd Packets | Continuous | [1.0, 1.0, 2.0, 32.0, 916.0] | [0.0, 2.0, 3.0, 99.3, 323.0] | 0.4772 | True |
+| Fwd Packet Length Max | Continuous | [0.0, 0.0, 35.0, 709.0, 3569.0] | [0.0, 0.0, 0.0, 173.0, 173.0] | 0.3023 | True |
+| Idle Std | Continuous | [0.0, 0.0, 0.0, 220208.2, 50725768.0] | [0.0, 0.0, 0.0, 0.0, 0.0] | 0.0931 | True |
+| ACK Flag Count | Binary | 4,592 / 24,331 (0.1887) | 6,014 / 6,014 (1.0000) | 1.0000 | N/A (Binary) |
+
+### 8.4 Model Rescoring at Fixed Day 1 Validation Thresholds (Step-Size 5 Windows)
+
+| Model | Level | Threshold | Benign Count | Attack Count | TP | FP | TN | FN | FPR | SYN Recall | ROC-AUC |
+| :--- | :--- | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
+| Random Forest (Flow) | Flow | 0.1288 | 6,014 | 277 | 32 | 5,486 | 528 | 245 | 0.9122 | 0.1155 | 0.0632 |
+| KNN (Flow) | Flow | 0.1268 | 6,014 | 277 | 1 | 1,395 | 4,619 | 276 | 0.2320 | 0.0036 | 0.3704 |
+| RF Window-Max | Window (Step 5) | 0.9094 | 1,200 | 54 | 0 | 0 | 1,200 | 54 | 0.0000 | 0.0000 | 0.0000 |
+| RF Window-Mean | Window (Step 5) | 0.7563 | 1,200 | 54 | 0 | 0 | 1,200 | 54 | 0.0000 | 0.0000 | 0.0005 |
+| KNN Window-Max | Window (Step 5) | 1.0000 | 1,200 | 54 | 2 | 743 | 457 | 52 | 0.6192 | 0.0370 | 0.0970 |
+| KNN Window-Mean | Window (Step 5) | 0.6482 | 1,200 | 54 | 0 | 165 | 1,035 | 54 | 0.1375 | 0.0000 | 0.0869 |
+| LSTM (Window) | Window (Step 5) | 0.9919 | 1,200 | 54 | 0 | 882 | 318 | 54 | 0.7350 | 0.0000 | 0.0088 |
+| Window-Stats LR | Window (Step 5) | 0.6206 | 1,200 | 54 | 48 | 140 | 1,060 | 6 | 0.1167 | 0.8889 | 0.8622 |
+

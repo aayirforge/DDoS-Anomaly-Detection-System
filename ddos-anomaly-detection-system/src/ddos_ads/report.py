@@ -271,6 +271,68 @@ def generate_report(metrics_path: Path, results_dir: Path, out_path: Path) -> st
     lines.append(f"| **Detection Recall** | {boot_res.get('point_recall', 0.0):.5f} | {w_rec} | {b_rec} |")
     lines.append("")
 
+    # --- Section 8: Lab Environment Evaluation ---
+    lab_eval_path = results_dir / "lab_session2_java_eval.json"
+    lab_m = {}
+    if lab_eval_path.is_file():
+        with open(lab_eval_path, "r", encoding="utf-8") as f:
+            lab_m = json.load(f)
+
+        lines.append("## 8. Isolated Lab Benchmark: Session 2 Java CICFlowMeter Evaluation")
+        lines.append("")
+        lines.append("> **Ground Truth:** Metrics generated from `results/lab_session2_java_eval.json` using official Java CICFlowMeter with Direction Inversion Rule.")
+        lines.append("")
+
+        # 8.1 Flow Reconciliation
+        recon = lab_m.get("flow_reconciliation_5672_vs_5622", {})
+        lines.append("### 8.1 Reconciliation of SYN Capture Flows (5,672 vs 5,622)")
+        lines.append("")
+        lines.append(f"In `lab_syn_flood.pcap`, {recon.get('total_extracted_flows_python', 0):,} total flows were extracted by the Python port:")
+        lines.append(f"- **Attack SYN Flows (`172.20.0.3`):** {recon.get('attack_flows_hping3_172_20_0_3', 0):,} flows")
+        lines.append(f"- **Benign Background HTTP Flows (`172.20.0.4`):** {recon.get('benign_concurrent_http_172_20_0_4', 0):,} flows")
+        lines.append(f"- **Docker Host Multicast SSDP (`172.20.0.1`):** {recon.get('docker_host_ssdp_172_20_0_1', 0):,} flows")
+        lines.append(f"- **Sum Verified:** {recon.get('sum_verified', 0):,} flows")
+        lines.append("")
+
+        # 8.2 Packet Length Comparison
+        ext_comp = lab_m.get("extractor_packet_length_comparison", {})
+        py_ext = ext_comp.get("python_extractor", {})
+        jv_ext = ext_comp.get("java_extractor", {})
+        lines.append("### 8.2 SYN Flood Feature Extraction: Payload vs Packet Length")
+        lines.append("")
+        lines.append("| Extractor Backend | Flows ($N$) | Total Length of Fwd Packets [Min, Med, Max] | Fwd Packet Length Max [Min, Med, Max] | Extraction Basis |")
+        lines.append("| :--- | :---: | :---: | :---: | :--- |")
+        lines.append(f"| **Python cicflowmeter** | {py_ext.get('n_attack_flows', 0):,} | [{py_ext.get('totlen_fwd_pkts', {}).get('min', 0):.1f}, {py_ext.get('totlen_fwd_pkts', {}).get('median', 0):.1f}, {py_ext.get('totlen_fwd_pkts', {}).get('max', 0):.1f}] | [{py_ext.get('fwd_pkt_len_max', {}).get('min', 0):.1f}, {py_ext.get('fwd_pkt_len_max', {}).get('median', 0):.1f}, {py_ext.get('fwd_pkt_len_max', {}).get('max', 0):.1f}] | Total IP/TCP Packet Length (40B/54B headers included) |")
+        lines.append(f"| **Java CICFlowMeter** | {jv_ext.get('n_attack_flows', 0):,} | [{jv_ext.get('totlen_fwd_pkts', {}).get('min', 0):.1f}, {jv_ext.get('totlen_fwd_pkts', {}).get('median', 0):.1f}, {jv_ext.get('totlen_fwd_pkts', {}).get('max', 0):.1f}] | [{jv_ext.get('fwd_pkt_len_max', {}).get('min', 0):.1f}, {jv_ext.get('fwd_pkt_len_max', {}).get('median', 0):.1f}, {jv_ext.get('fwd_pkt_len_max', {}).get('max', 0):.1f}] | TCP Payload Length (0B for pure SYNs, matching CIC-DDoS2019) |")
+        lines.append("")
+
+        # 8.3 25-Feature Distribution Comparison
+        lines.append("### 8.3 25-Feature Distribution Comparison (Train Benign vs Java Session 2 Benign)")
+        lines.append("")
+        lines.append("| Feature | Type | Train Benign [Min, P5, Med, P95, Max] or P(1) | Lab Benign [Min, P5, Med, P95, Max] or P(1) | KS Distance | P5-P95 Overlap |")
+        lines.append("| :--- | :---: | :---: | :---: | :---: | :---: |")
+        for f_row in lab_m.get("feature_comparison_25", []):
+            if f_row.get("is_binary"):
+                lines.append(f"| {f_row['feature']} | Binary | {f_row['train_p1_str']} | {f_row['lab_p1_str']} | {f_row['ks_stat']:.4f} | N/A (Binary) |")
+            else:
+                tr_s = f"[{f_row['train_min']:.1f}, {f_row['train_p5']:.1f}, {f_row['train_med']:.1f}, {f_row['train_p95']:.1f}, {f_row['train_max']:.1f}]"
+                lb_s = f"[{f_row['lab_min']:.1f}, {f_row['lab_p5']:.1f}, {f_row['lab_med']:.1f}, {f_row['lab_p95']:.1f}, {f_row['lab_max']:.1f}]"
+                lines.append(f"| {f_row['feature']} | Continuous | {tr_s} | {lb_s} | {f_row['ks_stat']:.4f} | {f_row['p5_p95_overlap']} |")
+        lines.append("")
+
+        # 8.4 Rescoring Table at Fixed Day 1 Thresholds
+        lines.append("### 8.4 Model Rescoring at Fixed Day 1 Validation Thresholds (Step-Size 5 Windows)")
+        lines.append("")
+        lines.append("| Model | Level | Threshold | Benign Count | Attack Count | TP | FP | TN | FN | FPR | SYN Recall | ROC-AUC |")
+        lines.append("| :--- | :--- | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |")
+        for m_row in lab_m.get("rescoring_at_fixed_thresholds", []):
+            level = "Window (Step 5)" if "Window" in m_row["model"] or "LSTM" in m_row["model"] or "LR" in m_row["model"] else "Flow"
+            lines.append(
+                f"| {m_row['model']} | {level} | {m_row['threshold']:.4f} | {m_row['benign_count']:,} | {m_row['attack_count']:,} | "
+                f"{m_row['tp']:,} | {m_row['fp']:,} | {m_row['tn']:,} | {m_row['fn']:,} | {m_row['fpr']:.4f} | {m_row['syn_recall']:.4f} | {m_row['roc_auc']:.4f} |"
+            )
+        lines.append("")
+
     report_content = "\n".join(lines) + "\n"
 
     # --- Numerical Consistency Verification ---
@@ -286,6 +348,21 @@ def generate_report(metrics_path: Path, results_dir: Path, out_path: Path) -> st
     assert f"{k8.get('lstm_attack_last', 0.0):.3f}" in report_content
     assert f"{k8.get('lstm_attack_random', 0.0):.3f}" in report_content
     assert f"{delta.get('delta_recall', 0.0):.5f}" in report_content
+
+    # 2. Check Lab results consistency if present
+    if lab_m:
+        recon = lab_m.get("flow_reconciliation_5672_vs_5622", {})
+        assert f"{recon.get('attack_flows_hping3_172_20_0_3', 0):,}" in report_content
+        assert f"{recon.get('benign_concurrent_http_172_20_0_4', 0):,}" in report_content
+        ext_comp = lab_m.get("extractor_packet_length_comparison", {})
+        py_ext = ext_comp.get("python_extractor", {})
+        jv_ext = ext_comp.get("java_extractor", {})
+        assert f"{py_ext.get('n_attack_flows', 0):,}" in report_content
+        assert f"{jv_ext.get('n_attack_flows', 0):,}" in report_content
+        for m_row in lab_m.get("rescoring_at_fixed_thresholds", []):
+            assert f"{m_row['threshold']:.4f}" in report_content
+            assert f"{m_row['fpr']:.4f}" in report_content
+            assert f"{m_row['roc_auc']:.4f}" in report_content
 
     out_path.parent.mkdir(parents=True, exist_ok=True)
     with open(out_path, "w", encoding="utf-8") as f:

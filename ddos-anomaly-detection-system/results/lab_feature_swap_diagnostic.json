@@ -1,0 +1,234 @@
+{
+  "baseline_scores": {
+    "rf_mean": 0.282205,
+    "knn_mean": 0.006064,
+    "sample_size": 7274
+  },
+  "feature_swaps": {
+    "Bwd Packets/s": {
+      "feature": "Bwd Packets/s",
+      "train_median": 62.251,
+      "lab_median": 6018.0542,
+      "rf_mean_score": 0.186808,
+      "rf_delta": -0.095397,
+      "knn_mean_score": 0.005936,
+      "knn_delta": -0.000128
+    },
+    "URG Flag Count": {
+      "feature": "URG Flag Count",
+      "train_median": 0.0,
+      "lab_median": 0.0,
+      "rf_mean_score": 0.282205,
+      "rf_delta": 0.0,
+      "knn_mean_score": 0.006064,
+      "knn_delta": 0.0
+    },
+    "Down/Up Ratio": {
+      "feature": "Down/Up Ratio",
+      "train_median": 1.0,
+      "lab_median": 0.8571,
+      "rf_mean_score": 0.282183,
+      "rf_delta": -2.3e-05,
+      "knn_mean_score": 0.006181,
+      "knn_delta": 0.000117
+    },
+    "Bwd Packet Length Mean": {
+      "feature": "Bwd Packet Length Mean",
+      "train_median": 48.0,
+      "lab_median": 156.1667,
+      "rf_mean_score": 0.275494,
+      "rf_delta": -0.006711,
+      "knn_mean_score": 0.007698,
+      "knn_delta": 0.001634
+    },
+    "Bwd Packet Length Max": {
+      "feature": "Bwd Packet Length Max",
+      "train_median": 51.0,
+      "lab_median": 475.0,
+      "rf_mean_score": 0.304193,
+      "rf_delta": 0.021987,
+      "knn_mean_score": 0.006541,
+      "knn_delta": 0.000477
+    },
+    "Init_Win_bytes_forward": {
+      "feature": "Init_Win_bytes_forward",
+      "train_median": 252.0,
+      "lab_median": 64240.0,
+      "rf_mean_score": 0.329757,
+      "rf_delta": 0.047551,
+      "knn_mean_score": 0.000412,
+      "knn_delta": -0.005652
+    },
+    "Init_Win_bytes_backward": {
+      "feature": "Init_Win_bytes_backward",
+      "train_median": -1.0,
+      "lab_median": 65160.0,
+      "rf_mean_score": 0.366773,
+      "rf_delta": 0.084567,
+      "knn_mean_score": 0.234847,
+      "knn_delta": 0.228783
+    },
+    "Total Length of Bwd Packets": {
+      "feature": "Total Length of Bwd Packets",
+      "train_median": 106.0,
+      "lab_median": 938.0,
+      "rf_mean_score": 0.300168,
+      "rf_delta": 0.017963,
+      "knn_mean_score": 0.006064,
+      "knn_delta": -0.0
+    },
+    "Bwd IAT Total": {
+      "feature": "Bwd IAT Total",
+      "train_median": 3.0,
+      "lab_median": 1187.5,
+      "rf_mean_score": 0.275054,
+      "rf_delta": -0.007151,
+      "knn_mean_score": 0.006063,
+      "knn_delta": -1e-06
+    },
+    "Bwd IAT Min": {
+      "feature": "Bwd IAT Min",
+      "train_median": 2.0,
+      "lab_median": 54.0,
+      "rf_mean_score": 0.25724,
+      "rf_delta": -0.024965,
+      "knn_mean_score": 0.000412,
+      "knn_delta": -0.005652
+    },
+    "Bwd Header Length": {
+      "feature": "Bwd Header Length",
+      "train_median": 40.0,
+      "lab_median": 120.0,
+      "rf_mean_score": 0.309705,
+      "rf_delta": 0.0275,
+      "knn_mean_score": 0.006064,
+      "knn_delta": 0.0
+    },
+    "Flow Packets/s": {
+      "feature": "Flow Packets/s",
+      "train_median": 191.75,
+      "lab_median": 12993.5065,
+      "rf_mean_score": 0.206118,
+      "rf_delta": -0.076088,
+      "knn_mean_score": 0.006064,
+      "knn_delta": -0.0
+    },
+    "Bwd IAT Max": {
+      "feature": "Bwd IAT Max",
+      "train_median": 3.0,
+      "lab_median": 513.0,
+      "rf_mean_score": 0.299797,
+      "rf_delta": 0.017591,
+      "knn_mean_score": 0.006062,
+      "knn_delta": -2e-06
+    },
+    "Total Backward Packets": {
+      "feature": "Total Backward Packets",
+      "train_median": 2.0,
+      "lab_median": 6.0,
+      "rf_mean_score": 0.292149,
+      "rf_delta": 0.009944,
+      "knn_mean_score": 0.006064,
+      "knn_delta": -0.0
+    },
+    "Bwd IAT Mean": {
+      "feature": "Bwd IAT Mean",
+      "train_median": 3.0,
+      "lab_median": 191.1833,
+      "rf_mean_score": 0.299167,
+      "rf_delta": 0.016961,
+      "knn_mean_score": 0.006064,
+      "knn_delta": -0.0
+    },
+    "Bwd Packet Length Min": {
+      "feature": "Bwd Packet Length Min",
+      "train_median": 0.0,
+      "lab_median": 66.0,
+      "rf_mean_score": 0.297643,
+      "rf_delta": 0.015438,
+      "knn_mean_score": 0.019521,
+      "knn_delta": 0.013457
+    },
+    "Flow Bytes/s": {
+      "feature": "Flow Bytes/s",
+      "train_median": 4032.0,
+      "lab_median": 1419300.333,
+      "rf_mean_score": 0.272844,
+      "rf_delta": -0.009361,
+      "knn_mean_score": 0.006064,
+      "knn_delta": -0.0
+    },
+    "Protocol": {
+      "feature": "Protocol",
+      "train_median": 6.0,
+      "lab_median": 6.0,
+      "rf_mean_score": 0.28209,
+      "rf_delta": -0.000115,
+      "knn_mean_score": 0.005652,
+      "knn_delta": -0.000412
+    },
+    "Total Length of Fwd Packets": {
+      "feature": "Total Length of Fwd Packets",
+      "train_median": 70.0,
+      "lab_median": 608.0,
+      "rf_mean_score": 0.294015,
+      "rf_delta": 0.01181,
+      "knn_mean_score": 0.006064,
+      "knn_delta": 0.0
+    },
+    "CWE Flag Count": {
+      "feature": "CWE Flag Count",
+      "train_median": -0.0,
+      "lab_median": 0.0,
+      "rf_mean_score": 0.282205,
+      "rf_delta": 0.0,
+      "knn_mean_score": 0.006064,
+      "knn_delta": 0.0
+    },
+    "Fwd PSH Flags": {
+      "feature": "Fwd PSH Flags",
+      "train_median": 0.0,
+      "lab_median": 1.0,
+      "rf_mean_score": 0.298948,
+      "rf_delta": 0.016743,
+      "knn_mean_score": 0.064454,
+      "knn_delta": 0.05839
+    },
+    "Total Fwd Packets": {
+      "feature": "Total Fwd Packets",
+      "train_median": 2.0,
+      "lab_median": 7.0,
+      "rf_mean_score": 0.28421,
+      "rf_delta": 0.002005,
+      "knn_mean_score": 0.006064,
+      "knn_delta": 0.0
+    },
+    "Fwd Packet Length Max": {
+      "feature": "Fwd Packet Length Max",
+      "train_median": 35.0,
+      "lab_median": 195.0,
+      "rf_mean_score": 0.31664,
+      "rf_delta": 0.034434,
+      "knn_mean_score": 0.005819,
+      "knn_delta": -0.000246
+    },
+    "Idle Std": {
+      "feature": "Idle Std",
+      "train_median": 0.0,
+      "lab_median": 0.0,
+      "rf_mean_score": 0.282205,
+      "rf_delta": 0.0,
+      "knn_mean_score": 0.006064,
+      "knn_delta": 0.0
+    },
+    "ACK Flag Count": {
+      "feature": "ACK Flag Count",
+      "train_median": 0.0,
+      "lab_median": 1.0,
+      "rf_mean_score": 0.210072,
+      "rf_delta": -0.072133,
+      "knn_mean_score": 0.000412,
+      "knn_delta": -0.005652
+    }
+  }
+}

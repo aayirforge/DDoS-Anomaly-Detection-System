@@ -1,0 +1,193 @@
+{
+  "sample_sizes": {
+    "train_benign": 24331,
+    "train_syn": 20750,
+    "lab_benign": 6014,
+    "lab_syn": 277
+  },
+  "flipped_features": [
+    "Total Fwd Packets",
+    "ACK Flag Count"
+  ],
+  "rf_importance_of_flipped": {
+    "Total Fwd Packets": 0.0117,
+    "ACK Flag Count": 0.0357
+  },
+  "per_feature_auc": [
+    {
+      "feature": "Bwd Packets/s",
+      "train_auc": 0.1412,
+      "lab_auc": 0.0048,
+      "direction_flipped": false,
+      "rf_importance": 0.1416
+    },
+    {
+      "feature": "URG Flag Count",
+      "train_auc": 0.3053,
+      "lab_auc": 0.5,
+      "direction_flipped": false,
+      "rf_importance": 0.0718
+    },
+    {
+      "feature": "Down/Up Ratio",
+      "train_auc": 0.1593,
+      "lab_auc": 0.165,
+      "direction_flipped": false,
+      "rf_importance": 0.0548
+    },
+    {
+      "feature": "Bwd Packet Length Mean",
+      "train_auc": 0.2073,
+      "lab_auc": 0.172,
+      "direction_flipped": false,
+      "rf_importance": 0.0104
+    },
+    {
+      "feature": "Bwd Packet Length Max",
+      "train_auc": 0.2073,
+      "lab_auc": 0.172,
+      "direction_flipped": false,
+      "rf_importance": 0.0045
+    },
+    {
+      "feature": "Init_Win_bytes_forward",
+      "train_auc": 0.7103,
+      "lab_auc": 0.578,
+      "direction_flipped": false,
+      "rf_importance": 0.0547
+    },
+    {
+      "feature": "Init_Win_bytes_backward",
+      "train_auc": 0.3594,
+      "lab_auc": 0.1011,
+      "direction_flipped": false,
+      "rf_importance": 0.025
+    },
+    {
+      "feature": "Total Length of Bwd Packets",
+      "train_auc": 0.2073,
+      "lab_auc": 0.172,
+      "direction_flipped": false,
+      "rf_importance": 0.0139
+    },
+    {
+      "feature": "Bwd IAT Total",
+      "train_auc": 0.2201,
+      "lab_auc": 0.1232,
+      "direction_flipped": false,
+      "rf_importance": 0.0011
+    },
+    {
+      "feature": "Bwd IAT Min",
+      "train_auc": 0.1994,
+      "lab_auc": 0.1483,
+      "direction_flipped": false,
+      "rf_importance": 0.0452
+    },
+    {
+      "feature": "Bwd Header Length",
+      "train_auc": 0.224,
+      "lab_auc": 0.0,
+      "direction_flipped": false,
+      "rf_importance": 0.1482
+    },
+    {
+      "feature": "Flow Packets/s",
+      "train_auc": 0.3834,
+      "lab_auc": 0.0104,
+      "direction_flipped": false,
+      "rf_importance": 0.0107
+    },
+    {
+      "feature": "Bwd IAT Max",
+      "train_auc": 0.2234,
+      "lab_auc": 0.1232,
+      "direction_flipped": false,
+      "rf_importance": 0.0963
+    },
+    {
+      "feature": "Total Backward Packets",
+      "train_auc": 0.2354,
+      "lab_auc": 0.0125,
+      "direction_flipped": false,
+      "rf_importance": 0.0524
+    },
+    {
+      "feature": "Bwd IAT Mean",
+      "train_auc": 0.2264,
+      "lab_auc": 0.1232,
+      "direction_flipped": false,
+      "rf_importance": 0.0572
+    },
+    {
+      "feature": "Bwd Packet Length Min",
+      "train_auc": 0.2904,
+      "lab_auc": 0.437,
+      "direction_flipped": false,
+      "rf_importance": 0.0005
+    },
+    {
+      "feature": "Flow Bytes/s",
+      "train_auc": 0.1628,
+      "lab_auc": 0.172,
+      "direction_flipped": false,
+      "rf_importance": 0.0057
+    },
+    {
+      "feature": "Protocol",
+      "train_auc": 0.3044,
+      "lab_auc": 0.5,
+      "direction_flipped": false,
+      "rf_importance": 0.0376
+    },
+    {
+      "feature": "Total Length of Fwd Packets",
+      "train_auc": 0.152,
+      "lab_auc": 0.2707,
+      "direction_flipped": false,
+      "rf_importance": 0.0503
+    },
+    {
+      "feature": "CWE Flag Count",
+      "train_auc": 0.3938,
+      "lab_auc": 0.5,
+      "direction_flipped": false,
+      "rf_importance": 0.0054
+    },
+    {
+      "feature": "Fwd PSH Flags",
+      "train_auc": 0.4503,
+      "lab_auc": 0.5,
+      "direction_flipped": false,
+      "rf_importance": 0.01
+    },
+    {
+      "feature": "Total Fwd Packets",
+      "train_auc": 0.7049,
+      "lab_auc": 0.1366,
+      "direction_flipped": true,
+      "rf_importance": 0.0117
+    },
+    {
+      "feature": "Fwd Packet Length Max",
+      "train_auc": 0.152,
+      "lab_auc": 0.2707,
+      "direction_flipped": false,
+      "rf_importance": 0.0388
+    },
+    {
+      "feature": "Idle Std",
+      "train_auc": 0.7554,
+      "lab_auc": 0.5072,
+      "direction_flipped": false,
+      "rf_importance": 0.0163
+    },
+    {
+      "feature": "ACK Flag Count",
+      "train_auc": 0.9055,
+      "lab_auc": 0.0505,
+      "direction_flipped": true,
+      "rf_importance": 0.0357
+    }
+  ]
+}

@@ -1,0 +1,235 @@
+{
+  "sample_sizes": {
+    "pcap": "lab_idle.pcap (Session 2)",
+    "java_flows": 111,
+    "python_flows": 50,
+    "matched_flows": 50
+  },
+  "per_feature_agreement": [
+    {
+      "feature": "Bwd Packets/s",
+      "java_mean": 220.6746,
+      "python_mean": 201.8274,
+      "mae": 44.1131,
+      "max_abs_diff": 98.6067,
+      "exact_match_pct": 0.0,
+      "pearson_r": 0.5484
+    },
+    {
+      "feature": "URG Flag Count",
+      "java_mean": 0.0,
+      "python_mean": 0.0,
+      "mae": 0.0,
+      "max_abs_diff": 0.0,
+      "exact_match_pct": 100.0,
+      "pearson_r": 1.0
+    },
+    {
+      "feature": "Down/Up Ratio",
+      "java_mean": 0.84,
+      "python_mean": 0.8207,
+      "mae": 0.2567,
+      "max_abs_diff": 0.8571,
+      "exact_match_pct": 14.0,
+      "pearson_r": 0.3522
+    },
+    {
+      "feature": "Bwd Packet Length Mean",
+      "java_mean": 88.1797,
+      "python_mean": 132.6572,
+      "mae": 66.242,
+      "max_abs_diff": 248.1667,
+      "exact_match_pct": 0.0,
+      "pearson_r": 0.9503
+    },
+    {
+      "feature": "Bwd Packet Length Max",
+      "java_mean": 269.66,
+      "python_mean": 352.94,
+      "mae": 83.28,
+      "max_abs_diff": 130.0,
+      "exact_match_pct": 0.0,
+      "pearson_r": 0.9978
+    },
+    {
+      "feature": "Init_Win_bytes_forward",
+      "java_mean": 64240.0,
+      "python_mean": 64240.0,
+      "mae": 0.0,
+      "max_abs_diff": 0.0,
+      "exact_match_pct": 100.0,
+      "pearson_r": 1.0
+    },
+    {
+      "feature": "Init_Win_bytes_backward",
+      "java_mean": 64.0,
+      "python_mean": 65160.0,
+      "mae": 65096.0,
+      "max_abs_diff": 65096.0,
+      "exact_match_pct": 0.0,
+      "pearson_r": 0.0
+    },
+    {
+      "feature": "Total Length of Bwd Packets",
+      "java_mean": 310.14,
+      "python_mean": 775.54,
+      "mae": 465.4,
+      "max_abs_diff": 625.0,
+      "exact_match_pct": 0.0,
+      "pearson_r": 0.9783
+    },
+    {
+      "feature": "Bwd IAT Total",
+      "java_mean": 11331.78,
+      "python_mean": 22732.72,
+      "mae": 11400.94,
+      "max_abs_diff": 13591.0,
+      "exact_match_pct": 0.0,
+      "pearson_r": 0.3086
+    },
+    {
+      "feature": "Bwd IAT Min",
+      "java_mean": 2022.3,
+      "python_mean": 210.3,
+      "mae": 1812.0,
+      "max_abs_diff": 12098.0,
+      "exact_match_pct": 68.0,
+      "pearson_r": -0.0658
+    },
+    {
+      "feature": "Bwd Header Length",
+      "java_mean": 125.84,
+      "python_mean": 116.8,
+      "mae": 27.28,
+      "max_abs_diff": 60.0,
+      "exact_match_pct": 0.0,
+      "pearson_r": 0.3454
+    },
+    {
+      "feature": "Flow Packets/s",
+      "java_mean": 407.6814,
+      "python_mean": 448.7759,
+      "mae": 55.0319,
+      "max_abs_diff": 171.9317,
+      "exact_match_pct": 0.0,
+      "pearson_r": 0.4361
+    },
+    {
+      "feature": "Bwd IAT Max",
+      "java_mean": 10310.36,
+      "python_mean": 11058.04,
+      "mae": 747.68,
+      "max_abs_diff": 3939.0,
+      "exact_match_pct": 44.0,
+      "pearson_r": 0.2305
+    },
+    {
+      "feature": "Total Backward Packets",
+      "java_mean": 3.66,
+      "python_mean": 5.84,
+      "mae": 2.18,
+      "max_abs_diff": 4.0,
+      "exact_match_pct": 0.0,
+      "pearson_r": 0.3463
+    },
+    {
+      "feature": "Bwd IAT Mean",
+      "java_mean": 5172.5067,
+      "python_mean": 4789.2917,
+      "mae": 1748.0443,
+      "max_abs_diff": 7583.0,
+      "exact_match_pct": 0.0,
+      "pearson_r": 0.2845
+    },
+    {
+      "feature": "Bwd Packet Length Min",
+      "java_mean": 0.0,
+      "python_mean": 66.0,
+      "mae": 66.0,
+      "max_abs_diff": 66.0,
+      "exact_match_pct": 0.0,
+      "pearson_r": 0.0
+    },
+    {
+      "feature": "Flow Bytes/s",
+      "java_mean": 26654.5548,
+      "python_mean": 48142.3445,
+      "mae": 22176.3691,
+      "max_abs_diff": 36633.6632,
+      "exact_match_pct": 0.0,
+      "pearson_r": 0.9533
+    },
+    {
+      "feature": "Protocol",
+      "java_mean": 6.0,
+      "python_mean": 6.0,
+      "mae": 0.0,
+      "max_abs_diff": 0.0,
+      "exact_match_pct": 100.0,
+      "pearson_r": 1.0
+    },
+    {
+      "feature": "Total Length of Fwd Packets",
+      "java_mean": 131.46,
+      "python_mean": 624.1,
+      "mae": 492.64,
+      "max_abs_diff": 610.0,
+      "exact_match_pct": 0.0,
+      "pearson_r": 0.6168
+    },
+    {
+      "feature": "CWE Flag Count",
+      "java_mean": 0.0,
+      "python_mean": 0.0,
+      "mae": 0.0,
+      "max_abs_diff": 0.0,
+      "exact_match_pct": 100.0,
+      "pearson_r": 1.0
+    },
+    {
+      "feature": "Fwd PSH Flags",
+      "java_mean": 0.0,
+      "python_mean": 1.0,
+      "mae": 1.0,
+      "max_abs_diff": 1.0,
+      "exact_match_pct": 0.0,
+      "pearson_r": 0.0
+    },
+    {
+      "feature": "Total Fwd Packets",
+      "java_mean": 3.08,
+      "python_mean": 7.16,
+      "mae": 4.08,
+      "max_abs_diff": 6.0,
+      "exact_match_pct": 0.0,
+      "pearson_r": 0.238
+    },
+    {
+      "feature": "Fwd Packet Length Max",
+      "java_mean": 128.62,
+      "python_mean": 194.62,
+      "mae": 66.0,
+      "max_abs_diff": 66.0,
+      "exact_match_pct": 0.0,
+      "pearson_r": 1.0
+    },
+    {
+      "feature": "Idle Std",
+      "java_mean": 0.0,
+      "python_mean": 0.0,
+      "mae": 0.0,
+      "max_abs_diff": 0.0,
+      "exact_match_pct": 100.0,
+      "pearson_r": 1.0
+    },
+    {
+      "feature": "ACK Flag Count",
+      "java_mean": 1.0,
+      "python_mean": 1.0,
+      "mae": 0.0,
+      "max_abs_diff": 0.0,
+      "exact_match_pct": 100.0,
+      "pearson_r": 1.0
+    }
+  ]
+}

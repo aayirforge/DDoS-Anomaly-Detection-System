@@ -1,0 +1,55 @@
+services:
+  victim-web:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: victim-web
+    hostname: victim-web
+    networks:
+      - isolated_lab_net
+    volumes:
+      - ./server:/app
+      - ./captures:/captures
+    command: python /app/app.py
+    cap_add:
+      - NET_ADMIN
+      - NET_RAW
+
+  benign-client:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: benign-client
+    hostname: benign-client
+    networks:
+      - isolated_lab_net
+    volumes:
+      - ./client:/app
+    depends_on:
+      - victim-web
+    command: tail -f /dev/null
+    cap_add:
+      - NET_ADMIN
+      - NET_RAW
+
+  traffic-generator:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: traffic-generator
+    hostname: traffic-generator
+    networks:
+      - isolated_lab_net
+    volumes:
+      - ./generator:/app
+    depends_on:
+      - victim-web
+    command: tail -f /dev/null
+    cap_add:
+      - NET_ADMIN
+      - NET_RAW
+
+networks:
+  isolated_lab_net:
+    driver: bridge
+    internal: true

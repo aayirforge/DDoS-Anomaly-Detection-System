@@ -1,0 +1,288 @@
+{
+  "verified_benign_flows_count": 10,
+  "flows": [
+    {
+      "flow_5tuple": "172.20.0.4:35342 -> 172.20.0.2:80 (TCP)",
+      "src_port": 35342,
+      "tshark_breakdown": {
+        "total_fwd_packets": 7,
+        "total_bwd_packets": 6,
+        "fwd_syn_window_raw": 64240,
+        "bwd_syn_ack_packet_frame": 2,
+        "bwd_syn_ack_window_raw": 65160,
+        "bwd_syn_ack_window_scale_shift": "10",
+        "bwd_subsequent_packets_raw_windows_sample": [
+          64,
+          64,
+          64,
+          64,
+          64
+        ],
+        "bwd_last_packet_raw_window": 64,
+        "bwd_last_packet_scaled_window": 65536
+      },
+      "java_cicflowmeter": {
+        "total_fwd_packets": 3,
+        "total_bwd_packets": 5,
+        "fwd_init_win_bytes": 64240,
+        "bwd_init_win_bytes": 64
+      },
+      "match_analysis": "Java Init_Win_bytes_backward (64) matches tshark's LAST backward packet raw header window (64), NOT the initial SYN-ACK window (65160)."
+    },
+    {
+      "flow_5tuple": "172.20.0.4:35346 -> 172.20.0.2:80 (TCP)",
+      "src_port": 35346,
+      "tshark_breakdown": {
+        "total_fwd_packets": 5,
+        "total_bwd_packets": 6,
+        "fwd_syn_window_raw": 64240,
+        "bwd_syn_ack_packet_frame": 15,
+        "bwd_syn_ack_window_raw": 65160,
+        "bwd_syn_ack_window_scale_shift": "10",
+        "bwd_subsequent_packets_raw_windows_sample": [
+          64,
+          64,
+          64,
+          64,
+          64
+        ],
+        "bwd_last_packet_raw_window": 64,
+        "bwd_last_packet_scaled_window": 65536
+      },
+      "java_cicflowmeter": {
+        "total_fwd_packets": 3,
+        "total_bwd_packets": 5,
+        "fwd_init_win_bytes": 64240,
+        "bwd_init_win_bytes": 64
+      },
+      "match_analysis": "Java Init_Win_bytes_backward (64) matches tshark's LAST backward packet raw header window (64), NOT the initial SYN-ACK window (65160)."
+    },
+    {
+      "flow_5tuple": "172.20.0.4:35352 -> 172.20.0.2:80 (TCP)",
+      "src_port": 35352,
+      "tshark_breakdown": {
+        "total_fwd_packets": 7,
+        "total_bwd_packets": 5,
+        "fwd_syn_window_raw": 64240,
+        "bwd_syn_ack_packet_frame": 26,
+        "bwd_syn_ack_window_raw": 65160,
+        "bwd_syn_ack_window_scale_shift": "10",
+        "bwd_subsequent_packets_raw_windows_sample": [
+          64,
+          64,
+          64,
+          64
+        ],
+        "bwd_last_packet_raw_window": 64,
+        "bwd_last_packet_scaled_window": 65536
+      },
+      "java_cicflowmeter": {
+        "total_fwd_packets": 3,
+        "total_bwd_packets": 2,
+        "fwd_init_win_bytes": 64240,
+        "bwd_init_win_bytes": 64
+      },
+      "match_analysis": "Java Init_Win_bytes_backward (64) matches tshark's LAST backward packet raw header window (64), NOT the initial SYN-ACK window (65160)."
+    },
+    {
+      "flow_5tuple": "172.20.0.4:36074 -> 172.20.0.2:80 (TCP)",
+      "src_port": 36074,
+      "tshark_breakdown": {
+        "total_fwd_packets": 6,
+        "total_bwd_packets": 6,
+        "fwd_syn_window_raw": 64240,
+        "bwd_syn_ack_packet_frame": 38,
+        "bwd_syn_ack_window_raw": 65160,
+        "bwd_syn_ack_window_scale_shift": "10",
+        "bwd_subsequent_packets_raw_windows_sample": [
+          64,
+          64,
+          64,
+          64,
+          64
+        ],
+        "bwd_last_packet_raw_window": 64,
+        "bwd_last_packet_scaled_window": 65536
+      },
+      "java_cicflowmeter": {
+        "total_fwd_packets": 4,
+        "total_bwd_packets": 5,
+        "fwd_init_win_bytes": 64240,
+        "bwd_init_win_bytes": 64
+      },
+      "match_analysis": "Java Init_Win_bytes_backward (64) matches tshark's LAST backward packet raw header window (64), NOT the initial SYN-ACK window (65160)."
+    },
+    {
+      "flow_5tuple": "172.20.0.4:36078 -> 172.20.0.2:80 (TCP)",
+      "src_port": 36078,
+      "tshark_breakdown": {
+        "total_fwd_packets": 7,
+        "total_bwd_packets": 6,
+        "fwd_syn_window_raw": 64240,
+        "bwd_syn_ack_packet_frame": 50,
+        "bwd_syn_ack_window_raw": 65160,
+        "bwd_syn_ack_window_scale_shift": "10",
+        "bwd_subsequent_packets_raw_windows_sample": [
+          64,
+          64,
+          64,
+          64,
+          64
+        ],
+        "bwd_last_packet_raw_window": 64,
+        "bwd_last_packet_scaled_window": 65536
+      },
+      "java_cicflowmeter": {
+        "total_fwd_packets": 4,
+        "total_bwd_packets": 4,
+        "fwd_init_win_bytes": 64240,
+        "bwd_init_win_bytes": 64
+      },
+      "match_analysis": "Java Init_Win_bytes_backward (64) matches tshark's LAST backward packet raw header window (64), NOT the initial SYN-ACK window (65160)."
+    },
+    {
+      "flow_5tuple": "172.20.0.4:36082 -> 172.20.0.2:80 (TCP)",
+      "src_port": 36082,
+      "tshark_breakdown": {
+        "total_fwd_packets": 6,
+        "total_bwd_packets": 6,
+        "fwd_syn_window_raw": 64240,
+        "bwd_syn_ack_packet_frame": 63,
+        "bwd_syn_ack_window_raw": 65160,
+        "bwd_syn_ack_window_scale_shift": "10",
+        "bwd_subsequent_packets_raw_windows_sample": [
+          64,
+          64,
+          64,
+          64,
+          64
+        ],
+        "bwd_last_packet_raw_window": 64,
+        "bwd_last_packet_scaled_window": 65536
+      },
+      "java_cicflowmeter": {
+        "total_fwd_packets": 3,
+        "total_bwd_packets": 5,
+        "fwd_init_win_bytes": 64240,
+        "bwd_init_win_bytes": 64
+      },
+      "match_analysis": "Java Init_Win_bytes_backward (64) matches tshark's LAST backward packet raw header window (64), NOT the initial SYN-ACK window (65160)."
+    },
+    {
+      "flow_5tuple": "172.20.0.4:36096 -> 172.20.0.2:80 (TCP)",
+      "src_port": 36096,
+      "tshark_breakdown": {
+        "total_fwd_packets": 5,
+        "total_bwd_packets": 6,
+        "fwd_syn_window_raw": 64240,
+        "bwd_syn_ack_packet_frame": 75,
+        "bwd_syn_ack_window_raw": 65160,
+        "bwd_syn_ack_window_scale_shift": "10",
+        "bwd_subsequent_packets_raw_windows_sample": [
+          64,
+          64,
+          64,
+          64,
+          64
+        ],
+        "bwd_last_packet_raw_window": 64,
+        "bwd_last_packet_scaled_window": 65536
+      },
+      "java_cicflowmeter": {
+        "total_fwd_packets": 3,
+        "total_bwd_packets": 4,
+        "fwd_init_win_bytes": 64240,
+        "bwd_init_win_bytes": 64
+      },
+      "match_analysis": "Java Init_Win_bytes_backward (64) matches tshark's LAST backward packet raw header window (64), NOT the initial SYN-ACK window (65160)."
+    },
+    {
+      "flow_5tuple": "172.20.0.4:36100 -> 172.20.0.2:80 (TCP)",
+      "src_port": 36100,
+      "tshark_breakdown": {
+        "total_fwd_packets": 6,
+        "total_bwd_packets": 5,
+        "fwd_syn_window_raw": 64240,
+        "bwd_syn_ack_packet_frame": 86,
+        "bwd_syn_ack_window_raw": 65160,
+        "bwd_syn_ack_window_scale_shift": "10",
+        "bwd_subsequent_packets_raw_windows_sample": [
+          64,
+          64,
+          64,
+          64
+        ],
+        "bwd_last_packet_raw_window": 64,
+        "bwd_last_packet_scaled_window": 65536
+      },
+      "java_cicflowmeter": {
+        "total_fwd_packets": 3,
+        "total_bwd_packets": 3,
+        "fwd_init_win_bytes": 64240,
+        "bwd_init_win_bytes": 64
+      },
+      "match_analysis": "Java Init_Win_bytes_backward (64) matches tshark's LAST backward packet raw header window (64), NOT the initial SYN-ACK window (65160)."
+    },
+    {
+      "flow_5tuple": "172.20.0.4:36110 -> 172.20.0.2:80 (TCP)",
+      "src_port": 36110,
+      "tshark_breakdown": {
+        "total_fwd_packets": 7,
+        "total_bwd_packets": 7,
+        "fwd_syn_window_raw": 64240,
+        "bwd_syn_ack_packet_frame": 97,
+        "bwd_syn_ack_window_raw": 65160,
+        "bwd_syn_ack_window_scale_shift": "10",
+        "bwd_subsequent_packets_raw_windows_sample": [
+          64,
+          64,
+          64,
+          64,
+          64
+        ],
+        "bwd_last_packet_raw_window": 64,
+        "bwd_last_packet_scaled_window": 65536
+      },
+      "java_cicflowmeter": {
+        "total_fwd_packets": 3,
+        "total_bwd_packets": 4,
+        "fwd_init_win_bytes": 64240,
+        "bwd_init_win_bytes": 64
+      },
+      "match_analysis": "Java Init_Win_bytes_backward (64) matches tshark's LAST backward packet raw header window (64), NOT the initial SYN-ACK window (65160)."
+    },
+    {
+      "flow_5tuple": "172.20.0.4:36110 -> 172.20.0.2:80 (TCP)",
+      "src_port": 36110,
+      "tshark_breakdown": {
+        "total_fwd_packets": 7,
+        "total_bwd_packets": 7,
+        "fwd_syn_window_raw": 64240,
+        "bwd_syn_ack_packet_frame": 97,
+        "bwd_syn_ack_window_raw": 65160,
+        "bwd_syn_ack_window_scale_shift": "10",
+        "bwd_subsequent_packets_raw_windows_sample": [
+          64,
+          64,
+          64,
+          64,
+          64
+        ],
+        "bwd_last_packet_raw_window": 64,
+        "bwd_last_packet_scaled_window": 65536
+      },
+      "java_cicflowmeter": {
+        "total_fwd_packets": 2,
+        "total_bwd_packets": 2,
+        "fwd_init_win_bytes": 65,
+        "bwd_init_win_bytes": 64
+      },
+      "match_analysis": "Java Init_Win_bytes_backward (64) matches tshark's LAST backward packet raw header window (64), NOT the initial SYN-ACK window (65160)."
+    }
+  ],
+  "code_root_cause": {
+    "file": "tools/cicflowmeter-java/src/main/java/cic/cs/unb/ca/jnetpcap/BasicFlow.java",
+    "lines": "155, 196",
+    "explanation": "In BasicFlow.java, Init_Win_bytes_forward is assigned once in the first-packet initialization block (line 141). In contrast, Init_Win_bytes_backward is set on line 155 for the first reverse packet, but is then repeatedly and unconditionally overwritten on line 196: 'Init_Win_bytes_backward = packet.getTCPWindow();' for every subsequent backward packet. On modern Linux TCP stacks with Window Scaling enabled (wscale=10), established data ACK packets carry an unscaled raw window field of 64 (which multiplies by 2^10 = 1024 to a true receive window of 65,536 bytes). Because Java CICFlowMeter does not parse TCP options and continually overwrites this field, the final reported Init_Win_bytes_backward is the raw 16-bit window of the last backward packet (64)."
+  }
+}

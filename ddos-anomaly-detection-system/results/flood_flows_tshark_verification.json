@@ -1,0 +1,399 @@
+{
+  "verified_flows_count": 10,
+  "flows": [
+    {
+      "flow_5tuple": "172.20.0.3:47843 -> 172.20.0.2:80 (TCP)",
+      "src_port": 47843,
+      "has_server_response": true,
+      "tshark_ground_truth": {
+        "fwd_pkts": 2,
+        "bwd_pkts": 1,
+        "sum_tcp_len_fwd": 0,
+        "syn_count_fwd": 1,
+        "ack_count_fwd": 0,
+        "syn_count_bwd": 1,
+        "ack_count_bwd": 1,
+        "init_win_bytes_fwd": 53270,
+        "init_win_bytes_bwd": 64240
+      },
+      "java_cicflowmeter": {
+        "fwd_pkts": 2,
+        "bwd_pkts": 1,
+        "totlen_fwd_pkts": 0.0,
+        "fwd_pkt_len_max": 0.0,
+        "syn_flag_cnt": 2,
+        "ack_flag_cnt": 1,
+        "init_fwd_win_byts": 53270,
+        "init_bwd_win_byts": 64240
+      },
+      "python_cicflowmeter": {
+        "fwd_pkts": 3,
+        "bwd_pkts": 1,
+        "totlen_fwd_pkts": 162.0,
+        "fwd_pkt_len_max": 54.0,
+        "syn_flag_cnt": 3,
+        "ack_flag_cnt": 1,
+        "init_fwd_win_byts": 53270,
+        "init_bwd_win_byts": 64240
+      }
+    },
+    {
+      "flow_5tuple": "172.20.0.3:65364 -> 172.20.0.2:80 (TCP)",
+      "src_port": 65364,
+      "has_server_response": true,
+      "tshark_ground_truth": {
+        "fwd_pkts": 2,
+        "bwd_pkts": 1,
+        "sum_tcp_len_fwd": 0,
+        "syn_count_fwd": 1,
+        "ack_count_fwd": 0,
+        "syn_count_bwd": 1,
+        "ack_count_bwd": 1,
+        "init_win_bytes_fwd": 53270,
+        "init_win_bytes_bwd": 64240
+      },
+      "java_cicflowmeter": {
+        "fwd_pkts": 2,
+        "bwd_pkts": 1,
+        "totlen_fwd_pkts": 0.0,
+        "fwd_pkt_len_max": 0.0,
+        "syn_flag_cnt": 2,
+        "ack_flag_cnt": 1,
+        "init_fwd_win_byts": 53270,
+        "init_bwd_win_byts": 64240
+      },
+      "python_cicflowmeter": {
+        "fwd_pkts": 3,
+        "bwd_pkts": 1,
+        "totlen_fwd_pkts": 162.0,
+        "fwd_pkt_len_max": 54.0,
+        "syn_flag_cnt": 3,
+        "ack_flag_cnt": 1,
+        "init_fwd_win_byts": 53270,
+        "init_bwd_win_byts": 64240
+      }
+    },
+    {
+      "flow_5tuple": "172.20.0.3:43649 -> 172.20.0.2:80 (TCP)",
+      "src_port": 43649,
+      "has_server_response": true,
+      "tshark_ground_truth": {
+        "fwd_pkts": 3,
+        "bwd_pkts": 1,
+        "sum_tcp_len_fwd": 0,
+        "syn_count_fwd": 2,
+        "ack_count_fwd": 0,
+        "syn_count_bwd": 1,
+        "ack_count_bwd": 1,
+        "init_win_bytes_fwd": 53270,
+        "init_win_bytes_bwd": 64240
+      },
+      "java_cicflowmeter": {
+        "fwd_pkts": 2,
+        "bwd_pkts": 1,
+        "totlen_fwd_pkts": 0.0,
+        "fwd_pkt_len_max": 0.0,
+        "syn_flag_cnt": 2,
+        "ack_flag_cnt": 1,
+        "init_fwd_win_byts": 53270,
+        "init_bwd_win_byts": 64240
+      },
+      "python_cicflowmeter": {
+        "fwd_pkts": 4,
+        "bwd_pkts": 1,
+        "totlen_fwd_pkts": 216.0,
+        "fwd_pkt_len_max": 54.0,
+        "syn_flag_cnt": 4,
+        "ack_flag_cnt": 1,
+        "init_fwd_win_byts": 53270,
+        "init_bwd_win_byts": 64240
+      }
+    },
+    {
+      "flow_5tuple": "172.20.0.3:53064 -> 172.20.0.2:80 (TCP)",
+      "src_port": 53064,
+      "has_server_response": true,
+      "tshark_ground_truth": {
+        "fwd_pkts": 2,
+        "bwd_pkts": 1,
+        "sum_tcp_len_fwd": 0,
+        "syn_count_fwd": 1,
+        "ack_count_fwd": 0,
+        "syn_count_bwd": 1,
+        "ack_count_bwd": 1,
+        "init_win_bytes_fwd": 53270,
+        "init_win_bytes_bwd": 64240
+      },
+      "java_cicflowmeter": {
+        "fwd_pkts": 2,
+        "bwd_pkts": 1,
+        "totlen_fwd_pkts": 0.0,
+        "fwd_pkt_len_max": 0.0,
+        "syn_flag_cnt": 2,
+        "ack_flag_cnt": 1,
+        "init_fwd_win_byts": 53270,
+        "init_bwd_win_byts": 64240
+      },
+      "python_cicflowmeter": {
+        "fwd_pkts": 3,
+        "bwd_pkts": 1,
+        "totlen_fwd_pkts": 162.0,
+        "fwd_pkt_len_max": 54.0,
+        "syn_flag_cnt": 3,
+        "ack_flag_cnt": 1,
+        "init_fwd_win_byts": 53270,
+        "init_bwd_win_byts": 64240
+      }
+    },
+    {
+      "flow_5tuple": "172.20.0.3:22518 -> 172.20.0.2:80 (TCP)",
+      "src_port": 22518,
+      "has_server_response": true,
+      "tshark_ground_truth": {
+        "fwd_pkts": 2,
+        "bwd_pkts": 1,
+        "sum_tcp_len_fwd": 0,
+        "syn_count_fwd": 1,
+        "ack_count_fwd": 0,
+        "syn_count_bwd": 1,
+        "ack_count_bwd": 1,
+        "init_win_bytes_fwd": 53270,
+        "init_win_bytes_bwd": 64240
+      },
+      "java_cicflowmeter": {
+        "fwd_pkts": 2,
+        "bwd_pkts": 1,
+        "totlen_fwd_pkts": 0.0,
+        "fwd_pkt_len_max": 0.0,
+        "syn_flag_cnt": 2,
+        "ack_flag_cnt": 1,
+        "init_fwd_win_byts": 53270,
+        "init_bwd_win_byts": 64240
+      },
+      "python_cicflowmeter": {
+        "fwd_pkts": 3,
+        "bwd_pkts": 1,
+        "totlen_fwd_pkts": 162.0,
+        "fwd_pkt_len_max": 54.0,
+        "syn_flag_cnt": 3,
+        "ack_flag_cnt": 1,
+        "init_fwd_win_byts": 53270,
+        "init_bwd_win_byts": 64240
+      }
+    },
+    {
+      "flow_5tuple": "172.20.0.3:44376 -> 172.20.0.2:80 (TCP)",
+      "src_port": 44376,
+      "has_server_response": false,
+      "tshark_ground_truth": {
+        "fwd_pkts": 2,
+        "bwd_pkts": 0,
+        "sum_tcp_len_fwd": 0,
+        "syn_count_fwd": 2,
+        "ack_count_fwd": 0,
+        "syn_count_bwd": 0,
+        "ack_count_bwd": 0,
+        "init_win_bytes_fwd": 53270,
+        "init_win_bytes_bwd": 0
+      },
+      "java_cicflowmeter": {
+        "fwd_pkts": 2,
+        "bwd_pkts": 0,
+        "totlen_fwd_pkts": 0.0,
+        "fwd_pkt_len_max": 0.0,
+        "syn_flag_cnt": 2,
+        "ack_flag_cnt": 0,
+        "init_fwd_win_byts": 53270,
+        "init_bwd_win_byts": 0
+      },
+      "python_cicflowmeter": {
+        "fwd_pkts": 3,
+        "bwd_pkts": 0,
+        "totlen_fwd_pkts": 162.0,
+        "fwd_pkt_len_max": 54.0,
+        "syn_flag_cnt": 3,
+        "ack_flag_cnt": 0,
+        "init_fwd_win_byts": 53270,
+        "init_bwd_win_byts": 0
+      }
+    },
+    {
+      "flow_5tuple": "172.20.0.3:43179 -> 172.20.0.2:80 (TCP)",
+      "src_port": 43179,
+      "has_server_response": false,
+      "tshark_ground_truth": {
+        "fwd_pkts": 2,
+        "bwd_pkts": 0,
+        "sum_tcp_len_fwd": 0,
+        "syn_count_fwd": 2,
+        "ack_count_fwd": 0,
+        "syn_count_bwd": 0,
+        "ack_count_bwd": 0,
+        "init_win_bytes_fwd": 53270,
+        "init_win_bytes_bwd": 0
+      },
+      "java_cicflowmeter": {
+        "fwd_pkts": 2,
+        "bwd_pkts": 0,
+        "totlen_fwd_pkts": 0.0,
+        "fwd_pkt_len_max": 0.0,
+        "syn_flag_cnt": 2,
+        "ack_flag_cnt": 0,
+        "init_fwd_win_byts": 53270,
+        "init_bwd_win_byts": 0
+      },
+      "python_cicflowmeter": {
+        "fwd_pkts": 3,
+        "bwd_pkts": 0,
+        "totlen_fwd_pkts": 162.0,
+        "fwd_pkt_len_max": 54.0,
+        "syn_flag_cnt": 3,
+        "ack_flag_cnt": 0,
+        "init_fwd_win_byts": 53270,
+        "init_bwd_win_byts": 0
+      }
+    },
+    {
+      "flow_5tuple": "172.20.0.3:27698 -> 172.20.0.2:80 (TCP)",
+      "src_port": 27698,
+      "has_server_response": false,
+      "tshark_ground_truth": {
+        "fwd_pkts": 2,
+        "bwd_pkts": 0,
+        "sum_tcp_len_fwd": 0,
+        "syn_count_fwd": 2,
+        "ack_count_fwd": 0,
+        "syn_count_bwd": 0,
+        "ack_count_bwd": 0,
+        "init_win_bytes_fwd": 53270,
+        "init_win_bytes_bwd": 0
+      },
+      "java_cicflowmeter": {
+        "fwd_pkts": 2,
+        "bwd_pkts": 0,
+        "totlen_fwd_pkts": 0.0,
+        "fwd_pkt_len_max": 0.0,
+        "syn_flag_cnt": 2,
+        "ack_flag_cnt": 0,
+        "init_fwd_win_byts": 53270,
+        "init_bwd_win_byts": 0
+      },
+      "python_cicflowmeter": {
+        "fwd_pkts": 3,
+        "bwd_pkts": 0,
+        "totlen_fwd_pkts": 162.0,
+        "fwd_pkt_len_max": 54.0,
+        "syn_flag_cnt": 3,
+        "ack_flag_cnt": 0,
+        "init_fwd_win_byts": 53270,
+        "init_bwd_win_byts": 0
+      }
+    },
+    {
+      "flow_5tuple": "172.20.0.3:22773 -> 172.20.0.2:80 (TCP)",
+      "src_port": 22773,
+      "has_server_response": false,
+      "tshark_ground_truth": {
+        "fwd_pkts": 2,
+        "bwd_pkts": 0,
+        "sum_tcp_len_fwd": 0,
+        "syn_count_fwd": 2,
+        "ack_count_fwd": 0,
+        "syn_count_bwd": 0,
+        "ack_count_bwd": 0,
+        "init_win_bytes_fwd": 53270,
+        "init_win_bytes_bwd": 0
+      },
+      "java_cicflowmeter": {
+        "fwd_pkts": 2,
+        "bwd_pkts": 0,
+        "totlen_fwd_pkts": 0.0,
+        "fwd_pkt_len_max": 0.0,
+        "syn_flag_cnt": 2,
+        "ack_flag_cnt": 0,
+        "init_fwd_win_byts": 53270,
+        "init_bwd_win_byts": 0
+      },
+      "python_cicflowmeter": {
+        "fwd_pkts": 3,
+        "bwd_pkts": 0,
+        "totlen_fwd_pkts": 162.0,
+        "fwd_pkt_len_max": 54.0,
+        "syn_flag_cnt": 3,
+        "ack_flag_cnt": 0,
+        "init_fwd_win_byts": 53270,
+        "init_bwd_win_byts": 0
+      }
+    },
+    {
+      "flow_5tuple": "172.20.0.3:16035 -> 172.20.0.2:80 (TCP)",
+      "src_port": 16035,
+      "has_server_response": false,
+      "tshark_ground_truth": {
+        "fwd_pkts": 2,
+        "bwd_pkts": 0,
+        "sum_tcp_len_fwd": 0,
+        "syn_count_fwd": 2,
+        "ack_count_fwd": 0,
+        "syn_count_bwd": 0,
+        "ack_count_bwd": 0,
+        "init_win_bytes_fwd": 53270,
+        "init_win_bytes_bwd": 0
+      },
+      "java_cicflowmeter": {
+        "fwd_pkts": 2,
+        "bwd_pkts": 0,
+        "totlen_fwd_pkts": 0.0,
+        "fwd_pkt_len_max": 0.0,
+        "syn_flag_cnt": 2,
+        "ack_flag_cnt": 0,
+        "init_fwd_win_byts": 53270,
+        "init_bwd_win_byts": 0
+      },
+      "python_cicflowmeter": {
+        "fwd_pkts": 3,
+        "bwd_pkts": 0,
+        "totlen_fwd_pkts": 162.0,
+        "fwd_pkt_len_max": 54.0,
+        "syn_flag_cnt": 3,
+        "ack_flag_cnt": 0,
+        "init_fwd_win_byts": 53270,
+        "init_bwd_win_byts": 0
+      }
+    }
+  ],
+  "reconciliation": {
+    "pcap_total_frames": 6554,
+    "pcap_ip_conversations": {
+      "172.20.0.3 <-> 172.20.0.2 (SYN flood attack)": {
+        "fwd_frames_from_attacker": 5913,
+        "bwd_frames_from_server": 28,
+        "total_frames": 5941,
+        "unique_src_ports": 5622,
+        "packet_count_distribution_per_src_port": {
+          "1_packet": 5346,
+          "2_packets": 262,
+          "3_packets": 13,
+          "4_packets": 1
+        },
+        "total_packets_sum_check": "5346*1 + 262*2 + 13*3 + 1*4 = 5913 packets"
+      },
+      "172.20.0.4 <-> 172.20.0.2 (Benign background client)": {
+        "fwd_frames": 311,
+        "bwd_frames": 289,
+        "total_frames": 600
+      },
+      "172.20.0.1 <-> 239.255.255.250 (Docker host SSDP)": {
+        "frames": 4
+      },
+      "other_broadcast_or_arp": {
+        "frames": 9
+      }
+    },
+    "reconciliation_findings": {
+      "mathematical_impossibility_explained": "5,622 flows each having >= 2 physical packets would require at least 11,244 packets, which is impossible in a 6,554-packet pcap. In reality, 5,346 of the 5,622 attack flows contain exactly 1 physical packet in the pcap (single SYN without retransmission).",
+      "python_port_bug": "In cicflowmeter/flow_session.py, a new flow is instantiated via Flow(pkt), which adds pkt to self.packets in Flow.__init__. Immediately following this block, execution falls through to flow.add_packet(pkt), appending the very same packet a second time. Consequently, every single-packet flow is assigned tot_fwd_pkts = 2, and every 2-packet retransmission is assigned tot_fwd_pkts = 3. Furthermore, the Python port extracts packet length as wire/IP packet length (54 bytes) rather than TCP payload length, giving 54 * 2 = 108 bytes.",
+      "java_cicflowmeter_behavior": "Java CICFlowMeter requires bidirectional activity or >= 2 packets to output a flow, completely discarding all 5,346 single-packet flows. It outputs exactly 277 flows (276 flows with >= 2 physical SYN packets due to retransmissions, plus 1 single-packet flow that received a SYN-ACK reply). Java measures Total Length of Fwd Packets strictly as TCP payload length, which is 0 for pure SYNs."
+    }
+  }
+}

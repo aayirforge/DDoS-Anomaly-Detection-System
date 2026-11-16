@@ -1,0 +1,73 @@
+{
+  "rule_specification": "tcp.flags.syn == 1 && tcp.flags.ack == 0 grouped by Destination IP in 1-second bins",
+  "threshold_evaluations": [
+    {
+      "threshold_syn_per_sec": 10,
+      "idle_false_alarms": 0,
+      "busy_false_alarms": 61,
+      "total_benign_false_alarms": 61,
+      "total_benign_1s_bins": 106,
+      "bin_level_fpr": 0.5755,
+      "syn_attack_detected_bins": 61,
+      "total_syn_attack_1s_bins": 61,
+      "bin_level_recall": 1.0
+    },
+    {
+      "threshold_syn_per_sec": 25,
+      "idle_false_alarms": 0,
+      "busy_false_alarms": 60,
+      "total_benign_false_alarms": 60,
+      "total_benign_1s_bins": 106,
+      "bin_level_fpr": 0.566,
+      "syn_attack_detected_bins": 61,
+      "total_syn_attack_1s_bins": 61,
+      "bin_level_recall": 1.0
+    },
+    {
+      "threshold_syn_per_sec": 50,
+      "idle_false_alarms": 0,
+      "busy_false_alarms": 4,
+      "total_benign_false_alarms": 4,
+      "total_benign_1s_bins": 106,
+      "bin_level_fpr": 0.0377,
+      "syn_attack_detected_bins": 60,
+      "total_syn_attack_1s_bins": 61,
+      "bin_level_recall": 0.9836
+    },
+    {
+      "threshold_syn_per_sec": 60,
+      "idle_false_alarms": 0,
+      "busy_false_alarms": 0,
+      "total_benign_false_alarms": 0,
+      "total_benign_1s_bins": 106,
+      "bin_level_fpr": 0.0,
+      "syn_attack_detected_bins": 60,
+      "total_syn_attack_1s_bins": 61,
+      "bin_level_recall": 0.9836
+    },
+    {
+      "threshold_syn_per_sec": 75,
+      "idle_false_alarms": 0,
+      "busy_false_alarms": 0,
+      "total_benign_false_alarms": 0,
+      "total_benign_1s_bins": 106,
+      "bin_level_fpr": 0.0,
+      "syn_attack_detected_bins": 59,
+      "total_syn_attack_1s_bins": 61,
+      "bin_level_recall": 0.9672
+    },
+    {
+      "threshold_syn_per_sec": 100,
+      "idle_false_alarms": 0,
+      "busy_false_alarms": 0,
+      "total_benign_false_alarms": 0,
+      "total_benign_1s_bins": 106,
+      "bin_level_fpr": 0.0,
+      "syn_attack_detected_bins": 9,
+      "total_syn_attack_1s_bins": 61,
+      "bin_level_recall": 0.1475
+    }
+  ],
+  "recommended_threshold": 60,
+  "recommended_threshold_summary": "At T = 60 syn-no-ack/s: 0 false alarms on idle and busy benign captures (0.0% FPR), with 60/61 attack seconds detected (98.36% detection recall)."
+}

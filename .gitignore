@@ -13,3 +13,9 @@
 **/logs/*.log
 **/logs/*.db
 **/logs/*.csv
+**/*.pcap
+lab/captures/
+tools/cicflowmeter-java/*.pcap
+
+logs/
+target/

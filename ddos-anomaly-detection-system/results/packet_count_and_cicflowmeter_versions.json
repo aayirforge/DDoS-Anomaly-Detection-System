@@ -1,0 +1,146 @@
+{
+  "day1_syn_one_packet_fraction": 0.0,
+  "day1_syn_total_flows": 206888,
+  "day1_all_files_min_packet_count": 2,
+  "cicflowmeter_version_cited_in_dataset_doc": "CICFlowMeter-V3 (Sharafaldin et al., 2019, 'Developing Realistic Distributed Denial of Service (DDoS) Attack Dataset and Taxonomy')",
+  "cicflowmeter_version_in_use_jar": "CICFlowMeter-V4 (SimpleFlowMeterV4-0.0.4-SNAPSHOT.jar)",
+  "source_code_reason": "In CICFlowMeter's FlowGenerator.java (lines 271, 285, 324), flows are explicitly discarded if packetCount() <= 1 (if (flow.packetCount() > 1)).",
+  "per_file_packet_counts": [
+    {
+      "file": "01-12_DrDoS_DNS.parquet",
+      "total_flows": 227325,
+      "one_packet_flows": 0,
+      "one_packet_pct": 0.0,
+      "two_packet_flows": 208521,
+      "min_packet_count": 2
+    },
+    {
+      "file": "01-12_DrDoS_LDAP.parquet",
+      "total_flows": 44632,
+      "one_packet_flows": 0,
+      "one_packet_pct": 0.0,
+      "two_packet_flows": 40410,
+      "min_packet_count": 2
+    },
+    {
+      "file": "01-12_DrDoS_MSSQL.parquet",
+      "total_flows": 231992,
+      "one_packet_flows": 0,
+      "one_packet_pct": 0.0,
+      "two_packet_flows": 225547,
+      "min_packet_count": 2
+    },
+    {
+      "file": "01-12_DrDoS_NTP.parquet",
+      "total_flows": 1125954,
+      "one_packet_flows": 0,
+      "one_packet_pct": 0.0,
+      "two_packet_flows": 2900,
+      "min_packet_count": 2
+    },
+    {
+      "file": "01-12_DrDoS_NetBIOS.parquet",
+      "total_flows": 26066,
+      "one_packet_flows": 0,
+      "one_packet_pct": 0.0,
+      "two_packet_flows": 18699,
+      "min_packet_count": 2
+    },
+    {
+      "file": "01-12_DrDoS_SNMP.parquet",
+      "total_flows": 121088,
+      "one_packet_flows": 0,
+      "one_packet_pct": 0.0,
+      "two_packet_flows": 116131,
+      "min_packet_count": 2
+    },
+    {
+      "file": "01-12_DrDoS_SSDP.parquet",
+      "total_flows": 912164,
+      "one_packet_flows": 0,
+      "one_packet_pct": 0.0,
+      "two_packet_flows": 17670,
+      "min_packet_count": 2
+    },
+    {
+      "file": "01-12_DrDoS_UDP.parquet",
+      "total_flows": 930902,
+      "one_packet_flows": 0,
+      "one_packet_pct": 0.0,
+      "two_packet_flows": 5255,
+      "min_packet_count": 2
+    },
+    {
+      "file": "01-12_Syn.parquet",
+      "total_flows": 206888,
+      "one_packet_flows": 0,
+      "one_packet_pct": 0.0,
+      "two_packet_flows": 45503,
+      "min_packet_count": 2
+    },
+    {
+      "file": "01-12_UDPLag.parquet",
+      "total_flows": 82145,
+      "one_packet_flows": 0,
+      "one_packet_pct": 0.0,
+      "two_packet_flows": 418,
+      "min_packet_count": 2
+    },
+    {
+      "file": "03-11_LDAP.parquet",
+      "total_flows": 13182,
+      "one_packet_flows": 0,
+      "one_packet_pct": 0.0,
+      "two_packet_flows": 7149,
+      "min_packet_count": 2
+    },
+    {
+      "file": "03-11_MSSQL.parquet",
+      "total_flows": 163577,
+      "one_packet_flows": 0,
+      "one_packet_pct": 0.0,
+      "two_packet_flows": 148878,
+      "min_packet_count": 2
+    },
+    {
+      "file": "03-11_NetBIOS.parquet",
+      "total_flows": 8533,
+      "one_packet_flows": 0,
+      "one_packet_pct": 0.0,
+      "two_packet_flows": 1504,
+      "min_packet_count": 2
+    },
+    {
+      "file": "03-11_Portmap.parquet",
+      "total_flows": 4991,
+      "one_packet_flows": 0,
+      "one_packet_pct": 0.0,
+      "two_packet_flows": 584,
+      "min_packet_count": 2
+    },
+    {
+      "file": "03-11_Syn.parquet",
+      "total_flows": 536826,
+      "one_packet_flows": 0,
+      "one_packet_pct": 0.0,
+      "two_packet_flows": 37242,
+      "min_packet_count": 2
+    },
+    {
+      "file": "03-11_UDP.parquet",
+      "total_flows": 1078178,
+      "one_packet_flows": 0,
+      "one_packet_pct": 0.0,
+      "two_packet_flows": 2935,
+      "min_packet_count": 2
+    },
+    {
+      "file": "03-11_UDPLag.parquet",
+      "total_flows": 111834,
+      "one_packet_flows": 0,
+      "one_packet_pct": 0.0,
+      "two_packet_flows": 579,
+      "min_packet_count": 2
+    }
+  ]
+}

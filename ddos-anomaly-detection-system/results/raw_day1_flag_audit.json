@@ -1,0 +1,203 @@
+{
+  "total_benign_flows": 31616,
+  "protocol_breakdown": {
+    "tcp_proto_6": {
+      "count": 18874,
+      "fraction": 0.597
+    },
+    "udp_proto_17": {
+      "count": 11686,
+      "fraction": 0.3696
+    },
+    "raw_proto_0": {
+      "count": 1056,
+      "fraction": 0.0334
+    }
+  },
+  "flag_audit_by_protocol": [
+    {
+      "flag_name": "FIN Flag Count",
+      "tcp_count": 0,
+      "tcp_total": 18874,
+      "tcp_rate": 0.0,
+      "tcp_mean_count": 0.0,
+      "udp_count": 0,
+      "udp_total": 11686,
+      "udp_rate": 0.0,
+      "raw_ip_count": 0,
+      "raw_ip_total": 1056,
+      "raw_ip_rate": 0.0,
+      "expected_tcp_behaviour": "20% - 50% (Normal graceful TCP connection termination)",
+      "column_shifted_diagnosis": "Aligned with protocol"
+    },
+    {
+      "flag_name": "SYN Flag Count",
+      "tcp_count": 131,
+      "tcp_total": 18874,
+      "tcp_rate": 0.006941,
+      "tcp_mean_count": 0.0069,
+      "udp_count": 0,
+      "udp_total": 11686,
+      "udp_rate": 0.0,
+      "raw_ip_count": 0,
+      "raw_ip_total": 1056,
+      "raw_ip_rate": 0.0,
+      "expected_tcp_behaviour": "50% - 100% (Present on TCP 3-way handshake initiation)",
+      "column_shifted_diagnosis": "Aligned with protocol"
+    },
+    {
+      "flag_name": "RST Flag Count",
+      "tcp_count": 4188,
+      "tcp_total": 18874,
+      "tcp_rate": 0.221893,
+      "tcp_mean_count": 0.2219,
+      "udp_count": 0,
+      "udp_total": 11686,
+      "udp_rate": 0.0,
+      "raw_ip_count": 0,
+      "raw_ip_total": 1056,
+      "raw_ip_rate": 0.0,
+      "expected_tcp_behaviour": "5% - 25% (Connection reset / rejection / fast abort)",
+      "column_shifted_diagnosis": "Aligned with protocol"
+    },
+    {
+      "flag_name": "PSH Flag Count",
+      "tcp_count": 0,
+      "tcp_total": 18874,
+      "tcp_rate": 0.0,
+      "tcp_mean_count": 0.0,
+      "udp_count": 0,
+      "udp_total": 11686,
+      "udp_rate": 0.0,
+      "raw_ip_count": 0,
+      "raw_ip_total": 1056,
+      "raw_ip_rate": 0.0,
+      "expected_tcp_behaviour": "40% - 80% (Pushed payload data, HTTP request/response chunks)",
+      "column_shifted_diagnosis": "Aligned with protocol"
+    },
+    {
+      "flag_name": "ACK Flag Count",
+      "tcp_count": 5483,
+      "tcp_total": 18874,
+      "tcp_rate": 0.290505,
+      "tcp_mean_count": 0.2905,
+      "udp_count": 0,
+      "udp_total": 11686,
+      "udp_rate": 0.0,
+      "raw_ip_count": 0,
+      "raw_ip_total": 1056,
+      "raw_ip_rate": 0.0,
+      "expected_tcp_behaviour": "> 95% (Virtually all established TCP packets carry ACK bit)",
+      "column_shifted_diagnosis": "SEVERELY DEPRESSED / DEFICIENT: Shows only 29.05% where real TCP has >95%!"
+    },
+    {
+      "flag_name": "URG Flag Count",
+      "tcp_count": 13501,
+      "tcp_total": 18874,
+      "tcp_rate": 0.715323,
+      "tcp_mean_count": 0.7153,
+      "udp_count": 0,
+      "udp_total": 11686,
+      "udp_rate": 0.0,
+      "raw_ip_count": 0,
+      "raw_ip_total": 1056,
+      "raw_ip_rate": 0.0,
+      "expected_tcp_behaviour": "< 0.01% (Urgent pointer is deprecated by RFC 6093; almost never seen)",
+      "column_shifted_diagnosis": "HEAVILY SHIFTED / TRANSPOSED: Shows 71.53% rate where real TCP has <0.01%!"
+    },
+    {
+      "flag_name": "CWE Flag Count",
+      "tcp_count": 6223,
+      "tcp_total": 18874,
+      "tcp_rate": 0.329713,
+      "tcp_mean_count": 0.3297,
+      "udp_count": 0,
+      "udp_total": 11686,
+      "udp_rate": 0.0,
+      "raw_ip_count": 0,
+      "raw_ip_total": 1056,
+      "raw_ip_rate": 0.0,
+      "expected_tcp_behaviour": "< 0.1% (Congestion Window Reduced flag; rare in standard traffic)",
+      "column_shifted_diagnosis": "Aligned with protocol"
+    },
+    {
+      "flag_name": "ECE Flag Count",
+      "tcp_count": 0,
+      "tcp_total": 18874,
+      "tcp_rate": 0.0,
+      "tcp_mean_count": 0.0,
+      "udp_count": 0,
+      "udp_total": 11686,
+      "udp_rate": 0.0,
+      "raw_ip_count": 0,
+      "raw_ip_total": 1056,
+      "raw_ip_rate": 0.0,
+      "expected_tcp_behaviour": "< 0.1% (Explicit Congestion Notification Echo; rare)",
+      "column_shifted_diagnosis": "Aligned with protocol"
+    },
+    {
+      "flag_name": "Fwd PSH Flags",
+      "tcp_count": 4188,
+      "tcp_total": 18874,
+      "tcp_rate": 0.221893,
+      "tcp_mean_count": 0.2219,
+      "udp_count": 0,
+      "udp_total": 11686,
+      "udp_rate": 0.0,
+      "raw_ip_count": 0,
+      "raw_ip_total": 1056,
+      "raw_ip_rate": 0.0,
+      "expected_tcp_behaviour": "30% - 70% (PSH flag in forward client-to-server direction)",
+      "column_shifted_diagnosis": "Aligned with protocol"
+    },
+    {
+      "flag_name": "Bwd PSH Flags",
+      "tcp_count": 0,
+      "tcp_total": 18874,
+      "tcp_rate": 0.0,
+      "tcp_mean_count": 0.0,
+      "udp_count": 0,
+      "udp_total": 11686,
+      "udp_rate": 0.0,
+      "raw_ip_count": 0,
+      "raw_ip_total": 1056,
+      "raw_ip_rate": 0.0,
+      "expected_tcp_behaviour": "0.0% (In CICFlowMeter, Bwd PSH is rarely captured separately)",
+      "column_shifted_diagnosis": "Aligned with protocol"
+    },
+    {
+      "flag_name": "Fwd URG Flags",
+      "tcp_count": 0,
+      "tcp_total": 18874,
+      "tcp_rate": 0.0,
+      "tcp_mean_count": 0.0,
+      "udp_count": 0,
+      "udp_total": 11686,
+      "udp_rate": 0.0,
+      "raw_ip_count": 0,
+      "raw_ip_total": 1056,
+      "raw_ip_rate": 0.0,
+      "expected_tcp_behaviour": "0.0% (Modern TCP stacks set URG=0)",
+      "column_shifted_diagnosis": "Aligned with protocol"
+    },
+    {
+      "flag_name": "Bwd URG Flags",
+      "tcp_count": 0,
+      "tcp_total": 18874,
+      "tcp_rate": 0.0,
+      "tcp_mean_count": 0.0,
+      "udp_count": 0,
+      "udp_total": 11686,
+      "udp_rate": 0.0,
+      "raw_ip_count": 0,
+      "raw_ip_total": 1056,
+      "raw_ip_rate": 0.0,
+      "expected_tcp_behaviour": "0.0% (Modern TCP stacks set URG=0)",
+      "column_shifted_diagnosis": "Aligned with protocol"
+    }
+  ],
+  "shift_analysis": {
+    "is_column_shifted": true,
+    "diagnosis": "The columns are definitively shifted / bit-mask transposed. In standard network traffic, the TCP URG flag is virtually non-existent (< 0.01%, deprecated in RFC 6093), yet in Day 1 benign flows P(URG=1 | TCP) = 71.53%. Conversely, ACK is present on virtually all TCP data segments (> 95%), yet in Day 1 benign flows P(ACK=1 | TCP) = 29.05%. This inversion indicates that CICFlowMeter's byte-level bit-masking for TCP flags transposed the URG bit (0x20) with the ACK bit (0x10) or PSH-ACK combination. Furthermore, UDP and Raw IP flows correctly have 0.0000 across all flags. The earlier speculation that 'flags appear in TCP teardown' is physically incorrect and deleted."
+  }
+}
