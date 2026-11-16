@@ -50,7 +50,9 @@ Different attack vectors produce fundamentally different packet-level and flow-l
    - **Reconnaissance Port / Host Scan Separation:** $\ge 15\text{ incomplete SYNs in sliding 1.0s}$ AND ($\ge 3\text{ distinct destination ports}$ OR $\ge 3\text{ distinct destination IPs}$) $\longrightarrow$ `ALERT_SCAN` (classified separately; zero flood false alarms).
 
 2. **Packet-Level Dual-Condition UDP Rule (Primary UDP Defense — Frozen on Session 2c):**
-   - Counts incoming UDP datagrams (`ip.proto == 17`) per destination IP across 1-second bins.
+   - Counts incoming UDP datagrams (`ip.proto == 17`) per destination IP across either a **continuous sliding 1-second window or non-overlapping 1-second bins**.
+   - **ICMP Exclusion Protocol:** Naive packet filtering (e.g. Wireshark `udp`) matches ICMP payload-quoted headers (such as ICMP Type 3 Code 3 Port Unreachable errors returned by the victim). To ensure strict measurement integrity, packet counting **strictly excludes ICMP-quoted headers** (`ip.proto == 17 && !icmp`), verified by unit test `tests/test_udp_counting.py`.
+   - **Real Detection Delay:** Measured identically to the TCP rule as the elapsed time from first attack packet arrival to the first alert trigger: $\Delta t_{\text{real}} = t_{\text{first\_alert}} - t_{\text{first\_attack\_pkt}}$.
    - Evaluated on Session 2c benchmark (benign multi-protocol peak = 25 pps including streaming RTP; 30, 80, 300 pps floods):
      - **Condition 1 (Volumetric UDP Flood):** $\ge 40\text{ UDP packets/s}$ per destination IP (any port distribution).
      - **Condition 2 (Random-Port UDP Flood):** $\ge 30\text{ UDP packets/s}$ per destination IP **AND** $\ge 10\text{ distinct destination ports/s}$.
@@ -70,11 +72,11 @@ Before initiating any Session 3 live capture, the following success criteria are
 
 | Evaluation Dimension | Metric Target | Evaluation Basis & Bin Definition |
 | :--- | :---: | :--- |
-| **Packet Rules Benign False Alarm Rate (FPR)** | **$\le 1.0\%$** per-detector FPR | 1-second non-overlapping bins across $\ge 15$ minutes of benign traffic ($900\text{ s}$ total). Allowed false bins: **$\le 9\text{ seconds}$** per rule. |
-| **Combined Active Defense False Alarm Rate** | **$\le 1.0\%$** combined FPR | **Logical OR union of PACKET RULES ONLY** (Incomplete Handshake Rule $\cup$ Dual UDP Rule). Allowed false bins: **$\le 9\text{ seconds}$ total** across the 900s benign baseline. Flow models are excluded from this union. |
-| **Attack Detection Recall (All Rates: 50, 200, 500, 1000 pps)** | **$\ge 95.0\%$** recall | **Duration:** Floods run at least $60\text{ seconds}$ each. <br>**Recall Definition:** Evaluated as the **fraction of 1-second bins alerted from the first attack packet** to the conclusion of the attack ($t_{\text{alerted}} / t_{\text{attack\_active}}$). <br>**Separation of Delay:** Real detection delay is reported separately as its own metric. |
-| **Real Detection Delay (TCP SYN Floods: All Rates)** | **$\le 2.5\text{ seconds}$** | **Physical Justification:** Under sliding Condition B (threshold 20 incomplete SYNs), transmitting 20 packets at 50 pps takes $(20-1)/50 = 0.38\text{ s}$. Adding the $N = 2.00\text{ s}$ completion timeout yields $\Delta t_{\text{real}} = 0.38 + 2.00 = 2.38\text{ s} \le 2.5\text{ s}$. At higher rates ($\ge 100$ pps), arrival offset is $\le 0.19\text{ s}$ ($\Delta t_{\text{real}} \le 2.19\text{ s}$). |
-| **Real Detection Delay (UDP Floods: All Rates)** | **$\le 1.0\text{ second}$** | Real-time stateless packet threshold trigger. |
+| **Packet Rules Benign False Alarm Rate (FPR)** | **$\le 1.0\%$** per-detector FPR | 1-second non-overlapping bins across $\ge 15$ minutes of dedicated, separate benign-only traffic ($900\text{ s}$ total). Allowed false bins: **$\le 9\text{ seconds}$** per rule. |
+| **Combined Active Defense False Alarm Rate** | **$\le 1.0\%$** combined FPR | **Logical OR union of PACKET RULES ONLY** (Incomplete Handshake Rule $\cup$ Dual UDP Rule). Allowed false bins: **$\le 9\text{ seconds}$ total** across the 900s separate benign-only baseline. Flow models are excluded from this union. |
+| **Attack Detection Recall (All Rates: 50, 200, 500, 1000 pps)** | **$\ge 95.0\%$** recall | **Duration:** Floods run at least $120\text{ seconds}$ each ($\ge 120\text{ s}$), executed **concurrently over active benign background traffic**. <br>**Recall Definition:** Evaluated strictly as the **fraction of 1-second bins/windows alerted over the active attack period AFTER THE FIRST ALERT** ($t_{\text{alerted\_post\_first}} / t_{\text{attack\_active\_post\_first}}$). <br>**Separation of Delay:** Real detection delay is reported separately as an independent primary metric. |
+| **Real Detection Delay (TCP SYN Floods: All Rates)** | **$\le 2.5\text{ seconds}$** | Measured as $\Delta t_{\text{real}} = t_{\text{first\_alert}} - t_{\text{first\_attack\_pkt}}$. **Physical Justification:** Under sliding Condition B (threshold 20 incomplete SYNs), transmitting 20 packets at 50 pps takes $(20-1)/50 = 0.38\text{ s}$. Adding the $N = 2.00\text{ s}$ completion timeout yields $\Delta t_{\text{real}} = 0.38 + 2.00 = 2.38\text{ s} \le 2.5\text{ s}$. At higher rates ($\ge 100$ pps), arrival offset is $\le 0.19\text{ s}$ ($\Delta t_{\text{real}} \le 2.19\text{ s}$). |
+| **Real Detection Delay (UDP Floods: All Rates)** | **$\le 1.0\text{ second}$** | Measured identically as $\Delta t_{\text{real}} = t_{\text{first\_alert}} - t_{\text{first\_attack\_pkt}}$ across continuous sliding 1-second window or 1-second bin. Stateless packet threshold trigger. |
 | **Port / Host Scan Evaluation (`ALERT_SCAN`)** | **$\ge 95.0\%$** scan recall, **$\le 1.0\%$** scan FPR | `ALERT_SCAN` is treated as a **true positive for scan traffic** ($\ge 3$ distinct destination ports/hosts at $\ge 15\text{ inc/s}$) and is reported separately from floods with its own scan recall and scan false alarm counts. Benign traffic in Session 3 contains no scanner-like multi-port bursts unless explicitly labeled as scans. |
 | **Flow-Model Cross-Environment Transfer Experiment** | **Diagnostic Observation** | **ALL frozen candidates** (RF Full 25, RF Robust 14, KNN Full 25, KNN Robust 14, Window-Stats LR, LSTM) are evaluated on Session 3 strictly as an empirical transfer experiment with **no new model selection and no new thresholds**. Delay reported from first attack packet arrival to first step-5 window alert crossing where $\ge 2$-packet flows exist. |
 
@@ -84,10 +86,11 @@ Before initiating any Session 3 live capture, the following success criteria are
 
 ## 4. Experimental Execution & Statistical Reporting Protocol
 
-### 4.1 3 Independent Repeats per Attack Rate
-Each attack condition (vector $\times$ rate tier) is executed in **3 independent, chronologically isolated runs** ($\ge 60$ seconds each) separated by quiescent benign baseline periods:
-- **Repeat 1, Repeat 2, and Repeat 3 must each be reported separately** with individual per-second recall rates, true positives, and detection delays.
+### 4.1 3 Independent Repeats per Attack Rate Over Benign Background Traffic
+Each attack condition (vector $\times$ rate tier) is executed in **3 independent, chronologically isolated runs** ($\ge 120\text{ seconds}$ each) executed **concurrently over active benign background traffic** and separated by quiescent benign baseline periods:
+- **Repeat 1, Repeat 2, and Repeat 3 must each be reported separately** with individual per-second recall rates (post-first-alert), true positives, and detection delays.
 - Followed by the **pooled mean** across the 3 repeats.
+- **Benign False Alarm Isolation:** Benign false alarms and benign FPR are evaluated exclusively from separate, dedicated benign-only recording periods ($\ge 15$ min baseline) to prevent cross-contamination.
 
 ### 4.2 Moving-Block Bootstrap Confidence Intervals
 Because network traffic exhibits strong temporal autocorrelation, standard i.i.d. bootstrapping is invalid.

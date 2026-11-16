@@ -1,6 +1,6 @@
 {
   "metadata": {
-    "version": "1.3-freeze",
+    "version": "1.4-freeze",
     "description": "Master thresholds manifest for flow models, window models, and packet rules with verified provenance."
   },
   "flow_models": {
@@ -20,10 +20,10 @@
     },
     "rf_robust_14": {
       "level": "Flow",
-      "decision_threshold": 0.9,
-      "data_chosen_on": "Session 2 exploratory tuning (Ad-hoc)",
-      "score_file": "scripts/score_candidates_session2_java.py",
-      "provenance": "Post-hoc threshold inserted to suppress lab false positives"
+      "decision_threshold": 0.9910,
+      "data_chosen_on": "Day 1 validation split",
+      "score_file": "results/robust_subset_benchmark.json['models_evaluated']['Random Forest (Robust 14-Feat)']['same_day_zero_shot']['threshold']",
+      "provenance": "Chosen on Day 1 validation split to achieve FPR <= 1.0%"
     }
   },
   "window_models": {
@@ -59,13 +59,13 @@
       "score_file": "results/metrics.json['window_level_rows'][9]['threshold']",
       "provenance": "Window-level mean aggregation across step-size 5 windows"
     },
-    "knn_robust_14_log1p_champion": {
+    "knn_robust_14_in_sample_diagnostic": {
       "level": "Window (Step 5)",
       "decision_threshold_fixed": 0.8363,
-      "decision_threshold_calibrated": 0.8363,
+      "decision_threshold_calibrated": null,
       "data_chosen_on": "Session 2 Java benign windows (IN-SAMPLE / OPTIMISTIC)",
       "score_file": "results/knn_full_train_seeds_experiment.json['Full_Train_Deterministic']['threshold']",
-      "provenance": "Fit directly on Session 2 benign windows to constrain FPR <= 1.0% (In-sample)"
+      "provenance": "Fit directly on Session 2 benign windows to constrain FPR <= 1.0% (In-Sample Diagnostic)"
     },
     "lstm": {
       "level": "Window (Step 5)",
@@ -79,11 +79,11 @@
     },
     "window_stats_lr_robust_28": {
       "level": "Window (Step 5)",
-      "decision_threshold_fixed": 0.6,
-      "decision_threshold_calibrated": 0.34,
+      "decision_threshold_fixed": 0.6261,
+      "decision_threshold_calibrated": 0.9969,
       "data_chosen_on": "Day 1 validation split",
-      "score_file": "results/metrics.json['window_stats_baseline']['val_threshold']",
-      "provenance": "Chosen on Day 1 validation split from metrics.json"
+      "score_file": "results/robust_subset_benchmark.json['models_evaluated']['Logistic Regression Window-Stats (Robust 28-Stat)']",
+      "provenance": "Chosen on Day 1 validation split (val_threshold = 0.6261, calibrated = 0.9969)"
     }
   },
   "packet_rules": {

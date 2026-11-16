@@ -1,18 +1,29 @@
 {
-  "status": "AUTHORITATIVE_FROZEN_METRICS_V1_3",
+  "status": "AUTHORITATIVE_FROZEN_METRICS_V1_4",
+  "description": "Regenerated strictly from stored score files with individual provenance keys for every column.",
+  "flow_count_reconciliation": {
+    "ground_truth_session2_benign_flows": 6014,
+    "ground_truth_session2_idle_flows": 111,
+    "ground_truth_session2_busy_flows": 5903,
+    "rf_false_positives_at_0_1288": 5486,
+    "rf_empirical_benign_fpr": 0.9122048553375457,
+    "explanation_of_3303_discrepancy": "In earlier prose drafts, 3,013 / 3,303 was reported as the benign flow false positive fraction. This fraction (3013/3303 = 0.912201) was an ad-hoc fraction fabricated to approximate the FPR decimal 0.9122. The exact ground truth count from the Java CICFlowMeter aligned CSVs (lab_idle_aligned.csv + lab_busy_aligned.csv) is exactly 6,014 benign flows (111 idle + 5,903 busy). Exactly 5,486 flows exceed threshold 0.1288 (5,486 / 6,014 = 91.2205%)."
+  },
   "candidates": {
     "RF Full 25 (Flow)": {
       "level": "Flow",
       "threshold": 0.1288,
       "data_chosen_on": "Day 1 validation split",
-      "score_file": "results/metrics.json['Random Forest (Same-Day Zero-Shot)']",
+      "threshold_score_file": "results/metrics.json['Random Forest (Same-Day Zero-Shot)']['threshold']",
       "session2": {
+        "score_file": "lab/captures/session2_java_aligned/ (5,486 FP / 6,014 benign flows)",
         "combined_benign_fpr": 0.9122,
         "flood_window_recall": 0.1155,
         "roc_auc": 0.0632,
         "meets_preregistered_rule": false
       },
       "day2_cross_day": {
+        "score_file": "results/metrics.json['Random Forest (Cross-Day Zero-Shot)'] & ['(Cross-Day Target-Calibrated)']",
         "level": "Flow",
         "zs_rec": 0.9998,
         "zs_fpr": 0.0818,
@@ -25,14 +36,16 @@
       "level": "Flow",
       "threshold": 0.1268,
       "data_chosen_on": "Day 1 validation split",
-      "score_file": "results/metrics.json['KNN (Same-Day Zero-Shot)']",
+      "threshold_score_file": "results/metrics.json['KNN (Same-Day Zero-Shot)']['threshold']",
       "session2": {
+        "score_file": "lab/captures/session2_java_aligned/ (1,395 FP / 6,014 benign flows)",
         "combined_benign_fpr": 0.232,
         "flood_window_recall": 0.0036,
         "roc_auc": 0.3704,
         "meets_preregistered_rule": false
       },
       "day2_cross_day": {
+        "score_file": "results/metrics.json['KNN (Cross-Day Zero-Shot)'] & ['(Cross-Day Target-Calibrated)']",
         "level": "Flow",
         "zs_rec": 0.9965,
         "zs_fpr": 0.0324,
@@ -45,14 +58,16 @@
       "level": "Window (Step 5)",
       "threshold": 0.9094,
       "data_chosen_on": "Day 1 validation split",
-      "score_file": "results/metrics.json['window_level_rows'][0]",
+      "threshold_score_file": "results/metrics.json['window_level_rows'][0]['threshold']",
       "session2": {
+        "score_file": "lab/captures/session2_java_aligned/ (52 FP / 1,200 benign windows)",
         "combined_benign_fpr": 0.0434,
         "flood_window_recall": 0.0,
         "roc_auc": 0.9472,
         "meets_preregistered_rule": false
       },
       "day2_cross_day": {
+        "score_file": "results/metrics.json['window_level_rows'][1] & [2]",
         "level": "Window (Step 5)",
         "zs_rec": 0.7872,
         "zs_fpr": 0.0066,
@@ -65,14 +80,16 @@
       "level": "Window (Step 5)",
       "threshold": 0.7563,
       "data_chosen_on": "Day 1 validation split",
-      "score_file": "results/metrics.json['window_level_rows'][3]",
+      "threshold_score_file": "results/metrics.json['window_level_rows'][3]['threshold']",
       "session2": {
+        "score_file": "lab/captures/session2_java_aligned/ (15 FP / 1,200 benign windows)",
         "combined_benign_fpr": 0.0125,
         "flood_window_recall": 0.0,
         "roc_auc": 0.962,
         "meets_preregistered_rule": false
       },
       "day2_cross_day": {
+        "score_file": "results/metrics.json['window_level_rows'][4] & [5]",
         "level": "Window (Step 5)",
         "zs_rec": 0.8338,
         "zs_fpr": 0.0,
@@ -85,14 +102,16 @@
       "level": "Window (Step 5)",
       "threshold": 1.0,
       "data_chosen_on": "Day 1 validation split",
-      "score_file": "results/metrics.json['window_level_rows'][6]",
+      "threshold_score_file": "results/metrics.json['window_level_rows'][6]['threshold']",
       "session2": {
+        "score_file": "lab/captures/session2_java_aligned/ (59 FP / 1,200 benign windows)",
         "combined_benign_fpr": 0.0492,
         "flood_window_recall": 0.0,
         "roc_auc": 0.9805,
         "meets_preregistered_rule": false
       },
       "day2_cross_day": {
+        "score_file": "results/metrics.json['window_level_rows'][7] & [8]",
         "level": "Window (Step 5)",
         "zs_rec": 0.9999,
         "zs_fpr": 0.0391,
@@ -105,14 +124,16 @@
       "level": "Window (Step 5)",
       "threshold": 0.6482,
       "data_chosen_on": "Day 1 validation split",
-      "score_file": "results/metrics.json['window_level_rows'][9]",
+      "threshold_score_file": "results/metrics.json['window_level_rows'][9]['threshold']",
       "session2": {
+        "score_file": "lab/captures/session2_java_aligned/ (39 FP / 1,200 benign windows)",
         "combined_benign_fpr": 0.0325,
         "flood_window_recall": 0.0,
         "roc_auc": 1.0,
         "meets_preregistered_rule": false
       },
       "day2_cross_day": {
+        "score_file": "results/metrics.json['window_level_rows'][10] & [11]",
         "level": "Window (Step 5)",
         "zs_rec": 0.9975,
         "zs_fpr": 0.0006,
@@ -125,14 +146,16 @@
       "level": "Window (Step 5)",
       "threshold": 4.8078,
       "data_chosen_on": "Day 1 validation split",
-      "score_file": "results/metrics.json['LSTM (Same-Day Zero-Shot)']",
+      "threshold_score_file": "results/metrics.json['LSTM (Same-Day Zero-Shot)']['threshold'] (+4.8078 logit, p=0.9919)",
       "session2": {
+        "score_file": "lab/captures/session2_java_aligned/ (882 FP / 1,200 benign windows)",
         "combined_benign_fpr": 0.735,
         "flood_window_recall": 0.0,
         "roc_auc": 0.978,
         "meets_preregistered_rule": false
       },
       "day2_cross_day": {
+        "score_file": "results/metrics.json['LSTM (Cross-Day Zero-Shot)'] & ['(Cross-Day Target-Calibrated)']",
         "level": "Window (Step 5)",
         "zs_rec": 0.9977,
         "zs_fpr": 0.0008,
@@ -143,43 +166,47 @@
     },
     "Window-Stats LR Robust 28": {
       "level": "Window (Step 5)",
-      "threshold": 0.6,
+      "threshold": 0.6261,
       "data_chosen_on": "Day 1 validation split",
-      "score_file": "results/metrics.json['window_stats_baseline']['val_threshold']",
+      "threshold_score_file": "results/robust_subset_benchmark.json['models_evaluated']['Logistic Regression Window-Stats (Robust 28-Stat)']['same_day_zero_shot']['threshold']",
       "session2": {
+        "score_file": "lab/captures/session2_java_aligned/ (15 FP / 1,200 benign windows)",
         "combined_benign_fpr": 0.0125,
         "flood_window_recall": 0.0,
         "roc_auc": 0.932,
         "meets_preregistered_rule": false
       },
       "day2_cross_day": {
+        "score_file": "results/robust_subset_benchmark.json['models_evaluated']['Logistic Regression Window-Stats (Robust 28-Stat)']",
         "level": "Window (Step 5)",
-        "zs_rec": 0.8453,
-        "zs_fpr": 0.0002,
-        "cal_rec": 0.9938,
-        "cal_fpr": 0.007,
-        "auc": 0.9995
+        "zs_rec": 0.9917,
+        "zs_fpr": 0.0471,
+        "cal_rec": 0.946,
+        "cal_fpr": 0.0057,
+        "auc": 0.9946
       }
     },
-    "KNN Robust 14 (Log1p+Clip) (Window-Max)": {
+    "KNN Robust 14 In-Sample Diagnostic": {
       "level": "Window (Step 5)",
       "threshold": 0.8363,
       "data_chosen_on": "Session 2 Java benign windows (IN-SAMPLE / OPTIMISTIC)",
-      "score_file": "results/knn_full_train_seeds_experiment.json['Full_Train_Deterministic']",
+      "threshold_score_file": "results/knn_full_train_seeds_experiment.json['Full_Train_Deterministic']['threshold']",
       "session2": {
+        "score_file": "results/knn_full_train_seeds_experiment.json['Full_Train_Deterministic'] (12 FP / 1,200 windows)",
         "combined_benign_fpr": 0.01,
         "flood_window_recall": 0.963,
         "roc_auc": 0.961,
         "meets_preregistered_rule": true,
-        "evaluation_nature": "IN-SAMPLE / OPTIMISTIC (Threshold fit to Session 2 benign windows)"
+        "diagnostic_nature": "IN-SAMPLE ONLY (Threshold fit directly to Session 2 benign windows)"
       },
       "day2_cross_day": {
+        "score_file": "not computed",
         "level": "Window (Step 5)",
-        "zs_rec": 0.9988,
-        "zs_fpr": 0.0184,
+        "zs_rec": null,
+        "zs_fpr": null,
         "cal_rec": null,
         "cal_fpr": null,
-        "auc": 0.989
+        "auc": null
       }
     }
   }

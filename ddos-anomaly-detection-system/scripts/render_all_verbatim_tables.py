@@ -46,26 +46,37 @@ def render_table_2_bootstrap():
 
 def render_table_3():
     print(r"### Table 3: Pre-Registered Candidate Model Selection Table (`candidate_model_selection.json`)")
-    print(r"| Candidate Model | Level | Threshold | Threshold Selection Basis | Score File / Provenance Key | S2 Benign FPR | S2 Flood Recall | S2 ROC-AUC | Day 2 ZS Recall | Day 2 ZS FPR | Day 2 Cal Recall | Day 2 Cal FPR | Day 2 ROC-AUC | Meets Rule (FPR $\le 1.0\%$) |")
-    print(r"| :--- | :--- | :---: | :--- | :--- | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |")
+    print(r"| Candidate Model | Level | Threshold | Threshold Score File | S2 Benign FPR | S2 Flood Recall | S2 ROC-AUC | S2 Score Source | Day 2 ZS Recall | Day 2 ZS FPR | Day 2 Cal Recall | Day 2 Cal FPR | Day 2 ROC-AUC | Day 2 Score File | Meets Rule (FPR $\le 1.0\%$) |")
+    print(r"| :--- | :--- | :---: | :--- | :---: | :---: | :---: | :--- | :---: | :---: | :---: | :---: | :---: | :--- | :---: |")
     data = json.loads((BASE / "candidate_model_selection.json").read_text())
     for name, cinfo in data["candidates"].items():
         s2 = cinfo["session2"]
         fth = f"{cinfo['threshold']:.4f}"
-        basis = cinfo["data_chosen_on"]
-        score_file = cinfo["score_file"]
+        th_file = cinfo.get("threshold_score_file", cinfo.get("score_file", "results/metrics.json"))
         s2_fpr = f"{s2['combined_benign_fpr']*100:.2f}%"
         s2_rec = f"{s2['flood_window_recall']*100:.2f}%"
         s2_auc = f"{s2['roc_auc']:.4f}"
+        s2_src = s2.get("score_file", "lab/captures/session2_java_aligned/")
         d2 = cinfo.get("day2_cross_day", {})
         lvl = d2.get("level", "Window (Step 5)" if "Window" in name else "Flow")
-        d2_zs_rec = f"{d2.get('zs_rec', 0)*100:.2f}%"
-        d2_zs_fpr = f"{d2.get('zs_fpr', 0)*100:.2f}%"
-        d2_cal_rec = f"{d2.get('cal_rec')*100:.2f}%" if d2.get('cal_rec') is not None else "N/A"
-        d2_cal_fpr = f"{d2.get('cal_fpr')*100:.2f}%" if d2.get('cal_fpr') is not None else "N/A"
-        d2_auc = f"{d2.get('auc', 0):.4f}"
-        meets = "**YES (CHAMPION - IN-SAMPLE)**" if "Champion" in name or cinfo.get("status", "") == "CHAMPION" or "Robust 14 (Log1p+Clip) (Window-Max)" in name else "NO (FAIL)"
-        print(f"| **{name}** | {lvl} | **{fth}** | {basis} | `{score_file}` | {s2_fpr} | {s2_rec} | {s2_auc} | {d2_zs_rec} | {d2_zs_fpr} | {d2_cal_rec} | {d2_cal_fpr} | {d2_auc} | {meets} |")
+        
+        if d2.get("zs_rec") is not None:
+            d2_zs_rec = f"{d2['zs_rec']*100:.2f}%"
+            d2_zs_fpr = f"{d2['zs_fpr']*100:.2f}%"
+            d2_cal_rec = f"{d2['cal_rec']*100:.2f}%" if d2.get("cal_rec") is not None else "not computed"
+            d2_cal_fpr = f"{d2['cal_fpr']*100:.2f}%" if d2.get("cal_fpr") is not None else "not computed"
+            d2_auc = f"{d2['auc']:.4f}"
+            d2_src = d2.get("score_file", "results/metrics.json")
+        else:
+            d2_zs_rec = "not computed"
+            d2_zs_fpr = "not computed"
+            d2_cal_rec = "not computed"
+            d2_cal_fpr = "not computed"
+            d2_auc = "not computed"
+            d2_src = "not computed"
+
+        meets = "**YES (IN-SAMPLE ONLY)**" if "Diagnostic" in name or "In-Sample" in name else "NO (FAIL)"
+        print(f"| **{name}** | {lvl} | **{fth}** | `{th_file}` | {s2_fpr} | {s2_rec} | {s2_auc} | `{s2_src}` | {d2_zs_rec} | {d2_zs_fpr} | {d2_cal_rec} | {d2_cal_fpr} | {d2_auc} | `{d2_src}` | {meets} |")
     print()
 
 def render_table_4a():
@@ -77,7 +88,7 @@ def render_table_4a():
         print(f"| `{k}` | Flow Model | {v['level']} | **{v['decision_threshold']:.4f}** | {v['data_chosen_on']} | `{v['score_file']}` | Excluded (Extreme Domain Shift) |")
     for k, v in data["window_models"].items():
         th = f"Fixed: {v.get('decision_threshold_fixed', v.get('decision_threshold', v.get('decision_threshold_logit'))):.4f}"
-        if "decision_threshold_calibrated" in v:
+        if v.get("decision_threshold_calibrated") is not None:
             th += f" (Cal: {v['decision_threshold_calibrated']:.4f})"
         role = "Diagnostic Transfer Only (In-Sample S2)" if "champion" in k else "Excluded from Defense Union"
         print(f"| `{k}` | Window Model | {v['level']} | **{th}** | {v['data_chosen_on']} | `{v['score_file']}` | {role} |")

@@ -660,7 +660,10 @@ with open(RESULTS / "measured_offered_rates_all_runs.json", "w") as f:
 # 5. Flag Audit Old vs New Comparison
 old_vs_new_audit = {
   "flaw_mechanism": "dumpFlowBasedFeatures() looped over flagCounts.keySet(), dumping keys in JVM hash-bucket order (2, 4, 6, 9, 10, 11, 15), while dumpFlowBasedFeaturesEx() explicitly mapped named flags.",
-  "unidirectional_fwd_psh_rst_explanation": "In dumpFlowBasedFeatures(), hash bucket 4 (PSH) was placed into column 52 (header labeled 'RST Flag Count'). In unidirectional flows (Total Bwd Packets = 0), forward PSH packets (dumped in col 37 as Fwd PSH Flags) were also the only PSH packets in the flow, making Col 37 (Fwd PSH Flags) and Col 52 (RST Flag Count) 100.0% identical across all flows in 01-12_Syn.parquet.",
+  "demonstrated_vs_unproven_audit_findings": {
+    "demonstrated_fact": "On our modern jar (SimpleFlowMeterV4-0.0.4-SNAPSHOT.jar), executing the old loop dumpFlowBasedFeatures() dumps flag counts in JVM hash-bucket order across 4 known synthetic test flows (RST in Col 50, PSH in Col 51, ECE in Col 52, SYN in Col 53, ACK in Col 54, FIN in Col 55, URG in Col 56, CWR in Col 57), whereas dumpFlowBasedFeaturesEx() dumps named flags sequentially.",
+    "unproven_hypothesis": "It is NOT demonstrated that the official CIC-DDoS2019 dataset was generated using this specific jar build, and the exact architectural reason why Fwd PSH Flags (Col 37) equals the header labeled RST Flag Count (Col 52) across 100% of unidirectional flows in 01-12_Syn.parquet remains unproven (in our jar bucket iteration, Col 52 contains ECE, not PSH)."
+  },
   "four_flows_comparison": [
     {
       "flow_id": "Flow 1 (PSH Injected)",
