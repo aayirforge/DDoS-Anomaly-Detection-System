@@ -28,7 +28,7 @@ CAPTURES_DIR = REPO_ROOT / "lab/captures/session3"
 
 def run_parity_evaluation(
     output_path: Optional[Path] = None,
-    tolerance_delay_sec: float = 1.0,
+    tolerance_delay_sec: float = 0.25,
     tolerance_alerted_sec: int = 1,
 ) -> Dict[str, Any]:
     if output_path is None:
@@ -60,12 +60,13 @@ def run_parity_evaluation(
         "repeat": 1,
         "streaming_delay_sec": base_res["first_detection_delay_sec"],
         "ground_truth_delay_sec": None,
+        "delay_diff_signed": 0.0,
         "delay_diff_sec": 0.0,
-        "delay_match_1s": True,
+        "delay_match": True,
         "streaming_alerted_sec": base_fa,
         "ground_truth_alerted_sec": gt_base_fa,
         "alerted_diff_sec": abs(base_fa - gt_base_fa),
-        "alerted_match_1s": (base_fa == gt_base_fa),
+        "alerted_match": (base_fa == gt_base_fa),
         "false_alarm_seconds": base_fa,
         "status": "PASS" if base_pass else "FAIL",
     })
@@ -85,10 +86,11 @@ def run_parity_evaluation(
             st_delay = st_res["first_detection_delay_sec"]
             st_alerted = st_res["alerted_seconds_post_first_alert"]
 
-            diff_delay = round(abs(st_delay - gt_delay), 4) if (st_delay is not None and gt_delay is not None) else 0.0
+            diff_delay_signed = round(st_delay - gt_delay, 4) if (st_delay is not None and gt_delay is not None) else 0.0
+            diff_delay_abs = round(abs(diff_delay_signed), 4)
             diff_alerted = abs(st_alerted - gt_alerted)
 
-            ok_delay = (diff_delay <= tolerance_delay_sec)
+            ok_delay = (diff_delay_abs <= tolerance_delay_sec)
             ok_alerted = (diff_alerted <= tolerance_alerted_sec)
             rep_pass = (ok_delay and ok_alerted)
 
@@ -103,20 +105,28 @@ def run_parity_evaluation(
                 "repeat": rep_data["repeat"],
                 "streaming_delay_sec": st_delay,
                 "ground_truth_delay_sec": gt_delay,
-                "delay_diff_sec": diff_delay,
-                "delay_match_1s": ok_delay,
+                "delay_diff_signed": diff_delay_signed,
+                "delay_diff_sec": diff_delay_abs,
+                "delay_match": ok_delay,
                 "streaming_alerted_sec": st_alerted,
                 "ground_truth_alerted_sec": gt_alerted,
                 "alerted_diff_sec": diff_alerted,
-                "alerted_match_1s": ok_alerted,
+                "alerted_match": ok_alerted,
                 "false_alarm_seconds": 0,
                 "status": "PASS" if rep_pass else "FAIL",
             })
+
+    max_abs_delay = max(abs(e["delay_diff_signed"]) for e in results)
+    max_abs_alerted = max(e["alerted_diff_sec"] for e in results)
 
     summary = {
         "total_evaluations": len(results),
         "total_passed": total_passed,
         "total_failed": total_failed,
+        "tolerance_delay_sec": tolerance_delay_sec,
+        "tolerance_alerted_sec": tolerance_alerted_sec,
+        "max_abs_delay_diff_sec": round(max_abs_delay, 4),
+        "max_abs_alerted_diff_sec": max_abs_alerted,
         "overall_status": "PASS" if total_failed == 0 else "FAIL",
         "evaluations": results
     }
@@ -125,6 +135,8 @@ def run_parity_evaluation(
         json.dump(summary, f, indent=2)
 
     print(f"\n[OK] Parity evaluation completed: {total_passed}/{len(results)} passed ({total_failed} failed).")
+    print(f"Tolerance used: delay <= {tolerance_delay_sec}s, alerted <= {tolerance_alerted_sec}s")
+    print(f"Max abs delay diff: {max_abs_delay:.4f}s | Max abs alerted diff: {max_abs_alerted}s")
     print(f"Results saved to {output_path}")
     return summary
 
@@ -132,7 +144,7 @@ def run_parity_evaluation(
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Evaluate PCAP replay parity against Session 3 ground truth")
     parser.add_argument("--out", type=Path, default=RESULTS_DIR / "phase7_parity_eval.json", help="Path to output JSON")
-    parser.add_argument("--tolerance-delay", type=float, default=1.0, help="Tolerance for first-alert delay in seconds")
+    parser.add_argument("--tolerance-delay", type=float, default=0.25, help="Tolerance for first-alert delay in seconds")
     parser.add_argument("--tolerance-alerted", type=int, default=1, help="Tolerance for alerted seconds count")
     args = parser.parse_args()
     run_parity_evaluation(

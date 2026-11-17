@@ -50,7 +50,9 @@ class RuleEngine:
       4. Bounded Capacity Eviction: Under severe traffic volume (e.g. 20,000+ pps spoofed
          floods), the active handshake table is strictly capped at `max_handshakes` entries
          (default: 100,000). If capacity is reached, the oldest uncompleted handshakes
-         are evicted in FIFO order, incrementing `capacity_evictions`.
+         are evicted in FIFO order, incrementing `capacity_evictions`. Capacity-evicted
+         entries do NOT count as confirmed incomplete handshakes, ensuring that a benign
+         flash crowd exceeding the table capacity never generates false incomplete-handshake alerts.
     """
 
     def __init__(
@@ -263,11 +265,11 @@ class RuleEngine:
             fwd_key = (src_ip, dst_ip, sport, dport)
 
             if syn == 1 and ack == 0 and dst_ip == self.victim_ip:
-                # Capacity eviction if active table exceeds bound
+                # Capacity eviction if active table exceeds bound: evict oldest in FIFO order
+                # Evicted entries do NOT count as incomplete handshakes to protect flash crowds
                 if len(self.active_handshakes) >= self.max_handshakes:
-                    old_key, (old_syn_ts, old_sip, old_dip, old_sp, old_dp) = self.active_handshakes.popitem(last=False)
+                    self.active_handshakes.popitem(last=False)
                     self.capacity_evictions += 1
-                    alerts.extend(self._process_incomplete_handshake(old_syn_ts, old_sip, old_dip, old_sp, old_dp, ts, t_start=t_start))
 
                 # If entry already present, pop to refresh position at end
                 if fwd_key in self.active_handshakes:
@@ -339,6 +341,25 @@ class RuleEngine:
         if self.last_processed_ts is not None:
             return self._evict_active_handshakes(self.last_processed_ts + self.handshake_timeout + 1.0, t_start=t_start)
         return []
+
+    def drop_pending_handshakes_before(self, cutoff_ts: Optional[float] = None) -> int:
+        """
+        Drop active handshakes that began before a restart/blind gap.
+        Prevents false incomplete handshake alerts for handshakes whose completing ACKs
+        were dropped during supervisor downtime.
+        """
+        if cutoff_ts is None:
+            dropped = len(self.active_handshakes)
+            self.active_handshakes.clear()
+            return dropped
+
+        keys_to_drop = [
+            k for k, v in self.active_handshakes.items()
+            if v[0] <= cutoff_ts
+        ]
+        for k in keys_to_drop:
+            del self.active_handshakes[k]
+        return len(keys_to_drop)
 
     # -------------------------------------------------------------------------
     # Batch / Offline Evaluator API (exact parity with run_session3_suite.py)

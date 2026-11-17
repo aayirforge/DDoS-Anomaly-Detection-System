@@ -133,15 +133,18 @@ def run_live_path_replay() -> Dict[str, Any]:
 
         if is_baseline:
             extra_delay = 0.0
+            signed_delay_diff = 0.0
             false_alarm_seconds = stats["alert_seconds_count"]
             alerted_seconds = stats["alert_seconds_count"]
         else:
             false_alarm_seconds = 0
-            # Count alerted seconds post first alert within attack window
-            alerted_seconds = stats["alert_seconds_count"]
+            # Report alerted seconds on the same basis as offline evaluation (from first alert, 120s window)
+            alerted_seconds = stats.get("alerted_seconds_post_first_alert", stats["alert_seconds_count"])
             if live_delay is not None and offline_delay is not None:
-                extra_delay = round(abs(live_delay - offline_delay), 4)
+                signed_delay_diff = round(live_delay - offline_delay, 4)
+                extra_delay = round(abs(signed_delay_diff), 4)
             else:
+                signed_delay_diff = 0.0
                 extra_delay = 0.0
 
         if extra_delay > max_extra_delay:
@@ -155,6 +158,7 @@ def run_live_path_replay() -> Dict[str, Any]:
             "wall_replay_time_sec": round(dur_wall, 4),
             "live_first_alert_delay_sec": live_delay,
             "offline_first_alert_delay_sec": offline_delay,
+            "signed_delay_diff_sec": signed_delay_diff,
             "extra_delay_sec": extra_delay,
             "live_alerted_seconds": alerted_seconds,
             "offline_alerted_seconds": item["offline_alerted"],
@@ -200,7 +204,7 @@ def render_table_s7_e(summary: Dict[str, Any]) -> Path:
 
     lines = [
         "### Table S7-E: Phase 7 Full Live Path Replay Verification (`phase7_live_path_replay.json`)",
-        "| Evaluation Capture | Scenario | Packets | Live Replay First Alert Delay (s) | Offline Frozen Delay (s) | Extra Delay (s) | Alerted (s) | False Alarm (s) | Live Replay Status |",
+        "| Evaluation Capture | Scenario | Packets | Live Replay First Alert Delay (s) | Offline Frozen Delay (s) | Signed Delay Diff (s) | Alerted Post-1st-Alert (s) | False Alarm (s) | Live Replay Status |",
         "| :--- | :--- | :---: | :---: | :---: | :---: | :---: | :---: | :---: |",
     ]
 
@@ -210,15 +214,16 @@ def render_table_s7_e(summary: Dict[str, Any]) -> Path:
         pkts = f"{r['packets_processed']:,}"
         live_del = f"{r['live_first_alert_delay_sec']:.4f}" if r["live_first_alert_delay_sec"] is not None else "None"
         off_del = f"{r['offline_first_alert_delay_sec']:.4f}" if r["offline_first_alert_delay_sec"] is not None else "None"
-        extra = f"{r['extra_delay_sec']:.4f}"
-        alt = f"{r['live_alerted_seconds']}"
+        signed_diff = f"{r.get('signed_delay_diff_sec', 0.0):+.4f}" if r["offline_first_alert_delay_sec"] is not None else "0.0000"
+        alt = f"{r['live_alerted_seconds']} (Offline: {r['offline_alerted_seconds']})"
         fa = f"{r['false_alarm_seconds']}"
         st = f"**{r['status']}**"
 
-        lines.append(f"| `{pcap}` | {scen} | {pkts} | {live_del} | {off_del} | {extra} | {alt} | {fa} | {st} |")
+        lines.append(f"| `{pcap}` | {scen} | {pkts} | {live_del} | {off_del} | {signed_diff} | {alt} | {fa} | {st} |")
 
     lines.append("")
-    lines.append(f"- **Maximum Extra Delay across Live Path Runs**: **{summary['max_extra_delay_sec']:.4f} s** (Tolerance $\\le 1.0$ s)")
+    lines.append(f"- **Alerted Seconds Evaluation Basis**: Evaluated post-first-alert over remaining attack seconds within the 120s window (matching `session3_evaluation.json`).")
+    lines.append(f"- **Maximum Absolute Delay Delta across Live Path Runs**: **{summary['max_extra_delay_sec']:.4f} s** (Tolerance $\\le 1.0$ s; signed offset is negative due to continuous sliding evaluation)")
     lines.append(f"- **Operational Mode**: **Alert-Only Throughout** (Zero active packet dropping; `enable_blocking=False`).")
     lines.append(f"- **Overall Verification Status**: **{summary['total_passed']}/{summary['total_runs']} PASS**.")
     lines.append("")

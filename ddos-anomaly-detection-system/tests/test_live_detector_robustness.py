@@ -262,3 +262,103 @@ def test_exempt_destination_suppresses_alert_action_preserves_logging():
         assert row is not None, "Exempt destination alert must still be inserted into SQLite DB"
         assert row[0] == exempt_ip
         conn.close()
+
+
+def test_supervisor_restart_drops_pre_gap_handshakes_no_false_alerts():
+    """
+    Asserts that on supervisor restart, pending handshakes initiated prior to the crash
+    gap are dropped, preventing false incomplete handshake alerts.
+    """
+    engine = RuleEngine(victim_ip="172.20.0.2")
+
+    # 1. Simulate 25 benign SYNs before the crash gap (ts = 100.0)
+    # If left pending without ACKs, 25 incomplete SYNs would exceed Condition B (>=20) at ts = 102.0s
+    for i in range(25):
+        engine.process_packet(
+            ts=100.0 + i * 0.01,
+            src_ip=f"192.168.1.{(i % 250) + 1}",
+            dst_ip="172.20.0.2",
+            sport=20000 + i,
+            dport=80,
+            proto="tcp",
+            syn=1,
+            ack=0,
+            rst=0
+        )
+
+    assert len(engine.active_handshakes) == 25
+
+    # 2. Crash gap occurs at ts = 100.5. Supervisor restarts and drops pre-gap handshakes.
+    gap_cutoff = 100.5
+    dropped = engine.drop_pending_handshakes_before(cutoff_ts=gap_cutoff)
+    assert dropped == 25, f"Expected 25 dropped handshakes, got {dropped}"
+    assert len(engine.active_handshakes) == 0
+
+    # 3. Time advances past the 2.0s timeout post-restart (ts = 103.0s)
+    # Send a benign packet to advance time
+    post_alerts = engine.process_packet(
+        ts=103.0,
+        src_ip="172.20.0.4",
+        dst_ip="172.20.0.2",
+        sport=54321,
+        dport=80,
+        proto="tcp",
+        syn=0,
+        ack=1,
+        rst=0
+    )
+
+    # Must produce ZERO incomplete handshake alerts
+    assert len(post_alerts) == 0, f"Expected 0 alerts after restart, got {len(post_alerts)}"
+    assert len(engine.alerts_emitted) == 0, "No alerts must have been emitted from dropped pre-gap handshakes"
+
+
+def test_benign_flash_crowd_exceeding_table_size_no_false_alerts():
+    """
+    Asserts that a massive benign flash crowd exceeding the handshake table capacity
+    generates zero false alerts. Capacity evictions must increment capacity_evictions
+    without being falsely counted as incomplete handshakes.
+    """
+    table_cap = 1000
+    engine = RuleEngine(victim_ip="172.20.0.2", max_handshakes=table_cap)
+
+    # 5,000 distinct benign connections arriving within 0.1s
+    ts = 500.0
+    alerts = []
+    for i in range(5000):
+        ts += 0.00002
+        src_ip = f"10.10.{(i // 250) % 250}.{(i % 250) + 1}"
+        sport = 1024 + (i % 60000)
+        a = engine.process_packet(
+            ts=ts,
+            src_ip=src_ip,
+            dst_ip="172.20.0.2",
+            sport=sport,
+            dport=80,
+            proto="tcp",
+            syn=1,
+            ack=0,
+            rst=0
+        )
+        alerts.extend(a)
+
+    assert len(engine.active_handshakes) == table_cap
+    assert engine.capacity_evictions == 4000
+    assert len(alerts) == 0, f"Benign flash crowd must produce 0 alerts, got {len(alerts)}"
+
+    # Advance time by 3.0s with no attack
+    flush_alerts = engine.process_packet(
+        ts=ts + 3.0,
+        src_ip="172.20.0.4",
+        dst_ip="172.20.0.2",
+        sport=9999,
+        dport=80,
+        proto="tcp",
+        syn=0,
+        ack=1,
+        rst=0
+    )
+    # The 1,000 remaining entries in the table that never got ACKs will expire at ts+2.0s,
+    # but the 4,000 capacity-evicted entries were not counted.
+    assert engine.capacity_evictions == 4000
+

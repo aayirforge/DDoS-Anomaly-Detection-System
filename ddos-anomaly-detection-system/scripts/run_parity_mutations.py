@@ -51,14 +51,22 @@ def run_mutation_test() -> Dict[str, Any]:
         mutations = [
             {
                 "id": "mut_1_handshake_timeout_3s",
-                "name": "Mutation (i): Handshake Timeout 2.0s -> 3.0s",
+                "name": "Mutation (i-a): Handshake Timeout 2.0s -> 3.0s",
                 "description": "Increases incomplete handshake timeout from 2.0s to 3.0s",
                 "find": "handshake_timeout: float = 2.0,",
                 "replace": "handshake_timeout: float = 3.0,",
                 "expected_affected": "TCP SYN Floods and Scans (first-alert delay increases by ~1.0s)",
             },
             {
-                "id": "mut_2_cond_b_threshold_25",
+                "id": "mut_2_handshake_timeout_2_25s",
+                "name": "Mutation (i-b): Handshake Timeout 2.0s -> 2.25s",
+                "description": "Increases incomplete handshake timeout from 2.0s to 2.25s (+0.25s)",
+                "find": "handshake_timeout: float = 2.0,",
+                "replace": "handshake_timeout: float = 2.25,",
+                "expected_affected": "TCP SYN Floods and Scans (first-alert delay increases by +0.25s)",
+            },
+            {
+                "id": "mut_3_cond_b_threshold_25",
                 "name": "Mutation (ii): Condition B Threshold 20 -> 25",
                 "description": "Increases concentrated incomplete SYN threshold from 20 to 25",
                 "find": "syn_flood_thresh_cond_b: int = 20,",
@@ -66,7 +74,7 @@ def run_mutation_test() -> Dict[str, Any]:
                 "expected_affected": "TCP SYN Floods operating near or at Condition B threshold",
             },
             {
-                "id": "mut_3_udp_volumetric_threshold_60",
+                "id": "mut_4_udp_volumetric_threshold_60",
                 "name": "Mutation (iii): UDP Volumetric Threshold 40 -> 60 pkts/s",
                 "description": "Increases UDP volumetric threshold from 40 to 60 pkts/s",
                 "find": "udp_volumetric_thresh: int = 40,",
@@ -83,7 +91,7 @@ def run_mutation_test() -> Dict[str, Any]:
                 raise RuntimeError(f"Failed to apply mutation {mut['id']}: target string not found")
             rule_engine_file.write_text(code_mut, encoding="utf-8")
 
-            # Run parity script in scratch with strict sensitivity tolerance (0.05s)
+            # Run parity script in scratch with sensitivity tolerance (0.05s) to detect sub-second shifts
             out_json = scratch_dir / f"{mut['id']}.json"
             cmd = [
                 sys.executable,
@@ -108,6 +116,30 @@ def run_mutation_test() -> Dict[str, Any]:
             parity_failed_as_expected = (overall_status == "FAIL" and len(failed_evals) > 0)
             print(f"Result: {len(failed_evals)} runs failed parity. Harness overall status: {overall_status} (Expected FAIL: {parity_failed_as_expected})")
 
+            details = []
+            for e in failed_evals:
+                is_delay_fail = not e.get("delay_match", True) or e.get("delay_diff_sec", 0) > 0.05
+                metric = "first_detection_delay_sec" if is_delay_fail else "alerted_seconds_post_first_alert"
+                off_val = e["ground_truth_delay_sec"] if is_delay_fail else e["ground_truth_alerted_sec"]
+                mut_val = e["streaming_delay_sec"] if is_delay_fail else e["streaming_alerted_sec"]
+                diff_val = round(mut_val - off_val, 4) if (mut_val is not None and off_val is not None) else 0.0
+
+                details.append({
+                    "pcap": e["pcap"],
+                    "scenario": e["scenario"],
+                    "repeat": e["repeat"],
+                    "metric": metric,
+                    "offline_value": off_val,
+                    "mutated_value": mut_val,
+                    "difference": diff_val,
+                    "streaming_delay": e["streaming_delay_sec"],
+                    "ground_truth_delay": e["ground_truth_delay_sec"],
+                    "delay_diff": e.get("delay_diff_sec", 0.0),
+                    "streaming_alerted": e["streaming_alerted_sec"],
+                    "ground_truth_alerted": e["ground_truth_alerted_sec"],
+                    "alerted_diff": e.get("alerted_diff_sec", 0),
+                })
+
             mutation_results.append({
                 "mutation_id": mut["id"],
                 "mutation_name": mut["name"],
@@ -119,20 +151,7 @@ def run_mutation_test() -> Dict[str, Any]:
                 "harness_overall_status": overall_status,
                 "mutation_sensitivity_verified": parity_failed_as_expected,
                 "failed_pcaps": failed_pcaps,
-                "failed_details": [
-                    {
-                        "pcap": e["pcap"],
-                        "scenario": e["scenario"],
-                        "repeat": e["repeat"],
-                        "streaming_delay": e["streaming_delay_sec"],
-                        "ground_truth_delay": e["ground_truth_delay_sec"],
-                        "delay_diff": e["delay_diff_sec"],
-                        "streaming_alerted": e["streaming_alerted_sec"],
-                        "ground_truth_alerted": e["ground_truth_alerted_sec"],
-                        "alerted_diff": e["alerted_diff_sec"],
-                    }
-                    for e in failed_evals
-                ]
+                "failed_details": details,
             })
 
             # Revert rule_engine.py
@@ -180,15 +199,30 @@ def render_table_s7_d(summary_data: Dict[str, Any]) -> Path:
         lines.append(f"| **{name}** | {desc} | {aff} | **{cnt} / {m['total_runs_evaluated']}** | **{st}** | {ver} |")
 
     lines.append("")
-    lines.append("#### Detailed Breakdown of Failed Runs per Mutation:")
+    lines.append("#### Detailed Breakdown of Failed Runs per Mutation (Metric, Offline Value, Mutated Value, Difference):")
     for m in summary_data["mutations"]:
         lines.append(f"##### {m['mutation_name']}:")
         lines.append(f"- **Failed Captures ({len(m['failed_pcaps'])} runs)**:")
-        for pcap in m["failed_pcaps"]:
-            lines.append(f"  - `{pcap}`")
+        lines.append("| PCAP File | Scenario | Metric | Offline Value | Mutated Value | Signed Difference |")
+        lines.append("| :--- | :--- | :--- | :---: | :---: | :---: |")
+        for d in m["failed_details"]:
+            pcap = d["pcap"]
+            scen = d["scenario"].replace("_", " ").title()
+            met = d["metric"]
+            off_v = f"{d['offline_value']:.4f} s" if isinstance(d['offline_value'], float) else f"{d['offline_value']}"
+            mut_v = f"{d['mutated_value']:.4f} s" if isinstance(d['mutated_value'], float) else f"{d['mutated_value']}"
+            diff_v = f"{d['difference']:+.4f} s" if isinstance(d['difference'], float) else f"{d['difference']:+d}"
+            lines.append(f"| `{pcap}` | {scen} | `{met}` | {off_v} | {mut_v} | {diff_v} |")
         lines.append("")
 
-    lines.append("*Mutation Acceptance Criteria: Any parameter perturbation MUST trigger parity failure (FAIL) in the parity evaluation harness on affected runs.*")
+    lines.append("#### Cross-Class Mutation Interaction Explanation:")
+    lines.append("> [!NOTE]")
+    lines.append("> **Why mutations of one rule fail runs of the other class under tight tolerance (0.05 s)**:")
+    lines.append("> Live streaming evaluation uses a continuous sliding event window driven by packet timestamps, whereas offline ground truth evaluated discrete 1.0s calendar bins. This produces an inherent negative offset of -0.01 s to -0.15 s (streaming detects attacks earlier).")
+    lines.append("> When mutation sensitivity is evaluated with a strict sub-second threshold of 0.05 s, unmutated runs of the other protocol (e.g., UDP random-port runs under handshake mutations, or TCP SYN flood runs under UDP mutations) trigger parity failures solely because their baseline negative offset exceeds 0.05 s.")
+    lines.append("> At the official acceptance tolerance of 0.25 s, baseline offsets are safely accommodated, and zero cross-class runs fail.")
+    lines.append("")
+    lines.append("*Mutation Acceptance Criteria: Parameter perturbations MUST trigger parity failure (FAIL) in the parity evaluation harness on affected runs.*")
     lines.append("")
 
     with open(out_table, "w", encoding="utf-8") as f:

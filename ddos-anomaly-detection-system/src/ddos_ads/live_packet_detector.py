@@ -324,6 +324,10 @@ class LivePacketDetector:
         if self.engine.first_alert_ts is not None and target_t_start is not None:
             delay = round(self.engine.first_alert_ts - target_t_start, 4)
 
+        dur_limit = duration_sec if duration_sec is not None else 120
+        first_bin = int(delay) if delay is not None else 0
+        alerted_post_first = len([s for s in self.engine.alert_seconds if s >= first_bin and s < dur_limit])
+
         return {
             "pcap": pcap_path.name,
             "packets_processed": self.total_packets_processed,
@@ -333,6 +337,7 @@ class LivePacketDetector:
             "first_detection_delay_sec": delay,
             "first_alert_type": self.engine.first_alert_type,
             "alert_seconds_count": len(self.engine.alert_seconds),
+            "alerted_seconds_post_first_alert": alerted_post_first,
             "capacity_evictions": self.engine.capacity_evictions,
             "completed_handshakes": self.engine.completed_handshakes,
         }
@@ -395,6 +400,10 @@ class LivePacketDetector:
                         if ret is not None:
                             logger.warning(f"tshark process terminated unexpectedly with code {ret}!")
                             self.tshark_restarts += 1
+                            gap_start_ts = self.engine.last_processed_ts
+                            # Drop pending handshakes that began before the gap to prevent false incomplete alerts
+                            dropped_pending = self.engine.drop_pending_handshakes_before(cutoff_ts=gap_start_ts)
+                            logger.info(f"On restart: dropped {dropped_pending} pre-gap pending handshakes to prevent false incomplete alerts")
                             self.log_blind_event(f"tshark_worker_exit_code_{ret}", gap_ms=10.0)
                             if self.tshark_restarts > max_restarts:
                                 raise RuntimeError(f"Exceeded max tshark restarts ({max_restarts})")
