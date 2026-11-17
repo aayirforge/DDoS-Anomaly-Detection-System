@@ -1,14 +1,14 @@
-### Table S7-K: Session 4 Multi-Client Benign Baseline Evaluation (`session4_benign_baseline_eval.json`)
-*Capture Specification: Internal lab traffic only; duration >= 15 min (900s); 5 distinct clients; HTTP, HTTPS, DNS, NTP, UDP echo services; not used for any threshold calibration.*
-| Evaluation Metric | Observed Result | Specification / Acceptance Criteria | Status |
-| :--- | :---: | :--- | :---: |
-| **Capture File** | `session4_benign_baseline_900s.pcap` | Internal lab pcap under `lab/captures/session4/` | **PASS** |
-| **Capture Duration** | **900.0 s (15.0 min)** | $\ge$ 15 min requirement | **PASS** |
-| **Distinct Benign Clients** | **5 clients** (`.4`, `.5`, `.6`, `.7`, `.8`) | $\ge$ 5 clients requirement | **PASS** |
-| **Services Evaluated** | HTTP (80), HTTPS (443), DNS (53), NTP (123), UDP Stream (5004) | Several services requirement | **PASS** |
-| **Total Evaluated Seconds** | **900 seconds** | Full baseline window | **PASS** |
-| **TCP Incomplete Handshake Rule False Alarms** | **0 seconds (0 alerts)** | 0 false alarm seconds | **PASS** |
-| **Dual-Condition UDP Rule False Alarms** | **0 seconds (0 alerts)** | 0 false alarm seconds | **PASS** |
-| **Stateless SYN Arrival Rate Rule (ALERT_SYN_RATE)** | **0 seconds (0 alerts)** | 0 false alarm seconds | **PASS** |
-| **Total Combined False-Alarm Seconds** | **0 seconds (0.00%)** | Zero false alarms across all rules | **PASS** |
-
+### Table S7-K: Session 4 Benign Baseline & Per-Client Traffic Metrics (`results/phase7_round3_evaluation.json`)
+*Specification: Internal lab baseline; 900.0s (15 min); 5 clients (172.20.0.4-8); services: HTTP, HTTPS, DNS, NTP, UDP echo*
+| Metric / Traffic Scope | Max 1s SYN Rate (pkts/s) | Max Unacked Count (1s window) | Max Distinct Sources (1s window) | False Alarm Seconds | Rule Acceptance Status |
+| :--- | :---: | :---: | :---: | :---: | :---: |
+| **Overall Session 4 Baseline** | **101** | **1** | **5** | **0 seconds (0.00%)** | **PASS** |
+| Client 1 (`172.20.0.4`) | 34 | 1 | 1 | 0 s | **PASS** |
+| Client 2 (`172.20.0.5`) | 35 | 1 | 1 | 0 s | **PASS** |
+| Client 3 (`172.20.0.6`) | 33 | 1 | 1 | 0 s | **PASS** |
+| Client 4 (`172.20.0.7`) | 32 | 1 | 1 | 0 s | **PASS** |
+| Client 5 (`172.20.0.8`) | 35 | 1 | 1 | 0 s | **PASS** |
+| *TCP Incomplete Rule* | - | max incomplete = 0 | - | 0 s | **PASS** |
+| *Dual-Condition UDP Rule* | - | max UDP/s = 5 | max dst ports = 1 | 0 s | **PASS** |
+| *Stateless SYN Arrival Rule* | 101 | 1 | 5 | 0 s | **PASS** |
+| **Session 3 Fired PCAPs (of 40)** | - | - | - | **0 of 40 fired** | **PASS (100% Frozen Parity Preserved)** |

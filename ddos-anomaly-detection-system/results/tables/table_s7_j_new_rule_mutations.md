@@ -1,8 +1,10 @@
-### Table S7-J: Phase 7 ALERT_SYN_RATE Rule Mutation Sensitivity Analysis (`results/phase7_round2_evaluation.json`)
-*Rule Status: Post-hoc, unregistered (Preserves frozen pre-registered evaluation; fires on 0 of 40 Session 3 PCAPs)*
-| Configuration / Mutation | S2b Spoofed Alerted | S2b First Delay (s) | S2b Alert Class | S2b Unacked Count | S2b Distinct Sources | 3-Client Synthetic Alerts | Session 3 PCAPs Fired (of 40) | Mutation Test Status |
-| :--- | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
-| Baseline (thresh=150, srcs=3) | **Yes** | 0.774215 s | `ALERT_SYN_RATE` | 150 | 88 | 8 alerts | **0/40 fired** | **PASS (Target Detected)** |
-| Mutation 1 (150 -> 200) | **No (0 alerts)** | None | None | None | None | 8 alerts | **0/40 fired** | **FAIL (Misses S2b Flood)** |
-| Mutation 2 (sources 3 -> 5) | **Yes** | 0.774215 s | `ALERT_SYN_RATE` | 150 | 88 | 3 alerts | **0/40 fired** | PASS |
-| Mutation 3 (150 -> 100) | **Yes** | 0.515674 s | `ALERT_SYN_RATE` | 100 | 68 | 8 alerts | **0/40 fired** | **FAIL (Premature Trigger)** |
+### Table S7-J: Phase 7 Mutation Sensitivity on Session 2b Capture (`results/phase7_round3_evaluation.json`)
+*Evaluated directly on `lab/captures/session2b/lab_spoofed_syn_flood.pcap` (Internal lab spoofed SYN flood)*
+| Configuration / Mutation | Detection Status | Alert Count | First Alert Delay (s) | First Alert Class | Triggering Rule | Differing First-Alert Field |
+| :--- | :---: | :---: | :---: | :---: | :---: | :--- |
+| Baseline (thresh=150, srcs=3, single=1500) | **DETECTED** | 22 | 0.774215 s | `ALERT_SYN_RATE` | `tcp_syn_arrival_rate` | Baseline reference |
+| Mutation 1 (150 -> 200) | **NOT DETECTED** | 10 | 2.072268 s | `ALERT_SYN_FLOOD` | `tcp_incomplete_handshake` | alert_type (ALERT_SYN_FLOOD vs ALERT_SYN_RATE) |
+| Mutation 2 (sources 3 -> 5) | **DETECTED** | 22 | 0.774215 s | `ALERT_SYN_RATE` | `tcp_syn_arrival_rate` | Identical first alert (high source entropy) |
+| Mutation 3 (150 -> 100) | **DETECTED** | 22 | 0.515674 s | `ALERT_SYN_RATE` | `tcp_syn_arrival_rate` | packet_ts (1794816974.7899 vs 1794816975.0484, delta: -0.2585s) |
+| Mutation 4 (single 1500 -> 2000) | **DETECTED** | 22 | 0.774215 s | `ALERT_SYN_RATE` | `tcp_syn_arrival_rate` | Identical first alert (high source entropy) |
+| Mutation 5 (single 1500 -> 1000) | **DETECTED** | 22 | 0.774215 s | `ALERT_SYN_RATE` | `tcp_syn_arrival_rate` | Identical first alert (high source entropy) |

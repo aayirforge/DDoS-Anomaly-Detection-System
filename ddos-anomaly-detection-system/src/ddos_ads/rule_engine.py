@@ -70,6 +70,7 @@ class RuleEngine:
         enable_syn_arrival_rule: bool = False, # Post-hoc, unregistered stateless arrival detector
         syn_arrival_thresh: int = 150,      # >= 150 unacked SYNs/s to dst (calibrated from benign max 64 pkts/s)
         syn_arrival_sources_thresh: int = 3,# with >= 3 distinct src IPs (calibrated from benign max 1 source)
+        syn_arrival_single_src_thresh: int = 1500, # >= 1500 unacked SYNs/s for single source (avoids 1000pps Session 3)
         max_arrival_window_entries: int = 10_000, # Strict O(1) bound on sliding arrival window memory
     ) -> None:
         self.victim_ip = victim_ip
@@ -85,6 +86,7 @@ class RuleEngine:
         self.enable_syn_arrival_rule = enable_syn_arrival_rule
         self.syn_arrival_thresh = syn_arrival_thresh
         self.syn_arrival_sources_thresh = syn_arrival_sources_thresh
+        self.syn_arrival_single_src_thresh = syn_arrival_single_src_thresh
         self.max_arrival_window_entries = max_arrival_window_entries
 
         # State: Active TCP handshakes: fwd_key -> (syn_ts, src_ip, dst_ip, sport, dport)
@@ -309,9 +311,10 @@ class RuleEngine:
                         self.completed_handshakes += 1
 
                 if self.enable_syn_arrival_rule:
-                    if len(self.ack_arrival_window) >= self.max_arrival_window_entries:
-                        self.ack_arrival_window.popleft()
-                    self.ack_arrival_window.append(ts)
+                    if src_ip in self.syn_arrival_src_counts:
+                        if len(self.ack_arrival_window) >= self.max_arrival_window_entries:
+                            self.ack_arrival_window.popleft()
+                        self.ack_arrival_window.append(ts)
 
             # Evaluate Stateless SYN Arrival Rate Detector (independent of per-connection state)
             if self.enable_syn_arrival_rule and dst_ip == self.victim_ip:
@@ -329,7 +332,10 @@ class RuleEngine:
                 unacked_cnt = max(0, syn_cnt - ack_cnt)
                 distinct_srcs = len(self.syn_arrival_src_counts)
 
-                if unacked_cnt >= self.syn_arrival_thresh and distinct_srcs >= self.syn_arrival_sources_thresh:
+                is_multi_src = (unacked_cnt >= self.syn_arrival_thresh and distinct_srcs >= self.syn_arrival_sources_thresh)
+                is_single_src = (unacked_cnt >= self.syn_arrival_single_src_thresh)
+
+                if is_multi_src or is_single_src:
                     if self.first_alert_ts is None:
                         self.first_alert_ts = ts
                         self.first_alert_type = "ALERT_SYN_RATE"
@@ -350,7 +356,7 @@ class RuleEngine:
                                 "ack_arrival_count": ack_cnt,
                                 "unacked_syn_count": unacked_cnt,
                                 "distinct_src_ips": distinct_srcs,
-                                "condition": "stateless_arrival_rate",
+                                "condition": "multi_source_arrival_rate" if is_multi_src else "single_source_arrival_rate",
                                 "status": "post-hoc, unregistered",
                             }
                         )
