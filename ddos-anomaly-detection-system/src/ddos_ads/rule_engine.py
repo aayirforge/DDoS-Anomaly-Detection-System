@@ -98,7 +98,9 @@ class RuleEngine:
         # State: Stateless SYN arrival window (independent of per-connection state)
         self.syn_arrival_window: deque[Tuple[float, str]] = deque()
         self.syn_arrival_src_counts: Dict[str, int] = defaultdict(int)
-        self.ack_arrival_window: deque[float] = deque()
+        self.ack_arrival_window: deque[Tuple[float, str]] = deque()
+        self.ack_arrival_src_counts: Dict[str, int] = defaultdict(int)
+        self.unacked_syn_count: int = 0
 
         # State: Incomplete SYN sliding window: deque of (eval_time, src_ip, dst_ip, sport, dport)
         self.incomplete_window: deque[Tuple[float, str, str, int, int]] = deque()
@@ -127,6 +129,8 @@ class RuleEngine:
         self.syn_arrival_window.clear()
         self.syn_arrival_src_counts.clear()
         self.ack_arrival_window.clear()
+        self.ack_arrival_src_counts.clear()
+        self.unacked_syn_count = 0
         self.incomplete_window.clear()
         self.dst_port_counts.clear()
         self.src_ip_counts.clear()
@@ -201,6 +205,11 @@ class RuleEngine:
                         "distinct_dst_ports": distinct_dst_ports,
                         "distinct_dst_ips": distinct_dst_ips,
                         "distinct_src_ips": distinct_src_ips,
+                        "note": (
+                            f"distinct_src_ips={distinct_src_ips}: distributed multi-port flood pattern (satisfies distinct_dst_ports >= {self.handshake_ports_thresh})"
+                            if distinct_src_ips >= 3
+                            else f"distinct_src_ips={distinct_src_ips}: port scan pattern"
+                        ),
                     }
                 )
                 new_alerts.append(alert)
@@ -285,23 +294,30 @@ class RuleEngine:
             if syn == 1 and ack == 0 and dst_ip == self.victim_ip:
                 # Capacity eviction if active table exceeds bound: evict oldest in FIFO order
                 # Evicted entries do NOT count as incomplete handshakes to protect flash crowds
-                if len(self.active_handshakes) >= self.max_handshakes:
-                    self.active_handshakes.popitem(last=False)
-                    self.capacity_evictions += 1
-
-                # If entry already present, pop to refresh position at end
-                if fwd_key in self.active_handshakes:
-                    del self.active_handshakes[fwd_key]
-                self.active_handshakes[fwd_key] = (ts, src_ip, dst_ip, sport, dport)
+                # Keep first SYN timestamp: do NOT refresh if tuple is already pending
+                if fwd_key not in self.active_handshakes:
+                    if len(self.active_handshakes) >= self.max_handshakes:
+                        self.active_handshakes.popitem(last=False)
+                        self.capacity_evictions += 1
+                    self.active_handshakes[fwd_key] = (ts, src_ip, dst_ip, sport, dport)
 
                 if self.enable_syn_arrival_rule:
                     if len(self.syn_arrival_window) >= self.max_arrival_window_entries:
                         _, old_sip = self.syn_arrival_window.popleft()
+                        old_u = max(0, self.syn_arrival_src_counts[old_sip] - self.ack_arrival_src_counts.get(old_sip, 0))
                         self.syn_arrival_src_counts[old_sip] -= 1
+                        new_u = max(0, self.syn_arrival_src_counts[old_sip] - self.ack_arrival_src_counts.get(old_sip, 0))
+                        self.unacked_syn_count += (new_u - old_u)
                         if self.syn_arrival_src_counts[old_sip] == 0:
                             del self.syn_arrival_src_counts[old_sip]
-                    self.syn_arrival_window.append((ts, src_ip))
+                            if old_sip in self.ack_arrival_src_counts:
+                                del self.ack_arrival_src_counts[old_sip]
+
+                    old_u = max(0, self.syn_arrival_src_counts[src_ip] - self.ack_arrival_src_counts.get(src_ip, 0))
                     self.syn_arrival_src_counts[src_ip] += 1
+                    new_u = max(0, self.syn_arrival_src_counts[src_ip] - self.ack_arrival_src_counts.get(src_ip, 0))
+                    self.unacked_syn_count += (new_u - old_u)
+                    self.syn_arrival_window.append((ts, src_ip))
 
             elif ack == 1 and syn == 0 and dst_ip == self.victim_ip:
                 if fwd_key in self.active_handshakes:
@@ -313,23 +329,46 @@ class RuleEngine:
                 if self.enable_syn_arrival_rule:
                     if src_ip in self.syn_arrival_src_counts:
                         if len(self.ack_arrival_window) >= self.max_arrival_window_entries:
-                            self.ack_arrival_window.popleft()
-                        self.ack_arrival_window.append(ts)
+                            _, old_aip = self.ack_arrival_window.popleft()
+                            old_u = max(0, self.syn_arrival_src_counts.get(old_aip, 0) - self.ack_arrival_src_counts[old_aip])
+                            self.ack_arrival_src_counts[old_aip] -= 1
+                            new_u = max(0, self.syn_arrival_src_counts.get(old_aip, 0) - self.ack_arrival_src_counts[old_aip])
+                            self.unacked_syn_count += (new_u - old_u)
+                            if self.ack_arrival_src_counts[old_aip] == 0:
+                                del self.ack_arrival_src_counts[old_aip]
+
+                        old_u = max(0, self.syn_arrival_src_counts[src_ip] - self.ack_arrival_src_counts[src_ip])
+                        self.ack_arrival_src_counts[src_ip] += 1
+                        new_u = max(0, self.syn_arrival_src_counts[src_ip] - self.ack_arrival_src_counts[src_ip])
+                        self.unacked_syn_count += (new_u - old_u)
+                        self.ack_arrival_window.append((ts, src_ip))
 
             # Evaluate Stateless SYN Arrival Rate Detector (independent of per-connection state)
             if self.enable_syn_arrival_rule and dst_ip == self.victim_ip:
                 cutoff = ts - self.sliding_window_sec
                 while self.syn_arrival_window and self.syn_arrival_window[0][0] <= cutoff:
                     _, old_sip = self.syn_arrival_window.popleft()
+                    old_u = max(0, self.syn_arrival_src_counts[old_sip] - self.ack_arrival_src_counts.get(old_sip, 0))
                     self.syn_arrival_src_counts[old_sip] -= 1
+                    new_u = max(0, self.syn_arrival_src_counts[old_sip] - self.ack_arrival_src_counts.get(old_sip, 0))
+                    self.unacked_syn_count += (new_u - old_u)
                     if self.syn_arrival_src_counts[old_sip] == 0:
                         del self.syn_arrival_src_counts[old_sip]
-                while self.ack_arrival_window and self.ack_arrival_window[0] <= cutoff:
-                    self.ack_arrival_window.popleft()
+                        if old_sip in self.ack_arrival_src_counts:
+                            del self.ack_arrival_src_counts[old_sip]
+
+                while self.ack_arrival_window and self.ack_arrival_window[0][0] <= cutoff:
+                    _, old_aip = self.ack_arrival_window.popleft()
+                    old_u = max(0, self.syn_arrival_src_counts.get(old_aip, 0) - self.ack_arrival_src_counts[old_aip])
+                    self.ack_arrival_src_counts[old_aip] -= 1
+                    new_u = max(0, self.syn_arrival_src_counts.get(old_aip, 0) - self.ack_arrival_src_counts[old_aip])
+                    self.unacked_syn_count += (new_u - old_u)
+                    if self.ack_arrival_src_counts[old_aip] == 0:
+                        del self.ack_arrival_src_counts[old_aip]
 
                 syn_cnt = len(self.syn_arrival_window)
                 ack_cnt = len(self.ack_arrival_window)
-                unacked_cnt = max(0, syn_cnt - ack_cnt)
+                unacked_cnt = self.unacked_syn_count
                 distinct_srcs = len(self.syn_arrival_src_counts)
 
                 is_multi_src = (unacked_cnt >= self.syn_arrival_thresh and distinct_srcs >= self.syn_arrival_sources_thresh)

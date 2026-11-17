@@ -1,0 +1,586 @@
+{
+  "ack_masking_experiment": {
+    "naive": {
+      "total_alerts": 12,
+      "syn_rate_alerts": 0,
+      "stateful_alerts": 12,
+      "first_alert_delay_sec": null,
+      "status": "MASKED (0 arrival alerts, completely silenced by benign ACKs)"
+    },
+    "per_source_credit": {
+      "total_alerts": 24,
+      "syn_rate_alerts": 12,
+      "stateful_alerts": 12,
+      "first_alert_delay_sec": 0.7742154598236084,
+      "first_alert_ts_rel": 5.774215459823608,
+      "status": "DETECTED (Per-source ACK credit prevents benign masking)"
+    },
+    "second_breakdown": [
+      {
+        "rel_sec": 5,
+        "attack_sec": 0,
+        "syn_pkts": 240,
+        "ack_pkts": 1750,
+        "naive_syn_rate_alerts": 0,
+        "naive_stateful_alerts": 0,
+        "prod_syn_rate_alerts": 1,
+        "prod_stateful_alerts": 0,
+        "prod_alert_details": {
+          "syn_arrival_count": 195,
+          "ack_arrival_count": 2149,
+          "unacked_syn_count": 150,
+          "distinct_src_ips": 89,
+          "condition": "multi_source_arrival_rate",
+          "status": "post-hoc, unregistered"
+        }
+      },
+      {
+        "rel_sec": 6,
+        "attack_sec": 1,
+        "syn_pkts": 236,
+        "ack_pkts": 1176,
+        "naive_syn_rate_alerts": 0,
+        "naive_stateful_alerts": 0,
+        "prod_syn_rate_alerts": 1,
+        "prod_stateful_alerts": 0,
+        "prod_alert_details": {
+          "syn_arrival_count": 239,
+          "ack_arrival_count": 777,
+          "unacked_syn_count": 193,
+          "distinct_src_ips": 110,
+          "condition": "multi_source_arrival_rate",
+          "status": "post-hoc, unregistered"
+        }
+      },
+      {
+        "rel_sec": 7,
+        "attack_sec": 2,
+        "syn_pkts": 236,
+        "ack_pkts": 2264,
+        "naive_syn_rate_alerts": 0,
+        "naive_stateful_alerts": 1,
+        "prod_syn_rate_alerts": 1,
+        "prod_stateful_alerts": 1,
+        "prod_alert_details": {
+          "syn_arrival_count": 233,
+          "ack_arrival_count": 2776,
+          "unacked_syn_count": 193,
+          "distinct_src_ips": 110,
+          "condition": "multi_source_arrival_rate",
+          "status": "post-hoc, unregistered"
+        }
+      },
+      {
+        "rel_sec": 8,
+        "attack_sec": 3,
+        "syn_pkts": 243,
+        "ack_pkts": 896,
+        "naive_syn_rate_alerts": 0,
+        "naive_stateful_alerts": 1,
+        "prod_syn_rate_alerts": 1,
+        "prod_stateful_alerts": 1,
+        "prod_alert_details": {
+          "syn_arrival_count": 243,
+          "ack_arrival_count": 897,
+          "unacked_syn_count": 193,
+          "distinct_src_ips": 109,
+          "condition": "multi_source_arrival_rate",
+          "status": "post-hoc, unregistered"
+        }
+      },
+      {
+        "rel_sec": 9,
+        "attack_sec": 4,
+        "syn_pkts": 239,
+        "ack_pkts": 1798,
+        "naive_syn_rate_alerts": 0,
+        "naive_stateful_alerts": 1,
+        "prod_syn_rate_alerts": 1,
+        "prod_stateful_alerts": 1,
+        "prod_alert_details": {
+          "syn_arrival_count": 240,
+          "ack_arrival_count": 1764,
+          "unacked_syn_count": 194,
+          "distinct_src_ips": 108,
+          "condition": "multi_source_arrival_rate",
+          "status": "post-hoc, unregistered"
+        }
+      },
+      {
+        "rel_sec": 10,
+        "attack_sec": 5,
+        "syn_pkts": 239,
+        "ack_pkts": 2126,
+        "naive_syn_rate_alerts": 0,
+        "naive_stateful_alerts": 1,
+        "prod_syn_rate_alerts": 1,
+        "prod_stateful_alerts": 1,
+        "prod_alert_details": {
+          "syn_arrival_count": 240,
+          "ack_arrival_count": 1674,
+          "unacked_syn_count": 195,
+          "distinct_src_ips": 108,
+          "condition": "multi_source_arrival_rate",
+          "status": "post-hoc, unregistered"
+        }
+      },
+      {
+        "rel_sec": 11,
+        "attack_sec": 6,
+        "syn_pkts": 239,
+        "ack_pkts": 816,
+        "naive_syn_rate_alerts": 0,
+        "naive_stateful_alerts": 1,
+        "prod_syn_rate_alerts": 1,
+        "prod_stateful_alerts": 1,
+        "prod_alert_details": {
+          "syn_arrival_count": 239,
+          "ack_arrival_count": 1141,
+          "unacked_syn_count": 193,
+          "distinct_src_ips": 110,
+          "condition": "multi_source_arrival_rate",
+          "status": "post-hoc, unregistered"
+        }
+      },
+      {
+        "rel_sec": 12,
+        "attack_sec": 7,
+        "syn_pkts": 238,
+        "ack_pkts": 1386,
+        "naive_syn_rate_alerts": 0,
+        "naive_stateful_alerts": 1,
+        "prod_syn_rate_alerts": 1,
+        "prod_stateful_alerts": 1,
+        "prod_alert_details": {
+          "syn_arrival_count": 237,
+          "ack_arrival_count": 1250,
+          "unacked_syn_count": 194,
+          "distinct_src_ips": 110,
+          "condition": "multi_source_arrival_rate",
+          "status": "post-hoc, unregistered"
+        }
+      },
+      {
+        "rel_sec": 13,
+        "attack_sec": 8,
+        "syn_pkts": 241,
+        "ack_pkts": 1264,
+        "naive_syn_rate_alerts": 0,
+        "naive_stateful_alerts": 1,
+        "prod_syn_rate_alerts": 1,
+        "prod_stateful_alerts": 1,
+        "prod_alert_details": {
+          "syn_arrival_count": 243,
+          "ack_arrival_count": 1459,
+          "unacked_syn_count": 195,
+          "distinct_src_ips": 112,
+          "condition": "multi_source_arrival_rate",
+          "status": "post-hoc, unregistered"
+        }
+      },
+      {
+        "rel_sec": 14,
+        "attack_sec": 9,
+        "syn_pkts": 236,
+        "ack_pkts": 1705,
+        "naive_syn_rate_alerts": 0,
+        "naive_stateful_alerts": 1,
+        "prod_syn_rate_alerts": 1,
+        "prod_stateful_alerts": 1,
+        "prod_alert_details": {
+          "syn_arrival_count": 238,
+          "ack_arrival_count": 1514,
+          "unacked_syn_count": 193,
+          "distinct_src_ips": 107,
+          "condition": "multi_source_arrival_rate",
+          "status": "post-hoc, unregistered"
+        }
+      },
+      {
+        "rel_sec": 15,
+        "attack_sec": 10,
+        "syn_pkts": 233,
+        "ack_pkts": 2512,
+        "naive_syn_rate_alerts": 0,
+        "naive_stateful_alerts": 1,
+        "prod_syn_rate_alerts": 1,
+        "prod_stateful_alerts": 1,
+        "prod_alert_details": {
+          "syn_arrival_count": 232,
+          "ack_arrival_count": 2231,
+          "unacked_syn_count": 193,
+          "distinct_src_ips": 114,
+          "condition": "multi_source_arrival_rate",
+          "status": "post-hoc, unregistered"
+        }
+      },
+      {
+        "rel_sec": 16,
+        "attack_sec": 11,
+        "syn_pkts": 218,
+        "ack_pkts": 1570,
+        "naive_syn_rate_alerts": 0,
+        "naive_stateful_alerts": 1,
+        "prod_syn_rate_alerts": 1,
+        "prod_stateful_alerts": 1,
+        "prod_alert_details": {
+          "syn_arrival_count": 236,
+          "ack_arrival_count": 1444,
+          "unacked_syn_count": 192,
+          "distinct_src_ips": 109,
+          "condition": "multi_source_arrival_rate",
+          "status": "post-hoc, unregistered"
+        }
+      },
+      {
+        "rel_sec": 17,
+        "attack_sec": 12,
+        "syn_pkts": 44,
+        "ack_pkts": 1621,
+        "naive_syn_rate_alerts": 0,
+        "naive_stateful_alerts": 1,
+        "prod_syn_rate_alerts": 0,
+        "prod_stateful_alerts": 1,
+        "prod_alert_details": {}
+      }
+    ]
+  },
+  "refresh_experiment": {
+    "recurring_pool_test": {
+      "20000": {
+        "cap": 20000,
+        "refresh_alerts": 0,
+        "refresh_expired": 0,
+        "refresh_first_alert": null,
+        "keep_first_alerts": 4,
+        "keep_first_expired": 2000,
+        "keep_first_first_alert": 2.0200000000000955,
+        "keep_first_class": "ALERT_SYN_FLOOD"
+      },
+      "160000": {
+        "cap": 160000,
+        "refresh_alerts": 0,
+        "refresh_expired": 0,
+        "refresh_first_alert": null,
+        "keep_first_alerts": 4,
+        "keep_first_expired": 2000,
+        "keep_first_first_alert": 2.0200000000000955,
+        "keep_first_class": "ALERT_SYN_FLOOD"
+      }
+    },
+    "parity_shifts": [
+      {
+        "pcap": "session3_reconnaissance_port_scan_30pps_rep1.pcap",
+        "ref_delay_sec": 2.4674,
+        "prod_delay_sec": 2.4674,
+        "diff_sec": 0.0,
+        "is_shift": false,
+        "first_alert_class": "ALERT_SCAN"
+      },
+      {
+        "pcap": "session3_reconnaissance_port_scan_30pps_rep2.pcap",
+        "ref_delay_sec": 2.4663,
+        "prod_delay_sec": 2.4663,
+        "diff_sec": 0.0,
+        "is_shift": false,
+        "first_alert_class": "ALERT_SCAN"
+      },
+      {
+        "pcap": "session3_reconnaissance_port_scan_30pps_rep3.pcap",
+        "ref_delay_sec": 2.4663,
+        "prod_delay_sec": 2.4663,
+        "diff_sec": 0.0,
+        "is_shift": false,
+        "first_alert_class": "ALERT_SCAN"
+      },
+      {
+        "pcap": "session3_tcp_syn_flood_1000pps_rep1.pcap",
+        "ref_delay_sec": 2.0198,
+        "prod_delay_sec": 2.0198,
+        "diff_sec": 0.0,
+        "is_shift": false,
+        "first_alert_class": "ALERT_SYN_FLOOD"
+      },
+      {
+        "pcap": "session3_tcp_syn_flood_1000pps_rep2.pcap",
+        "ref_delay_sec": 2.0194,
+        "prod_delay_sec": 2.0194,
+        "diff_sec": 0.0,
+        "is_shift": false,
+        "first_alert_class": "ALERT_SYN_FLOOD"
+      },
+      {
+        "pcap": "session3_tcp_syn_flood_1000pps_rep3.pcap",
+        "ref_delay_sec": 2.0189,
+        "prod_delay_sec": 2.019,
+        "diff_sec": 0.0001,
+        "is_shift": false,
+        "first_alert_class": "ALERT_SYN_FLOOD"
+      },
+      {
+        "pcap": "session3_tcp_syn_flood_200pps_rep1.pcap",
+        "ref_delay_sec": 2.0848,
+        "prod_delay_sec": 2.0953,
+        "diff_sec": 0.0105,
+        "is_shift": true,
+        "first_alert_class": "ALERT_SYN_FLOOD"
+      },
+      {
+        "pcap": "session3_tcp_syn_flood_200pps_rep2.pcap",
+        "ref_delay_sec": 2.0805,
+        "prod_delay_sec": 2.0946,
+        "diff_sec": 0.0141,
+        "is_shift": true,
+        "first_alert_class": "ALERT_SYN_FLOOD"
+      },
+      {
+        "pcap": "session3_tcp_syn_flood_200pps_rep3.pcap",
+        "ref_delay_sec": 2.0747,
+        "prod_delay_sec": 2.0947,
+        "diff_sec": 0.02,
+        "is_shift": true,
+        "first_alert_class": "ALERT_SYN_FLOOD"
+      },
+      {
+        "pcap": "session3_tcp_syn_flood_500pps_rep1.pcap",
+        "ref_delay_sec": 2.0334,
+        "prod_delay_sec": 2.0376,
+        "diff_sec": 0.0042,
+        "is_shift": true,
+        "first_alert_class": "ALERT_SYN_FLOOD"
+      },
+      {
+        "pcap": "session3_tcp_syn_flood_500pps_rep2.pcap",
+        "ref_delay_sec": 2.0333,
+        "prod_delay_sec": 2.0377,
+        "diff_sec": 0.0044,
+        "is_shift": true,
+        "first_alert_class": "ALERT_SYN_FLOOD"
+      },
+      {
+        "pcap": "session3_tcp_syn_flood_500pps_rep3.pcap",
+        "ref_delay_sec": 2.0345,
+        "prod_delay_sec": 2.0387,
+        "diff_sec": 0.0042,
+        "is_shift": true,
+        "first_alert_class": "ALERT_SYN_FLOOD"
+      },
+      {
+        "pcap": "session3_tcp_syn_flood_50pps_rep1.pcap",
+        "ref_delay_sec": 2.26,
+        "prod_delay_sec": 2.3802,
+        "diff_sec": 0.1202,
+        "is_shift": true,
+        "first_alert_class": "ALERT_SYN_FLOOD"
+      },
+      {
+        "pcap": "session3_tcp_syn_flood_50pps_rep2.pcap",
+        "ref_delay_sec": 2.2421,
+        "prod_delay_sec": 2.3803,
+        "diff_sec": 0.1382,
+        "is_shift": true,
+        "first_alert_class": "ALERT_SYN_FLOOD"
+      },
+      {
+        "pcap": "session3_tcp_syn_flood_50pps_rep3.pcap",
+        "ref_delay_sec": 2.2417,
+        "prod_delay_sec": 2.3804,
+        "diff_sec": 0.1387,
+        "is_shift": true,
+        "first_alert_class": "ALERT_SYN_FLOOD"
+      },
+      {
+        "pcap": "session3_udp_flood_random_ports_1000pps_rep1.pcap",
+        "ref_delay_sec": 0.0256,
+        "prod_delay_sec": 0.0256,
+        "diff_sec": 0.0,
+        "is_shift": false,
+        "first_alert_class": "ALERT_UDP_FLOOD"
+      },
+      {
+        "pcap": "session3_udp_flood_random_ports_1000pps_rep2.pcap",
+        "ref_delay_sec": 0.025,
+        "prod_delay_sec": 0.025,
+        "diff_sec": 0.0,
+        "is_shift": false,
+        "first_alert_class": "ALERT_UDP_FLOOD"
+      },
+      {
+        "pcap": "session3_udp_flood_random_ports_1000pps_rep3.pcap",
+        "ref_delay_sec": 0.0275,
+        "prod_delay_sec": 0.0275,
+        "diff_sec": 0.0,
+        "is_shift": false,
+        "first_alert_class": "ALERT_UDP_FLOOD"
+      },
+      {
+        "pcap": "session3_udp_flood_random_ports_200pps_rep1.pcap",
+        "ref_delay_sec": 0.1204,
+        "prod_delay_sec": 0.1204,
+        "diff_sec": 0.0,
+        "is_shift": false,
+        "first_alert_class": "ALERT_UDP_FLOOD"
+      },
+      {
+        "pcap": "session3_udp_flood_random_ports_200pps_rep2.pcap",
+        "ref_delay_sec": 0.1196,
+        "prod_delay_sec": 0.1196,
+        "diff_sec": 0.0,
+        "is_shift": false,
+        "first_alert_class": "ALERT_UDP_FLOOD"
+      },
+      {
+        "pcap": "session3_udp_flood_random_ports_200pps_rep3.pcap",
+        "ref_delay_sec": 0.1207,
+        "prod_delay_sec": 0.1207,
+        "diff_sec": 0.0,
+        "is_shift": false,
+        "first_alert_class": "ALERT_UDP_FLOOD"
+      },
+      {
+        "pcap": "session3_udp_flood_random_ports_500pps_rep1.pcap",
+        "ref_delay_sec": 0.0577,
+        "prod_delay_sec": 0.0577,
+        "diff_sec": 0.0,
+        "is_shift": false,
+        "first_alert_class": "ALERT_UDP_FLOOD"
+      },
+      {
+        "pcap": "session3_udp_flood_random_ports_500pps_rep2.pcap",
+        "ref_delay_sec": 0.0488,
+        "prod_delay_sec": 0.0488,
+        "diff_sec": 0.0,
+        "is_shift": false,
+        "first_alert_class": "ALERT_UDP_FLOOD"
+      },
+      {
+        "pcap": "session3_udp_flood_random_ports_500pps_rep3.pcap",
+        "ref_delay_sec": 0.0495,
+        "prod_delay_sec": 0.0495,
+        "diff_sec": 0.0,
+        "is_shift": false,
+        "first_alert_class": "ALERT_UDP_FLOOD"
+      },
+      {
+        "pcap": "session3_udp_flood_random_ports_50pps_rep1.pcap",
+        "ref_delay_sec": 0.3999,
+        "prod_delay_sec": 0.3999,
+        "diff_sec": 0.0,
+        "is_shift": false,
+        "first_alert_class": "ALERT_UDP_FLOOD"
+      },
+      {
+        "pcap": "session3_udp_flood_random_ports_50pps_rep2.pcap",
+        "ref_delay_sec": 0.3999,
+        "prod_delay_sec": 0.3999,
+        "diff_sec": 0.0,
+        "is_shift": false,
+        "first_alert_class": "ALERT_UDP_FLOOD"
+      },
+      {
+        "pcap": "session3_udp_flood_random_ports_50pps_rep3.pcap",
+        "ref_delay_sec": 0.3997,
+        "prod_delay_sec": 0.3997,
+        "diff_sec": 0.0,
+        "is_shift": false,
+        "first_alert_class": "ALERT_UDP_FLOOD"
+      },
+      {
+        "pcap": "session3_udp_flood_volumetric_port80_1000pps_rep1.pcap",
+        "ref_delay_sec": 0.0349,
+        "prod_delay_sec": 0.0349,
+        "diff_sec": 0.0,
+        "is_shift": false,
+        "first_alert_class": "ALERT_UDP_FLOOD"
+      },
+      {
+        "pcap": "session3_udp_flood_volumetric_port80_1000pps_rep2.pcap",
+        "ref_delay_sec": 0.0337,
+        "prod_delay_sec": 0.0337,
+        "diff_sec": 0.0,
+        "is_shift": false,
+        "first_alert_class": "ALERT_UDP_FLOOD"
+      },
+      {
+        "pcap": "session3_udp_flood_volumetric_port80_1000pps_rep3.pcap",
+        "ref_delay_sec": 0.0349,
+        "prod_delay_sec": 0.0349,
+        "diff_sec": 0.0,
+        "is_shift": false,
+        "first_alert_class": "ALERT_UDP_FLOOD"
+      },
+      {
+        "pcap": "session3_udp_flood_volumetric_port80_200pps_rep1.pcap",
+        "ref_delay_sec": 0.1681,
+        "prod_delay_sec": 0.1681,
+        "diff_sec": 0.0,
+        "is_shift": false,
+        "first_alert_class": "ALERT_UDP_FLOOD"
+      },
+      {
+        "pcap": "session3_udp_flood_volumetric_port80_200pps_rep2.pcap",
+        "ref_delay_sec": 0.1641,
+        "prod_delay_sec": 0.1641,
+        "diff_sec": 0.0,
+        "is_shift": false,
+        "first_alert_class": "ALERT_UDP_FLOOD"
+      },
+      {
+        "pcap": "session3_udp_flood_volumetric_port80_200pps_rep3.pcap",
+        "ref_delay_sec": 0.1697,
+        "prod_delay_sec": 0.1697,
+        "diff_sec": 0.0,
+        "is_shift": false,
+        "first_alert_class": "ALERT_UDP_FLOOD"
+      },
+      {
+        "pcap": "session3_udp_flood_volumetric_port80_500pps_rep1.pcap",
+        "ref_delay_sec": 0.0699,
+        "prod_delay_sec": 0.0699,
+        "diff_sec": 0.0,
+        "is_shift": false,
+        "first_alert_class": "ALERT_UDP_FLOOD"
+      },
+      {
+        "pcap": "session3_udp_flood_volumetric_port80_500pps_rep2.pcap",
+        "ref_delay_sec": 0.0688,
+        "prod_delay_sec": 0.0688,
+        "diff_sec": 0.0,
+        "is_shift": false,
+        "first_alert_class": "ALERT_UDP_FLOOD"
+      },
+      {
+        "pcap": "session3_udp_flood_volumetric_port80_500pps_rep3.pcap",
+        "ref_delay_sec": 0.0699,
+        "prod_delay_sec": 0.0699,
+        "diff_sec": 0.0,
+        "is_shift": false,
+        "first_alert_class": "ALERT_UDP_FLOOD"
+      },
+      {
+        "pcap": "session3_udp_flood_volumetric_port80_50pps_rep1.pcap",
+        "ref_delay_sec": 0.5398,
+        "prod_delay_sec": 0.5398,
+        "diff_sec": 0.0,
+        "is_shift": false,
+        "first_alert_class": "ALERT_UDP_FLOOD"
+      },
+      {
+        "pcap": "session3_udp_flood_volumetric_port80_50pps_rep2.pcap",
+        "ref_delay_sec": 0.5404,
+        "prod_delay_sec": 0.5404,
+        "diff_sec": 0.0,
+        "is_shift": false,
+        "first_alert_class": "ALERT_UDP_FLOOD"
+      },
+      {
+        "pcap": "session3_udp_flood_volumetric_port80_50pps_rep3.pcap",
+        "ref_delay_sec": 0.5398,
+        "prod_delay_sec": 0.5398,
+        "diff_sec": 0.0,
+        "is_shift": false,
+        "first_alert_class": "ALERT_UDP_FLOOD"
+      }
+    ]
+  }
+}

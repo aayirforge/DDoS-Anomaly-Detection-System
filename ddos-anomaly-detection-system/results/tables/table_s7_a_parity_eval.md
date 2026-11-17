@@ -11,9 +11,9 @@
 | `session3_tcp_syn_flood_500pps_rep1.pcap` | Tcp Syn Flood 500Pps | 1 | 2.0376 | 2.1046 | -0.0670 | 118 | 118 | **PASS** |
 | `session3_tcp_syn_flood_500pps_rep2.pcap` | Tcp Syn Flood 500Pps | 2 | 2.0377 | 2.0813 | -0.0436 | 118 | 118 | **PASS** |
 | `session3_tcp_syn_flood_500pps_rep3.pcap` | Tcp Syn Flood 500Pps | 3 | 2.0387 | 2.1550 | -0.1163 | 118 | 118 | **PASS** |
-| `session3_tcp_syn_flood_1000pps_rep1.pcap` | Tcp Syn Flood 1000Pps | 1 | 2.0211 | 2.1076 | -0.0865 | 118 | 118 | **PASS** |
+| `session3_tcp_syn_flood_1000pps_rep1.pcap` | Tcp Syn Flood 1000Pps | 1 | 2.0198 | 2.1076 | -0.0878 | 118 | 118 | **PASS** |
 | `session3_tcp_syn_flood_1000pps_rep2.pcap` | Tcp Syn Flood 1000Pps | 2 | 2.0194 | 2.1618 | -0.1424 | 118 | 118 | **PASS** |
-| `session3_tcp_syn_flood_1000pps_rep3.pcap` | Tcp Syn Flood 1000Pps | 3 | 2.0198 | 2.1099 | -0.0901 | 118 | 118 | **PASS** |
+| `session3_tcp_syn_flood_1000pps_rep3.pcap` | Tcp Syn Flood 1000Pps | 3 | 2.0190 | 2.1099 | -0.0909 | 118 | 118 | **PASS** |
 | `session3_udp_flood_random_ports_50pps_rep1.pcap` | Udp Flood Random Ports 50Pps | 1 | 0.3999 | 0.5393 | -0.1394 | 120 | 120 | **PASS** |
 | `session3_udp_flood_random_ports_50pps_rep2.pcap` | Udp Flood Random Ports 50Pps | 2 | 0.3999 | 0.5405 | -0.1406 | 120 | 120 | **PASS** |
 | `session3_udp_flood_random_ports_50pps_rep3.pcap` | Udp Flood Random Ports 50Pps | 3 | 0.3997 | 0.5535 | -0.1538 | 120 | 120 | **PASS** |

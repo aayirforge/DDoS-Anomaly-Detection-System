@@ -140,15 +140,15 @@
           "repeat": 1,
           "metric": "first_detection_delay_sec",
           "differing_fields": [
-            "first_detection_delay_sec (2.0376s -> 3.0389s, diff=1.0013s)",
+            "first_detection_delay_sec (2.0376s -> 3.0376s, diff=1.0s)",
             "alert_seconds_set (120s -> 120s)"
           ],
-          "primary_differing_field": "first_detection_delay_sec (2.0376s -> 3.0389s, diff=1.0013s)",
-          "baseline_value": 3.0389,
-          "mutated_value": 3.0389,
-          "difference": 1.0013,
-          "delay_diff_signed": 1.0013,
-          "streaming_delay": 3.0389,
+          "primary_differing_field": "first_detection_delay_sec (2.0376s -> 3.0376s, diff=1.0s)",
+          "baseline_value": 3.0376,
+          "mutated_value": 3.0376,
+          "difference": 1.0,
+          "delay_diff_signed": 1.0,
+          "streaming_delay": 3.0376,
           "streaming_alerted": 117
         },
         {
@@ -157,15 +157,15 @@
           "repeat": 2,
           "metric": "first_detection_delay_sec",
           "differing_fields": [
-            "first_detection_delay_sec (2.0377s -> 3.0402s, diff=1.0025s)",
+            "first_detection_delay_sec (2.0377s -> 3.0377s, diff=1.0s)",
             "alert_seconds_set (120s -> 120s)"
           ],
-          "primary_differing_field": "first_detection_delay_sec (2.0377s -> 3.0402s, diff=1.0025s)",
-          "baseline_value": 3.0402,
-          "mutated_value": 3.0402,
-          "difference": 1.0025,
-          "delay_diff_signed": 1.0025,
-          "streaming_delay": 3.0402,
+          "primary_differing_field": "first_detection_delay_sec (2.0377s -> 3.0377s, diff=1.0s)",
+          "baseline_value": 3.0377,
+          "mutated_value": 3.0377,
+          "difference": 1.0,
+          "delay_diff_signed": 1.0,
+          "streaming_delay": 3.0377,
           "streaming_alerted": 117
         },
         {
@@ -191,15 +191,15 @@
           "repeat": 1,
           "metric": "first_detection_delay_sec",
           "differing_fields": [
-            "first_detection_delay_sec (2.0211s -> 3.0211s, diff=1.0s)",
+            "first_detection_delay_sec (2.0198s -> 3.0198s, diff=1.0s)",
             "alert_seconds_set (120s -> 120s)"
           ],
-          "primary_differing_field": "first_detection_delay_sec (2.0211s -> 3.0211s, diff=1.0s)",
-          "baseline_value": 3.0211,
-          "mutated_value": 3.0211,
+          "primary_differing_field": "first_detection_delay_sec (2.0198s -> 3.0198s, diff=1.0s)",
+          "baseline_value": 3.0198,
+          "mutated_value": 3.0198,
           "difference": 1.0,
           "delay_diff_signed": 1.0,
-          "streaming_delay": 3.0211,
+          "streaming_delay": 3.0198,
           "streaming_alerted": 117
         },
         {
@@ -225,15 +225,15 @@
           "repeat": 3,
           "metric": "first_detection_delay_sec",
           "differing_fields": [
-            "first_detection_delay_sec (2.0198s -> 3.0198s, diff=1.0s)",
+            "first_detection_delay_sec (2.019s -> 3.019s, diff=1.0s)",
             "alert_seconds_set (121s -> 121s)"
           ],
-          "primary_differing_field": "first_detection_delay_sec (2.0198s -> 3.0198s, diff=1.0s)",
-          "baseline_value": 3.0198,
-          "mutated_value": 3.0198,
+          "primary_differing_field": "first_detection_delay_sec (2.019s -> 3.019s, diff=1.0s)",
+          "baseline_value": 3.019,
+          "mutated_value": 3.019,
           "difference": 1.0,
           "delay_diff_signed": 1.0,
-          "streaming_delay": 3.0198,
+          "streaming_delay": 3.019,
           "streaming_alerted": 117
         },
         {
@@ -444,15 +444,15 @@
           "repeat": 2,
           "metric": "first_detection_delay_sec",
           "differing_fields": [
-            "first_detection_delay_sec (2.0377s -> 2.2902s, diff=0.2525s)",
+            "first_detection_delay_sec (2.0377s -> 2.2877s, diff=0.25s)",
             "alert_seconds_set (120s -> 121s)"
           ],
-          "primary_differing_field": "first_detection_delay_sec (2.0377s -> 2.2902s, diff=0.2525s)",
-          "baseline_value": 2.2902,
-          "mutated_value": 2.2902,
-          "difference": 0.2525,
-          "delay_diff_signed": 0.2525,
-          "streaming_delay": 2.2902,
+          "primary_differing_field": "first_detection_delay_sec (2.0377s -> 2.2877s, diff=0.25s)",
+          "baseline_value": 2.2877,
+          "mutated_value": 2.2877,
+          "difference": 0.25,
+          "delay_diff_signed": 0.25,
+          "streaming_delay": 2.2877,
           "streaming_alerted": 118
         },
         {
@@ -478,15 +478,15 @@
           "repeat": 1,
           "metric": "first_detection_delay_sec",
           "differing_fields": [
-            "first_detection_delay_sec (2.0211s -> 2.2711s, diff=0.25s)",
+            "first_detection_delay_sec (2.0198s -> 2.2698s, diff=0.25s)",
             "alert_seconds_set (120s -> 121s)"
           ],
-          "primary_differing_field": "first_detection_delay_sec (2.0211s -> 2.2711s, diff=0.25s)",
-          "baseline_value": 2.2711,
-          "mutated_value": 2.2711,
+          "primary_differing_field": "first_detection_delay_sec (2.0198s -> 2.2698s, diff=0.25s)",
+          "baseline_value": 2.2698,
+          "mutated_value": 2.2698,
           "difference": 0.25,
           "delay_diff_signed": 0.25,
-          "streaming_delay": 2.2711,
+          "streaming_delay": 2.2698,
           "streaming_alerted": 118
         },
         {
@@ -512,14 +512,14 @@
           "repeat": 3,
           "metric": "first_detection_delay_sec",
           "differing_fields": [
-            "first_detection_delay_sec (2.0198s -> 2.2698s, diff=0.25s)"
+            "first_detection_delay_sec (2.019s -> 2.269s, diff=0.25s)"
           ],
-          "primary_differing_field": "first_detection_delay_sec (2.0198s -> 2.2698s, diff=0.25s)",
-          "baseline_value": 2.2698,
-          "mutated_value": 2.2698,
+          "primary_differing_field": "first_detection_delay_sec (2.019s -> 2.269s, diff=0.25s)",
+          "baseline_value": 2.269,
+          "mutated_value": 2.269,
           "difference": 0.25,
           "delay_diff_signed": 0.25,
-          "streaming_delay": 2.2698,
+          "streaming_delay": 2.269,
           "streaming_alerted": 118
         },
         {
@@ -762,8 +762,8 @@
           "baseline_value": 25,
           "mutated_value": 25,
           "difference": 0,
-          "delay_diff_signed": 0.0063,
-          "streaming_delay": 2.0274,
+          "delay_diff_signed": 0.0051,
+          "streaming_delay": 2.0249,
           "streaming_alerted": 118
         },
         {
@@ -794,8 +794,8 @@
           "baseline_value": 25,
           "mutated_value": 25,
           "difference": 0,
-          "delay_diff_signed": 0.0056,
-          "streaming_delay": 2.0254,
+          "delay_diff_signed": 0.0047,
+          "streaming_delay": 2.0237,
           "streaming_alerted": 118
         }
       ]
@@ -901,15 +901,15 @@
           "repeat": 2,
           "metric": "first_detection_delay_sec",
           "differing_fields": [
-            "first_detection_delay_sec (2.0946s -> 2.1493s, diff=0.0547s)",
+            "first_detection_delay_sec (2.0946s -> 2.1444s, diff=0.0498s)",
             "first_alert_volume (20 -> 30)"
           ],
-          "primary_differing_field": "first_detection_delay_sec (2.0946s -> 2.1493s, diff=0.0547s)",
-          "baseline_value": 2.1493,
-          "mutated_value": 2.1493,
-          "difference": 0.0547,
-          "delay_diff_signed": 0.0547,
-          "streaming_delay": 2.1493,
+          "primary_differing_field": "first_detection_delay_sec (2.0946s -> 2.1444s, diff=0.0498s)",
+          "baseline_value": 2.1444,
+          "mutated_value": 2.1444,
+          "difference": 0.0498,
+          "delay_diff_signed": 0.0498,
+          "streaming_delay": 2.1444,
           "streaming_alerted": 118
         },
         {
@@ -951,15 +951,15 @@
           "repeat": 2,
           "metric": "first_detection_delay_sec",
           "differing_fields": [
-            "first_detection_delay_sec (2.0377s -> 2.0594s, diff=0.0217s)",
+            "first_detection_delay_sec (2.0377s -> 2.0588s, diff=0.0211s)",
             "first_alert_volume (20 -> 30)"
           ],
-          "primary_differing_field": "first_detection_delay_sec (2.0377s -> 2.0594s, diff=0.0217s)",
-          "baseline_value": 2.0594,
-          "mutated_value": 2.0594,
-          "difference": 0.0217,
-          "delay_diff_signed": 0.0217,
-          "streaming_delay": 2.0594,
+          "primary_differing_field": "first_detection_delay_sec (2.0377s -> 2.0588s, diff=0.0211s)",
+          "baseline_value": 2.0588,
+          "mutated_value": 2.0588,
+          "difference": 0.0211,
+          "delay_diff_signed": 0.0211,
+          "streaming_delay": 2.0588,
           "streaming_alerted": 118
         },
         {
@@ -990,8 +990,8 @@
           "baseline_value": 30,
           "mutated_value": 30,
           "difference": 0,
-          "delay_diff_signed": 0.0109,
-          "streaming_delay": 2.032,
+          "delay_diff_signed": 0.0095,
+          "streaming_delay": 2.0293,
           "streaming_alerted": 118
         },
         {
@@ -1022,8 +1022,8 @@
           "baseline_value": 30,
           "mutated_value": 30,
           "difference": 0,
-          "delay_diff_signed": 0.0107,
-          "streaming_delay": 2.0305,
+          "delay_diff_signed": 0.0102,
+          "streaming_delay": 2.0292,
           "streaming_alerted": 118
         }
       ]

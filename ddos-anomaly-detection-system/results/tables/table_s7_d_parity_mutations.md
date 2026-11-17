@@ -18,12 +18,12 @@
 | `session3_tcp_syn_flood_200pps_rep1.pcap` | Tcp Syn Flood 200Pps | `first_detection_delay_sec (2.0953s -> 3.0953s, diff=1.0s)<br>alert_seconds_set (120s -> 120s)` | 3.0953 s | 3.0953 s | +1.0000 s |
 | `session3_tcp_syn_flood_200pps_rep2.pcap` | Tcp Syn Flood 200Pps | `first_detection_delay_sec (2.0946s -> 3.0946s, diff=1.0s)<br>alert_seconds_set (120s -> 120s)` | 3.0946 s | 3.0946 s | +1.0000 s |
 | `session3_tcp_syn_flood_200pps_rep3.pcap` | Tcp Syn Flood 200Pps | `first_detection_delay_sec (2.0947s -> 3.0947s, diff=1.0s)<br>alert_seconds_set (120s -> 120s)` | 3.0947 s | 3.0947 s | +1.0000 s |
-| `session3_tcp_syn_flood_500pps_rep1.pcap` | Tcp Syn Flood 500Pps | `first_detection_delay_sec (2.0376s -> 3.0389s, diff=1.0013s)<br>alert_seconds_set (120s -> 120s)` | 3.0389 s | 3.0389 s | +1.0013 s |
-| `session3_tcp_syn_flood_500pps_rep2.pcap` | Tcp Syn Flood 500Pps | `first_detection_delay_sec (2.0377s -> 3.0402s, diff=1.0025s)<br>alert_seconds_set (120s -> 120s)` | 3.0402 s | 3.0402 s | +1.0025 s |
+| `session3_tcp_syn_flood_500pps_rep1.pcap` | Tcp Syn Flood 500Pps | `first_detection_delay_sec (2.0376s -> 3.0376s, diff=1.0s)<br>alert_seconds_set (120s -> 120s)` | 3.0376 s | 3.0376 s | +1.0000 s |
+| `session3_tcp_syn_flood_500pps_rep2.pcap` | Tcp Syn Flood 500Pps | `first_detection_delay_sec (2.0377s -> 3.0377s, diff=1.0s)<br>alert_seconds_set (120s -> 120s)` | 3.0377 s | 3.0377 s | +1.0000 s |
 | `session3_tcp_syn_flood_500pps_rep3.pcap` | Tcp Syn Flood 500Pps | `first_detection_delay_sec (2.0387s -> 3.0387s, diff=1.0s)<br>alert_seconds_set (120s -> 120s)` | 3.0387 s | 3.0387 s | +1.0000 s |
-| `session3_tcp_syn_flood_1000pps_rep1.pcap` | Tcp Syn Flood 1000Pps | `first_detection_delay_sec (2.0211s -> 3.0211s, diff=1.0s)<br>alert_seconds_set (120s -> 120s)` | 3.0211 s | 3.0211 s | +1.0000 s |
+| `session3_tcp_syn_flood_1000pps_rep1.pcap` | Tcp Syn Flood 1000Pps | `first_detection_delay_sec (2.0198s -> 3.0198s, diff=1.0s)<br>alert_seconds_set (120s -> 120s)` | 3.0198 s | 3.0198 s | +1.0000 s |
 | `session3_tcp_syn_flood_1000pps_rep2.pcap` | Tcp Syn Flood 1000Pps | `first_detection_delay_sec (2.0194s -> 3.0194s, diff=1.0s)<br>alert_seconds_set (120s -> 120s)` | 3.0194 s | 3.0194 s | +1.0000 s |
-| `session3_tcp_syn_flood_1000pps_rep3.pcap` | Tcp Syn Flood 1000Pps | `first_detection_delay_sec (2.0198s -> 3.0198s, diff=1.0s)<br>alert_seconds_set (121s -> 121s)` | 3.0198 s | 3.0198 s | +1.0000 s |
+| `session3_tcp_syn_flood_1000pps_rep3.pcap` | Tcp Syn Flood 1000Pps | `first_detection_delay_sec (2.019s -> 3.019s, diff=1.0s)<br>alert_seconds_set (121s -> 121s)` | 3.0190 s | 3.0190 s | +1.0000 s |
 | `session3_reconnaissance_port_scan_30pps_rep1.pcap` | Reconnaissance Port Scan 30Pps | `first_detection_delay_sec (2.4674s -> 3.4674s, diff=1.0s)<br>alert_seconds_set (121s -> 121s)` | 3.4674 s | 3.4674 s | +1.0000 s |
 | `session3_reconnaissance_port_scan_30pps_rep2.pcap` | Reconnaissance Port Scan 30Pps | `first_detection_delay_sec (2.4663s -> 3.4663s, diff=1.0s)<br>alert_seconds_set (120s -> 120s)` | 3.4663 s | 3.4663 s | +1.0000 s |
 | `session3_reconnaissance_port_scan_30pps_rep3.pcap` | Reconnaissance Port Scan 30Pps | `first_detection_delay_sec (2.4663s -> 3.4663s, diff=1.0s)<br>alert_seconds_set (121s -> 121s)` | 3.4663 s | 3.4663 s | +1.0000 s |
@@ -39,11 +39,11 @@
 | `session3_tcp_syn_flood_200pps_rep2.pcap` | Tcp Syn Flood 200Pps | `first_detection_delay_sec (2.0946s -> 2.3446s, diff=0.25s)<br>alert_seconds_set (120s -> 121s)` | 2.3446 s | 2.3446 s | +0.2500 s |
 | `session3_tcp_syn_flood_200pps_rep3.pcap` | Tcp Syn Flood 200Pps | `first_detection_delay_sec (2.0947s -> 2.3447s, diff=0.25s)<br>alert_seconds_set (120s -> 121s)` | 2.3447 s | 2.3447 s | +0.2500 s |
 | `session3_tcp_syn_flood_500pps_rep1.pcap` | Tcp Syn Flood 500Pps | `first_detection_delay_sec (2.0376s -> 2.2876s, diff=0.25s)<br>alert_seconds_set (120s -> 121s)` | 2.2876 s | 2.2876 s | +0.2500 s |
-| `session3_tcp_syn_flood_500pps_rep2.pcap` | Tcp Syn Flood 500Pps | `first_detection_delay_sec (2.0377s -> 2.2902s, diff=0.2525s)<br>alert_seconds_set (120s -> 121s)` | 2.2902 s | 2.2902 s | +0.2525 s |
+| `session3_tcp_syn_flood_500pps_rep2.pcap` | Tcp Syn Flood 500Pps | `first_detection_delay_sec (2.0377s -> 2.2877s, diff=0.25s)<br>alert_seconds_set (120s -> 121s)` | 2.2877 s | 2.2877 s | +0.2500 s |
 | `session3_tcp_syn_flood_500pps_rep3.pcap` | Tcp Syn Flood 500Pps | `first_detection_delay_sec (2.0387s -> 2.2887s, diff=0.25s)<br>alert_seconds_set (120s -> 121s)` | 2.2887 s | 2.2887 s | +0.2500 s |
-| `session3_tcp_syn_flood_1000pps_rep1.pcap` | Tcp Syn Flood 1000Pps | `first_detection_delay_sec (2.0211s -> 2.2711s, diff=0.25s)<br>alert_seconds_set (120s -> 121s)` | 2.2711 s | 2.2711 s | +0.2500 s |
+| `session3_tcp_syn_flood_1000pps_rep1.pcap` | Tcp Syn Flood 1000Pps | `first_detection_delay_sec (2.0198s -> 2.2698s, diff=0.25s)<br>alert_seconds_set (120s -> 121s)` | 2.2698 s | 2.2698 s | +0.2500 s |
 | `session3_tcp_syn_flood_1000pps_rep2.pcap` | Tcp Syn Flood 1000Pps | `first_detection_delay_sec (2.0194s -> 2.2694s, diff=0.25s)<br>alert_seconds_set (120s -> 121s)` | 2.2694 s | 2.2694 s | +0.2500 s |
-| `session3_tcp_syn_flood_1000pps_rep3.pcap` | Tcp Syn Flood 1000Pps | `first_detection_delay_sec (2.0198s -> 2.2698s, diff=0.25s)` | 2.2698 s | 2.2698 s | +0.2500 s |
+| `session3_tcp_syn_flood_1000pps_rep3.pcap` | Tcp Syn Flood 1000Pps | `first_detection_delay_sec (2.019s -> 2.269s, diff=0.25s)` | 2.2690 s | 2.2690 s | +0.2500 s |
 | `session3_reconnaissance_port_scan_30pps_rep1.pcap` | Reconnaissance Port Scan 30Pps | `first_detection_delay_sec (2.4674s -> 2.7174s, diff=0.25s)` | 2.7174 s | 2.7174 s | +0.2500 s |
 | `session3_reconnaissance_port_scan_30pps_rep2.pcap` | Reconnaissance Port Scan 30Pps | `first_detection_delay_sec (2.4663s -> 2.7163s, diff=0.25s)<br>alert_seconds_set (120s -> 121s)` | 2.7163 s | 2.7163 s | +0.2500 s |
 | `session3_reconnaissance_port_scan_30pps_rep3.pcap` | Reconnaissance Port Scan 30Pps | `first_detection_delay_sec (2.4663s -> 2.7163s, diff=0.25s)` | 2.7163 s | 2.7163 s | +0.2500 s |
@@ -61,9 +61,9 @@
 | `session3_tcp_syn_flood_500pps_rep1.pcap` | Tcp Syn Flood 500Pps | `first_alert_volume (20 -> 25)` | 25 | 25 | +0.0105 s |
 | `session3_tcp_syn_flood_500pps_rep2.pcap` | Tcp Syn Flood 500Pps | `first_alert_volume (20 -> 25)` | 25 | 25 | +0.0108 s |
 | `session3_tcp_syn_flood_500pps_rep3.pcap` | Tcp Syn Flood 500Pps | `first_alert_volume (20 -> 25)` | 25 | 25 | +0.0101 s |
-| `session3_tcp_syn_flood_1000pps_rep1.pcap` | Tcp Syn Flood 1000Pps | `first_alert_volume (20 -> 25)` | 25 | 25 | +0.0063 s |
+| `session3_tcp_syn_flood_1000pps_rep1.pcap` | Tcp Syn Flood 1000Pps | `first_alert_volume (20 -> 25)` | 25 | 25 | +0.0051 s |
 | `session3_tcp_syn_flood_1000pps_rep2.pcap` | Tcp Syn Flood 1000Pps | `first_alert_volume (20 -> 25)` | 25 | 25 | +0.0046 s |
-| `session3_tcp_syn_flood_1000pps_rep3.pcap` | Tcp Syn Flood 1000Pps | `first_alert_volume (20 -> 25)` | 25 | 25 | +0.0056 s |
+| `session3_tcp_syn_flood_1000pps_rep3.pcap` | Tcp Syn Flood 1000Pps | `first_alert_volume (20 -> 25)` | 25 | 25 | +0.0047 s |
 
 ##### Mutation (ii-b): Condition B Threshold 20 -> 30:
 - **Failed Captures (12 runs)**:
@@ -73,14 +73,14 @@
 | `session3_tcp_syn_flood_50pps_rep2.pcap` | Tcp Syn Flood 50Pps | `first_detection_delay_sec (2.3803s -> 2.5815s, diff=0.2012s)<br>first_alert_volume (20 -> 30)` | 2.5815 s | 2.5815 s | +0.2012 s |
 | `session3_tcp_syn_flood_50pps_rep3.pcap` | Tcp Syn Flood 50Pps | `first_detection_delay_sec (2.3804s -> 2.5807s, diff=0.2003s)<br>first_alert_volume (20 -> 30)` | 2.5807 s | 2.5807 s | +0.2003 s |
 | `session3_tcp_syn_flood_200pps_rep1.pcap` | Tcp Syn Flood 200Pps | `first_detection_delay_sec (2.0953s -> 2.1443s, diff=0.049s)<br>first_alert_volume (20 -> 30)` | 2.1443 s | 2.1443 s | +0.0490 s |
-| `session3_tcp_syn_flood_200pps_rep2.pcap` | Tcp Syn Flood 200Pps | `first_detection_delay_sec (2.0946s -> 2.1493s, diff=0.0547s)<br>first_alert_volume (20 -> 30)` | 2.1493 s | 2.1493 s | +0.0547 s |
+| `session3_tcp_syn_flood_200pps_rep2.pcap` | Tcp Syn Flood 200Pps | `first_detection_delay_sec (2.0946s -> 2.1444s, diff=0.0498s)<br>first_alert_volume (20 -> 30)` | 2.1444 s | 2.1444 s | +0.0498 s |
 | `session3_tcp_syn_flood_200pps_rep3.pcap` | Tcp Syn Flood 200Pps | `first_detection_delay_sec (2.0947s -> 2.1456s, diff=0.0509s)<br>first_alert_volume (20 -> 30)` | 2.1456 s | 2.1456 s | +0.0509 s |
 | `session3_tcp_syn_flood_500pps_rep1.pcap` | Tcp Syn Flood 500Pps | `first_alert_volume (20 -> 30)` | 30 | 30 | +0.0189 s |
-| `session3_tcp_syn_flood_500pps_rep2.pcap` | Tcp Syn Flood 500Pps | `first_detection_delay_sec (2.0377s -> 2.0594s, diff=0.0217s)<br>first_alert_volume (20 -> 30)` | 2.0594 s | 2.0594 s | +0.0217 s |
+| `session3_tcp_syn_flood_500pps_rep2.pcap` | Tcp Syn Flood 500Pps | `first_detection_delay_sec (2.0377s -> 2.0588s, diff=0.0211s)<br>first_alert_volume (20 -> 30)` | 2.0588 s | 2.0588 s | +0.0211 s |
 | `session3_tcp_syn_flood_500pps_rep3.pcap` | Tcp Syn Flood 500Pps | `first_alert_volume (20 -> 30)` | 30 | 30 | +0.0198 s |
-| `session3_tcp_syn_flood_1000pps_rep1.pcap` | Tcp Syn Flood 1000Pps | `first_alert_volume (20 -> 30)` | 30 | 30 | +0.0109 s |
+| `session3_tcp_syn_flood_1000pps_rep1.pcap` | Tcp Syn Flood 1000Pps | `first_alert_volume (20 -> 30)` | 30 | 30 | +0.0095 s |
 | `session3_tcp_syn_flood_1000pps_rep2.pcap` | Tcp Syn Flood 1000Pps | `first_alert_volume (20 -> 30)` | 30 | 30 | +0.0109 s |
-| `session3_tcp_syn_flood_1000pps_rep3.pcap` | Tcp Syn Flood 1000Pps | `first_alert_volume (20 -> 30)` | 30 | 30 | +0.0107 s |
+| `session3_tcp_syn_flood_1000pps_rep3.pcap` | Tcp Syn Flood 1000Pps | `first_alert_volume (20 -> 30)` | 30 | 30 | +0.0102 s |
 
 ##### Mutation (iii): UDP Volumetric Threshold 40 -> 60 pkts/s:
 - **Failed Captures (12 runs)**:
