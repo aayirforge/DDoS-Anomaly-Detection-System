@@ -14,14 +14,16 @@ from __future__ import annotations
 import argparse
 import json
 from pathlib import Path
+import queue
 import select
 import shutil
 import signal
 import sqlite3
 import subprocess
 import sys
+import threading
 import time
-from typing import Any, Dict, List, Optional
+from typing import Any, Dict, List, Optional, Set
 
 from ddos_ads.config import Config, load_config
 from ddos_ads.mitigation import MitigationManager
@@ -69,6 +71,8 @@ class LivePacketDetector:
         jsonl_path: Optional[Path] = None,
         sqlite_path: Optional[Path] = None,
         max_handshakes: int = 100_000,
+        ring_buffer_size: int = 100_000,
+        exempt_destinations: Optional[Set[str]] = None,
     ) -> None:
         if config is None:
             # Check default locations
@@ -86,6 +90,11 @@ class LivePacketDetector:
         self.interface = interface
         self.bpf_filter = bpf_filter
         self.running = False
+        self.ring_buffer_size = ring_buffer_size
+        self.ring_buffer: queue.Queue = queue.Queue(maxsize=ring_buffer_size)
+
+        # Exempt destinations list (default empty)
+        self.exempt_destinations: Set[str] = set(exempt_destinations or [])
 
         # Output paths
         logs_dir = self.config.get_path("logs_dir")
@@ -102,23 +111,55 @@ class LivePacketDetector:
         # Mitigation Manager (Guaranteed dry-run only, blocking strictly disabled)
         self.mitigation = MitigationManager(self.config, enable_blocking=False, dry_run=True)
 
-        # Metrics
+        # Metrics and State
         self.tshark_restarts: int = 0
         self.tshark_drops: int = 0
+        self.detector_blind: bool = False
         self.total_packets_processed: int = 0
         self.total_alerts_emitted: int = 0
         self.latencies_ms: List[float] = []
 
+    def log_blind_event(self, reason: str, gap_ms: float = 0.0) -> None:
+        """Record detector blind event when tshark drops packets or process restarts."""
+        self.detector_blind = True
+        blind_alert = Alert(
+            wall_time=time.time(),
+            packet_ts=self.engine.last_processed_ts if self.engine.last_processed_ts is not None else time.time(),
+            alert_type="DETECTOR_BLIND",
+            rule="process_supervisor",
+            victim_ip=self.victim_ip,
+            details={
+                "reason": reason,
+                "restart_gap_ms": round(gap_ms, 2),
+                "tshark_drops": self.tshark_drops,
+                "tshark_restarts": self.tshark_restarts,
+                "detector_blind": True,
+            },
+            latency_ms=0.0,
+        )
+        self.log_alert(blind_alert)
+
     def log_alert(self, alert: Alert) -> None:
         """Record alert to JSONL log and SQLite database, and invoke dry-run mitigation."""
+        # Update blind state
+        if self.tshark_drops > 0 or self.tshark_restarts > 0:
+            self.detector_blind = True
+
+        alert.details["tshark_drops"] = self.tshark_drops
+        alert.details["tshark_restarts"] = self.tshark_restarts
+        alert.details["detector_blind"] = self.detector_blind
+
+        action_suppressed = alert.victim_ip in self.exempt_destinations
+        alert.details["action_suppressed"] = action_suppressed
+
         self.total_alerts_emitted += 1
         self.latencies_ms.append(alert.latency_ms)
 
-        # 1. Append to JSONL
+        # 1. Append to JSONL - ALWAYS LOGGED
         with open(self.jsonl_path, "a", encoding="utf-8") as f:
             f.write(json.dumps(alert.to_dict()) + "\n")
 
-        # 2. Insert into SQLite
+        # 2. Insert into SQLite - ALWAYS LOGGED
         with self.db_conn:
             self.db_conn.execute("""
                 INSERT INTO alerts (wall_time, packet_ts, alert_type, rule, victim_ip, details, latency_ms)
@@ -133,11 +174,14 @@ class LivePacketDetector:
                 alert.latency_ms,
             ))
 
-        # 3. Dry-run mitigation logging
-        logger.info(
-            f"[LIVE-ALERT] {alert.alert_type} on {alert.victim_ip} (pkt_ts={alert.packet_ts:.4f}, "
-            f"latency={alert.latency_ms:.2f}ms): {alert.details}"
-        )
+        # 3. Dry-run mitigation action - SUPPRESSED IF DESTINATION IS EXEMPT
+        if action_suppressed:
+            logger.info(f"[EXEMPT-SUPPRESSED] Alert action suppressed for exempt destination {alert.victim_ip}")
+        else:
+            logger.info(
+                f"[LIVE-ALERT] {alert.alert_type} on {alert.victim_ip} (pkt_ts={alert.packet_ts:.4f}, "
+                f"latency={alert.latency_ms:.2f}ms, drops={self.tshark_drops}, blind={self.detector_blind}): {alert.details}"
+            )
 
     def _parse_and_process_line(self, line: str, t_start: Optional[float] = None) -> List[Alert]:
         """Parse raw tshark field line and process through rule engine."""
@@ -205,12 +249,39 @@ class LivePacketDetector:
         attack_gen_ip = "172.20.0.3"
 
         t_wall_start = time.perf_counter()
+        stop_reader = threading.Event()
+
+        def _pipe_reader():
+            try:
+                for line in proc.stdout:
+                    if stop_reader.is_set():
+                        break
+                    line = line.strip()
+                    if not line:
+                        continue
+                    try:
+                        self.ring_buffer.put(line, timeout=0.05)
+                    except queue.Full:
+                        self.tshark_drops += 1
+                        self.detector_blind = True
+            finally:
+                self.ring_buffer.put(None)
+
+        reader_thread = threading.Thread(target=_pipe_reader, daemon=True)
+        reader_thread.start()
 
         try:
-            for line in proc.stdout:
-                line = line.strip()
-                if not line:
+            while True:
+                try:
+                    line = self.ring_buffer.get(timeout=1.0)
+                except queue.Empty:
+                    if proc.poll() is not None:
+                        break
                     continue
+
+                if line is None:  # EOF sentinel
+                    break
+
                 parts = line.split("\t")
                 if len(parts) < 4:
                     continue
@@ -236,8 +307,10 @@ class LivePacketDetector:
                 if max_packets is not None and self.total_packets_processed >= max_packets:
                     break
         finally:
+            stop_reader.set()
             proc.terminate()
             proc.wait()
+            reader_thread.join(timeout=2.0)
 
         target_t_start = first_attack_ts if first_attack_ts is not None else first_pkt_ts
         final_alerts = self.engine.flush(t_start=target_t_start)
@@ -322,6 +395,7 @@ class LivePacketDetector:
                         if ret is not None:
                             logger.warning(f"tshark process terminated unexpectedly with code {ret}!")
                             self.tshark_restarts += 1
+                            self.log_blind_event(f"tshark_worker_exit_code_{ret}", gap_ms=10.0)
                             if self.tshark_restarts > max_restarts:
                                 raise RuntimeError(f"Exceeded max tshark restarts ({max_restarts})")
                             break

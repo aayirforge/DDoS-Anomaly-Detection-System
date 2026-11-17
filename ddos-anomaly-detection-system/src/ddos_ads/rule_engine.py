@@ -120,6 +120,102 @@ class RuleEngine:
         self.alert_seconds.clear()
         self.last_alert_ts_by_type.clear()
 
+    def _process_incomplete_handshake(
+        self,
+        syn_ts: float,
+        s_ip: str,
+        d_ip: str,
+        sp: int,
+        dp: int,
+        eval_time: float,
+        t_start: Optional[float] = None,
+    ) -> List[Alert]:
+        """Process an evicted/incomplete handshake through the sliding window and evaluate alert rules."""
+        new_alerts: List[Alert] = []
+
+        # Append to sliding incomplete window
+        self.incomplete_window.append((eval_time, s_ip, d_ip, sp, dp))
+        self.dst_port_counts[dp] += 1
+        self.src_ip_counts[s_ip] += 1
+        self.dst_ip_counts[d_ip] += 1
+
+        # Prune events older than sliding_window_sec from eval_time
+        window_cutoff = eval_time - self.sliding_window_sec
+        while self.incomplete_window and self.incomplete_window[0][0] <= window_cutoff:
+            _, old_sip, old_dip, _, old_dp = self.incomplete_window.popleft()
+            self.dst_port_counts[old_dp] -= 1
+            if self.dst_port_counts[old_dp] == 0:
+                del self.dst_port_counts[old_dp]
+            self.src_ip_counts[old_sip] -= 1
+            if self.src_ip_counts[old_sip] == 0:
+                del self.src_ip_counts[old_sip]
+            self.dst_ip_counts[old_dip] -= 1
+            if self.dst_ip_counts[old_dip] == 0:
+                del self.dst_ip_counts[old_dip]
+
+        # Evaluate sliding condition
+        cnt = len(self.incomplete_window)
+        distinct_dst_ports = len(self.dst_port_counts)
+        distinct_dst_ips = len(self.dst_ip_counts)
+        distinct_src_ips = len(self.src_ip_counts)
+
+        # Check Reconnaissance Scan
+        if cnt >= self.scan_thresh and (distinct_dst_ports >= 3 or distinct_dst_ips >= 3):
+            if self.first_alert_ts is None:
+                self.first_alert_ts = eval_time
+                self.first_alert_type = "ALERT_SCAN"
+            if t_start is not None:
+                self.alert_seconds.add(int(eval_time - t_start))
+
+            last_alert = self.last_alert_ts_by_type.get("ALERT_SCAN", -999.0)
+            if eval_time - last_alert >= 1.0:
+                self.last_alert_ts_by_type["ALERT_SCAN"] = eval_time
+                alert = Alert(
+                    wall_time=time.time(),
+                    packet_ts=eval_time,
+                    alert_type="ALERT_SCAN",
+                    rule="tcp_incomplete_handshake",
+                    victim_ip=self.victim_ip,
+                    details={
+                        "incomplete_count": cnt,
+                        "distinct_dst_ports": distinct_dst_ports,
+                        "distinct_dst_ips": distinct_dst_ips,
+                        "distinct_src_ips": distinct_src_ips,
+                    }
+                )
+                new_alerts.append(alert)
+                self.alerts_emitted.append(alert)
+
+        # Check SYN Flood
+        elif distinct_dst_ports <= 2 and distinct_dst_ips <= 2:
+            if (cnt >= self.syn_flood_thresh_cond_a and distinct_src_ips >= 3) or (cnt >= self.syn_flood_thresh_cond_b):
+                if self.first_alert_ts is None:
+                    self.first_alert_ts = eval_time
+                    self.first_alert_type = "ALERT_SYN_FLOOD"
+                if t_start is not None:
+                    self.alert_seconds.add(int(eval_time - t_start))
+
+                last_alert = self.last_alert_ts_by_type.get("ALERT_SYN_FLOOD", -999.0)
+                if eval_time - last_alert >= 1.0:
+                    self.last_alert_ts_by_type["ALERT_SYN_FLOOD"] = eval_time
+                    alert = Alert(
+                        wall_time=time.time(),
+                        packet_ts=eval_time,
+                        alert_type="ALERT_SYN_FLOOD",
+                        rule="tcp_incomplete_handshake",
+                        victim_ip=self.victim_ip,
+                        details={
+                            "incomplete_count": cnt,
+                            "distinct_dst_ports": distinct_dst_ports,
+                            "distinct_dst_ips": distinct_dst_ips,
+                            "distinct_src_ips": distinct_src_ips,
+                        }
+                    )
+                    new_alerts.append(alert)
+                    self.alerts_emitted.append(alert)
+
+        return new_alerts
+
     def _evict_active_handshakes(self, current_ts: float, t_start: Optional[float] = None) -> List[Alert]:
         """
         Evict handshakes that exceeded completion timeout and evaluate sliding window.
@@ -133,87 +229,7 @@ class RuleEngine:
                 self.active_handshakes.popitem(last=False)
                 self.expired_handshakes += 1
                 eval_time = syn_ts + self.handshake_timeout
-
-                # Append to sliding incomplete window
-                self.incomplete_window.append((eval_time, s_ip, d_ip, sp, dp))
-                self.dst_port_counts[dp] += 1
-                self.src_ip_counts[s_ip] += 1
-                self.dst_ip_counts[d_ip] += 1
-
-                # Prune events older than sliding_window_sec from eval_time
-                window_cutoff = eval_time - self.sliding_window_sec
-                while self.incomplete_window and self.incomplete_window[0][0] <= window_cutoff:
-                    _, old_sip, old_dip, _, old_dp = self.incomplete_window.popleft()
-                    self.dst_port_counts[old_dp] -= 1
-                    if self.dst_port_counts[old_dp] == 0:
-                        del self.dst_port_counts[old_dp]
-                    self.src_ip_counts[old_sip] -= 1
-                    if self.src_ip_counts[old_sip] == 0:
-                        del self.src_ip_counts[old_sip]
-                    self.dst_ip_counts[old_dip] -= 1
-                    if self.dst_ip_counts[old_dip] == 0:
-                        del self.dst_ip_counts[old_dip]
-
-                # Evaluate sliding condition
-                cnt = len(self.incomplete_window)
-                distinct_dst_ports = len(self.dst_port_counts)
-                distinct_dst_ips = len(self.dst_ip_counts)
-                distinct_src_ips = len(self.src_ip_counts)
-
-                # Check Reconnaissance Scan
-                if cnt >= self.scan_thresh and (distinct_dst_ports >= 3 or distinct_dst_ips >= 3):
-                    if self.first_alert_ts is None:
-                        self.first_alert_ts = eval_time
-                        self.first_alert_type = "ALERT_SCAN"
-                    if t_start is not None:
-                        self.alert_seconds.add(int(eval_time - t_start))
-
-                    last_alert = self.last_alert_ts_by_type.get("ALERT_SCAN", -999.0)
-                    if eval_time - last_alert >= 1.0:
-                        self.last_alert_ts_by_type["ALERT_SCAN"] = eval_time
-                        alert = Alert(
-                            wall_time=time.time(),
-                            packet_ts=eval_time,
-                            alert_type="ALERT_SCAN",
-                            rule="tcp_incomplete_handshake",
-                            victim_ip=self.victim_ip,
-                            details={
-                                "incomplete_count": cnt,
-                                "distinct_dst_ports": distinct_dst_ports,
-                                "distinct_dst_ips": distinct_dst_ips,
-                                "distinct_src_ips": distinct_src_ips,
-                            }
-                        )
-                        new_alerts.append(alert)
-                        self.alerts_emitted.append(alert)
-
-                # Check SYN Flood
-                elif distinct_dst_ports <= 2 and distinct_dst_ips <= 2:
-                    if (cnt >= self.syn_flood_thresh_cond_a and distinct_src_ips >= 3) or (cnt >= self.syn_flood_thresh_cond_b):
-                        if self.first_alert_ts is None:
-                            self.first_alert_ts = eval_time
-                            self.first_alert_type = "ALERT_SYN_FLOOD"
-                        if t_start is not None:
-                            self.alert_seconds.add(int(eval_time - t_start))
-
-                        last_alert = self.last_alert_ts_by_type.get("ALERT_SYN_FLOOD", -999.0)
-                        if eval_time - last_alert >= 1.0:
-                            self.last_alert_ts_by_type["ALERT_SYN_FLOOD"] = eval_time
-                            alert = Alert(
-                                wall_time=time.time(),
-                                packet_ts=eval_time,
-                                alert_type="ALERT_SYN_FLOOD",
-                                rule="tcp_incomplete_handshake",
-                                victim_ip=self.victim_ip,
-                                details={
-                                    "incomplete_count": cnt,
-                                    "distinct_dst_ports": distinct_dst_ports,
-                                    "distinct_dst_ips": distinct_dst_ips,
-                                    "distinct_src_ips": distinct_src_ips,
-                                }
-                            )
-                            new_alerts.append(alert)
-                            self.alerts_emitted.append(alert)
+                new_alerts.extend(self._process_incomplete_handshake(syn_ts, s_ip, d_ip, sp, dp, eval_time, t_start=t_start))
             else:
                 break
 
@@ -249,8 +265,9 @@ class RuleEngine:
             if syn == 1 and ack == 0 and dst_ip == self.victim_ip:
                 # Capacity eviction if active table exceeds bound
                 if len(self.active_handshakes) >= self.max_handshakes:
-                    self.active_handshakes.popitem(last=False)
+                    old_key, (old_syn_ts, old_sip, old_dip, old_sp, old_dp) = self.active_handshakes.popitem(last=False)
                     self.capacity_evictions += 1
+                    alerts.extend(self._process_incomplete_handshake(old_syn_ts, old_sip, old_dip, old_sp, old_dp, ts, t_start=t_start))
 
                 # If entry already present, pop to refresh position at end
                 if fwd_key in self.active_handshakes:

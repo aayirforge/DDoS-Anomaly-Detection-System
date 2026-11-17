@@ -26,7 +26,11 @@ RESULTS_DIR = REPO_ROOT / "results"
 CAPTURES_DIR = REPO_ROOT / "lab/captures/session3"
 
 
-def run_parity_evaluation(output_path: Optional[Path] = None) -> Dict[str, Any]:
+def run_parity_evaluation(
+    output_path: Optional[Path] = None,
+    tolerance_delay_sec: float = 1.0,
+    tolerance_alerted_sec: int = 1,
+) -> Dict[str, Any]:
     if output_path is None:
         output_path = RESULTS_DIR / "phase7_parity_eval.json"
     engine = RuleEngine()
@@ -84,8 +88,8 @@ def run_parity_evaluation(output_path: Optional[Path] = None) -> Dict[str, Any]:
             diff_delay = round(abs(st_delay - gt_delay), 4) if (st_delay is not None and gt_delay is not None) else 0.0
             diff_alerted = abs(st_alerted - gt_alerted)
 
-            ok_delay = (diff_delay <= 1.0)
-            ok_alerted = (diff_alerted <= 1)
+            ok_delay = (diff_delay <= tolerance_delay_sec)
+            ok_alerted = (diff_alerted <= tolerance_alerted_sec)
             rep_pass = (ok_delay and ok_alerted)
 
             if rep_pass:
@@ -128,5 +132,11 @@ def run_parity_evaluation(output_path: Optional[Path] = None) -> Dict[str, Any]:
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Evaluate PCAP replay parity against Session 3 ground truth")
     parser.add_argument("--out", type=Path, default=RESULTS_DIR / "phase7_parity_eval.json", help="Path to output JSON")
+    parser.add_argument("--tolerance-delay", type=float, default=1.0, help="Tolerance for first-alert delay in seconds")
+    parser.add_argument("--tolerance-alerted", type=int, default=1, help="Tolerance for alerted seconds count")
     args = parser.parse_args()
-    run_parity_evaluation(output_path=args.out)
+    run_parity_evaluation(
+        output_path=args.out,
+        tolerance_delay_sec=args.tolerance_delay,
+        tolerance_alerted_sec=args.tolerance_alerted,
+    )
