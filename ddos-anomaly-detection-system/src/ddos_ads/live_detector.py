@@ -199,7 +199,8 @@ class LiveDetector:
         self.scaler = joblib.load(models_dir / "scaler.joblib")
 
         self.model = self._load_inference_model(models_dir, model_name)
-        self.mitigation = MitigationManager(config, enable_blocking=enable_blocking, dry_run=dry_run)
+        # Mitigation is strictly alert-only and dry-run across all live detectors
+        self.mitigation = MitigationManager(config, enable_blocking=False, dry_run=True)
 
         self.db_path = config.get_path("logs_dir") / "detections.db"
         self.csv_path = config.get_path("logs_dir") / "detections.csv"
@@ -418,8 +419,7 @@ def main() -> None:
     parser.add_argument("--model", "-m", choices=["rf", "knn", "lstm"], default="rf", help="Inference model.")
     parser.add_argument("--threshold", "-t", type=float, default=None, help="Anomaly decision threshold.")
     parser.add_argument("--duration", "-d", type=int, default=5, help="Capture chunk duration in seconds.")
-    parser.add_argument("--enable-blocking", action="store_true", help="OPT-IN: Enable active packet dropping via nftables.")
-    parser.add_argument("--dry-run", action="store_true", help="Simulate mitigation commands without executing.")
+    parser.add_argument("--dry-run", action="store_true", default=True, help="Simulate mitigation commands without executing (always active).")
     parser.add_argument("--single-shot", action="store_true", help="Run a single capture chunk and exit.")
     parser.add_argument("--config", type=str, default=None, help="Path to config.yaml.")
     args = parser.parse_args()
@@ -429,8 +429,8 @@ def main() -> None:
         config=config,
         model_name=args.model,
         threshold=args.threshold,
-        enable_blocking=args.enable_blocking,
-        dry_run=args.dry_run,
+        enable_blocking=False,
+        dry_run=True,
     )
     detector.run_live_loop(
         interface=args.interface,

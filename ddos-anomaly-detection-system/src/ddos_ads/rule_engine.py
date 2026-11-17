@@ -543,10 +543,24 @@ class RuleEngine:
         evaluated_seconds_post_first = max(1, duration_sec - first_bin)
         alerted_post_first = len([s for s in self.alert_seconds if s >= first_bin and s < duration_sec])
 
+        first_alert = self.alerts_emitted[0] if self.alerts_emitted else None
+        first_details = first_alert.details if first_alert else {}
+        first_volume = (
+            first_details.get("incomplete_count")
+            or first_details.get("udp_count_1s")
+            or first_details.get("packet_count")
+        )
+        first_srcs = first_details.get("distinct_src_ips", 1)
+
         return {
             "first_detection_delay_sec": delay,
             "first_alert_ts": self.first_alert_ts,
             "first_alert_type": self.first_alert_type,
+            "first_alert_class": self.first_alert_type,
+            "first_alert_volume": first_volume,
+            "first_alert_distinct_sources": first_srcs,
+            "first_alert_details": first_details,
+            "alert_seconds_set": sorted(list(self.alert_seconds)),
             "alerted_seconds_post_first_alert": alerted_post_first,
             "evaluated_attack_seconds_post_first_alert": evaluated_seconds_post_first,
             "alerted_seconds_total": len([s for s in self.alert_seconds if 0 <= s < duration_sec]),

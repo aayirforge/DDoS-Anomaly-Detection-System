@@ -1,5 +1,5 @@
 {
-  "total_mutations_tested": 4,
+  "total_mutations_tested": 5,
   "all_mutations_detected": true,
   "mutations": [
     {
@@ -7,11 +7,13 @@
       "mutation_name": "Mutation (i-a): Handshake Timeout 2.0s -> 3.0s",
       "description": "Increases incomplete handshake timeout from 2.0s to 3.0s",
       "expected_affected": "TCP SYN Floods and Scans (first-alert delay increases by ~1.0s)",
+      "unmutated_class": "UDP Floods & Baseline (25 runs)",
       "total_runs_evaluated": 40,
-      "failed_runs_count": 18,
-      "passed_runs_count": 22,
+      "failed_runs_count": 15,
+      "passed_runs_count": 25,
       "harness_overall_status": "FAIL",
       "mutation_sensitivity_verified": true,
+      "unmutated_class_all_passed": true,
       "failed_pcaps": [
         "session3_tcp_syn_flood_50pps_rep1.pcap",
         "session3_tcp_syn_flood_50pps_rep2.pcap",
@@ -25,9 +27,6 @@
         "session3_tcp_syn_flood_1000pps_rep1.pcap",
         "session3_tcp_syn_flood_1000pps_rep2.pcap",
         "session3_tcp_syn_flood_1000pps_rep3.pcap",
-        "session3_udp_flood_random_ports_50pps_rep1.pcap",
-        "session3_udp_flood_random_ports_50pps_rep2.pcap",
-        "session3_udp_flood_random_ports_50pps_rep3.pcap",
         "session3_reconnaissance_port_scan_30pps_rep1.pcap",
         "session3_reconnaissance_port_scan_30pps_rep2.pcap",
         "session3_reconnaissance_port_scan_30pps_rep3.pcap"
@@ -38,270 +37,255 @@
           "scenario": "tcp_syn_flood_50pps",
           "repeat": 1,
           "metric": "first_detection_delay_sec",
-          "offline_value": 2.4199,
+          "differing_fields": [
+            "first_detection_delay_sec (2.3802s -> 3.3802s, diff=1.0s)",
+            "alert_seconds_set (120s -> 120s)"
+          ],
+          "primary_differing_field": "first_detection_delay_sec (2.3802s -> 3.3802s, diff=1.0s)",
+          "baseline_value": 3.3802,
           "mutated_value": 3.3802,
-          "difference": 0.9603,
+          "difference": 1.0,
+          "delay_diff_signed": 1.0,
           "streaming_delay": 3.3802,
-          "ground_truth_delay": 2.4199,
-          "delay_diff": 0.9603,
-          "streaming_alerted": 117,
-          "ground_truth_alerted": 118,
-          "alerted_diff": 1
+          "streaming_alerted": 117
         },
         {
           "pcap": "session3_tcp_syn_flood_50pps_rep2.pcap",
           "scenario": "tcp_syn_flood_50pps",
           "repeat": 2,
           "metric": "first_detection_delay_sec",
-          "offline_value": 2.4417,
+          "differing_fields": [
+            "first_detection_delay_sec (2.3803s -> 3.3803s, diff=1.0s)",
+            "alert_seconds_set (120s -> 120s)"
+          ],
+          "primary_differing_field": "first_detection_delay_sec (2.3803s -> 3.3803s, diff=1.0s)",
+          "baseline_value": 3.3803,
           "mutated_value": 3.3803,
-          "difference": 0.9386,
+          "difference": 1.0,
+          "delay_diff_signed": 1.0,
           "streaming_delay": 3.3803,
-          "ground_truth_delay": 2.4417,
-          "delay_diff": 0.9386,
-          "streaming_alerted": 117,
-          "ground_truth_alerted": 118,
-          "alerted_diff": 1
+          "streaming_alerted": 117
         },
         {
           "pcap": "session3_tcp_syn_flood_50pps_rep3.pcap",
           "scenario": "tcp_syn_flood_50pps",
           "repeat": 3,
           "metric": "first_detection_delay_sec",
-          "offline_value": 2.4811,
+          "differing_fields": [
+            "first_detection_delay_sec (2.3804s -> 3.3804s, diff=1.0s)",
+            "alert_seconds_set (120s -> 120s)"
+          ],
+          "primary_differing_field": "first_detection_delay_sec (2.3804s -> 3.3804s, diff=1.0s)",
+          "baseline_value": 3.3804,
           "mutated_value": 3.3804,
-          "difference": 0.8993,
+          "difference": 1.0,
+          "delay_diff_signed": 1.0,
           "streaming_delay": 3.3804,
-          "ground_truth_delay": 2.4811,
-          "delay_diff": 0.8993,
-          "streaming_alerted": 117,
-          "ground_truth_alerted": 118,
-          "alerted_diff": 1
+          "streaming_alerted": 117
         },
         {
           "pcap": "session3_tcp_syn_flood_200pps_rep1.pcap",
           "scenario": "tcp_syn_flood_200pps",
           "repeat": 1,
           "metric": "first_detection_delay_sec",
-          "offline_value": 2.1443,
+          "differing_fields": [
+            "first_detection_delay_sec (2.0953s -> 3.0953s, diff=1.0s)",
+            "alert_seconds_set (120s -> 120s)"
+          ],
+          "primary_differing_field": "first_detection_delay_sec (2.0953s -> 3.0953s, diff=1.0s)",
+          "baseline_value": 3.0953,
           "mutated_value": 3.0953,
-          "difference": 0.951,
+          "difference": 1.0,
+          "delay_diff_signed": 1.0,
           "streaming_delay": 3.0953,
-          "ground_truth_delay": 2.1443,
-          "delay_diff": 0.951,
-          "streaming_alerted": 117,
-          "ground_truth_alerted": 118,
-          "alerted_diff": 1
+          "streaming_alerted": 117
         },
         {
           "pcap": "session3_tcp_syn_flood_200pps_rep2.pcap",
           "scenario": "tcp_syn_flood_200pps",
           "repeat": 2,
           "metric": "first_detection_delay_sec",
-          "offline_value": 2.1557,
+          "differing_fields": [
+            "first_detection_delay_sec (2.0946s -> 3.0946s, diff=1.0s)",
+            "alert_seconds_set (120s -> 120s)"
+          ],
+          "primary_differing_field": "first_detection_delay_sec (2.0946s -> 3.0946s, diff=1.0s)",
+          "baseline_value": 3.0946,
           "mutated_value": 3.0946,
-          "difference": 0.9389,
+          "difference": 1.0,
+          "delay_diff_signed": 1.0,
           "streaming_delay": 3.0946,
-          "ground_truth_delay": 2.1557,
-          "delay_diff": 0.9389,
-          "streaming_alerted": 117,
-          "ground_truth_alerted": 118,
-          "alerted_diff": 1
+          "streaming_alerted": 117
         },
         {
           "pcap": "session3_tcp_syn_flood_200pps_rep3.pcap",
           "scenario": "tcp_syn_flood_200pps",
           "repeat": 3,
           "metric": "first_detection_delay_sec",
-          "offline_value": 2.1407,
+          "differing_fields": [
+            "first_detection_delay_sec (2.0947s -> 3.0947s, diff=1.0s)",
+            "alert_seconds_set (120s -> 120s)"
+          ],
+          "primary_differing_field": "first_detection_delay_sec (2.0947s -> 3.0947s, diff=1.0s)",
+          "baseline_value": 3.0947,
           "mutated_value": 3.0947,
-          "difference": 0.954,
+          "difference": 1.0,
+          "delay_diff_signed": 1.0,
           "streaming_delay": 3.0947,
-          "ground_truth_delay": 2.1407,
-          "delay_diff": 0.954,
-          "streaming_alerted": 117,
-          "ground_truth_alerted": 118,
-          "alerted_diff": 1
+          "streaming_alerted": 117
         },
         {
           "pcap": "session3_tcp_syn_flood_500pps_rep1.pcap",
           "scenario": "tcp_syn_flood_500pps",
           "repeat": 1,
           "metric": "first_detection_delay_sec",
-          "offline_value": 2.1046,
+          "differing_fields": [
+            "first_detection_delay_sec (2.0376s -> 3.0389s, diff=1.0013s)",
+            "alert_seconds_set (120s -> 120s)"
+          ],
+          "primary_differing_field": "first_detection_delay_sec (2.0376s -> 3.0389s, diff=1.0013s)",
+          "baseline_value": 3.0389,
           "mutated_value": 3.0389,
-          "difference": 0.9343,
+          "difference": 1.0013,
+          "delay_diff_signed": 1.0013,
           "streaming_delay": 3.0389,
-          "ground_truth_delay": 2.1046,
-          "delay_diff": 0.9343,
-          "streaming_alerted": 117,
-          "ground_truth_alerted": 118,
-          "alerted_diff": 1
+          "streaming_alerted": 117
         },
         {
           "pcap": "session3_tcp_syn_flood_500pps_rep2.pcap",
           "scenario": "tcp_syn_flood_500pps",
           "repeat": 2,
           "metric": "first_detection_delay_sec",
-          "offline_value": 2.0813,
+          "differing_fields": [
+            "first_detection_delay_sec (2.0377s -> 3.0402s, diff=1.0025s)",
+            "alert_seconds_set (120s -> 120s)"
+          ],
+          "primary_differing_field": "first_detection_delay_sec (2.0377s -> 3.0402s, diff=1.0025s)",
+          "baseline_value": 3.0402,
           "mutated_value": 3.0402,
-          "difference": 0.9589,
+          "difference": 1.0025,
+          "delay_diff_signed": 1.0025,
           "streaming_delay": 3.0402,
-          "ground_truth_delay": 2.0813,
-          "delay_diff": 0.9589,
-          "streaming_alerted": 117,
-          "ground_truth_alerted": 118,
-          "alerted_diff": 1
+          "streaming_alerted": 117
         },
         {
           "pcap": "session3_tcp_syn_flood_500pps_rep3.pcap",
           "scenario": "tcp_syn_flood_500pps",
           "repeat": 3,
           "metric": "first_detection_delay_sec",
-          "offline_value": 2.155,
+          "differing_fields": [
+            "first_detection_delay_sec (2.0387s -> 3.0387s, diff=1.0s)",
+            "alert_seconds_set (120s -> 120s)"
+          ],
+          "primary_differing_field": "first_detection_delay_sec (2.0387s -> 3.0387s, diff=1.0s)",
+          "baseline_value": 3.0387,
           "mutated_value": 3.0387,
-          "difference": 0.8837,
+          "difference": 1.0,
+          "delay_diff_signed": 1.0,
           "streaming_delay": 3.0387,
-          "ground_truth_delay": 2.155,
-          "delay_diff": 0.8837,
-          "streaming_alerted": 117,
-          "ground_truth_alerted": 118,
-          "alerted_diff": 1
+          "streaming_alerted": 117
         },
         {
           "pcap": "session3_tcp_syn_flood_1000pps_rep1.pcap",
           "scenario": "tcp_syn_flood_1000pps",
           "repeat": 1,
           "metric": "first_detection_delay_sec",
-          "offline_value": 2.1076,
+          "differing_fields": [
+            "first_detection_delay_sec (2.0211s -> 3.0211s, diff=1.0s)",
+            "alert_seconds_set (120s -> 120s)"
+          ],
+          "primary_differing_field": "first_detection_delay_sec (2.0211s -> 3.0211s, diff=1.0s)",
+          "baseline_value": 3.0211,
           "mutated_value": 3.0211,
-          "difference": 0.9135,
+          "difference": 1.0,
+          "delay_diff_signed": 1.0,
           "streaming_delay": 3.0211,
-          "ground_truth_delay": 2.1076,
-          "delay_diff": 0.9135,
-          "streaming_alerted": 117,
-          "ground_truth_alerted": 118,
-          "alerted_diff": 1
+          "streaming_alerted": 117
         },
         {
           "pcap": "session3_tcp_syn_flood_1000pps_rep2.pcap",
           "scenario": "tcp_syn_flood_1000pps",
           "repeat": 2,
           "metric": "first_detection_delay_sec",
-          "offline_value": 2.1618,
+          "differing_fields": [
+            "first_detection_delay_sec (2.0194s -> 3.0194s, diff=1.0s)",
+            "alert_seconds_set (120s -> 120s)"
+          ],
+          "primary_differing_field": "first_detection_delay_sec (2.0194s -> 3.0194s, diff=1.0s)",
+          "baseline_value": 3.0194,
           "mutated_value": 3.0194,
-          "difference": 0.8576,
+          "difference": 1.0,
+          "delay_diff_signed": 1.0,
           "streaming_delay": 3.0194,
-          "ground_truth_delay": 2.1618,
-          "delay_diff": 0.8576,
-          "streaming_alerted": 117,
-          "ground_truth_alerted": 118,
-          "alerted_diff": 1
+          "streaming_alerted": 117
         },
         {
           "pcap": "session3_tcp_syn_flood_1000pps_rep3.pcap",
           "scenario": "tcp_syn_flood_1000pps",
           "repeat": 3,
           "metric": "first_detection_delay_sec",
-          "offline_value": 2.1099,
+          "differing_fields": [
+            "first_detection_delay_sec (2.0198s -> 3.0198s, diff=1.0s)",
+            "alert_seconds_set (121s -> 121s)"
+          ],
+          "primary_differing_field": "first_detection_delay_sec (2.0198s -> 3.0198s, diff=1.0s)",
+          "baseline_value": 3.0198,
           "mutated_value": 3.0198,
-          "difference": 0.9099,
+          "difference": 1.0,
+          "delay_diff_signed": 1.0,
           "streaming_delay": 3.0198,
-          "ground_truth_delay": 2.1099,
-          "delay_diff": 0.9099,
-          "streaming_alerted": 117,
-          "ground_truth_alerted": 118,
-          "alerted_diff": 1
-        },
-        {
-          "pcap": "session3_udp_flood_random_ports_50pps_rep1.pcap",
-          "scenario": "udp_flood_random_ports_50pps",
-          "repeat": 1,
-          "metric": "first_detection_delay_sec",
-          "offline_value": 0.5393,
-          "mutated_value": 0.3999,
-          "difference": -0.1394,
-          "streaming_delay": 0.3999,
-          "ground_truth_delay": 0.5393,
-          "delay_diff": 0.1394,
-          "streaming_alerted": 120,
-          "ground_truth_alerted": 120,
-          "alerted_diff": 0
-        },
-        {
-          "pcap": "session3_udp_flood_random_ports_50pps_rep2.pcap",
-          "scenario": "udp_flood_random_ports_50pps",
-          "repeat": 2,
-          "metric": "first_detection_delay_sec",
-          "offline_value": 0.5405,
-          "mutated_value": 0.3999,
-          "difference": -0.1406,
-          "streaming_delay": 0.3999,
-          "ground_truth_delay": 0.5405,
-          "delay_diff": 0.1406,
-          "streaming_alerted": 120,
-          "ground_truth_alerted": 120,
-          "alerted_diff": 0
-        },
-        {
-          "pcap": "session3_udp_flood_random_ports_50pps_rep3.pcap",
-          "scenario": "udp_flood_random_ports_50pps",
-          "repeat": 3,
-          "metric": "first_detection_delay_sec",
-          "offline_value": 0.5535,
-          "mutated_value": 0.3997,
-          "difference": -0.1538,
-          "streaming_delay": 0.3997,
-          "ground_truth_delay": 0.5535,
-          "delay_diff": 0.1538,
-          "streaming_alerted": 120,
-          "ground_truth_alerted": 120,
-          "alerted_diff": 0
+          "streaming_alerted": 117
         },
         {
           "pcap": "session3_reconnaissance_port_scan_30pps_rep1.pcap",
           "scenario": "reconnaissance_port_scan_30pps",
           "repeat": 1,
           "metric": "first_detection_delay_sec",
-          "offline_value": 2.4674,
+          "differing_fields": [
+            "first_detection_delay_sec (2.4674s -> 3.4674s, diff=1.0s)",
+            "alert_seconds_set (121s -> 121s)"
+          ],
+          "primary_differing_field": "first_detection_delay_sec (2.4674s -> 3.4674s, diff=1.0s)",
+          "baseline_value": 3.4674,
           "mutated_value": 3.4674,
           "difference": 1.0,
+          "delay_diff_signed": 1.0,
           "streaming_delay": 3.4674,
-          "ground_truth_delay": 2.4674,
-          "delay_diff": 1.0,
-          "streaming_alerted": 117,
-          "ground_truth_alerted": 118,
-          "alerted_diff": 1
+          "streaming_alerted": 117
         },
         {
           "pcap": "session3_reconnaissance_port_scan_30pps_rep2.pcap",
           "scenario": "reconnaissance_port_scan_30pps",
           "repeat": 2,
           "metric": "first_detection_delay_sec",
-          "offline_value": 2.4663,
+          "differing_fields": [
+            "first_detection_delay_sec (2.4663s -> 3.4663s, diff=1.0s)",
+            "alert_seconds_set (120s -> 120s)"
+          ],
+          "primary_differing_field": "first_detection_delay_sec (2.4663s -> 3.4663s, diff=1.0s)",
+          "baseline_value": 3.4663,
           "mutated_value": 3.4663,
           "difference": 1.0,
+          "delay_diff_signed": 1.0,
           "streaming_delay": 3.4663,
-          "ground_truth_delay": 2.4663,
-          "delay_diff": 1.0,
-          "streaming_alerted": 117,
-          "ground_truth_alerted": 118,
-          "alerted_diff": 1
+          "streaming_alerted": 117
         },
         {
           "pcap": "session3_reconnaissance_port_scan_30pps_rep3.pcap",
           "scenario": "reconnaissance_port_scan_30pps",
           "repeat": 3,
           "metric": "first_detection_delay_sec",
-          "offline_value": 2.4663,
+          "differing_fields": [
+            "first_detection_delay_sec (2.4663s -> 3.4663s, diff=1.0s)",
+            "alert_seconds_set (121s -> 121s)"
+          ],
+          "primary_differing_field": "first_detection_delay_sec (2.4663s -> 3.4663s, diff=1.0s)",
+          "baseline_value": 3.4663,
           "mutated_value": 3.4663,
           "difference": 1.0,
+          "delay_diff_signed": 1.0,
           "streaming_delay": 3.4663,
-          "ground_truth_delay": 2.4663,
-          "delay_diff": 1.0,
-          "streaming_alerted": 117,
-          "ground_truth_alerted": 118,
-          "alerted_diff": 1
+          "streaming_alerted": 117
         }
       ]
     },
@@ -310,11 +294,13 @@
       "mutation_name": "Mutation (i-b): Handshake Timeout 2.0s -> 2.25s",
       "description": "Increases incomplete handshake timeout from 2.0s to 2.25s (+0.25s)",
       "expected_affected": "TCP SYN Floods and Scans (first-alert delay increases by +0.25s)",
+      "unmutated_class": "UDP Floods & Baseline (25 runs)",
       "total_runs_evaluated": 40,
-      "failed_runs_count": 18,
-      "passed_runs_count": 22,
+      "failed_runs_count": 15,
+      "passed_runs_count": 25,
       "harness_overall_status": "FAIL",
       "mutation_sensitivity_verified": true,
+      "unmutated_class_all_passed": true,
       "failed_pcaps": [
         "session3_tcp_syn_flood_50pps_rep1.pcap",
         "session3_tcp_syn_flood_50pps_rep2.pcap",
@@ -328,9 +314,6 @@
         "session3_tcp_syn_flood_1000pps_rep1.pcap",
         "session3_tcp_syn_flood_1000pps_rep2.pcap",
         "session3_tcp_syn_flood_1000pps_rep3.pcap",
-        "session3_udp_flood_random_ports_50pps_rep1.pcap",
-        "session3_udp_flood_random_ports_50pps_rep2.pcap",
-        "session3_udp_flood_random_ports_50pps_rep3.pcap",
         "session3_reconnaissance_port_scan_30pps_rep1.pcap",
         "session3_reconnaissance_port_scan_30pps_rep2.pcap",
         "session3_reconnaissance_port_scan_30pps_rep3.pcap"
@@ -341,293 +324,280 @@
           "scenario": "tcp_syn_flood_50pps",
           "repeat": 1,
           "metric": "first_detection_delay_sec",
-          "offline_value": 2.4199,
+          "differing_fields": [
+            "first_detection_delay_sec (2.3802s -> 2.6302s, diff=0.25s)",
+            "alert_seconds_set (120s -> 121s)"
+          ],
+          "primary_differing_field": "first_detection_delay_sec (2.3802s -> 2.6302s, diff=0.25s)",
+          "baseline_value": 2.6302,
           "mutated_value": 2.6302,
-          "difference": 0.2103,
+          "difference": 0.25,
+          "delay_diff_signed": 0.25,
           "streaming_delay": 2.6302,
-          "ground_truth_delay": 2.4199,
-          "delay_diff": 0.2103,
-          "streaming_alerted": 118,
-          "ground_truth_alerted": 118,
-          "alerted_diff": 0
+          "streaming_alerted": 118
         },
         {
           "pcap": "session3_tcp_syn_flood_50pps_rep2.pcap",
           "scenario": "tcp_syn_flood_50pps",
           "repeat": 2,
           "metric": "first_detection_delay_sec",
-          "offline_value": 2.4417,
+          "differing_fields": [
+            "first_detection_delay_sec (2.3803s -> 2.6303s, diff=0.25s)",
+            "alert_seconds_set (120s -> 121s)"
+          ],
+          "primary_differing_field": "first_detection_delay_sec (2.3803s -> 2.6303s, diff=0.25s)",
+          "baseline_value": 2.6303,
           "mutated_value": 2.6303,
-          "difference": 0.1886,
+          "difference": 0.25,
+          "delay_diff_signed": 0.25,
           "streaming_delay": 2.6303,
-          "ground_truth_delay": 2.4417,
-          "delay_diff": 0.1886,
-          "streaming_alerted": 118,
-          "ground_truth_alerted": 118,
-          "alerted_diff": 0
+          "streaming_alerted": 118
         },
         {
           "pcap": "session3_tcp_syn_flood_50pps_rep3.pcap",
           "scenario": "tcp_syn_flood_50pps",
           "repeat": 3,
           "metric": "first_detection_delay_sec",
-          "offline_value": 2.4811,
+          "differing_fields": [
+            "first_detection_delay_sec (2.3804s -> 2.6304s, diff=0.25s)",
+            "alert_seconds_set (120s -> 121s)"
+          ],
+          "primary_differing_field": "first_detection_delay_sec (2.3804s -> 2.6304s, diff=0.25s)",
+          "baseline_value": 2.6304,
           "mutated_value": 2.6304,
-          "difference": 0.1493,
+          "difference": 0.25,
+          "delay_diff_signed": 0.25,
           "streaming_delay": 2.6304,
-          "ground_truth_delay": 2.4811,
-          "delay_diff": 0.1493,
-          "streaming_alerted": 118,
-          "ground_truth_alerted": 118,
-          "alerted_diff": 0
+          "streaming_alerted": 118
         },
         {
           "pcap": "session3_tcp_syn_flood_200pps_rep1.pcap",
           "scenario": "tcp_syn_flood_200pps",
           "repeat": 1,
           "metric": "first_detection_delay_sec",
-          "offline_value": 2.1443,
+          "differing_fields": [
+            "first_detection_delay_sec (2.0953s -> 2.3453s, diff=0.25s)",
+            "alert_seconds_set (120s -> 121s)"
+          ],
+          "primary_differing_field": "first_detection_delay_sec (2.0953s -> 2.3453s, diff=0.25s)",
+          "baseline_value": 2.3453,
           "mutated_value": 2.3453,
-          "difference": 0.201,
+          "difference": 0.25,
+          "delay_diff_signed": 0.25,
           "streaming_delay": 2.3453,
-          "ground_truth_delay": 2.1443,
-          "delay_diff": 0.201,
-          "streaming_alerted": 118,
-          "ground_truth_alerted": 118,
-          "alerted_diff": 0
+          "streaming_alerted": 118
         },
         {
           "pcap": "session3_tcp_syn_flood_200pps_rep2.pcap",
           "scenario": "tcp_syn_flood_200pps",
           "repeat": 2,
           "metric": "first_detection_delay_sec",
-          "offline_value": 2.1557,
+          "differing_fields": [
+            "first_detection_delay_sec (2.0946s -> 2.3446s, diff=0.25s)",
+            "alert_seconds_set (120s -> 121s)"
+          ],
+          "primary_differing_field": "first_detection_delay_sec (2.0946s -> 2.3446s, diff=0.25s)",
+          "baseline_value": 2.3446,
           "mutated_value": 2.3446,
-          "difference": 0.1889,
+          "difference": 0.25,
+          "delay_diff_signed": 0.25,
           "streaming_delay": 2.3446,
-          "ground_truth_delay": 2.1557,
-          "delay_diff": 0.1889,
-          "streaming_alerted": 118,
-          "ground_truth_alerted": 118,
-          "alerted_diff": 0
+          "streaming_alerted": 118
         },
         {
           "pcap": "session3_tcp_syn_flood_200pps_rep3.pcap",
           "scenario": "tcp_syn_flood_200pps",
           "repeat": 3,
           "metric": "first_detection_delay_sec",
-          "offline_value": 2.1407,
+          "differing_fields": [
+            "first_detection_delay_sec (2.0947s -> 2.3447s, diff=0.25s)",
+            "alert_seconds_set (120s -> 121s)"
+          ],
+          "primary_differing_field": "first_detection_delay_sec (2.0947s -> 2.3447s, diff=0.25s)",
+          "baseline_value": 2.3447,
           "mutated_value": 2.3447,
-          "difference": 0.204,
+          "difference": 0.25,
+          "delay_diff_signed": 0.25,
           "streaming_delay": 2.3447,
-          "ground_truth_delay": 2.1407,
-          "delay_diff": 0.204,
-          "streaming_alerted": 118,
-          "ground_truth_alerted": 118,
-          "alerted_diff": 0
+          "streaming_alerted": 118
         },
         {
           "pcap": "session3_tcp_syn_flood_500pps_rep1.pcap",
           "scenario": "tcp_syn_flood_500pps",
           "repeat": 1,
           "metric": "first_detection_delay_sec",
-          "offline_value": 2.1046,
+          "differing_fields": [
+            "first_detection_delay_sec (2.0376s -> 2.2876s, diff=0.25s)",
+            "alert_seconds_set (120s -> 121s)"
+          ],
+          "primary_differing_field": "first_detection_delay_sec (2.0376s -> 2.2876s, diff=0.25s)",
+          "baseline_value": 2.2876,
           "mutated_value": 2.2876,
-          "difference": 0.183,
+          "difference": 0.25,
+          "delay_diff_signed": 0.25,
           "streaming_delay": 2.2876,
-          "ground_truth_delay": 2.1046,
-          "delay_diff": 0.183,
-          "streaming_alerted": 118,
-          "ground_truth_alerted": 118,
-          "alerted_diff": 0
+          "streaming_alerted": 118
         },
         {
           "pcap": "session3_tcp_syn_flood_500pps_rep2.pcap",
           "scenario": "tcp_syn_flood_500pps",
           "repeat": 2,
           "metric": "first_detection_delay_sec",
-          "offline_value": 2.0813,
+          "differing_fields": [
+            "first_detection_delay_sec (2.0377s -> 2.2902s, diff=0.2525s)",
+            "alert_seconds_set (120s -> 121s)"
+          ],
+          "primary_differing_field": "first_detection_delay_sec (2.0377s -> 2.2902s, diff=0.2525s)",
+          "baseline_value": 2.2902,
           "mutated_value": 2.2902,
-          "difference": 0.2089,
+          "difference": 0.2525,
+          "delay_diff_signed": 0.2525,
           "streaming_delay": 2.2902,
-          "ground_truth_delay": 2.0813,
-          "delay_diff": 0.2089,
-          "streaming_alerted": 118,
-          "ground_truth_alerted": 118,
-          "alerted_diff": 0
+          "streaming_alerted": 118
         },
         {
           "pcap": "session3_tcp_syn_flood_500pps_rep3.pcap",
           "scenario": "tcp_syn_flood_500pps",
           "repeat": 3,
           "metric": "first_detection_delay_sec",
-          "offline_value": 2.155,
+          "differing_fields": [
+            "first_detection_delay_sec (2.0387s -> 2.2887s, diff=0.25s)",
+            "alert_seconds_set (120s -> 121s)"
+          ],
+          "primary_differing_field": "first_detection_delay_sec (2.0387s -> 2.2887s, diff=0.25s)",
+          "baseline_value": 2.2887,
           "mutated_value": 2.2887,
-          "difference": 0.1337,
+          "difference": 0.25,
+          "delay_diff_signed": 0.25,
           "streaming_delay": 2.2887,
-          "ground_truth_delay": 2.155,
-          "delay_diff": 0.1337,
-          "streaming_alerted": 118,
-          "ground_truth_alerted": 118,
-          "alerted_diff": 0
+          "streaming_alerted": 118
         },
         {
           "pcap": "session3_tcp_syn_flood_1000pps_rep1.pcap",
           "scenario": "tcp_syn_flood_1000pps",
           "repeat": 1,
           "metric": "first_detection_delay_sec",
-          "offline_value": 2.1076,
+          "differing_fields": [
+            "first_detection_delay_sec (2.0211s -> 2.2711s, diff=0.25s)",
+            "alert_seconds_set (120s -> 121s)"
+          ],
+          "primary_differing_field": "first_detection_delay_sec (2.0211s -> 2.2711s, diff=0.25s)",
+          "baseline_value": 2.2711,
           "mutated_value": 2.2711,
-          "difference": 0.1635,
+          "difference": 0.25,
+          "delay_diff_signed": 0.25,
           "streaming_delay": 2.2711,
-          "ground_truth_delay": 2.1076,
-          "delay_diff": 0.1635,
-          "streaming_alerted": 118,
-          "ground_truth_alerted": 118,
-          "alerted_diff": 0
+          "streaming_alerted": 118
         },
         {
           "pcap": "session3_tcp_syn_flood_1000pps_rep2.pcap",
           "scenario": "tcp_syn_flood_1000pps",
           "repeat": 2,
           "metric": "first_detection_delay_sec",
-          "offline_value": 2.1618,
+          "differing_fields": [
+            "first_detection_delay_sec (2.0194s -> 2.2694s, diff=0.25s)",
+            "alert_seconds_set (120s -> 121s)"
+          ],
+          "primary_differing_field": "first_detection_delay_sec (2.0194s -> 2.2694s, diff=0.25s)",
+          "baseline_value": 2.2694,
           "mutated_value": 2.2694,
-          "difference": 0.1076,
+          "difference": 0.25,
+          "delay_diff_signed": 0.25,
           "streaming_delay": 2.2694,
-          "ground_truth_delay": 2.1618,
-          "delay_diff": 0.1076,
-          "streaming_alerted": 118,
-          "ground_truth_alerted": 118,
-          "alerted_diff": 0
+          "streaming_alerted": 118
         },
         {
           "pcap": "session3_tcp_syn_flood_1000pps_rep3.pcap",
           "scenario": "tcp_syn_flood_1000pps",
           "repeat": 3,
           "metric": "first_detection_delay_sec",
-          "offline_value": 2.1099,
+          "differing_fields": [
+            "first_detection_delay_sec (2.0198s -> 2.2698s, diff=0.25s)"
+          ],
+          "primary_differing_field": "first_detection_delay_sec (2.0198s -> 2.2698s, diff=0.25s)",
+          "baseline_value": 2.2698,
           "mutated_value": 2.2698,
-          "difference": 0.1599,
+          "difference": 0.25,
+          "delay_diff_signed": 0.25,
           "streaming_delay": 2.2698,
-          "ground_truth_delay": 2.1099,
-          "delay_diff": 0.1599,
-          "streaming_alerted": 118,
-          "ground_truth_alerted": 118,
-          "alerted_diff": 0
-        },
-        {
-          "pcap": "session3_udp_flood_random_ports_50pps_rep1.pcap",
-          "scenario": "udp_flood_random_ports_50pps",
-          "repeat": 1,
-          "metric": "first_detection_delay_sec",
-          "offline_value": 0.5393,
-          "mutated_value": 0.3999,
-          "difference": -0.1394,
-          "streaming_delay": 0.3999,
-          "ground_truth_delay": 0.5393,
-          "delay_diff": 0.1394,
-          "streaming_alerted": 120,
-          "ground_truth_alerted": 120,
-          "alerted_diff": 0
-        },
-        {
-          "pcap": "session3_udp_flood_random_ports_50pps_rep2.pcap",
-          "scenario": "udp_flood_random_ports_50pps",
-          "repeat": 2,
-          "metric": "first_detection_delay_sec",
-          "offline_value": 0.5405,
-          "mutated_value": 0.3999,
-          "difference": -0.1406,
-          "streaming_delay": 0.3999,
-          "ground_truth_delay": 0.5405,
-          "delay_diff": 0.1406,
-          "streaming_alerted": 120,
-          "ground_truth_alerted": 120,
-          "alerted_diff": 0
-        },
-        {
-          "pcap": "session3_udp_flood_random_ports_50pps_rep3.pcap",
-          "scenario": "udp_flood_random_ports_50pps",
-          "repeat": 3,
-          "metric": "first_detection_delay_sec",
-          "offline_value": 0.5535,
-          "mutated_value": 0.3997,
-          "difference": -0.1538,
-          "streaming_delay": 0.3997,
-          "ground_truth_delay": 0.5535,
-          "delay_diff": 0.1538,
-          "streaming_alerted": 120,
-          "ground_truth_alerted": 120,
-          "alerted_diff": 0
+          "streaming_alerted": 118
         },
         {
           "pcap": "session3_reconnaissance_port_scan_30pps_rep1.pcap",
           "scenario": "reconnaissance_port_scan_30pps",
           "repeat": 1,
           "metric": "first_detection_delay_sec",
-          "offline_value": 2.4674,
+          "differing_fields": [
+            "first_detection_delay_sec (2.4674s -> 2.7174s, diff=0.25s)"
+          ],
+          "primary_differing_field": "first_detection_delay_sec (2.4674s -> 2.7174s, diff=0.25s)",
+          "baseline_value": 2.7174,
           "mutated_value": 2.7174,
           "difference": 0.25,
+          "delay_diff_signed": 0.25,
           "streaming_delay": 2.7174,
-          "ground_truth_delay": 2.4674,
-          "delay_diff": 0.25,
-          "streaming_alerted": 118,
-          "ground_truth_alerted": 118,
-          "alerted_diff": 0
+          "streaming_alerted": 118
         },
         {
           "pcap": "session3_reconnaissance_port_scan_30pps_rep2.pcap",
           "scenario": "reconnaissance_port_scan_30pps",
           "repeat": 2,
           "metric": "first_detection_delay_sec",
-          "offline_value": 2.4663,
+          "differing_fields": [
+            "first_detection_delay_sec (2.4663s -> 2.7163s, diff=0.25s)",
+            "alert_seconds_set (120s -> 121s)"
+          ],
+          "primary_differing_field": "first_detection_delay_sec (2.4663s -> 2.7163s, diff=0.25s)",
+          "baseline_value": 2.7163,
           "mutated_value": 2.7163,
           "difference": 0.25,
+          "delay_diff_signed": 0.25,
           "streaming_delay": 2.7163,
-          "ground_truth_delay": 2.4663,
-          "delay_diff": 0.25,
-          "streaming_alerted": 118,
-          "ground_truth_alerted": 118,
-          "alerted_diff": 0
+          "streaming_alerted": 118
         },
         {
           "pcap": "session3_reconnaissance_port_scan_30pps_rep3.pcap",
           "scenario": "reconnaissance_port_scan_30pps",
           "repeat": 3,
           "metric": "first_detection_delay_sec",
-          "offline_value": 2.4663,
+          "differing_fields": [
+            "first_detection_delay_sec (2.4663s -> 2.7163s, diff=0.25s)"
+          ],
+          "primary_differing_field": "first_detection_delay_sec (2.4663s -> 2.7163s, diff=0.25s)",
+          "baseline_value": 2.7163,
           "mutated_value": 2.7163,
           "difference": 0.25,
+          "delay_diff_signed": 0.25,
           "streaming_delay": 2.7163,
-          "ground_truth_delay": 2.4663,
-          "delay_diff": 0.25,
-          "streaming_alerted": 118,
-          "ground_truth_alerted": 118,
-          "alerted_diff": 0
+          "streaming_alerted": 118
         }
       ]
     },
     {
       "mutation_id": "mut_3_cond_b_threshold_25",
-      "mutation_name": "Mutation (ii): Condition B Threshold 20 -> 25",
+      "mutation_name": "Mutation (ii-a): Condition B Threshold 20 -> 25",
       "description": "Increases concentrated incomplete SYN threshold from 20 to 25",
-      "expected_affected": "TCP SYN Floods operating near or at Condition B threshold",
+      "expected_affected": "TCP SYN Floods triggering on Condition B",
+      "unmutated_class": "UDP Floods, Scans & Baseline (28 runs)",
       "total_runs_evaluated": 40,
-      "failed_runs_count": 9,
-      "passed_runs_count": 31,
+      "failed_runs_count": 12,
+      "passed_runs_count": 28,
       "harness_overall_status": "FAIL",
       "mutation_sensitivity_verified": true,
+      "unmutated_class_all_passed": true,
       "failed_pcaps": [
         "session3_tcp_syn_flood_50pps_rep1.pcap",
+        "session3_tcp_syn_flood_50pps_rep2.pcap",
+        "session3_tcp_syn_flood_50pps_rep3.pcap",
+        "session3_tcp_syn_flood_200pps_rep1.pcap",
+        "session3_tcp_syn_flood_200pps_rep2.pcap",
+        "session3_tcp_syn_flood_200pps_rep3.pcap",
         "session3_tcp_syn_flood_500pps_rep1.pcap",
+        "session3_tcp_syn_flood_500pps_rep2.pcap",
         "session3_tcp_syn_flood_500pps_rep3.pcap",
         "session3_tcp_syn_flood_1000pps_rep1.pcap",
         "session3_tcp_syn_flood_1000pps_rep2.pcap",
-        "session3_tcp_syn_flood_1000pps_rep3.pcap",
-        "session3_udp_flood_random_ports_50pps_rep1.pcap",
-        "session3_udp_flood_random_ports_50pps_rep2.pcap",
-        "session3_udp_flood_random_ports_50pps_rep3.pcap"
+        "session3_tcp_syn_flood_1000pps_rep3.pcap"
       ],
       "failed_details": [
         {
@@ -635,422 +605,658 @@
           "scenario": "tcp_syn_flood_50pps",
           "repeat": 1,
           "metric": "first_detection_delay_sec",
-          "offline_value": 2.4199,
+          "differing_fields": [
+            "first_detection_delay_sec (2.3802s -> 2.4797s, diff=0.0995s)",
+            "first_alert_volume (20 -> 25)"
+          ],
+          "primary_differing_field": "first_detection_delay_sec (2.3802s -> 2.4797s, diff=0.0995s)",
+          "baseline_value": 2.4797,
           "mutated_value": 2.4797,
-          "difference": 0.0598,
+          "difference": 0.0995,
+          "delay_diff_signed": 0.0995,
           "streaming_delay": 2.4797,
-          "ground_truth_delay": 2.4199,
-          "delay_diff": 0.0598,
-          "streaming_alerted": 118,
-          "ground_truth_alerted": 118,
-          "alerted_diff": 0
+          "streaming_alerted": 118
         },
-        {
-          "pcap": "session3_tcp_syn_flood_500pps_rep1.pcap",
-          "scenario": "tcp_syn_flood_500pps",
-          "repeat": 1,
-          "metric": "first_detection_delay_sec",
-          "offline_value": 2.1046,
-          "mutated_value": 2.0481,
-          "difference": -0.0565,
-          "streaming_delay": 2.0481,
-          "ground_truth_delay": 2.1046,
-          "delay_diff": 0.0565,
-          "streaming_alerted": 118,
-          "ground_truth_alerted": 118,
-          "alerted_diff": 0
-        },
-        {
-          "pcap": "session3_tcp_syn_flood_500pps_rep3.pcap",
-          "scenario": "tcp_syn_flood_500pps",
-          "repeat": 3,
-          "metric": "first_detection_delay_sec",
-          "offline_value": 2.155,
-          "mutated_value": 2.0488,
-          "difference": -0.1062,
-          "streaming_delay": 2.0488,
-          "ground_truth_delay": 2.155,
-          "delay_diff": 0.1062,
-          "streaming_alerted": 118,
-          "ground_truth_alerted": 118,
-          "alerted_diff": 0
-        },
-        {
-          "pcap": "session3_tcp_syn_flood_1000pps_rep1.pcap",
-          "scenario": "tcp_syn_flood_1000pps",
-          "repeat": 1,
-          "metric": "first_detection_delay_sec",
-          "offline_value": 2.1076,
-          "mutated_value": 2.0274,
-          "difference": -0.0802,
-          "streaming_delay": 2.0274,
-          "ground_truth_delay": 2.1076,
-          "delay_diff": 0.0802,
-          "streaming_alerted": 118,
-          "ground_truth_alerted": 118,
-          "alerted_diff": 0
-        },
-        {
-          "pcap": "session3_tcp_syn_flood_1000pps_rep2.pcap",
-          "scenario": "tcp_syn_flood_1000pps",
-          "repeat": 2,
-          "metric": "first_detection_delay_sec",
-          "offline_value": 2.1618,
-          "mutated_value": 2.024,
-          "difference": -0.1378,
-          "streaming_delay": 2.024,
-          "ground_truth_delay": 2.1618,
-          "delay_diff": 0.1378,
-          "streaming_alerted": 118,
-          "ground_truth_alerted": 118,
-          "alerted_diff": 0
-        },
-        {
-          "pcap": "session3_tcp_syn_flood_1000pps_rep3.pcap",
-          "scenario": "tcp_syn_flood_1000pps",
-          "repeat": 3,
-          "metric": "first_detection_delay_sec",
-          "offline_value": 2.1099,
-          "mutated_value": 2.0254,
-          "difference": -0.0845,
-          "streaming_delay": 2.0254,
-          "ground_truth_delay": 2.1099,
-          "delay_diff": 0.0845,
-          "streaming_alerted": 118,
-          "ground_truth_alerted": 118,
-          "alerted_diff": 0
-        },
-        {
-          "pcap": "session3_udp_flood_random_ports_50pps_rep1.pcap",
-          "scenario": "udp_flood_random_ports_50pps",
-          "repeat": 1,
-          "metric": "first_detection_delay_sec",
-          "offline_value": 0.5393,
-          "mutated_value": 0.3999,
-          "difference": -0.1394,
-          "streaming_delay": 0.3999,
-          "ground_truth_delay": 0.5393,
-          "delay_diff": 0.1394,
-          "streaming_alerted": 120,
-          "ground_truth_alerted": 120,
-          "alerted_diff": 0
-        },
-        {
-          "pcap": "session3_udp_flood_random_ports_50pps_rep2.pcap",
-          "scenario": "udp_flood_random_ports_50pps",
-          "repeat": 2,
-          "metric": "first_detection_delay_sec",
-          "offline_value": 0.5405,
-          "mutated_value": 0.3999,
-          "difference": -0.1406,
-          "streaming_delay": 0.3999,
-          "ground_truth_delay": 0.5405,
-          "delay_diff": 0.1406,
-          "streaming_alerted": 120,
-          "ground_truth_alerted": 120,
-          "alerted_diff": 0
-        },
-        {
-          "pcap": "session3_udp_flood_random_ports_50pps_rep3.pcap",
-          "scenario": "udp_flood_random_ports_50pps",
-          "repeat": 3,
-          "metric": "first_detection_delay_sec",
-          "offline_value": 0.5535,
-          "mutated_value": 0.3997,
-          "difference": -0.1538,
-          "streaming_delay": 0.3997,
-          "ground_truth_delay": 0.5535,
-          "delay_diff": 0.1538,
-          "streaming_alerted": 120,
-          "ground_truth_alerted": 120,
-          "alerted_diff": 0
-        }
-      ]
-    },
-    {
-      "mutation_id": "mut_4_udp_volumetric_threshold_60",
-      "mutation_name": "Mutation (iii): UDP Volumetric Threshold 40 -> 60 pkts/s",
-      "description": "Increases UDP volumetric threshold from 40 to 60 pkts/s",
-      "expected_affected": "UDP Volumetric Floods at 50 pps (fail to cross 60 pps threshold)",
-      "total_runs_evaluated": 40,
-      "failed_runs_count": 17,
-      "passed_runs_count": 23,
-      "harness_overall_status": "FAIL",
-      "mutation_sensitivity_verified": true,
-      "failed_pcaps": [
-        "session3_tcp_syn_flood_50pps_rep2.pcap",
-        "session3_tcp_syn_flood_50pps_rep3.pcap",
-        "session3_tcp_syn_flood_200pps_rep2.pcap",
-        "session3_tcp_syn_flood_500pps_rep1.pcap",
-        "session3_tcp_syn_flood_500pps_rep3.pcap",
-        "session3_tcp_syn_flood_1000pps_rep1.pcap",
-        "session3_tcp_syn_flood_1000pps_rep2.pcap",
-        "session3_tcp_syn_flood_1000pps_rep3.pcap",
-        "session3_udp_flood_random_ports_50pps_rep1.pcap",
-        "session3_udp_flood_random_ports_50pps_rep2.pcap",
-        "session3_udp_flood_random_ports_50pps_rep3.pcap",
-        "session3_udp_flood_volumetric_port80_50pps_rep1.pcap",
-        "session3_udp_flood_volumetric_port80_50pps_rep2.pcap",
-        "session3_udp_flood_volumetric_port80_50pps_rep3.pcap",
-        "session3_udp_flood_volumetric_port80_200pps_rep1.pcap",
-        "session3_udp_flood_volumetric_port80_200pps_rep2.pcap",
-        "session3_udp_flood_volumetric_port80_200pps_rep3.pcap"
-      ],
-      "failed_details": [
         {
           "pcap": "session3_tcp_syn_flood_50pps_rep2.pcap",
           "scenario": "tcp_syn_flood_50pps",
           "repeat": 2,
           "metric": "first_detection_delay_sec",
-          "offline_value": 2.4417,
-          "mutated_value": 2.3803,
-          "difference": -0.0614,
-          "streaming_delay": 2.3803,
-          "ground_truth_delay": 2.4417,
-          "delay_diff": 0.0614,
-          "streaming_alerted": 118,
-          "ground_truth_alerted": 118,
-          "alerted_diff": 0
+          "differing_fields": [
+            "first_detection_delay_sec (2.3803s -> 2.4817s, diff=0.1014s)",
+            "first_alert_volume (20 -> 25)"
+          ],
+          "primary_differing_field": "first_detection_delay_sec (2.3803s -> 2.4817s, diff=0.1014s)",
+          "baseline_value": 2.4817,
+          "mutated_value": 2.4817,
+          "difference": 0.1014,
+          "delay_diff_signed": 0.1014,
+          "streaming_delay": 2.4817,
+          "streaming_alerted": 118
         },
         {
           "pcap": "session3_tcp_syn_flood_50pps_rep3.pcap",
           "scenario": "tcp_syn_flood_50pps",
           "repeat": 3,
           "metric": "first_detection_delay_sec",
-          "offline_value": 2.4811,
-          "mutated_value": 2.3804,
-          "difference": -0.1007,
-          "streaming_delay": 2.3804,
-          "ground_truth_delay": 2.4811,
-          "delay_diff": 0.1007,
-          "streaming_alerted": 118,
-          "ground_truth_alerted": 118,
-          "alerted_diff": 0
+          "differing_fields": [
+            "first_detection_delay_sec (2.3804s -> 2.4811s, diff=0.1007s)",
+            "first_alert_volume (20 -> 25)"
+          ],
+          "primary_differing_field": "first_detection_delay_sec (2.3804s -> 2.4811s, diff=0.1007s)",
+          "baseline_value": 2.4811,
+          "mutated_value": 2.4811,
+          "difference": 0.1007,
+          "delay_diff_signed": 0.1007,
+          "streaming_delay": 2.4811,
+          "streaming_alerted": 118
+        },
+        {
+          "pcap": "session3_tcp_syn_flood_200pps_rep1.pcap",
+          "scenario": "tcp_syn_flood_200pps",
+          "repeat": 1,
+          "metric": "first_detection_delay_sec",
+          "differing_fields": [
+            "first_detection_delay_sec (2.0953s -> 2.1194s, diff=0.0241s)",
+            "first_alert_volume (20 -> 25)"
+          ],
+          "primary_differing_field": "first_detection_delay_sec (2.0953s -> 2.1194s, diff=0.0241s)",
+          "baseline_value": 2.1194,
+          "mutated_value": 2.1194,
+          "difference": 0.0241,
+          "delay_diff_signed": 0.0241,
+          "streaming_delay": 2.1194,
+          "streaming_alerted": 118
         },
         {
           "pcap": "session3_tcp_syn_flood_200pps_rep2.pcap",
           "scenario": "tcp_syn_flood_200pps",
           "repeat": 2,
           "metric": "first_detection_delay_sec",
-          "offline_value": 2.1557,
-          "mutated_value": 2.0946,
-          "difference": -0.0611,
-          "streaming_delay": 2.0946,
-          "ground_truth_delay": 2.1557,
-          "delay_diff": 0.0611,
-          "streaming_alerted": 118,
-          "ground_truth_alerted": 118,
-          "alerted_diff": 0
+          "differing_fields": [
+            "first_detection_delay_sec (2.0946s -> 2.1208s, diff=0.0262s)",
+            "first_alert_volume (20 -> 25)"
+          ],
+          "primary_differing_field": "first_detection_delay_sec (2.0946s -> 2.1208s, diff=0.0262s)",
+          "baseline_value": 2.1208,
+          "mutated_value": 2.1208,
+          "difference": 0.0262,
+          "delay_diff_signed": 0.0262,
+          "streaming_delay": 2.1208,
+          "streaming_alerted": 118
+        },
+        {
+          "pcap": "session3_tcp_syn_flood_200pps_rep3.pcap",
+          "scenario": "tcp_syn_flood_200pps",
+          "repeat": 3,
+          "metric": "first_detection_delay_sec",
+          "differing_fields": [
+            "first_detection_delay_sec (2.0947s -> 2.1204s, diff=0.0257s)",
+            "first_alert_volume (20 -> 25)"
+          ],
+          "primary_differing_field": "first_detection_delay_sec (2.0947s -> 2.1204s, diff=0.0257s)",
+          "baseline_value": 2.1204,
+          "mutated_value": 2.1204,
+          "difference": 0.0257,
+          "delay_diff_signed": 0.0257,
+          "streaming_delay": 2.1204,
+          "streaming_alerted": 118
         },
         {
           "pcap": "session3_tcp_syn_flood_500pps_rep1.pcap",
           "scenario": "tcp_syn_flood_500pps",
           "repeat": 1,
-          "metric": "first_detection_delay_sec",
-          "offline_value": 2.1046,
-          "mutated_value": 2.0376,
-          "difference": -0.067,
-          "streaming_delay": 2.0376,
-          "ground_truth_delay": 2.1046,
-          "delay_diff": 0.067,
-          "streaming_alerted": 118,
-          "ground_truth_alerted": 118,
-          "alerted_diff": 0
+          "metric": "first_alert_volume (incomplete_count / pkts-per-s)",
+          "differing_fields": [
+            "first_alert_volume (20 -> 25)"
+          ],
+          "primary_differing_field": "first_alert_volume (20 -> 25)",
+          "baseline_value": 25,
+          "mutated_value": 25,
+          "difference": 0,
+          "delay_diff_signed": 0.0105,
+          "streaming_delay": 2.0481,
+          "streaming_alerted": 118
+        },
+        {
+          "pcap": "session3_tcp_syn_flood_500pps_rep2.pcap",
+          "scenario": "tcp_syn_flood_500pps",
+          "repeat": 2,
+          "metric": "first_alert_volume (incomplete_count / pkts-per-s)",
+          "differing_fields": [
+            "first_alert_volume (20 -> 25)"
+          ],
+          "primary_differing_field": "first_alert_volume (20 -> 25)",
+          "baseline_value": 25,
+          "mutated_value": 25,
+          "difference": 0,
+          "delay_diff_signed": 0.0108,
+          "streaming_delay": 2.0485,
+          "streaming_alerted": 118
         },
         {
           "pcap": "session3_tcp_syn_flood_500pps_rep3.pcap",
           "scenario": "tcp_syn_flood_500pps",
           "repeat": 3,
-          "metric": "first_detection_delay_sec",
-          "offline_value": 2.155,
-          "mutated_value": 2.0387,
-          "difference": -0.1163,
-          "streaming_delay": 2.0387,
-          "ground_truth_delay": 2.155,
-          "delay_diff": 0.1163,
-          "streaming_alerted": 118,
-          "ground_truth_alerted": 118,
-          "alerted_diff": 0
+          "metric": "first_alert_volume (incomplete_count / pkts-per-s)",
+          "differing_fields": [
+            "first_alert_volume (20 -> 25)"
+          ],
+          "primary_differing_field": "first_alert_volume (20 -> 25)",
+          "baseline_value": 25,
+          "mutated_value": 25,
+          "difference": 0,
+          "delay_diff_signed": 0.0101,
+          "streaming_delay": 2.0488,
+          "streaming_alerted": 118
         },
         {
           "pcap": "session3_tcp_syn_flood_1000pps_rep1.pcap",
           "scenario": "tcp_syn_flood_1000pps",
           "repeat": 1,
-          "metric": "first_detection_delay_sec",
-          "offline_value": 2.1076,
-          "mutated_value": 2.0211,
-          "difference": -0.0865,
-          "streaming_delay": 2.0211,
-          "ground_truth_delay": 2.1076,
-          "delay_diff": 0.0865,
-          "streaming_alerted": 118,
-          "ground_truth_alerted": 118,
-          "alerted_diff": 0
+          "metric": "first_alert_volume (incomplete_count / pkts-per-s)",
+          "differing_fields": [
+            "first_alert_volume (20 -> 25)"
+          ],
+          "primary_differing_field": "first_alert_volume (20 -> 25)",
+          "baseline_value": 25,
+          "mutated_value": 25,
+          "difference": 0,
+          "delay_diff_signed": 0.0063,
+          "streaming_delay": 2.0274,
+          "streaming_alerted": 118
         },
         {
           "pcap": "session3_tcp_syn_flood_1000pps_rep2.pcap",
           "scenario": "tcp_syn_flood_1000pps",
           "repeat": 2,
-          "metric": "first_detection_delay_sec",
-          "offline_value": 2.1618,
-          "mutated_value": 2.0194,
-          "difference": -0.1424,
-          "streaming_delay": 2.0194,
-          "ground_truth_delay": 2.1618,
-          "delay_diff": 0.1424,
-          "streaming_alerted": 118,
-          "ground_truth_alerted": 118,
-          "alerted_diff": 0
+          "metric": "first_alert_volume (incomplete_count / pkts-per-s)",
+          "differing_fields": [
+            "first_alert_volume (20 -> 25)"
+          ],
+          "primary_differing_field": "first_alert_volume (20 -> 25)",
+          "baseline_value": 25,
+          "mutated_value": 25,
+          "difference": 0,
+          "delay_diff_signed": 0.0046,
+          "streaming_delay": 2.024,
+          "streaming_alerted": 118
         },
         {
           "pcap": "session3_tcp_syn_flood_1000pps_rep3.pcap",
           "scenario": "tcp_syn_flood_1000pps",
           "repeat": 3,
-          "metric": "first_detection_delay_sec",
-          "offline_value": 2.1099,
-          "mutated_value": 2.0198,
-          "difference": -0.0901,
-          "streaming_delay": 2.0198,
-          "ground_truth_delay": 2.1099,
-          "delay_diff": 0.0901,
-          "streaming_alerted": 118,
-          "ground_truth_alerted": 118,
-          "alerted_diff": 0
-        },
+          "metric": "first_alert_volume (incomplete_count / pkts-per-s)",
+          "differing_fields": [
+            "first_alert_volume (20 -> 25)"
+          ],
+          "primary_differing_field": "first_alert_volume (20 -> 25)",
+          "baseline_value": 25,
+          "mutated_value": 25,
+          "difference": 0,
+          "delay_diff_signed": 0.0056,
+          "streaming_delay": 2.0254,
+          "streaming_alerted": 118
+        }
+      ]
+    },
+    {
+      "mutation_id": "mut_4_cond_b_threshold_30",
+      "mutation_name": "Mutation (ii-b): Condition B Threshold 20 -> 30",
+      "description": "Increases concentrated incomplete SYN threshold from 20 to 30",
+      "expected_affected": "TCP SYN Floods triggering on Condition B",
+      "unmutated_class": "UDP Floods, Scans & Baseline (28 runs)",
+      "total_runs_evaluated": 40,
+      "failed_runs_count": 12,
+      "passed_runs_count": 28,
+      "harness_overall_status": "FAIL",
+      "mutation_sensitivity_verified": true,
+      "unmutated_class_all_passed": true,
+      "failed_pcaps": [
+        "session3_tcp_syn_flood_50pps_rep1.pcap",
+        "session3_tcp_syn_flood_50pps_rep2.pcap",
+        "session3_tcp_syn_flood_50pps_rep3.pcap",
+        "session3_tcp_syn_flood_200pps_rep1.pcap",
+        "session3_tcp_syn_flood_200pps_rep2.pcap",
+        "session3_tcp_syn_flood_200pps_rep3.pcap",
+        "session3_tcp_syn_flood_500pps_rep1.pcap",
+        "session3_tcp_syn_flood_500pps_rep2.pcap",
+        "session3_tcp_syn_flood_500pps_rep3.pcap",
+        "session3_tcp_syn_flood_1000pps_rep1.pcap",
+        "session3_tcp_syn_flood_1000pps_rep2.pcap",
+        "session3_tcp_syn_flood_1000pps_rep3.pcap"
+      ],
+      "failed_details": [
         {
-          "pcap": "session3_udp_flood_random_ports_50pps_rep1.pcap",
-          "scenario": "udp_flood_random_ports_50pps",
+          "pcap": "session3_tcp_syn_flood_50pps_rep1.pcap",
+          "scenario": "tcp_syn_flood_50pps",
           "repeat": 1,
           "metric": "first_detection_delay_sec",
-          "offline_value": 0.5393,
-          "mutated_value": 0.3999,
-          "difference": -0.1394,
-          "streaming_delay": 0.3999,
-          "ground_truth_delay": 0.5393,
-          "delay_diff": 0.1394,
-          "streaming_alerted": 120,
-          "ground_truth_alerted": 120,
-          "alerted_diff": 0
+          "differing_fields": [
+            "first_detection_delay_sec (2.3802s -> 2.5802s, diff=0.2s)",
+            "first_alert_volume (20 -> 30)"
+          ],
+          "primary_differing_field": "first_detection_delay_sec (2.3802s -> 2.5802s, diff=0.2s)",
+          "baseline_value": 2.5802,
+          "mutated_value": 2.5802,
+          "difference": 0.2,
+          "delay_diff_signed": 0.2,
+          "streaming_delay": 2.5802,
+          "streaming_alerted": 118
         },
         {
-          "pcap": "session3_udp_flood_random_ports_50pps_rep2.pcap",
-          "scenario": "udp_flood_random_ports_50pps",
+          "pcap": "session3_tcp_syn_flood_50pps_rep2.pcap",
+          "scenario": "tcp_syn_flood_50pps",
           "repeat": 2,
           "metric": "first_detection_delay_sec",
-          "offline_value": 0.5405,
-          "mutated_value": 0.3999,
-          "difference": -0.1406,
-          "streaming_delay": 0.3999,
-          "ground_truth_delay": 0.5405,
-          "delay_diff": 0.1406,
-          "streaming_alerted": 120,
-          "ground_truth_alerted": 120,
-          "alerted_diff": 0
+          "differing_fields": [
+            "first_detection_delay_sec (2.3803s -> 2.5815s, diff=0.2012s)",
+            "first_alert_volume (20 -> 30)"
+          ],
+          "primary_differing_field": "first_detection_delay_sec (2.3803s -> 2.5815s, diff=0.2012s)",
+          "baseline_value": 2.5815,
+          "mutated_value": 2.5815,
+          "difference": 0.2012,
+          "delay_diff_signed": 0.2012,
+          "streaming_delay": 2.5815,
+          "streaming_alerted": 118
         },
         {
-          "pcap": "session3_udp_flood_random_ports_50pps_rep3.pcap",
-          "scenario": "udp_flood_random_ports_50pps",
+          "pcap": "session3_tcp_syn_flood_50pps_rep3.pcap",
+          "scenario": "tcp_syn_flood_50pps",
           "repeat": 3,
           "metric": "first_detection_delay_sec",
-          "offline_value": 0.5535,
-          "mutated_value": 0.3997,
-          "difference": -0.1538,
-          "streaming_delay": 0.3997,
-          "ground_truth_delay": 0.5535,
-          "delay_diff": 0.1538,
-          "streaming_alerted": 120,
-          "ground_truth_alerted": 120,
-          "alerted_diff": 0
+          "differing_fields": [
+            "first_detection_delay_sec (2.3804s -> 2.5807s, diff=0.2003s)",
+            "first_alert_volume (20 -> 30)"
+          ],
+          "primary_differing_field": "first_detection_delay_sec (2.3804s -> 2.5807s, diff=0.2003s)",
+          "baseline_value": 2.5807,
+          "mutated_value": 2.5807,
+          "difference": 0.2003,
+          "delay_diff_signed": 0.2003,
+          "streaming_delay": 2.5807,
+          "streaming_alerted": 118
         },
+        {
+          "pcap": "session3_tcp_syn_flood_200pps_rep1.pcap",
+          "scenario": "tcp_syn_flood_200pps",
+          "repeat": 1,
+          "metric": "first_detection_delay_sec",
+          "differing_fields": [
+            "first_detection_delay_sec (2.0953s -> 2.1443s, diff=0.049s)",
+            "first_alert_volume (20 -> 30)"
+          ],
+          "primary_differing_field": "first_detection_delay_sec (2.0953s -> 2.1443s, diff=0.049s)",
+          "baseline_value": 2.1443,
+          "mutated_value": 2.1443,
+          "difference": 0.049,
+          "delay_diff_signed": 0.049,
+          "streaming_delay": 2.1443,
+          "streaming_alerted": 118
+        },
+        {
+          "pcap": "session3_tcp_syn_flood_200pps_rep2.pcap",
+          "scenario": "tcp_syn_flood_200pps",
+          "repeat": 2,
+          "metric": "first_detection_delay_sec",
+          "differing_fields": [
+            "first_detection_delay_sec (2.0946s -> 2.1493s, diff=0.0547s)",
+            "first_alert_volume (20 -> 30)"
+          ],
+          "primary_differing_field": "first_detection_delay_sec (2.0946s -> 2.1493s, diff=0.0547s)",
+          "baseline_value": 2.1493,
+          "mutated_value": 2.1493,
+          "difference": 0.0547,
+          "delay_diff_signed": 0.0547,
+          "streaming_delay": 2.1493,
+          "streaming_alerted": 118
+        },
+        {
+          "pcap": "session3_tcp_syn_flood_200pps_rep3.pcap",
+          "scenario": "tcp_syn_flood_200pps",
+          "repeat": 3,
+          "metric": "first_detection_delay_sec",
+          "differing_fields": [
+            "first_detection_delay_sec (2.0947s -> 2.1456s, diff=0.0509s)",
+            "first_alert_volume (20 -> 30)"
+          ],
+          "primary_differing_field": "first_detection_delay_sec (2.0947s -> 2.1456s, diff=0.0509s)",
+          "baseline_value": 2.1456,
+          "mutated_value": 2.1456,
+          "difference": 0.0509,
+          "delay_diff_signed": 0.0509,
+          "streaming_delay": 2.1456,
+          "streaming_alerted": 118
+        },
+        {
+          "pcap": "session3_tcp_syn_flood_500pps_rep1.pcap",
+          "scenario": "tcp_syn_flood_500pps",
+          "repeat": 1,
+          "metric": "first_alert_volume (incomplete_count / pkts-per-s)",
+          "differing_fields": [
+            "first_alert_volume (20 -> 30)"
+          ],
+          "primary_differing_field": "first_alert_volume (20 -> 30)",
+          "baseline_value": 30,
+          "mutated_value": 30,
+          "difference": 0,
+          "delay_diff_signed": 0.0189,
+          "streaming_delay": 2.0565,
+          "streaming_alerted": 118
+        },
+        {
+          "pcap": "session3_tcp_syn_flood_500pps_rep2.pcap",
+          "scenario": "tcp_syn_flood_500pps",
+          "repeat": 2,
+          "metric": "first_detection_delay_sec",
+          "differing_fields": [
+            "first_detection_delay_sec (2.0377s -> 2.0594s, diff=0.0217s)",
+            "first_alert_volume (20 -> 30)"
+          ],
+          "primary_differing_field": "first_detection_delay_sec (2.0377s -> 2.0594s, diff=0.0217s)",
+          "baseline_value": 2.0594,
+          "mutated_value": 2.0594,
+          "difference": 0.0217,
+          "delay_diff_signed": 0.0217,
+          "streaming_delay": 2.0594,
+          "streaming_alerted": 118
+        },
+        {
+          "pcap": "session3_tcp_syn_flood_500pps_rep3.pcap",
+          "scenario": "tcp_syn_flood_500pps",
+          "repeat": 3,
+          "metric": "first_alert_volume (incomplete_count / pkts-per-s)",
+          "differing_fields": [
+            "first_alert_volume (20 -> 30)"
+          ],
+          "primary_differing_field": "first_alert_volume (20 -> 30)",
+          "baseline_value": 30,
+          "mutated_value": 30,
+          "difference": 0,
+          "delay_diff_signed": 0.0198,
+          "streaming_delay": 2.0585,
+          "streaming_alerted": 118
+        },
+        {
+          "pcap": "session3_tcp_syn_flood_1000pps_rep1.pcap",
+          "scenario": "tcp_syn_flood_1000pps",
+          "repeat": 1,
+          "metric": "first_alert_volume (incomplete_count / pkts-per-s)",
+          "differing_fields": [
+            "first_alert_volume (20 -> 30)"
+          ],
+          "primary_differing_field": "first_alert_volume (20 -> 30)",
+          "baseline_value": 30,
+          "mutated_value": 30,
+          "difference": 0,
+          "delay_diff_signed": 0.0109,
+          "streaming_delay": 2.032,
+          "streaming_alerted": 118
+        },
+        {
+          "pcap": "session3_tcp_syn_flood_1000pps_rep2.pcap",
+          "scenario": "tcp_syn_flood_1000pps",
+          "repeat": 2,
+          "metric": "first_alert_volume (incomplete_count / pkts-per-s)",
+          "differing_fields": [
+            "first_alert_volume (20 -> 30)"
+          ],
+          "primary_differing_field": "first_alert_volume (20 -> 30)",
+          "baseline_value": 30,
+          "mutated_value": 30,
+          "difference": 0,
+          "delay_diff_signed": 0.0109,
+          "streaming_delay": 2.0303,
+          "streaming_alerted": 118
+        },
+        {
+          "pcap": "session3_tcp_syn_flood_1000pps_rep3.pcap",
+          "scenario": "tcp_syn_flood_1000pps",
+          "repeat": 3,
+          "metric": "first_alert_volume (incomplete_count / pkts-per-s)",
+          "differing_fields": [
+            "first_alert_volume (20 -> 30)"
+          ],
+          "primary_differing_field": "first_alert_volume (20 -> 30)",
+          "baseline_value": 30,
+          "mutated_value": 30,
+          "difference": 0,
+          "delay_diff_signed": 0.0107,
+          "streaming_delay": 2.0305,
+          "streaming_alerted": 118
+        }
+      ]
+    },
+    {
+      "mutation_id": "mut_5_udp_volumetric_threshold_60",
+      "mutation_name": "Mutation (iii): UDP Volumetric Threshold 40 -> 60 pkts/s",
+      "description": "Increases UDP volumetric threshold from 40 to 60 pkts/s",
+      "expected_affected": "UDP Volumetric Floods at 50 pps",
+      "unmutated_class": "TCP SYN Floods, Scans & Baseline (16 runs)",
+      "total_runs_evaluated": 40,
+      "failed_runs_count": 12,
+      "passed_runs_count": 28,
+      "harness_overall_status": "FAIL",
+      "mutation_sensitivity_verified": true,
+      "unmutated_class_all_passed": true,
+      "failed_pcaps": [
+        "session3_udp_flood_volumetric_port80_50pps_rep1.pcap",
+        "session3_udp_flood_volumetric_port80_50pps_rep2.pcap",
+        "session3_udp_flood_volumetric_port80_50pps_rep3.pcap",
+        "session3_udp_flood_volumetric_port80_200pps_rep1.pcap",
+        "session3_udp_flood_volumetric_port80_200pps_rep2.pcap",
+        "session3_udp_flood_volumetric_port80_200pps_rep3.pcap",
+        "session3_udp_flood_volumetric_port80_500pps_rep1.pcap",
+        "session3_udp_flood_volumetric_port80_500pps_rep2.pcap",
+        "session3_udp_flood_volumetric_port80_500pps_rep3.pcap",
+        "session3_udp_flood_volumetric_port80_1000pps_rep1.pcap",
+        "session3_udp_flood_volumetric_port80_1000pps_rep2.pcap",
+        "session3_udp_flood_volumetric_port80_1000pps_rep3.pcap"
+      ],
+      "failed_details": [
         {
           "pcap": "session3_udp_flood_volumetric_port80_50pps_rep1.pcap",
           "scenario": "udp_flood_volumetric_port80_50pps",
           "repeat": 1,
           "metric": "first_detection_delay_sec",
-          "offline_value": 0.5398,
+          "differing_fields": [
+            "first_detection_delay_sec (0.5398s -> 0.8188s, diff=0.279s)",
+            "first_alert_volume (40 -> 60)"
+          ],
+          "primary_differing_field": "first_detection_delay_sec (0.5398s -> 0.8188s, diff=0.279s)",
+          "baseline_value": 0.8188,
           "mutated_value": 0.8188,
           "difference": 0.279,
+          "delay_diff_signed": 0.279,
           "streaming_delay": 0.8188,
-          "ground_truth_delay": 0.5398,
-          "delay_diff": 0.279,
-          "streaming_alerted": 120,
-          "ground_truth_alerted": 120,
-          "alerted_diff": 0
+          "streaming_alerted": 120
         },
         {
           "pcap": "session3_udp_flood_volumetric_port80_50pps_rep2.pcap",
           "scenario": "udp_flood_volumetric_port80_50pps",
           "repeat": 2,
           "metric": "first_detection_delay_sec",
-          "offline_value": 0.5404,
+          "differing_fields": [
+            "first_detection_delay_sec (0.5404s -> 0.844s, diff=0.3036s)",
+            "first_alert_volume (40 -> 60)"
+          ],
+          "primary_differing_field": "first_detection_delay_sec (0.5404s -> 0.844s, diff=0.3036s)",
+          "baseline_value": 0.844,
           "mutated_value": 0.844,
           "difference": 0.3036,
+          "delay_diff_signed": 0.3036,
           "streaming_delay": 0.844,
-          "ground_truth_delay": 0.5404,
-          "delay_diff": 0.3036,
-          "streaming_alerted": 120,
-          "ground_truth_alerted": 120,
-          "alerted_diff": 0
+          "streaming_alerted": 120
         },
         {
           "pcap": "session3_udp_flood_volumetric_port80_50pps_rep3.pcap",
           "scenario": "udp_flood_volumetric_port80_50pps",
           "repeat": 3,
           "metric": "first_detection_delay_sec",
-          "offline_value": 0.5398,
+          "differing_fields": [
+            "first_detection_delay_sec (0.5398s -> 0.8262s, diff=0.2864s)",
+            "first_alert_volume (40 -> 60)"
+          ],
+          "primary_differing_field": "first_detection_delay_sec (0.5398s -> 0.8262s, diff=0.2864s)",
+          "baseline_value": 0.8262,
           "mutated_value": 0.8262,
           "difference": 0.2864,
+          "delay_diff_signed": 0.2864,
           "streaming_delay": 0.8262,
-          "ground_truth_delay": 0.5398,
-          "delay_diff": 0.2864,
-          "streaming_alerted": 120,
-          "ground_truth_alerted": 120,
-          "alerted_diff": 0
+          "streaming_alerted": 120
         },
         {
           "pcap": "session3_udp_flood_volumetric_port80_200pps_rep1.pcap",
           "scenario": "udp_flood_volumetric_port80_200pps",
           "repeat": 1,
           "metric": "first_detection_delay_sec",
-          "offline_value": 0.1681,
+          "differing_fields": [
+            "first_detection_delay_sec (0.1681s -> 0.2598s, diff=0.0917s)",
+            "first_alert_volume (40 -> 60)"
+          ],
+          "primary_differing_field": "first_detection_delay_sec (0.1681s -> 0.2598s, diff=0.0917s)",
+          "baseline_value": 0.2598,
           "mutated_value": 0.2598,
           "difference": 0.0917,
+          "delay_diff_signed": 0.0917,
           "streaming_delay": 0.2598,
-          "ground_truth_delay": 0.1681,
-          "delay_diff": 0.0917,
-          "streaming_alerted": 120,
-          "ground_truth_alerted": 120,
-          "alerted_diff": 0
+          "streaming_alerted": 120
         },
         {
           "pcap": "session3_udp_flood_volumetric_port80_200pps_rep2.pcap",
           "scenario": "udp_flood_volumetric_port80_200pps",
           "repeat": 2,
           "metric": "first_detection_delay_sec",
-          "offline_value": 0.1641,
+          "differing_fields": [
+            "first_detection_delay_sec (0.1641s -> 0.2598s, diff=0.0957s)",
+            "first_alert_volume (40 -> 60)"
+          ],
+          "primary_differing_field": "first_detection_delay_sec (0.1641s -> 0.2598s, diff=0.0957s)",
+          "baseline_value": 0.2598,
           "mutated_value": 0.2598,
           "difference": 0.0957,
+          "delay_diff_signed": 0.0957,
           "streaming_delay": 0.2598,
-          "ground_truth_delay": 0.1641,
-          "delay_diff": 0.0957,
-          "streaming_alerted": 120,
-          "ground_truth_alerted": 120,
-          "alerted_diff": 0
+          "streaming_alerted": 120
         },
         {
           "pcap": "session3_udp_flood_volumetric_port80_200pps_rep3.pcap",
           "scenario": "udp_flood_volumetric_port80_200pps",
           "repeat": 3,
           "metric": "first_detection_delay_sec",
-          "offline_value": 0.1697,
+          "differing_fields": [
+            "first_detection_delay_sec (0.1697s -> 0.2658s, diff=0.0961s)",
+            "first_alert_volume (40 -> 60)"
+          ],
+          "primary_differing_field": "first_detection_delay_sec (0.1697s -> 0.2658s, diff=0.0961s)",
+          "baseline_value": 0.2658,
           "mutated_value": 0.2658,
           "difference": 0.0961,
+          "delay_diff_signed": 0.0961,
           "streaming_delay": 0.2658,
-          "ground_truth_delay": 0.1697,
-          "delay_diff": 0.0961,
-          "streaming_alerted": 120,
-          "ground_truth_alerted": 120,
-          "alerted_diff": 0
+          "streaming_alerted": 120
+        },
+        {
+          "pcap": "session3_udp_flood_volumetric_port80_500pps_rep1.pcap",
+          "scenario": "udp_flood_volumetric_port80_500pps",
+          "repeat": 1,
+          "metric": "first_detection_delay_sec",
+          "differing_fields": [
+            "first_detection_delay_sec (0.0699s -> 0.1078s, diff=0.0379s)",
+            "first_alert_volume (40 -> 60)"
+          ],
+          "primary_differing_field": "first_detection_delay_sec (0.0699s -> 0.1078s, diff=0.0379s)",
+          "baseline_value": 0.1078,
+          "mutated_value": 0.1078,
+          "difference": 0.0379,
+          "delay_diff_signed": 0.0379,
+          "streaming_delay": 0.1078,
+          "streaming_alerted": 120
+        },
+        {
+          "pcap": "session3_udp_flood_volumetric_port80_500pps_rep2.pcap",
+          "scenario": "udp_flood_volumetric_port80_500pps",
+          "repeat": 2,
+          "metric": "first_detection_delay_sec",
+          "differing_fields": [
+            "first_detection_delay_sec (0.0688s -> 0.1074s, diff=0.0386s)",
+            "first_alert_volume (40 -> 60)"
+          ],
+          "primary_differing_field": "first_detection_delay_sec (0.0688s -> 0.1074s, diff=0.0386s)",
+          "baseline_value": 0.1074,
+          "mutated_value": 0.1074,
+          "difference": 0.0386,
+          "delay_diff_signed": 0.0386,
+          "streaming_delay": 0.1074,
+          "streaming_alerted": 120
+        },
+        {
+          "pcap": "session3_udp_flood_volumetric_port80_500pps_rep3.pcap",
+          "scenario": "udp_flood_volumetric_port80_500pps",
+          "repeat": 3,
+          "metric": "first_detection_delay_sec",
+          "differing_fields": [
+            "first_detection_delay_sec (0.0699s -> 0.107s, diff=0.0371s)",
+            "first_alert_volume (40 -> 60)"
+          ],
+          "primary_differing_field": "first_detection_delay_sec (0.0699s -> 0.107s, diff=0.0371s)",
+          "baseline_value": 0.107,
+          "mutated_value": 0.107,
+          "difference": 0.0371,
+          "delay_diff_signed": 0.0371,
+          "streaming_delay": 0.107,
+          "streaming_alerted": 120
+        },
+        {
+          "pcap": "session3_udp_flood_volumetric_port80_1000pps_rep1.pcap",
+          "scenario": "udp_flood_volumetric_port80_1000pps",
+          "repeat": 1,
+          "metric": "first_alert_volume (incomplete_count / pkts-per-s)",
+          "differing_fields": [
+            "first_alert_volume (40 -> 60)"
+          ],
+          "primary_differing_field": "first_alert_volume (40 -> 60)",
+          "baseline_value": 60,
+          "mutated_value": 60,
+          "difference": 0,
+          "delay_diff_signed": 0.0191,
+          "streaming_delay": 0.054,
+          "streaming_alerted": 120
+        },
+        {
+          "pcap": "session3_udp_flood_volumetric_port80_1000pps_rep2.pcap",
+          "scenario": "udp_flood_volumetric_port80_1000pps",
+          "repeat": 2,
+          "metric": "first_detection_delay_sec",
+          "differing_fields": [
+            "first_detection_delay_sec (0.0337s -> 0.0544s, diff=0.0207s)",
+            "first_alert_volume (40 -> 60)"
+          ],
+          "primary_differing_field": "first_detection_delay_sec (0.0337s -> 0.0544s, diff=0.0207s)",
+          "baseline_value": 0.0544,
+          "mutated_value": 0.0544,
+          "difference": 0.0207,
+          "delay_diff_signed": 0.0207,
+          "streaming_delay": 0.0544,
+          "streaming_alerted": 120
+        },
+        {
+          "pcap": "session3_udp_flood_volumetric_port80_1000pps_rep3.pcap",
+          "scenario": "udp_flood_volumetric_port80_1000pps",
+          "repeat": 3,
+          "metric": "first_detection_delay_sec",
+          "differing_fields": [
+            "first_detection_delay_sec (0.0349s -> 0.0553s, diff=0.0204s)",
+            "first_alert_volume (40 -> 60)"
+          ],
+          "primary_differing_field": "first_detection_delay_sec (0.0349s -> 0.0553s, diff=0.0204s)",
+          "baseline_value": 0.0553,
+          "mutated_value": 0.0553,
+          "difference": 0.0204,
+          "delay_diff_signed": 0.0204,
+          "streaming_delay": 0.0553,
+          "streaming_alerted": 120
         }
       ]
     }

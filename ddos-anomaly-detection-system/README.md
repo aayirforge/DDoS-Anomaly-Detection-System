@@ -66,7 +66,7 @@ An enterprise-grade Machine Learning and Network Security system designed to det
 
 ## 🛡️ Safety & Mitigation Philosophy
 
-1. **Passive Sensor Default**: The live engine operates in **ALERT-ONLY** mode by default. Packet filtering via `nftables` is strictly opt-in and requires both `mitigation.enable_blocking: true` in `config.yaml` and the `--enable-blocking` CLI flag.
+1. **Passive Sensor Default**: The live engine operates strictly in **ALERT-ONLY** mode by default. Packet filtering via `nftables` remains simulated (dry-run mode).
 2. **Whitelist Alerting Integrity**: The whitelist **only suppresses active packet dropping**; it never suppresses logging or alerting. Suspicious activity from internal infrastructure is always recorded to `logs/detections.csv` and `logs/detections.db`.
 3. **Mandatory Infrastructure Protection**: Localhost (`127.0.0.1`, `::1`), default gateways, and system DNS resolvers (`/etc/resolv.conf`) are dynamically resolved and protected from accidental blocking.
 4. **RFC 1918 Exemption Toggle**: Private subnet exemptions (`10.0.0.0/8`, `172.16.0.0/12`, `192.168.0.0/16`) are controlled via `mitigation.exempt_rfc1918` (default: `false`).
@@ -166,8 +166,8 @@ make live
 # Run with dry-run mitigation simulation
 python -m ddos_ads.live_detector --interface eth0 --dry-run
 
-# Run with active nftables packet dropping (requires sudo/root)
-sudo python -m ddos_ads.live_detector --interface eth0 --enable-blocking
+# Run live monitor (alert-only, dry-run simulated mitigation)
+python -m ddos_ads.live_detector --interface eth0
 ```
 
 ### 5. Serving REST API
