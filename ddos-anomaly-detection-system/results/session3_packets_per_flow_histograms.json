@@ -1,6 +1,7 @@
 {
   "reconnaissance_port_scan_30pps": {
     "total_reps": 3,
+    "union_unique_tuples": 10798,
     "per_rep_stats": [
       {
         "pcap": "session3_reconnaissance_port_scan_30pps_rep1.pcap",
@@ -36,6 +37,7 @@
   },
   "tcp_syn_flood_1000pps": {
     "total_reps": 3,
+    "union_unique_tuples": 64266,
     "per_rep_stats": [
       {
         "pcap": "session3_tcp_syn_flood_1000pps_rep1.pcap",
@@ -99,6 +101,7 @@
   },
   "tcp_syn_flood_200pps": {
     "total_reps": 3,
+    "union_unique_tuples": 43458,
     "per_rep_stats": [
       {
         "pcap": "session3_tcp_syn_flood_200pps_rep1.pcap",
@@ -146,6 +149,7 @@
   },
   "tcp_syn_flood_500pps": {
     "total_reps": 3,
+    "union_unique_tuples": 60575,
     "per_rep_stats": [
       {
         "pcap": "session3_tcp_syn_flood_500pps_rep1.pcap",
@@ -199,6 +203,7 @@
   },
   "tcp_syn_flood_50pps": {
     "total_reps": 3,
+    "union_unique_tuples": 15639,
     "per_rep_stats": [
       {
         "pcap": "session3_tcp_syn_flood_50pps_rep1.pcap",
@@ -241,6 +246,7 @@
   },
   "udp_flood_random_ports_1000pps": {
     "total_reps": 3,
+    "union_unique_tuples": 163858,
     "per_rep_stats": [
       {
         "pcap": "session3_udp_flood_random_ports_1000pps_rep1.pcap",
@@ -303,6 +309,7 @@
   },
   "udp_flood_random_ports_200pps": {
     "total_reps": 3,
+    "union_unique_tuples": 60492,
     "per_rep_stats": [
       {
         "pcap": "session3_udp_flood_random_ports_200pps_rep1.pcap",
@@ -348,6 +355,7 @@
   },
   "udp_flood_random_ports_500pps": {
     "total_reps": 3,
+    "union_unique_tuples": 117464,
     "per_rep_stats": [
       {
         "pcap": "session3_udp_flood_random_ports_500pps_rep1.pcap",
@@ -402,6 +410,7 @@
   },
   "udp_flood_random_ports_50pps": {
     "total_reps": 3,
+    "union_unique_tuples": 17582,
     "per_rep_stats": [
       {
         "pcap": "session3_udp_flood_random_ports_50pps_rep1.pcap",
@@ -443,6 +452,7 @@
   },
   "udp_flood_volumetric_port80_1000pps": {
     "total_reps": 3,
+    "union_unique_tuples": 6,
     "per_rep_stats": [
       {
         "pcap": "session3_udp_flood_volumetric_port80_1000pps_rep1.pcap",
@@ -481,6 +491,7 @@
   },
   "udp_flood_volumetric_port80_200pps": {
     "total_reps": 3,
+    "union_unique_tuples": 6,
     "per_rep_stats": [
       {
         "pcap": "session3_udp_flood_volumetric_port80_200pps_rep1.pcap",
@@ -519,6 +530,7 @@
   },
   "udp_flood_volumetric_port80_500pps": {
     "total_reps": 3,
+    "union_unique_tuples": 6,
     "per_rep_stats": [
       {
         "pcap": "session3_udp_flood_volumetric_port80_500pps_rep1.pcap",
@@ -557,6 +569,7 @@
   },
   "udp_flood_volumetric_port80_50pps": {
     "total_reps": 3,
+    "union_unique_tuples": 6,
     "per_rep_stats": [
       {
         "pcap": "session3_udp_flood_volumetric_port80_50pps_rep1.pcap",

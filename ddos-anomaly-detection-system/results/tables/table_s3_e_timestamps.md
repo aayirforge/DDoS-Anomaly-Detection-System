@@ -1,0 +1,43 @@
+### Table S3-E: Chronological Execution Sequence & Run Timestamps (`session3_pcaps.sha256`)
+| Run ID / PCAP Name | Earliest Packet Arrival | Latest Packet Arrival | Duration | Packet Count | Preceding Quiescent Gap | Overlap Check |
+| :--- | :---: | :---: | :---: | :---: | :---: | :---: |
+| `session3_benign_baseline_900s.pcap` | 2026-11-16 17:28:21 | 2026-11-16 17:43:21 | 899.94 s | 81 k | Baseline Start | **NO OVERLAP (PASS)** |
+| `session3_tcp_syn_flood_50pps_rep1.pcap` | 2026-11-16 17:45:40 | 2026-11-16 17:47:44 | 124.01 s | 17 k | 138.6 s | **NO OVERLAP (PASS)** |
+| `session3_tcp_syn_flood_50pps_rep2.pcap` | 2026-11-16 17:47:51 | 2026-11-16 17:49:55 | 124.03 s | 17 k | 7.4 s | **NO OVERLAP (PASS)** |
+| `session3_tcp_syn_flood_50pps_rep3.pcap` | 2026-11-16 17:50:02 | 2026-11-16 17:52:06 | 124.00 s | 17 k | 7.3 s | **NO OVERLAP (PASS)** |
+| `session3_tcp_syn_flood_200pps_rep1.pcap` | 2026-11-16 17:52:14 | 2026-11-16 17:54:18 | 124.03 s | 35 k | 7.4 s | **NO OVERLAP (PASS)** |
+| `session3_tcp_syn_flood_200pps_rep2.pcap` | 2026-11-16 17:54:27 | 2026-11-16 17:56:31 | 123.99 s | 35 k | 8.8 s | **NO OVERLAP (PASS)** |
+| `session3_tcp_syn_flood_200pps_rep3.pcap` | 2026-11-16 17:56:39 | 2026-11-16 17:58:43 | 123.98 s | 35 k | 8.6 s | **NO OVERLAP (PASS)** |
+| `session3_tcp_syn_flood_500pps_rep1.pcap` | 2026-11-16 17:58:52 | 2026-11-16 18:00:56 | 124.00 s | 71 k | 8.5 s | **NO OVERLAP (PASS)** |
+| `session3_tcp_syn_flood_500pps_rep2.pcap` | 2026-11-16 18:01:07 | 2026-11-16 18:03:12 | 124.01 s | 71 k | 11.8 s | **NO OVERLAP (PASS)** |
+| `session3_tcp_syn_flood_500pps_rep3.pcap` | 2026-11-16 18:03:23 | 2026-11-16 18:05:27 | 124.01 s | 72 k | 11.3 s | **NO OVERLAP (PASS)** |
+| `session3_tcp_syn_flood_1000pps_rep1.pcap` | 2026-11-16 18:05:39 | 2026-11-16 18:07:43 | 124.01 s | 132 k | 11.9 s | **NO OVERLAP (PASS)** |
+| `session3_tcp_syn_flood_1000pps_rep2.pcap` | 2026-11-16 18:08:01 | 2026-11-16 18:10:05 | 124.02 s | 132 k | 18.0 s | **NO OVERLAP (PASS)** |
+| `session3_tcp_syn_flood_1000pps_rep3.pcap` | 2026-11-16 18:10:22 | 2026-11-16 18:12:26 | 124.00 s | 132 k | 17.2 s | **NO OVERLAP (PASS)** |
+| `session3_udp_flood_random_ports_50pps_rep1.pcap` | 2026-11-16 18:25:07 | 2026-11-16 18:27:11 | 123.95 s | 17 k | 760.7 s | **NO OVERLAP (PASS)** |
+| `session3_udp_flood_random_ports_50pps_rep2.pcap` | 2026-11-16 18:27:19 | 2026-11-16 18:29:23 | 123.99 s | 17 k | 8.1 s | **NO OVERLAP (PASS)** |
+| `session3_udp_flood_random_ports_50pps_rep3.pcap` | 2026-11-16 18:29:30 | 2026-11-16 18:31:34 | 124.01 s | 17 k | 7.4 s | **NO OVERLAP (PASS)** |
+| `session3_udp_flood_random_ports_200pps_rep1.pcap` | 2026-11-16 18:31:43 | 2026-11-16 18:33:47 | 124.02 s | 35 k | 8.4 s | **NO OVERLAP (PASS)** |
+| `session3_udp_flood_random_ports_200pps_rep2.pcap` | 2026-11-16 18:33:54 | 2026-11-16 18:35:58 | 123.95 s | 35 k | 7.7 s | **NO OVERLAP (PASS)** |
+| `session3_udp_flood_random_ports_200pps_rep3.pcap` | 2026-11-16 18:36:06 | 2026-11-16 18:38:10 | 124.00 s | 35 k | 7.9 s | **NO OVERLAP (PASS)** |
+| `session3_udp_flood_random_ports_500pps_rep1.pcap` | 2026-11-16 18:38:19 | 2026-11-16 18:40:24 | 124.04 s | 71 k | 9.4 s | **NO OVERLAP (PASS)** |
+| `session3_udp_flood_random_ports_500pps_rep2.pcap` | 2026-11-16 18:40:34 | 2026-11-16 18:42:38 | 124.01 s | 71 k | 10.1 s | **NO OVERLAP (PASS)** |
+| `session3_udp_flood_random_ports_500pps_rep3.pcap` | 2026-11-16 18:42:48 | 2026-11-16 18:44:52 | 124.02 s | 71 k | 9.9 s | **NO OVERLAP (PASS)** |
+| `session3_udp_flood_random_ports_1000pps_rep1.pcap` | 2026-11-16 18:45:01 | 2026-11-16 18:47:05 | 124.01 s | 131 k | 9.5 s | **NO OVERLAP (PASS)** |
+| `session3_udp_flood_random_ports_1000pps_rep2.pcap` | 2026-11-16 18:47:17 | 2026-11-16 18:49:21 | 124.01 s | 131 k | 12.0 s | **NO OVERLAP (PASS)** |
+| `session3_udp_flood_random_ports_1000pps_rep3.pcap` | 2026-11-16 18:49:31 | 2026-11-16 18:51:35 | 124.02 s | 131 k | 10.3 s | **NO OVERLAP (PASS)** |
+| `session3_udp_flood_volumetric_port80_50pps_rep1.pcap` | 2026-11-16 18:53:43 | 2026-11-16 18:55:47 | 123.95 s | 17 k | 127.3 s | **NO OVERLAP (PASS)** |
+| `session3_udp_flood_volumetric_port80_50pps_rep2.pcap` | 2026-11-16 18:55:55 | 2026-11-16 18:57:59 | 124.04 s | 17 k | 8.2 s | **NO OVERLAP (PASS)** |
+| `session3_udp_flood_volumetric_port80_50pps_rep3.pcap` | 2026-11-16 18:58:07 | 2026-11-16 19:00:11 | 124.00 s | 17 k | 8.2 s | **NO OVERLAP (PASS)** |
+| `session3_udp_flood_volumetric_port80_200pps_rep1.pcap` | 2026-11-16 19:00:19 | 2026-11-16 19:02:23 | 124.00 s | 35 k | 7.9 s | **NO OVERLAP (PASS)** |
+| `session3_udp_flood_volumetric_port80_200pps_rep2.pcap` | 2026-11-16 19:02:32 | 2026-11-16 19:04:36 | 123.97 s | 35 k | 8.8 s | **NO OVERLAP (PASS)** |
+| `session3_udp_flood_volumetric_port80_200pps_rep3.pcap` | 2026-11-16 19:04:45 | 2026-11-16 19:06:49 | 124.03 s | 35 k | 8.8 s | **NO OVERLAP (PASS)** |
+| `session3_udp_flood_volumetric_port80_500pps_rep1.pcap` | 2026-11-16 19:06:58 | 2026-11-16 19:09:02 | 124.02 s | 71 k | 8.8 s | **NO OVERLAP (PASS)** |
+| `session3_udp_flood_volumetric_port80_500pps_rep2.pcap` | 2026-11-16 19:09:10 | 2026-11-16 19:11:14 | 123.98 s | 71 k | 8.6 s | **NO OVERLAP (PASS)** |
+| `session3_udp_flood_volumetric_port80_500pps_rep3.pcap` | 2026-11-16 19:11:24 | 2026-11-16 19:13:28 | 123.99 s | 71 k | 9.5 s | **NO OVERLAP (PASS)** |
+| `session3_udp_flood_volumetric_port80_1000pps_rep1.pcap` | 2026-11-16 19:13:37 | 2026-11-16 19:15:41 | 124.02 s | 132 k | 9.9 s | **NO OVERLAP (PASS)** |
+| `session3_udp_flood_volumetric_port80_1000pps_rep2.pcap` | 2026-11-16 19:15:53 | 2026-11-16 19:17:57 | 124.02 s | 131 k | 11.5 s | **NO OVERLAP (PASS)** |
+| `session3_udp_flood_volumetric_port80_1000pps_rep3.pcap` | 2026-11-16 19:18:09 | 2026-11-16 19:20:13 | 124.03 s | 132 k | 11.7 s | **NO OVERLAP (PASS)** |
+| `session3_reconnaissance_port_scan_30pps_rep1.pcap` | 2026-11-16 19:22:11 | 2026-11-16 19:24:15 | 124.06 s | 18 k | 117.7 s | **NO OVERLAP (PASS)** |
+| `session3_reconnaissance_port_scan_30pps_rep2.pcap` | 2026-11-16 19:24:22 | 2026-11-16 19:26:26 | 124.02 s | 19 k | 7.6 s | **NO OVERLAP (PASS)** |
+| `session3_reconnaissance_port_scan_30pps_rep3.pcap` | 2026-11-16 19:26:34 | 2026-11-16 19:28:38 | 124.02 s | 18 k | 7.6 s | **NO OVERLAP (PASS)** |

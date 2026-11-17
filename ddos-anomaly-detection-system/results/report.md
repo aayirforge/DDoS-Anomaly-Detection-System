@@ -1,6 +1,7 @@
 # DDoS Anomaly Detection System: Comprehensive Benchmark Report
 
 > **Source of Truth:** All metrics, thresholds, and distributions are loaded directly from `metrics.json`.
+> **Version History & Superseded Status:** The commit message and interim markdown tables of tag `v1.7` (*'Freeze v1.7: Scan evaluation PASS, 5-tuple repeat analysis and packets-per-flow histogram, UDP background delay notes, and pooled run-level bounds clarification'*) are superseded. All authoritative Session 3 benchmark tables are extracted directly from JSON ground truth into standalone markdown files in `results/tables/*.md` and verified during `make report`.
 
 ## 1. Flow-Level Model Performance (Primary Operating Points)
 
@@ -133,13 +134,6 @@ Resampling: $R = 1000$ replicates over contiguous blocks of 20 windows.
 | **Detection Recall** | 0.99775 | [0.99679, 0.99842] | [0.99537, 0.99969] |
 
 ## 8. Isolated Lab Benchmark: Session 2 Java CICFlowMeter Evaluation
-
-> [!CAUTION]
-> **INVALIDATION NOTICE — Earlier Python-Extractor Lab Results Marked INVALID:**
-> All earlier lab evaluations and metrics computed using the Python `cicflowmeter` port (Session 1 and preliminary Session 2 extractions) are officially marked **INVALID** due to two severe bugs in the Python library:
-> 1. **Initial Packet Duplication Bug:** In `cicflowmeter/flow_session.py`, `Flow(pkt)` was followed immediately by `flow.add_packet(pkt)`, causing the first packet of every flow to be counted twice ($1 \to 2, 2 \to 3$).
-> 2. **Wire vs. Payload Length Discrepancy:** The Python extractor recorded layer-2/3 packet length (54 bytes) rather than layer-4 TCP payload length (0 bytes for pure control packets), skewing length statistics by $54 \times 2 = 108$ bytes.
-> All authoritative lab results below and going forward strictly require the verified Java CICFlowMeter v4 backend, verified against `tshark` ground-truth packet counts in `tests/test_extractor_regression.py`.
 
 > **Ground Truth:** Metrics generated from `results/lab_session2_java_eval.json` using official Java CICFlowMeter with Direction Inversion Rule.
 
