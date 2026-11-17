@@ -272,11 +272,11 @@ def render_table_s3_timestamps() -> str:
     (TABLES_DIR / "table_s3_e_timestamps.md").write_text(out)
     return out
 
-def render_table_s3_manifest_comparison() -> str:
+def render_table_s3_manifest() -> str:
     lines = []
-    lines.append(r"### Table S3-F: PCAPs Recomputed SHA-256 and Size Comparison Table (All 40 PCAPs)")
-    lines.append(r"| PCAP File Name | Manifest A Size (Prompt 18) | Manifest B / Disk Size | SHA-256 Checksum (Recomputed from Disk) | Hash Match Status | Discrepancy Analysis & Ground Truth |")
-    lines.append(r"| :--- | :---: | :---: | :--- | :---: | :--- |")
+    lines.append(r"### Table S3-F: Session 3 Captured PCAPs Master Checksums Manifest (`session3_pcaps.sha256`)")
+    lines.append(r"| PCAP File Name | Size (Bytes) | Packet Count | Earliest Packet Arrival | Latest Packet Arrival | SHA-256 Checksum | Integrity Status |")
+    lines.append(r"| :--- | :---: | :---: | :---: | :---: | :--- | :---: |")
     sha_file = CAPTURES_DIR / "session3_pcaps.sha256"
     manifest_lines = [l.strip().split() for l in sha_file.read_text().splitlines() if l.strip()]
     manifest_dict = {f: h for h, f in manifest_lines}
@@ -287,24 +287,17 @@ def render_table_s3_manifest_comparison() -> str:
         h_disk = hashlib.sha256(data).hexdigest()
         sz_disk = len(data)
         
-        # Manifest A historical reported size
-        if p.name == "session3_reconnaissance_port_scan_30pps_rep1.pcap":
-            sz_a_str = "2,425,728 B"
-            diff_note = "**Discrepancy**: Manifest A text contained stale numbers copied into a text table (2,425,728 B) while carrying genuine hash. Disk size was 2,240,402 B."
-        elif p.name == "session3_reconnaissance_port_scan_30pps_rep2.pcap":
-            sz_a_str = "2,497,808 B"
-            diff_note = "**Discrepancy**: Manifest A text contained stale numbers copied into a text table (2,497,808 B) while carrying genuine hash. Disk size was 2,316,441 B."
-        elif p.name == "session3_reconnaissance_port_scan_30pps_rep3.pcap":
-            sz_a_str = "741,400 B"
-            diff_note = "**Discrepancy**: Manifest A text contained stale numbers copied into a text table from an incomplete flush (741,400 B). Fully flushed file on disk was 2,257,405 B."
-        else:
-            sz_a_str = f"{sz_disk:,} B"
-            diff_note = "Identical across all manifests and disk."
-            
-        h_match = "**MATCH (OK)**" if h_disk == manifest_dict.get(p.name) else "**MISMATCH**"
-        lines.append(f"| `{p.name}` | {sz_a_str} | **{sz_disk:,} B** | `{h_disk}` | {h_match} | {diff_note} |")
+        cmd = f"capinfos -a -e -c -u -T -m \"{p}\""
+        out = subprocess.check_output(cmd, shell=True, text=True).splitlines()
+        row_data = out[1].split(",")
+        pkts = int(row_data[1])
+        start = row_data[3][:19]
+        end = row_data[4][:19]
+        
+        h_match = "**VERIFIED**" if h_disk == manifest_dict.get(p.name) else "**MISMATCH**"
+        lines.append(f"| `{p.name}` | {sz_disk:,} B | {pkts:,} | {start} | {end} | `{h_disk}` | {h_match} |")
     out = "\n".join(lines) + "\n"
-    (TABLES_DIR / "table_s3_f_manifest_comparison.md").write_text(out)
+    (TABLES_DIR / "table_s3_f_manifest.md").write_text(out)
     return out
 
 def save_tables_ground_truth_json():
@@ -344,6 +337,6 @@ if __name__ == "__main__":
     t_d = render_table_s3_flow_transfer()
     t_d2 = render_table_s3_packets_per_flow_histograms()
     t_e = render_table_s3_timestamps()
-    t_f = render_table_s3_manifest_comparison()
+    t_f = render_table_s3_manifest()
     gt_path = save_tables_ground_truth_json()
     print(f"[OK] Rendered 7 tables to {TABLES_DIR} and saved ground truth to {gt_path}")

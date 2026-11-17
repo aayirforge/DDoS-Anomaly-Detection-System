@@ -377,59 +377,13 @@ def generate_report(metrics_path: Path, results_dir: Path, out_path: Path) -> st
 
 
 def validate_results_tables(results_dir: Path) -> None:
-    """Validate that every number appearing in results/tables/*.md is grounded in results/*.json.
+    """Per-cell validator mapping markdown table cells to exact named JSON keys.
     
-    Fails with AssertionError if any ungrounded number is detected.
+    Fails with AssertionError if any cell differs from the named key's value.
     """
-    tables_dir = results_dir / "tables"
-    if not tables_dir.is_dir():
-        logger.warning(f"Tables directory {tables_dir} not found; skipping table checks.")
-        return
-
-    json_numbers: set[str] = set()
-    for jf in results_dir.glob("*.json"):
-        try:
-            content = jf.read_text(encoding="utf-8")
-            for match in re.findall(r"[-+]?\d*\.?\d+", content):
-                if match and match != ".":
-                    json_numbers.add(match)
-                    try:
-                        fval = float(match)
-                        json_numbers.add(f"{fval:.2f}")
-                        json_numbers.add(f"{fval:.3f}")
-                        json_numbers.add(f"{fval:.4f}")
-                        json_numbers.add(f"{fval*100:.2f}")
-                        json_numbers.add(f"{fval*100:.1f}")
-                        json_numbers.add(str(int(fval)))
-                    except ValueError:
-                        pass
-        except Exception as e:
-            logger.warning(f"Could not parse {jf}: {e}")
-
-    table_files = sorted(tables_dir.glob("*.md"))
-    if not table_files:
-        logger.warning(f"No table markdown files found in {tables_dir}.")
-        return
-
-    for tf in table_files:
-        for line_no, line in enumerate(tf.read_text(encoding="utf-8").splitlines(), 1):
-            if not line.startswith("|"):
-                continue
-            cells = [c.strip() for c in line.split("|")[1:-1]]
-            if all(c.startswith(":") or c.startswith("-") for c in cells if c):
-                continue
-            for cell in cells:
-                for match in re.findall(r"\b\d+(?:,\d+)*(?:\.\d+)?%?\b", cell):
-                    clean = match.replace(",", "").replace("%", "")
-                    if clean not in json_numbers:
-                        msg = (
-                            f"Numerical grounding failure: Number '{match}' ({clean}) at {tf.name}:{line_no} "
-                            f"in cell [{cell}] not found in any JSON file in {results_dir}!"
-                        )
-                        logger.error(msg)
-                        raise AssertionError(msg)
-
-    logger.info(f"All numbers across {len(table_files)} table files verified against JSON ground truth.")
+    from ddos_ads.table_validator import validate_all_tables_against_json
+    validate_all_tables_against_json(results_dir)
+    logger.info("All table cells successfully verified against exact named JSON keys.")
 
 
 def main() -> None:

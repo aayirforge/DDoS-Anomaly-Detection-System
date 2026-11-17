@@ -1,0 +1,43 @@
+### Table S3-F: Session 3 Captured PCAPs Master Checksums Manifest (`session3_pcaps.sha256`)
+| PCAP File Name | Size (Bytes) | Packet Count | Earliest Packet Arrival | Latest Packet Arrival | SHA-256 Checksum | Integrity Status |
+| :--- | :---: | :---: | :---: | :---: | :--- | :---: |
+| `session3_benign_baseline_900s.pcap` | 12,010,404 B | 81,393 | 2026-11-16 17:28:21 | 2026-11-16 17:43:21 | `c4dee0a834e9fea954a1a568c931c77a42f1b6b3bb2f2f678365147ee2188087` | **VERIFIED** |
+| `session3_reconnaissance_port_scan_30pps_rep1.pcap` | 2,240,402 B | 18,569 | 2026-11-16 19:22:11 | 2026-11-16 19:24:15 | `9c2e8161b91b3f0a96c0c910dc9b39bffdb3a1832885b6a4808da7507539e2f9` | **VERIFIED** |
+| `session3_reconnaissance_port_scan_30pps_rep2.pcap` | 2,316,441 B | 19,181 | 2026-11-16 19:24:22 | 2026-11-16 19:26:26 | `5d4390d62f53fcdd11c2d2b5c2a1bd257e12a6019d86f7ef573ca429ea0a2510` | **VERIFIED** |
+| `session3_reconnaissance_port_scan_30pps_rep3.pcap` | 2,257,405 B | 18,454 | 2026-11-16 19:26:34 | 2026-11-16 19:28:38 | `0b81200734fab02b19058dc1dc1ace535303b463069378f0f80182300c28b42d` | **VERIFIED** |
+| `session3_tcp_syn_flood_1000pps_rep1.pcap` | 10,142,121 B | 132,530 | 2026-11-16 18:05:39 | 2026-11-16 18:07:43 | `5b7453a7457c575fe47778b3b50bdd4cfe4d58109f996ab69c3a9bd926ba2e1a` | **VERIFIED** |
+| `session3_tcp_syn_flood_1000pps_rep2.pcap` | 10,219,196 B | 132,966 | 2026-11-16 18:08:01 | 2026-11-16 18:10:05 | `fa0903198bca875cf3c973fef39e99acf988cca3b9ffa1b66213cbb03f2753f9` | **VERIFIED** |
+| `session3_tcp_syn_flood_1000pps_rep3.pcap` | 10,136,299 B | 132,381 | 2026-11-16 18:10:22 | 2026-11-16 18:12:26 | `5eb09b6fd3ed001d6608afbd33fd90db92e3aac29fd686ebb6d170cbad4275c9` | **VERIFIED** |
+| `session3_tcp_syn_flood_200pps_rep1.pcap` | 3,367,837 B | 35,753 | 2026-11-16 17:52:14 | 2026-11-16 17:54:18 | `f64590ffcef90ea0b8104999281c9a4b2ea43701fdd771c993b7ee627c7f3d55` | **VERIFIED** |
+| `session3_tcp_syn_flood_200pps_rep2.pcap` | 3,383,361 B | 35,889 | 2026-11-16 17:54:27 | 2026-11-16 17:56:31 | `4f10752bf7d0871a5dc2df47d5ac1e51a4ec3a77a323a22a3a36c7f2f06c2dba` | **VERIFIED** |
+| `session3_tcp_syn_flood_200pps_rep3.pcap` | 3,389,038 B | 35,653 | 2026-11-16 17:56:39 | 2026-11-16 17:58:43 | `3d3a2a276dfcfbcf9fe397e547a6ea9a8d861f3a7e0a6a44d04ec18435592965` | **VERIFIED** |
+| `session3_tcp_syn_flood_500pps_rep1.pcap` | 5,845,904 B | 71,354 | 2026-11-16 17:58:52 | 2026-11-16 18:00:56 | `267357a5087e2ef44731d4fa1f811646e3d674c3680b94d9f81b6f51d43b83ef` | **VERIFIED** |
+| `session3_tcp_syn_flood_500pps_rep2.pcap` | 5,857,842 B | 71,629 | 2026-11-16 18:01:07 | 2026-11-16 18:03:12 | `5550b197d36cb0a68c3baf799500e1dd5e736dc6e3fd64c15b595f958b8f01e1` | **VERIFIED** |
+| `session3_tcp_syn_flood_500pps_rep3.pcap` | 5,948,417 B | 72,071 | 2026-11-16 18:03:23 | 2026-11-16 18:05:27 | `f0e2099ff320c13e1b2a19a78a3459471e5326e2c80f11758336bcdd15d953ec` | **VERIFIED** |
+| `session3_tcp_syn_flood_50pps_rep1.pcap` | 2,072,013 B | 17,302 | 2026-11-16 17:45:40 | 2026-11-16 17:47:44 | `7985532140f7ddc1264415543f2a2e4b1f5360f646222610170621ae04950281` | **VERIFIED** |
+| `session3_tcp_syn_flood_50pps_rep2.pcap` | 2,148,298 B | 17,811 | 2026-11-16 17:47:51 | 2026-11-16 17:49:55 | `b33a99ea647e20a7a36c9060abf91948496c7e83f0c19c956a2a6a6e6a932ddc` | **VERIFIED** |
+| `session3_tcp_syn_flood_50pps_rep3.pcap` | 2,156,254 B | 17,703 | 2026-11-16 17:50:02 | 2026-11-16 17:52:06 | `1684695107a4de2f59e44bb520396446842c31d99a228bb3f437b5f1278e910e` | **VERIFIED** |
+| `session3_udp_flood_random_ports_1000pps_rep1.pcap` | 27,265,797 B | 131,685 | 2026-11-16 18:45:01 | 2026-11-16 18:47:05 | `59f80a8fefad21cc4dd7af4259adb538f975e056a41886db3137be0ce5ecaad2` | **VERIFIED** |
+| `session3_udp_flood_random_ports_1000pps_rep2.pcap` | 27,278,450 B | 131,686 | 2026-11-16 18:47:17 | 2026-11-16 18:49:21 | `5413c074320c8e3ca9e1c7a5c8fa9347bcfcc7a378e5146251b2f8572a1ef146` | **VERIFIED** |
+| `session3_udp_flood_random_ports_1000pps_rep3.pcap` | 27,316,802 B | 131,888 | 2026-11-16 18:49:31 | 2026-11-16 18:51:35 | `2590a96516de4f5b7727c3febb04ed4a7ccff616d34657580b454246536189ca` | **VERIFIED** |
+| `session3_udp_flood_random_ports_200pps_rep1.pcap` | 6,797,712 B | 35,292 | 2026-11-16 18:31:43 | 2026-11-16 18:33:47 | `ff66308a135a66c6bb146ebe7d00659a5f96f4a49bb1e00a0ec2740693e1f5ea` | **VERIFIED** |
+| `session3_udp_flood_random_ports_200pps_rep2.pcap` | 6,816,968 B | 35,509 | 2026-11-16 18:33:54 | 2026-11-16 18:35:58 | `80e122d92de7015b5639076224afc5bc25712e3b097c04fb72b8902cc1f02451` | **VERIFIED** |
+| `session3_udp_flood_random_ports_200pps_rep3.pcap` | 6,785,311 B | 35,308 | 2026-11-16 18:36:06 | 2026-11-16 18:38:10 | `4a30db298030d60ca45a8c011a378a039745eef0c4bacbb3b58045ef9548e4c2` | **VERIFIED** |
+| `session3_udp_flood_random_ports_500pps_rep1.pcap` | 14,484,730 B | 71,454 | 2026-11-16 18:38:19 | 2026-11-16 18:40:24 | `9dee767f9220c4e1b55341bafcf8ea5f67998e0c948b2917782a0c6168fa9d78` | **VERIFIED** |
+| `session3_udp_flood_random_ports_500pps_rep2.pcap` | 14,457,536 B | 71,287 | 2026-11-16 18:40:34 | 2026-11-16 18:42:38 | `5eaaffdce4c610e3b0753415e0adbaa727fdfabc51ff48dcffe4e3cda8498f7a` | **VERIFIED** |
+| `session3_udp_flood_random_ports_500pps_rep3.pcap` | 14,517,754 B | 71,729 | 2026-11-16 18:42:48 | 2026-11-16 18:44:52 | `9c564ea3ff3aa45ed5d0115555ba883a4258142e8bf12eeb0615b0d85d2b2f00` | **VERIFIED** |
+| `session3_udp_flood_random_ports_50pps_rep1.pcap` | 2,997,676 B | 17,575 | 2026-11-16 18:25:07 | 2026-11-16 18:27:11 | `d3a9e51ac9b7d1eaea1588f0da897cb8ec9f1ffff60a1c85a08e5a1b3f765b1f` | **VERIFIED** |
+| `session3_udp_flood_random_ports_50pps_rep2.pcap` | 2,989,813 B | 17,566 | 2026-11-16 18:27:19 | 2026-11-16 18:29:23 | `60a775ed98816613f6e2de65cb5e3e1bd85c10920ac2011cc2460a45584f8b8b` | **VERIFIED** |
+| `session3_udp_flood_random_ports_50pps_rep3.pcap` | 3,001,475 B | 17,674 | 2026-11-16 18:29:30 | 2026-11-16 18:31:34 | `ec4a50e2ad4fdf31bc1831f9d57c08dac9a59b37b562c44726c82d9fb43dd58d` | **VERIFIED** |
+| `session3_udp_flood_volumetric_port80_1000pps_rep1.pcap` | 27,318,713 B | 132,030 | 2026-11-16 19:13:37 | 2026-11-16 19:15:41 | `f9acc65bc102b65a58e7fd9afe46163afb11bdc8735d3f2989f472325499ff09` | **VERIFIED** |
+| `session3_udp_flood_volumetric_port80_1000pps_rep2.pcap` | 27,306,196 B | 131,842 | 2026-11-16 19:15:53 | 2026-11-16 19:17:57 | `976dcc276fcaf0a0c7e3390f0742bc9cbceaeb646d812d3ca6c431468309960a` | **VERIFIED** |
+| `session3_udp_flood_volumetric_port80_1000pps_rep3.pcap` | 27,369,056 B | 132,331 | 2026-11-16 19:18:09 | 2026-11-16 19:20:13 | `4813b1e20d3e69d48a187f6a68961ae3274a2f97bc8e3ed7673204c176e82710` | **VERIFIED** |
+| `session3_udp_flood_volumetric_port80_200pps_rep1.pcap` | 6,797,717 B | 35,310 | 2026-11-16 19:00:19 | 2026-11-16 19:02:23 | `3b4df055ad3b001786b4b236a3fd129cd222421bf4ea05e07d28790484416ddd` | **VERIFIED** |
+| `session3_udp_flood_volumetric_port80_200pps_rep2.pcap` | 6,784,034 B | 35,301 | 2026-11-16 19:02:32 | 2026-11-16 19:04:36 | `2e216e02a0dca7540d8785afd34c84a2c4ea836bd5102c3d9880481df8c22236` | **VERIFIED** |
+| `session3_udp_flood_volumetric_port80_200pps_rep3.pcap` | 6,819,252 B | 35,542 | 2026-11-16 19:04:45 | 2026-11-16 19:06:49 | `03e47e9706ccfc88f9d1753abee9618c916b5105767178efdd65d347805dbf52` | **VERIFIED** |
+| `session3_udp_flood_volumetric_port80_500pps_rep1.pcap` | 14,520,595 B | 71,657 | 2026-11-16 19:06:58 | 2026-11-16 19:09:02 | `a8054a07ec29668ab4bf7733805531a8610ad7980ce4bed116265e18fc3e2f8e` | **VERIFIED** |
+| `session3_udp_flood_volumetric_port80_500pps_rep2.pcap` | 14,519,405 B | 71,794 | 2026-11-16 19:09:10 | 2026-11-16 19:11:14 | `3d89fecef48085a0a5580e539ec68fac83343df354f60e7107d1722c5acc4209` | **VERIFIED** |
+| `session3_udp_flood_volumetric_port80_500pps_rep3.pcap` | 14,529,580 B | 71,864 | 2026-11-16 19:11:24 | 2026-11-16 19:13:28 | `c2c881e751dedc9c6b84ec48341edf804045cefaf61f55f45f53e1732afc1bbb` | **VERIFIED** |
+| `session3_udp_flood_volumetric_port80_50pps_rep1.pcap` | 2,973,981 B | 17,425 | 2026-11-16 18:53:43 | 2026-11-16 18:55:47 | `6bf35bd1e86508fff247ef077a29eb5028039ceccfbd0ff7cf10476822af4791` | **VERIFIED** |
+| `session3_udp_flood_volumetric_port80_50pps_rep2.pcap` | 2,970,331 B | 17,412 | 2026-11-16 18:55:55 | 2026-11-16 18:57:59 | `ff73e55844272573f6915b4790f0f78a63513dc2e3594b87880335c748df57b0` | **VERIFIED** |
+| `session3_udp_flood_volumetric_port80_50pps_rep3.pcap` | 2,978,265 B | 17,496 | 2026-11-16 18:58:07 | 2026-11-16 19:00:11 | `8a9113eb8632cb83d7b7d19cc0f962f1e5abb6ca717cd0cf274f5c87f581805e` | **VERIFIED** |
