@@ -24,6 +24,8 @@ import time
 import numpy as np
 import pandas as pd
 
+from ddos_ads.rule_engine import RuleEngine
+
 REPO_ROOT = Path(__file__).resolve().parents[2]
 LOCAL_CAPTURE_DIR = REPO_ROOT / "lab/captures/session3"
 DOCKER_CAPTURE_DIR = "/captures/session3"
@@ -164,75 +166,9 @@ def parse_tcp_packets(pcap_path: Path):
 
 def evaluate_handshake_rule(packets, duration_sec: int, t_start: float, attack_type: str = "flood"):
     """
-    Evaluates Incomplete TCP Handshake Rule:
-    - Timeout N = 2.0s
-    - Continuous sliding 1.0s window:
-      - Reconnaissance Scan: incomplete >= 15 AND (dst_ports >= 3 OR dst_ips >= 3) -> ALERT_SCAN
-      - Flood Condition A: incomplete >= 15 AND distinct src IPs >= 3 (and <= 2 dst ports/hosts) -> ALERT_SYN_FLOOD
-      - Flood Condition B: incomplete >= 20 (and <= 2 dst ports/hosts) -> ALERT_SYN_FLOOD
+    Evaluates Incomplete TCP Handshake Rule using the unified Phase 7 RuleEngine.
     """
-    syn_sessions = {}
-    for p in packets:
-        ts = p["ts"]
-        s_ip, d_ip = p["src"], p["dst"]
-        s_p, d_p = p["sport"], p["dport"]
-        syn, ack = p["syn"], p["ack"]
-
-        fwd_key = (s_ip, d_ip, s_p, d_p)
-        rev_key = (d_ip, s_ip, d_p, s_p)
-
-        if syn == 1 and ack == 0 and d_ip == VICTIM_IP:
-            syn_sessions[fwd_key] = {"syn_ts": ts, "completed": False, "dst_ip": d_ip, "dst_port": d_p, "src_ip": s_ip}
-        elif syn == 1 and ack == 1 and s_ip == VICTIM_IP:
-            pass
-        elif ack == 1 and syn == 0 and d_ip == VICTIM_IP:
-            if fwd_key in syn_sessions:
-                if ts - syn_sessions[fwd_key]["syn_ts"] <= 2.0:
-                    syn_sessions[fwd_key]["completed"] = True
-
-    incomplete_events = [v for v in syn_sessions.values() if not v["completed"]]
-    incomplete_events.sort(key=lambda x: x["syn_ts"])
-    inc_ts = np.array([e["syn_ts"] for e in incomplete_events])
-
-    # Continuous sliding 1.0s evaluation at each event confirmation time (syn_ts + 2.0s)
-    first_alert_ts = None
-    first_alert_type = None
-    alert_syn_flood_seconds = set()
-    alert_scan_seconds = set()
-
-    for e in incomplete_events:
-        eval_time = e["syn_ts"] + 2.0
-        # Window [eval_time - 1.0, eval_time]
-        mask = (inc_ts + 2.0 > eval_time - 1.0) & (inc_ts + 2.0 <= eval_time)
-        cnt = np.sum(mask)
-        window_events = [incomplete_events[j] for j in np.where(mask)[0]]
-        distinct_dst_ports = len(set(ev["dst_port"] for ev in window_events))
-        distinct_dst_ips = len(set(ev["dst_ip"] for ev in window_events))
-        distinct_src_ips = len(set(ev["src_ip"] for ev in window_events))
-
-        sec_bin = int(np.floor(eval_time - t_start))
-        if 0 <= sec_bin < duration_sec:
-            # Reconnaissance Scan
-            if cnt >= 15 and (distinct_dst_ports >= 3 or distinct_dst_ips >= 3):
-                alert_scan_seconds.add(sec_bin)
-                if first_alert_ts is None:
-                    first_alert_ts = eval_time
-                    first_alert_type = "ALERT_SCAN"
-            # DoS Flood
-            elif distinct_dst_ports <= 2 and distinct_dst_ips <= 2:
-                if (cnt >= 15 and distinct_src_ips >= 3) or (cnt >= 20):
-                    alert_syn_flood_seconds.add(sec_bin)
-                    if first_alert_ts is None:
-                        first_alert_ts = eval_time
-                        first_alert_type = "ALERT_SYN_FLOOD"
-
-    return {
-        "first_alert_ts": first_alert_ts,
-        "first_alert_type": first_alert_type,
-        "alert_syn_flood_seconds": alert_syn_flood_seconds,
-        "alert_scan_seconds": alert_scan_seconds,
-        "total_incomplete_syns": len(incomplete_events)
-    }
+    return RuleEngine.evaluate_handshake_rule_offline(packets, duration_sec, t_start, victim_ip=VICTIM_IP)
 
 
 def parse_udp_packets(pcap_path: Path):
@@ -266,41 +202,9 @@ def parse_udp_packets(pcap_path: Path):
 
 def evaluate_udp_rule(packets, duration_sec: int, t_start: float):
     """
-    Evaluates Dual-Condition UDP Rule:
-    - Excludes ICMP-quoted headers (udp && !icmp)
-    - Condition 1: >= 40 UDP packets/s per destination IP
-    - Condition 2: >= 30 UDP packets/s per destination IP AND >= 10 distinct destination ports/s
+    Evaluates Dual-Condition UDP Rule using the unified Phase 7 RuleEngine.
     """
-    # Group by destination IP and 1-second bin
-    victim_pkts = [p for p in packets if p["dst"] == VICTIM_IP]
-    alert_udp_seconds = set()
-    first_alert_ts = None
-
-    ts_arr = np.array([p["ts"] for p in victim_pkts])
-    ports_arr = np.array([p["dport"] for p in victim_pkts])
-
-    for b in range(duration_sec):
-        bin_start = t_start + b
-        bin_end = bin_start + 1.0
-        mask = (ts_arr >= bin_start) & (ts_arr < bin_end)
-        cnt = np.sum(mask)
-        distinct_p = len(np.unique(ports_arr[mask])) if cnt > 0 else 0
-
-        if cnt >= 40 or (cnt >= 30 and distinct_p >= 10):
-            alert_udp_seconds.add(b)
-            if first_alert_ts is None:
-                idx_in_bin = np.where(mask)[0]
-                if cnt >= 40 and len(idx_in_bin) >= 40:
-                    crossing_pkt_idx = idx_in_bin[39]
-                    first_alert_ts = ts_arr[crossing_pkt_idx]
-                else:
-                    first_alert_ts = ts_arr[idx_in_bin[0]]
-
-    return {
-        "first_alert_ts": first_alert_ts,
-        "alert_udp_seconds": alert_udp_seconds,
-        "total_victim_udp_packets": len(victim_pkts)
-    }
+    return RuleEngine.evaluate_udp_rule_offline(packets, duration_sec, t_start, victim_ip=VICTIM_IP)
 
 
 def compute_measured_rates(pcap_path: Path, src_ip: str, proto_filter: str):
