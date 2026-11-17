@@ -1,0 +1,17 @@
+{
+  "dashboard_syn_200pps.png": {
+    "path": "/home/kartik/Documents/AAYIR FORGE/DDoS Anomaly Detection System/ddos-anomaly-detection-system/results/figures/dashboard_syn_200pps.png",
+    "sha256": "437c31be4f532a84c88aaa22ff1c1b3b678da0d2a1097b1cfd4f46dbfa3aa21c",
+    "scenario": "TCP SYN Flood 200 pps"
+  },
+  "dashboard_udp_50pps.png": {
+    "path": "/home/kartik/Documents/AAYIR FORGE/DDoS Anomaly Detection System/ddos-anomaly-detection-system/results/figures/dashboard_udp_50pps.png",
+    "sha256": "88a65296ab001f82148c11b9a9e428837aec5249e88724baff5a71f752bd54f1",
+    "scenario": "UDP Flood Random Ports 50 pps"
+  },
+  "dashboard_scan_30pps.png": {
+    "path": "/home/kartik/Documents/AAYIR FORGE/DDoS Anomaly Detection System/ddos-anomaly-detection-system/results/figures/dashboard_scan_30pps.png",
+    "sha256": "48b9e9c9ef6266207604ea71ad712d443f2e705a3a9f56aab82399fd31ab0520",
+    "scenario": "Reconnaissance Port Scan 30 pps"
+  }
+}

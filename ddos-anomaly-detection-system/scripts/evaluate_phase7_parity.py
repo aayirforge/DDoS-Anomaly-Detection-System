@@ -11,6 +11,7 @@ Any discrepancy is recorded as a failure.
 
 from __future__ import annotations
 
+import argparse
 import json
 from pathlib import Path
 import sys
@@ -25,7 +26,9 @@ RESULTS_DIR = REPO_ROOT / "results"
 CAPTURES_DIR = REPO_ROOT / "lab/captures/session3"
 
 
-def run_parity_evaluation() -> Dict[str, Any]:
+def run_parity_evaluation(output_path: Optional[Path] = None) -> Dict[str, Any]:
+    if output_path is None:
+        output_path = RESULTS_DIR / "phase7_parity_eval.json"
     engine = RuleEngine()
     eval_json_path = RESULTS_DIR / "session3_evaluation.json"
     with open(eval_json_path, "r", encoding="utf-8") as f:
@@ -114,7 +117,6 @@ def run_parity_evaluation() -> Dict[str, Any]:
         "evaluations": results
     }
 
-    output_path = RESULTS_DIR / "phase7_parity_eval.json"
     with open(output_path, "w", encoding="utf-8") as f:
         json.dump(summary, f, indent=2)
 
@@ -124,4 +126,7 @@ def run_parity_evaluation() -> Dict[str, Any]:
 
 
 if __name__ == "__main__":
-    run_parity_evaluation()
+    parser = argparse.ArgumentParser(description="Evaluate PCAP replay parity against Session 3 ground truth")
+    parser.add_argument("--out", type=Path, default=RESULTS_DIR / "phase7_parity_eval.json", help="Path to output JSON")
+    args = parser.parse_args()
+    run_parity_evaluation(output_path=args.out)
