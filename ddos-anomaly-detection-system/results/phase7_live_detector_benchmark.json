@@ -2,24 +2,26 @@
   "benchmark_1000pps": {
     "scenario": "TCP SYN Flood 1,000 pps (120s Replay)",
     "duration_sec": 120,
+    "throughput_classification": "offline throughput",
+    "live_capture_drops_note": "live-capture drop limits not measured (sandbox lacks CAP_NET_RAW)",
     "packets_seen_by_dumpcap": 132530,
     "packets_processed": 132530,
-    "wall_time_sec": 1.7936,
-    "cpu_time_sec": 1.1815,
-    "detector_process_cpu_pct": 65.87,
-    "detector_process_peak_rss_mb": 206.27,
-    "throughput_pps": 73890.13,
+    "wall_time_sec": 1.5633,
+    "cpu_time_sec": 0.9857,
+    "detector_process_cpu_pct": 63.05,
+    "detector_process_peak_rss_mb": 205.75,
+    "throughput_pps": 84776.18,
     "memory_growth_mb": 0.0,
     "tshark_dumpcap_drops": 0,
     "drop_counter_in_alert_records": true,
     "detector_blind_on_drops": false,
     "alerts_emitted": 120,
-    "arrival_to_alert_latency_first_alert_ms": 0.0152,
-    "latency_mean_ms": 0.0167,
-    "latency_p50_ms": 0.0138,
-    "latency_p95_ms": 0.0275,
-    "latency_p99_ms": 0.113,
-    "latency_max_ms": 0.1726,
+    "arrival_to_alert_latency_first_alert_ms": 0.0175,
+    "latency_mean_ms": 0.0106,
+    "latency_p50_ms": 0.0086,
+    "latency_p95_ms": 0.0172,
+    "latency_p99_ms": 0.0474,
+    "latency_max_ms": 0.0779,
     "first_detection_delay_sec": 2.0211,
     "capacity_evictions": 0,
     "max_sustained_rate_without_drops_pps": 76743
@@ -31,11 +33,11 @@
     "live_generation_status": "offline_file_replay_due_to_unprivileged_sandbox_raw_socket_constraints",
     "packets_seen_by_dumpcap": 2400000,
     "packets_processed": 2400000,
-    "wall_time_sec": 6.7978,
-    "cpu_time_sec": 6.7811,
-    "detector_process_cpu_pct": 99.75,
-    "detector_process_peak_rss_mb": 206.27,
-    "throughput_pps": 353057.64,
+    "wall_time_sec": 7.885,
+    "cpu_time_sec": 7.8437,
+    "detector_process_cpu_pct": 99.48,
+    "detector_process_peak_rss_mb": 205.75,
+    "throughput_pps": 304374.2,
     "memory_growth_mb": 0.0,
     "tshark_dumpcap_drops": 0,
     "active_table_cap": 100000,
@@ -46,23 +48,27 @@
     "completed_handshakes": 120,
     "flood_still_alerts": true,
     "benign_host_false_alarms": 0,
-    "alerts_emitted": 120,
-    "arrival_to_alert_latency_first_alert_ms": 0.0135,
-    "arrival_to_alert_write_latency_ms": 0.0135,
-    "latency_mean_ms": 0.0131,
-    "latency_p50_ms": 0.0118,
-    "latency_p95_ms": 0.0222,
-    "latency_p99_ms": 0.0281,
-    "latency_max_ms": 0.0325,
+    "alerts_emitted": 122,
+    "arrival_to_alert_latency_first_alert_ms": 0.0051,
+    "arrival_to_alert_write_latency_ms": 0.0051,
+    "latency_mean_ms": 0.0097,
+    "latency_p50_ms": 0.0094,
+    "latency_p95_ms": 0.0122,
+    "latency_p99_ms": 0.0141,
+    "latency_max_ms": 0.0191,
     "max_sustained_rate_without_drops_pps": 76743
   },
   "tshark_supervisor": {
     "test_name": "Mid-Run tshark Termination & Supervisor Auto-Restart",
     "simulated_crashes": 1,
-    "raw_kill_timestamp": 1794943718.59002,
-    "raw_respawn_timestamp": 1794943718.59022,
-    "raw_first_processed_timestamp": 1794943718.59052,
+    "raw_kill_timestamp": 1794945375.850152,
+    "raw_respawn_timestamp": 1794945375.850352,
+    "raw_first_processed_timestamp": 1794945375.850652,
+    "supervisor_bookkeeping_time_ms": 0.5,
     "kill_to_first_processed_packet_ms": 0.5,
+    "restart_metric_label": "supervisor bookkeeping time",
+    "real_tshark_startup_measured": false,
+    "notes": "Supervisor bookkeeping time measured (real tshark start-up wasn't measured; live-capture drop limits not measured due to unprivileged sandbox CAP_NET_RAW constraints)",
     "full_gap_marked_blind": true,
     "gap_start_packet_ts": 1000.14,
     "gap_end_packet_ts": 1001.0,
@@ -74,7 +80,7 @@
     "evicted_entries_count_as_incomplete": false,
     "flash_crowd_table_size_cap": 1000,
     "flash_crowd_connections_tested": 5000,
-    "flash_crowd_capacity_evictions": 4000,
+    "flash_crowd_capacity_evictions": 0,
     "flash_crowd_false_alarms": 0,
     "packets_processed_across_restarts": 17,
     "status": "PASS"
@@ -84,93 +90,209 @@
       {
         "table_size_cap": 20000,
         "packet_rate_pps": 20000,
-        "flood_alerts": 0,
-        "flood_still_alerts": false,
+        "first_alert_time_sec": 0.00745,
+        "alerts_within_3s": true,
+        "flood_alerts": 5,
+        "flood_still_alerts": true,
         "benign_host_alerts": 0,
         "capacity_evictions": 80000,
         "expired_handshakes": 0,
-        "first_alert_details": null
+        "first_alert_rule": "tcp_syn_arrival_rate",
+        "first_alert_details": {
+          "syn_arrival_count": 150,
+          "ack_arrival_count": 0,
+          "unacked_syn_count": 150,
+          "distinct_src_ips": 150,
+          "condition": "stateless_arrival_rate"
+        }
       },
       {
         "table_size_cap": 20000,
         "packet_rate_pps": 40000,
-        "flood_alerts": 0,
-        "flood_still_alerts": false,
+        "first_alert_time_sec": 0.003725,
+        "alerts_within_3s": true,
+        "flood_alerts": 5,
+        "flood_still_alerts": true,
         "benign_host_alerts": 0,
         "capacity_evictions": 179999,
         "expired_handshakes": 0,
-        "first_alert_details": null
+        "first_alert_rule": "tcp_syn_arrival_rate",
+        "first_alert_details": {
+          "syn_arrival_count": 150,
+          "ack_arrival_count": 0,
+          "unacked_syn_count": 150,
+          "distinct_src_ips": 150,
+          "condition": "stateless_arrival_rate"
+        }
       },
       {
         "table_size_cap": 20000,
         "packet_rate_pps": 80000,
-        "flood_alerts": 0,
-        "flood_still_alerts": false,
+        "first_alert_time_sec": 0.001863,
+        "alerts_within_3s": true,
+        "flood_alerts": 5,
+        "flood_still_alerts": true,
         "benign_host_alerts": 0,
         "capacity_evictions": 379998,
         "expired_handshakes": 0,
-        "first_alert_details": null
+        "first_alert_rule": "tcp_syn_arrival_rate",
+        "first_alert_details": {
+          "syn_arrival_count": 150,
+          "ack_arrival_count": 0,
+          "unacked_syn_count": 150,
+          "distinct_src_ips": 150,
+          "condition": "stateless_arrival_rate"
+        }
       },
       {
         "table_size_cap": 160000,
         "packet_rate_pps": 20000,
-        "flood_alerts": 3,
+        "first_alert_time_sec": 0.00745,
+        "alerts_within_3s": true,
+        "flood_alerts": 5,
         "flood_still_alerts": true,
         "benign_host_alerts": 0,
         "capacity_evictions": 0,
         "expired_handshakes": 59999,
+        "first_alert_rule": "tcp_syn_arrival_rate",
         "first_alert_details": {
-          "incomplete_count": 15,
-          "distinct_dst_ports": 1,
-          "distinct_dst_ips": 1,
-          "distinct_src_ips": 15
+          "syn_arrival_count": 150,
+          "ack_arrival_count": 0,
+          "unacked_syn_count": 150,
+          "distinct_src_ips": 150,
+          "condition": "stateless_arrival_rate"
         }
       },
       {
         "table_size_cap": 160000,
         "packet_rate_pps": 40000,
-        "flood_alerts": 3,
+        "first_alert_time_sec": 0.003725,
+        "alerts_within_3s": true,
+        "flood_alerts": 5,
         "flood_still_alerts": true,
         "benign_host_alerts": 0,
         "capacity_evictions": 0,
         "expired_handshakes": 119998,
+        "first_alert_rule": "tcp_syn_arrival_rate",
         "first_alert_details": {
-          "incomplete_count": 15,
-          "distinct_dst_ports": 1,
-          "distinct_dst_ips": 1,
-          "distinct_src_ips": 15
+          "syn_arrival_count": 150,
+          "ack_arrival_count": 0,
+          "unacked_syn_count": 150,
+          "distinct_src_ips": 150,
+          "condition": "stateless_arrival_rate"
         }
       },
       {
         "table_size_cap": 160000,
         "packet_rate_pps": 80000,
-        "flood_alerts": 3,
+        "first_alert_time_sec": 0.001863,
+        "alerts_within_3s": true,
+        "flood_alerts": 5,
         "flood_still_alerts": true,
         "benign_host_alerts": 0,
         "capacity_evictions": 0,
         "expired_handshakes": 239989,
+        "first_alert_rule": "tcp_syn_arrival_rate",
         "first_alert_details": {
-          "incomplete_count": 15,
-          "distinct_dst_ports": 1,
-          "distinct_dst_ips": 1,
-          "distinct_src_ips": 15
+          "syn_arrival_count": 150,
+          "ack_arrival_count": 0,
+          "unacked_syn_count": 150,
+          "distinct_src_ips": 150,
+          "condition": "stateless_arrival_rate"
         }
       }
     ],
     "sample_alert_record_20k": {
-      "wall_time": 1794943719.6901345,
-      "packet_ts": 1002.0007499999998,
+      "wall_time": 1794945377.4321036,
+      "packet_ts": 1000.0074499999981,
       "alert_type": "ALERT_SYN_FLOOD",
-      "rule": "tcp_incomplete_handshake",
+      "rule": "tcp_syn_arrival_rate",
       "victim_ip": "172.20.0.2",
       "details": {
-        "incomplete_count": 15,
-        "distinct_dst_ports": 1,
-        "distinct_dst_ips": 1,
-        "distinct_src_ips": 15
+        "syn_arrival_count": 150,
+        "ack_arrival_count": 0,
+        "unacked_syn_count": 150,
+        "distinct_src_ips": 150,
+        "condition": "stateless_arrival_rate"
       },
-      "latency_ms": 0.010890013072639704
+      "latency_ms": 0.023297994630411267
     },
-    "computation_explanation": "incomplete_count is computed as the number of unacknowledged TCP handshakes in incomplete_window whose timeout (2.0s) has expired within the preceding 1.0-second sliding evaluation window. Under a table size of 20,000 at 20,000 pps, entries live only ~1.0 second (20,000 / 20,000 pps) before being capacity-evicted in FIFO order. Because capacity-evicted entries do NOT count as incomplete handshakes (to protect benign flash crowds from false alarms), zero entries reach the 2.0s completion timeout, resulting in 0 expired handshakes and 0 alerts under the 20k cap. With a 160,000 table size, entries live up to 8.0 seconds at 20k pps (and 2.0 seconds at 80k pps), allowing entries to reach the 2.0s timeout and fire Condition A (incomplete_count >= 15 with distinct sources >= 3)."
+    "all_alerts_20k_160k": [
+      {
+        "wall_time": 1794945377.4321036,
+        "packet_ts": 1000.0074499999981,
+        "alert_type": "ALERT_SYN_FLOOD",
+        "rule": "tcp_syn_arrival_rate",
+        "victim_ip": "172.20.0.2",
+        "details": {
+          "syn_arrival_count": 150,
+          "ack_arrival_count": 0,
+          "unacked_syn_count": 150,
+          "distinct_src_ips": 150,
+          "condition": "stateless_arrival_rate"
+        },
+        "latency_ms": 0.023297994630411267
+      },
+      {
+        "wall_time": 1794945377.4724622,
+        "packet_ts": 1001.0074999997471,
+        "alert_type": "ALERT_SYN_FLOOD",
+        "rule": "tcp_syn_arrival_rate",
+        "victim_ip": "172.20.0.2",
+        "details": {
+          "syn_arrival_count": 20002,
+          "ack_arrival_count": 1,
+          "unacked_syn_count": 20001,
+          "distinct_src_ips": 17171,
+          "condition": "stateless_arrival_rate"
+        },
+        "latency_ms": 0.01756497658789158
+      },
+      {
+        "wall_time": 1794945377.5093584,
+        "packet_ts": 1002.0074999999981,
+        "alert_type": "ALERT_SYN_FLOOD",
+        "rule": "tcp_incomplete_handshake",
+        "victim_ip": "172.20.0.2",
+        "details": {
+          "incomplete_count": 150,
+          "distinct_dst_ports": 1,
+          "distinct_dst_ips": 1,
+          "distinct_src_ips": 150
+        },
+        "latency_ms": 0.010371004464104772
+      },
+      {
+        "wall_time": 1794945377.567719,
+        "packet_ts": 1003.007549999245,
+        "alert_type": "ALERT_SYN_FLOOD",
+        "rule": "tcp_syn_arrival_rate",
+        "victim_ip": "172.20.0.2",
+        "details": {
+          "syn_arrival_count": 20002,
+          "ack_arrival_count": 1,
+          "unacked_syn_count": 20001,
+          "distinct_src_ips": 17075,
+          "condition": "stateless_arrival_rate"
+        },
+        "latency_ms": 0.009815004887059331
+      },
+      {
+        "wall_time": 1794945377.6317992,
+        "packet_ts": 1004.0075499994961,
+        "alert_type": "ALERT_SYN_FLOOD",
+        "rule": "tcp_incomplete_handshake",
+        "victim_ip": "172.20.0.2",
+        "details": {
+          "incomplete_count": 20001,
+          "distinct_dst_ports": 1,
+          "distinct_dst_ips": 1,
+          "distinct_src_ips": 17156
+        },
+        "latency_ms": 0.013783021131530404
+      }
+    ],
+    "explanation_3_alerts_vs_120s": "In the benchmark test window of 5.0 simulated seconds at 20,000 pps, exactly 5 alerts are emitted (one per second at t=0.0075s, 1.0075s, 2.0075s, 3.0075s, 4.0075s) governed by the 1.0s alert suppression rate-limiter. When evaluated under pre-registered incomplete-handshake rules alone (waiting 2.0s for timeout), exactly 3 alerts occur in 5.0 seconds (at t=2.0s, 3.0s, 4.0s). In a full 120-second run, exactly 118-120 alerts fire.",
+    "computation_explanation": "incomplete_count is computed as the number of unacknowledged TCP handshakes in incomplete_window whose timeout (2.0s) has expired within the preceding 1.0-second sliding evaluation window. Under a table size of 20,000 at 20,000 pps, entries live only ~1.0 second (20,000 / 20,000 pps) before being capacity-evicted in FIFO order. To eliminate this blind spot without altering pre-registered thresholds, Phase 7 incorporates a stateless SYN arrival-rate detector (calibrated from benign captures: max benign = 64 pkts/s, threshold = 150 pkts/s with >=3 distinct sources). This ensures reliable detection in <0.01s across all 20k/40k/80k pps floods under both 20k and 160k caps."
   }
 }

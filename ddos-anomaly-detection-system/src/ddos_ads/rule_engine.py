@@ -67,6 +67,9 @@ class RuleEngine:
         udp_volumetric_thresh: int = 40,    # >= 40 UDP pkts/s to dst
         udp_random_port_thresh: int = 30,   # >= 30 UDP pkts/s to dst
         udp_distinct_ports_thresh: int = 10,# with >= 10 distinct dst ports
+        enable_syn_arrival_rule: bool = True,
+        syn_arrival_thresh: int = 150,      # >= 150 unacked SYNs/s to dst (calibrated from benign max 64 pkts/s)
+        syn_arrival_sources_thresh: int = 3,# with >= 3 distinct src IPs (calibrated from benign max 1 source)
     ) -> None:
         self.victim_ip = victim_ip
         self.handshake_timeout = handshake_timeout
@@ -78,12 +81,20 @@ class RuleEngine:
         self.udp_volumetric_thresh = udp_volumetric_thresh
         self.udp_random_port_thresh = udp_random_port_thresh
         self.udp_distinct_ports_thresh = udp_distinct_ports_thresh
+        self.enable_syn_arrival_rule = enable_syn_arrival_rule
+        self.syn_arrival_thresh = syn_arrival_thresh
+        self.syn_arrival_sources_thresh = syn_arrival_sources_thresh
 
         # State: Active TCP handshakes: fwd_key -> (syn_ts, src_ip, dst_ip, sport, dport)
         self.active_handshakes: OrderedDict[Tuple[str, str, int, int], Tuple[float, str, str, int, int]] = OrderedDict()
         self.capacity_evictions: int = 0
         self.completed_handshakes: int = 0
         self.expired_handshakes: int = 0
+
+        # State: Stateless SYN arrival window (independent of per-connection state)
+        self.syn_arrival_window: deque[Tuple[float, str]] = deque()
+        self.syn_arrival_src_counts: Dict[str, int] = defaultdict(int)
+        self.ack_arrival_window: deque[float] = deque()
 
         # State: Incomplete SYN sliding window: deque of (eval_time, src_ip, dst_ip, sport, dport)
         self.incomplete_window: deque[Tuple[float, str, str, int, int]] = deque()
@@ -109,6 +120,9 @@ class RuleEngine:
         self.capacity_evictions = 0
         self.completed_handshakes = 0
         self.expired_handshakes = 0
+        self.syn_arrival_window.clear()
+        self.syn_arrival_src_counts.clear()
+        self.ack_arrival_window.clear()
         self.incomplete_window.clear()
         self.dst_port_counts.clear()
         self.src_ip_counts.clear()
@@ -276,12 +290,62 @@ class RuleEngine:
                     del self.active_handshakes[fwd_key]
                 self.active_handshakes[fwd_key] = (ts, src_ip, dst_ip, sport, dport)
 
+                if self.enable_syn_arrival_rule:
+                    self.syn_arrival_window.append((ts, src_ip))
+                    self.syn_arrival_src_counts[src_ip] += 1
+
             elif ack == 1 and syn == 0 and dst_ip == self.victim_ip:
                 if fwd_key in self.active_handshakes:
                     syn_ts = self.active_handshakes[fwd_key][0]
                     if ts - syn_ts <= self.handshake_timeout:
                         del self.active_handshakes[fwd_key]
                         self.completed_handshakes += 1
+
+                if self.enable_syn_arrival_rule:
+                    self.ack_arrival_window.append(ts)
+
+            # Evaluate Stateless SYN Arrival Rate Detector (independent of per-connection state)
+            if self.enable_syn_arrival_rule and dst_ip == self.victim_ip:
+                cutoff = ts - self.sliding_window_sec
+                while self.syn_arrival_window and self.syn_arrival_window[0][0] <= cutoff:
+                    _, old_sip = self.syn_arrival_window.popleft()
+                    self.syn_arrival_src_counts[old_sip] -= 1
+                    if self.syn_arrival_src_counts[old_sip] == 0:
+                        del self.syn_arrival_src_counts[old_sip]
+                while self.ack_arrival_window and self.ack_arrival_window[0] <= cutoff:
+                    self.ack_arrival_window.popleft()
+
+                syn_cnt = len(self.syn_arrival_window)
+                ack_cnt = len(self.ack_arrival_window)
+                unacked_cnt = max(0, syn_cnt - ack_cnt)
+                distinct_srcs = len(self.syn_arrival_src_counts)
+
+                if unacked_cnt >= self.syn_arrival_thresh and distinct_srcs >= self.syn_arrival_sources_thresh:
+                    if self.first_alert_ts is None:
+                        self.first_alert_ts = ts
+                        self.first_alert_type = "ALERT_SYN_FLOOD"
+                    if t_start is not None:
+                        self.alert_seconds.add(int(ts - t_start))
+
+                    last_alert = self.last_alert_ts_by_type.get("ALERT_SYN_FLOOD", -999.0)
+                    if ts - last_alert >= 1.0:
+                        self.last_alert_ts_by_type["ALERT_SYN_FLOOD"] = ts
+                        alert = Alert(
+                            wall_time=time.time(),
+                            packet_ts=ts,
+                            alert_type="ALERT_SYN_FLOOD",
+                            rule="tcp_syn_arrival_rate",
+                            victim_ip=self.victim_ip,
+                            details={
+                                "syn_arrival_count": syn_cnt,
+                                "ack_arrival_count": ack_cnt,
+                                "unacked_syn_count": unacked_cnt,
+                                "distinct_src_ips": distinct_srcs,
+                                "condition": "stateless_arrival_rate",
+                            }
+                        )
+                        alerts.append(alert)
+                        self.alerts_emitted.append(alert)
 
         # 3. Process UDP Packet (excluding ICMP)
         elif proto in ("udp", "17", 17):
@@ -472,11 +536,15 @@ class RuleEngine:
         duration_sec: int = 120,
         t_start: Optional[float] = None,
         is_baseline: bool = False,
+        preregistered_only: bool = True,
     ) -> Dict[str, Any]:
         """
         Evaluates a PCAP file packet-by-packet in streaming mode.
         """
         self.reset()
+        prev_arrival_rule = self.enable_syn_arrival_rule
+        if preregistered_only:
+            self.enable_syn_arrival_rule = False
         cmd = [
             "tshark", "-r", str(pcap_path), "-Y", "(tcp || udp) && !icmp",
             "-T", "fields",
@@ -551,6 +619,8 @@ class RuleEngine:
             or first_details.get("packet_count")
         )
         first_srcs = first_details.get("distinct_src_ips", 1)
+
+        self.enable_syn_arrival_rule = prev_arrival_rule
 
         return {
             "first_detection_delay_sec": delay,
