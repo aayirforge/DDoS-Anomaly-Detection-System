@@ -67,9 +67,10 @@ class RuleEngine:
         udp_volumetric_thresh: int = 40,    # >= 40 UDP pkts/s to dst
         udp_random_port_thresh: int = 30,   # >= 30 UDP pkts/s to dst
         udp_distinct_ports_thresh: int = 10,# with >= 10 distinct dst ports
-        enable_syn_arrival_rule: bool = True,
+        enable_syn_arrival_rule: bool = False, # Post-hoc, unregistered stateless arrival detector
         syn_arrival_thresh: int = 150,      # >= 150 unacked SYNs/s to dst (calibrated from benign max 64 pkts/s)
         syn_arrival_sources_thresh: int = 3,# with >= 3 distinct src IPs (calibrated from benign max 1 source)
+        max_arrival_window_entries: int = 10_000, # Strict O(1) bound on sliding arrival window memory
     ) -> None:
         self.victim_ip = victim_ip
         self.handshake_timeout = handshake_timeout
@@ -84,6 +85,7 @@ class RuleEngine:
         self.enable_syn_arrival_rule = enable_syn_arrival_rule
         self.syn_arrival_thresh = syn_arrival_thresh
         self.syn_arrival_sources_thresh = syn_arrival_sources_thresh
+        self.max_arrival_window_entries = max_arrival_window_entries
 
         # State: Active TCP handshakes: fwd_key -> (syn_ts, src_ip, dst_ip, sport, dport)
         self.active_handshakes: OrderedDict[Tuple[str, str, int, int], Tuple[float, str, str, int, int]] = OrderedDict()
@@ -291,6 +293,11 @@ class RuleEngine:
                 self.active_handshakes[fwd_key] = (ts, src_ip, dst_ip, sport, dport)
 
                 if self.enable_syn_arrival_rule:
+                    if len(self.syn_arrival_window) >= self.max_arrival_window_entries:
+                        _, old_sip = self.syn_arrival_window.popleft()
+                        self.syn_arrival_src_counts[old_sip] -= 1
+                        if self.syn_arrival_src_counts[old_sip] == 0:
+                            del self.syn_arrival_src_counts[old_sip]
                     self.syn_arrival_window.append((ts, src_ip))
                     self.syn_arrival_src_counts[src_ip] += 1
 
@@ -302,6 +309,8 @@ class RuleEngine:
                         self.completed_handshakes += 1
 
                 if self.enable_syn_arrival_rule:
+                    if len(self.ack_arrival_window) >= self.max_arrival_window_entries:
+                        self.ack_arrival_window.popleft()
                     self.ack_arrival_window.append(ts)
 
             # Evaluate Stateless SYN Arrival Rate Detector (independent of per-connection state)
@@ -323,17 +332,17 @@ class RuleEngine:
                 if unacked_cnt >= self.syn_arrival_thresh and distinct_srcs >= self.syn_arrival_sources_thresh:
                     if self.first_alert_ts is None:
                         self.first_alert_ts = ts
-                        self.first_alert_type = "ALERT_SYN_FLOOD"
+                        self.first_alert_type = "ALERT_SYN_RATE"
                     if t_start is not None:
                         self.alert_seconds.add(int(ts - t_start))
 
-                    last_alert = self.last_alert_ts_by_type.get("ALERT_SYN_FLOOD", -999.0)
+                    last_alert = self.last_alert_ts_by_type.get("ALERT_SYN_RATE", -999.0)
                     if ts - last_alert >= 1.0:
-                        self.last_alert_ts_by_type["ALERT_SYN_FLOOD"] = ts
+                        self.last_alert_ts_by_type["ALERT_SYN_RATE"] = ts
                         alert = Alert(
                             wall_time=time.time(),
                             packet_ts=ts,
-                            alert_type="ALERT_SYN_FLOOD",
+                            alert_type="ALERT_SYN_RATE",
                             rule="tcp_syn_arrival_rate",
                             victim_ip=self.victim_ip,
                             details={
@@ -342,6 +351,7 @@ class RuleEngine:
                                 "unacked_syn_count": unacked_cnt,
                                 "distinct_src_ips": distinct_srcs,
                                 "condition": "stateless_arrival_rate",
+                                "status": "post-hoc, unregistered",
                             }
                         )
                         alerts.append(alert)

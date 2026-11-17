@@ -105,8 +105,8 @@ class LivePacketDetector:
         # Initialize SQLite DB
         self.db_conn = init_sqlite_db(self.sqlite_path)
 
-        # Core Rule Engine
-        self.engine = RuleEngine(victim_ip=victim_ip, max_handshakes=max_handshakes)
+        # Core Rule Engine (enables pre-registered rules + post-hoc stateless arrival rate rule)
+        self.engine = RuleEngine(victim_ip=victim_ip, max_handshakes=max_handshakes, enable_syn_arrival_rule=True)
 
         # Mitigation Manager (Guaranteed dry-run only, blocking strictly disabled)
         self.mitigation = MitigationManager(self.config, enable_blocking=False, dry_run=True)

@@ -1,0 +1,228 @@
+{
+  "single_source_grid": [
+    {
+      "scenario": "Single-Source Flood (Random Source Ports)",
+      "test_type": "Synthetic Replay through Engine",
+      "table_capacity_cap": 20000,
+      "packet_rate_pps": 20000,
+      "first_alert_time_sec": null,
+      "alert_count": 0,
+      "first_alert_type": null,
+      "first_alert_rule": null,
+      "capacity_evictions": 52646,
+      "expired_handshakes": 0
+    },
+    {
+      "scenario": "Single-Source Flood (Random Source Ports)",
+      "test_type": "Synthetic Replay through Engine",
+      "table_capacity_cap": 20000,
+      "packet_rate_pps": 40000,
+      "first_alert_time_sec": null,
+      "alert_count": 0,
+      "first_alert_type": null,
+      "first_alert_rule": null,
+      "capacity_evictions": 121662,
+      "expired_handshakes": 0
+    },
+    {
+      "scenario": "Single-Source Flood (Random Source Ports)",
+      "test_type": "Synthetic Replay through Engine",
+      "table_capacity_cap": 20000,
+      "packet_rate_pps": 80000,
+      "first_alert_time_sec": null,
+      "alert_count": 0,
+      "first_alert_type": null,
+      "first_alert_rule": null,
+      "capacity_evictions": 259670,
+      "expired_handshakes": 0
+    },
+    {
+      "scenario": "Single-Source Flood (Random Source Ports)",
+      "test_type": "Synthetic Replay through Engine",
+      "table_capacity_cap": 160000,
+      "packet_rate_pps": 20000,
+      "first_alert_time_sec": 2.00185,
+      "alert_count": 3,
+      "first_alert_type": "ALERT_SYN_FLOOD",
+      "first_alert_rule": "tcp_incomplete_handshake",
+      "capacity_evictions": 0,
+      "expired_handshakes": 32328
+    },
+    {
+      "scenario": "Single-Source Flood (Random Source Ports)",
+      "test_type": "Synthetic Replay through Engine",
+      "table_capacity_cap": 160000,
+      "packet_rate_pps": 40000,
+      "first_alert_time_sec": 2.001875,
+      "alert_count": 3,
+      "first_alert_type": "ALERT_SYN_FLOOD",
+      "first_alert_rule": "tcp_incomplete_handshake",
+      "capacity_evictions": 0,
+      "expired_handshakes": 34745
+    },
+    {
+      "scenario": "Single-Source Flood (Random Source Ports)",
+      "test_type": "Synthetic Replay through Engine",
+      "table_capacity_cap": 160000,
+      "packet_rate_pps": 80000,
+      "first_alert_time_sec": 2.0034,
+      "alert_count": 3,
+      "first_alert_type": "ALERT_SYN_FLOOD",
+      "first_alert_rule": "tcp_incomplete_handshake",
+      "capacity_evictions": 0,
+      "expired_handshakes": 20096
+    }
+  ],
+  "spoofed_grid": [
+    {
+      "scenario": "Spoofed Multi-Source Flood",
+      "test_type": "Synthetic Replay through Engine",
+      "table_capacity_cap": 20000,
+      "packet_rate_pps": 20000,
+      "first_alert_time_sec": 0.0075,
+      "alert_count": 5,
+      "first_alert_type": "ALERT_SYN_RATE",
+      "first_alert_rule": "tcp_syn_arrival_rate",
+      "capacity_evictions": 80000,
+      "expired_handshakes": 0
+    },
+    {
+      "scenario": "Spoofed Multi-Source Flood",
+      "test_type": "Synthetic Replay through Engine",
+      "table_capacity_cap": 20000,
+      "packet_rate_pps": 40000,
+      "first_alert_time_sec": 0.00375,
+      "alert_count": 5,
+      "first_alert_type": "ALERT_SYN_RATE",
+      "first_alert_rule": "tcp_syn_arrival_rate",
+      "capacity_evictions": 179999,
+      "expired_handshakes": 0
+    },
+    {
+      "scenario": "Spoofed Multi-Source Flood",
+      "test_type": "Synthetic Replay through Engine",
+      "table_capacity_cap": 20000,
+      "packet_rate_pps": 80000,
+      "first_alert_time_sec": 0.001875,
+      "alert_count": 5,
+      "first_alert_type": "ALERT_SYN_RATE",
+      "first_alert_rule": "tcp_syn_arrival_rate",
+      "capacity_evictions": 379998,
+      "expired_handshakes": 0
+    },
+    {
+      "scenario": "Spoofed Multi-Source Flood",
+      "test_type": "Synthetic Replay through Engine",
+      "table_capacity_cap": 160000,
+      "packet_rate_pps": 20000,
+      "first_alert_time_sec": 0.0075,
+      "alert_count": 8,
+      "first_alert_type": "ALERT_SYN_RATE",
+      "first_alert_rule": "tcp_syn_arrival_rate",
+      "capacity_evictions": 0,
+      "expired_handshakes": 59999
+    },
+    {
+      "scenario": "Spoofed Multi-Source Flood",
+      "test_type": "Synthetic Replay through Engine",
+      "table_capacity_cap": 160000,
+      "packet_rate_pps": 40000,
+      "first_alert_time_sec": 0.00375,
+      "alert_count": 8,
+      "first_alert_type": "ALERT_SYN_RATE",
+      "first_alert_rule": "tcp_syn_arrival_rate",
+      "capacity_evictions": 0,
+      "expired_handshakes": 119998
+    },
+    {
+      "scenario": "Spoofed Multi-Source Flood",
+      "test_type": "Synthetic Replay through Engine",
+      "table_capacity_cap": 160000,
+      "packet_rate_pps": 80000,
+      "first_alert_time_sec": 0.001875,
+      "alert_count": 8,
+      "first_alert_type": "ALERT_SYN_RATE",
+      "first_alert_rule": "tcp_syn_arrival_rate",
+      "capacity_evictions": 0,
+      "expired_handshakes": 239989
+    }
+  ],
+  "flash_crowd_test": {
+    "test_type": "Synthetic Replay through Engine",
+    "client_count": 5,
+    "clients": [
+      "172.20.0.4",
+      "172.20.0.5",
+      "172.20.0.6",
+      "172.20.0.7",
+      "172.20.0.8"
+    ],
+    "connection_rate_pps": 500,
+    "duration_sec": 10.0,
+    "total_connections": 5000,
+    "table_capacity_cap": 1000,
+    "benign_completing_alerts": 0,
+    "benign_capacity_evictions": 0,
+    "benign_completed_handshakes": 5000,
+    "unacked_alerts": 18,
+    "unacked_first_alert_time_sec": 0.3,
+    "unacked_first_alert_type": "ALERT_SYN_RATE",
+    "unacked_capacity_evictions": 0
+  },
+  "new_rule_mutations": {
+    "mutations": [
+      {
+        "mutation": "Baseline (thresh=150, srcs=3)",
+        "thresh": 150,
+        "srcs": 3,
+        "session2b_alerted": true,
+        "session2b_first_delay_sec": 0.774215,
+        "session2b_alert_class": "ALERT_SYN_RATE",
+        "session2b_unacked_count": 150,
+        "session2b_distinct_sources": 88,
+        "synthetic_3client_alerts": 8,
+        "synthetic_3client_first_delay_sec": 0.3,
+        "session3_pcaps_fired_count": 0
+      },
+      {
+        "mutation": "Mutation 1 (150 -> 200)",
+        "thresh": 200,
+        "srcs": 3,
+        "session2b_alerted": false,
+        "session2b_first_delay_sec": null,
+        "session2b_alert_class": null,
+        "session2b_unacked_count": null,
+        "session2b_distinct_sources": null,
+        "synthetic_3client_alerts": 8,
+        "synthetic_3client_first_delay_sec": 0.4,
+        "session3_pcaps_fired_count": 0
+      },
+      {
+        "mutation": "Mutation 2 (sources 3 -> 5)",
+        "thresh": 150,
+        "srcs": 5,
+        "session2b_alerted": true,
+        "session2b_first_delay_sec": 0.774215,
+        "session2b_alert_class": "ALERT_SYN_RATE",
+        "session2b_unacked_count": 150,
+        "session2b_distinct_sources": 88,
+        "synthetic_3client_alerts": 3,
+        "synthetic_3client_first_delay_sec": 2.03,
+        "session3_pcaps_fired_count": 0
+      },
+      {
+        "mutation": "Mutation 3 (150 -> 100)",
+        "thresh": 100,
+        "srcs": 3,
+        "session2b_alerted": true,
+        "session2b_first_delay_sec": 0.515674,
+        "session2b_alert_class": "ALERT_SYN_RATE",
+        "session2b_unacked_count": 100,
+        "session2b_distinct_sources": 68,
+        "synthetic_3client_alerts": 8,
+        "synthetic_3client_first_delay_sec": 0.2,
+        "session3_pcaps_fired_count": 0
+      }
+    ]
+  }
+}

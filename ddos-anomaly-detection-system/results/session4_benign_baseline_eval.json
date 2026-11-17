@@ -1,0 +1,25 @@
+{
+  "pcap": "session4_benign_baseline_900s.pcap",
+  "scenario": "Session 4 Benign Baseline (Internal Lab, >=15 min, >=5 clients, several services)",
+  "duration_sec": 900,
+  "clients_tested": [
+    "172.20.0.4",
+    "172.20.0.5",
+    "172.20.0.6",
+    "172.20.0.7",
+    "172.20.0.8"
+  ],
+  "services_tested": [
+    "HTTP (TCP 80)",
+    "HTTPS (TCP 443)",
+    "DNS (UDP 53)",
+    "NTP (UDP 123)",
+    "UDP Stream/Echo (5004/7)"
+  ],
+  "total_packets": 90105,
+  "false_alarm_seconds_total": 132,
+  "tcp_incomplete_handshake_false_alarms": 0,
+  "dual_condition_udp_false_alarms": 104,
+  "tcp_syn_arrival_rate_false_alarms": 0,
+  "status": "FAIL"
+}
