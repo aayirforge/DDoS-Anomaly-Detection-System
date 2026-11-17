@@ -1,5 +1,5 @@
 ### Table S7-G: Phase 7 Synthetic Replay Single-Source Flood Grid (`results/phase7_round3_evaluation.json`)
-*Classification: Synthetic Replay through RuleEngine (Single source IP 172.20.0.3, single-source threshold = 1500 pkts/s)*
+*Classification: Synthetic Replay through RuleEngine (Single source IP 172.20.0.3, window length: 5.0 s, single-source threshold = 1500 pkts/s)*
 | Table Capacity Cap | Packet Rate | First Alert Delay (s) | Alert Count (5s) | First Alert Class | Triggering Rule | Capacity Evictions | Timeout Expired Handshakes |
 | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
 | 20,000 | 20,000 pps | **0.075000 s** | 5 | `ALERT_SYN_RATE` | `tcp_syn_arrival_rate` | 80,000 | 0 |

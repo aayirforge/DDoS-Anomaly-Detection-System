@@ -195,3 +195,20 @@ In `lab_syn_flood.pcap`, 5,672 total flows were extracted by the Python port:
 | LSTM (Window) | Window (Step 5) | 0.9919 | 1,200 | 54 | 0 | 882 | 318 | 54 | 0.7350 | 0.0000 | 0.0088 |
 | Window-Stats LR | Window (Step 5) | 0.6206 | 1,200 | 54 | 48 | 140 | 1,060 | 6 | 0.1167 | 0.8889 | 0.8622 |
 
+## 9. Scope and Boundary Limitations of the Stateless Arrival Detector (Phase 7 Design Fix)
+
+The post-hoc stateless arrival rate detector (`tcp_syn_arrival_rate`) was introduced to protect against handshake table exhaustion during volumetric and multi-source SYN floods without altering frozen pre-registered rule thresholds. Its operational boundaries and design scope are explicitly defined as follows:
+
+1. **Inefficacy at 50–1,000 pps Single-Source Floods**:
+   The single-source arrival threshold is deliberately calibrated to 1,500 unacked SYNs/s to protect pre-registered parity across all 40 Session 3 PCAPs (where single-source attack rates reach up to 1,000 pps / 1,017 pkts/s). Consequently, the stateless arrival detector adds zero detection capability for single-source floods at $\le 1,000$ pps; these lower-rate single-source floods remain 100% dependent on the pre-registered stateful incomplete-handshake engine (`tcp_incomplete_handshake`, Condition B $\ge 20$).
+
+2. **Paired SYN+ACK Subtraction Bypass**:
+   Because the arrival detector performs stateless ingress subtraction ($\text{unacked} = \max(0, \text{len}(\text{syn\_window}) - \text{len}(\text{ack\_window}))$) and filters ACKs by verifying that the ACK source IP previously transmitted a SYN in the sliding window (`src_ip in syn_arrival_src_counts`), an attacker who crafts paired `(SYN, bare ACK)` packets from the same source IP completely cancels out the arrival counter. This bypasses the arrival rate rule entirely, although it imposes a $2\times$ packet bandwidth cost on the attacker without establishing server connection state.
+
+3. **Sub-Threshold Floods**:
+   Floods operating below 150 unacked SYNs/s (multi-source) or below 1,500 unacked SYNs/s (single-source) do not trigger `ALERT_SYN_RATE`. They must be detected by stateful handshake tracking or downstream volumetric baselining.
+
+4. **10,000-Entry Sliding Window Cap**:
+   To strictly guarantee bounded $O(1)$ memory consumption ($\le 1$ MB RSS) regardless of attack intensity, `syn_arrival_window` and `ack_arrival_window` are hard-capped at 10,000 entries via FIFO eviction. At extreme packet rates ($> 10,000$ pps in a 1 s window), the window holds only the most recent 10,000 packets. While sufficient to trigger the 150 and 1,500 thresholds within milliseconds, it saturates internal queue depth at ultra-high packet rates.
+
+

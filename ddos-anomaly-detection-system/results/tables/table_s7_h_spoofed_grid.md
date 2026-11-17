@@ -1,5 +1,5 @@
 ### Table S7-H: Phase 7 Synthetic Replay Spoofed Multi-Source Flood Grid (`results/phase7_round3_evaluation.json`)
-*Classification: Synthetic Replay through RuleEngine (Randomized spoofed source IPs from internal lab subnet 172.20.0.0/16)*
+*Classification: Synthetic Replay through RuleEngine (Randomized spoofed source IPs from internal lab subnet 172.20.0.0/16, window length: 5.0 s)*
 | Table Capacity Cap | Packet Rate | First Alert Delay (s) | Alert Count (5s) | First Alert Class | Triggering Rule | Capacity Evictions | Timeout Expired Handshakes |
 | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
 | 20,000 | 20,000 pps | **0.007500 s** | 5 | `ALERT_SYN_RATE` | `tcp_syn_arrival_rate` | 80,000 | 0 |

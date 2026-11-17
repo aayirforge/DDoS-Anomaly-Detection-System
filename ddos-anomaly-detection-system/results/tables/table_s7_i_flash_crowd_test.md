@@ -1,6 +1,8 @@
-### Table S7-I: Phase 7 Saturated Table Flash Crowd Evaluation (`results/phase7_round3_evaluation.json`)
-*Stress Scenario: 1,000-entry table saturated with 5,000 conn/s for 10.0s (50,000 handshakes total) from 10 clients, RTT=200ms*
-| Evaluation Condition | Client Count | Offered Rate | Handshake Completion Status | Capacity Evictions | Completed Handshakes | Stateful Alerts | Arrival Alerts | First Alert Delay (s) | Evaluation Note |
-| :--- | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :--- |
-| **Benign Flash Crowd (Saturated)** | 10 | 5,000 conn/s | Completed after 200 ms | **9,802** | **40,198** | **0 alerts** | 2 alerts | 0.029800 s | Zero stateful false alerts; arrival rule flags in-flight pipeline delay during ramp. |
-| **Pure SYN Flood (No ACKs)** | 10 | 5,000 pkts/s | Pure SYNs (Zero ACKs) | **49,000** | 0 | 0 alerts | 10 alerts | 0.030000 s | Prompt detection on arrival rate. |
+### Table S7-I: Phase 7 Multi-Rate Flash Crowd Evaluation (`results/phase7_round3_evaluation.json`)
+*Stress Scenario: 1,000-entry table, 10 clients, 200 ms RTT, completing handshakes, 10.0 s evaluation window*
+| Offered Rate | In-Flight SYNs (200ms RTT) | Capacity Evictions | Completed Handshakes | Stateful False Alarms | Standard Arrival Alerts | First Alert Delay (s) | Sustained-Variant False Alarms (3 windows) |
+| :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
+| 500 conn/s | 100 pkts | 0 | 5,000 | **0** | 0 | None (0 alerts) | **0 alerts (0.00%)** |
+| 1,000 conn/s | 200 pkts | 0 | 10,000 | **0** | 1 | 0.149000 s | **0 alerts (0.00%)** |
+| 2,000 conn/s | 400 pkts | 0 | 20,000 | **0** | 2 | 0.074500 s | **0 alerts (0.00%)** |
+| 5,000 conn/s | 1000 pkts | 9,802 | 40,198 | **0** | 2 | 0.029800 s | **0 alerts (0.00%)** |

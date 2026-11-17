@@ -1,129 +1,796 @@
 {
-  "timestamp": 1794949793.9510376,
+  "timestamp": 1794950914.445944,
   "single_source_grid": [
     {
       "pps": 20000,
       "table_cap": 20000,
+      "duration_sec": 5.0,
       "first_alert_delay_sec": 0.07499999998117346,
       "first_alert_class": "ALERT_SYN_RATE",
       "first_alert_rule": "tcp_syn_arrival_rate",
       "alert_count": 5,
       "capacity_evictions": 80000,
-      "timeout_expired": 0
+      "timeout_expired": 0,
+      "alerts_emitted": [
+        {
+          "ts": 1000.0749999999812,
+          "offset_sec": 0.07499999998117346,
+          "type": "ALERT_SYN_RATE",
+          "rule": "tcp_syn_arrival_rate"
+        },
+        {
+          "ts": 1001.0750499997301,
+          "offset_sec": 1.0750499997301404,
+          "type": "ALERT_SYN_RATE",
+          "rule": "tcp_syn_arrival_rate"
+        },
+        {
+          "ts": 1002.0750999994791,
+          "offset_sec": 2.0750999994791073,
+          "type": "ALERT_SYN_RATE",
+          "rule": "tcp_syn_arrival_rate"
+        },
+        {
+          "ts": 1003.0751499992281,
+          "offset_sec": 3.075149999228074,
+          "type": "ALERT_SYN_RATE",
+          "rule": "tcp_syn_arrival_rate"
+        },
+        {
+          "ts": 1004.075199998977,
+          "offset_sec": 4.075199998977041,
+          "type": "ALERT_SYN_RATE",
+          "rule": "tcp_syn_arrival_rate"
+        }
+      ]
     },
     {
       "pps": 40000,
       "table_cap": 20000,
+      "duration_sec": 5.0,
       "first_alert_delay_sec": 0.03750000007585186,
       "first_alert_class": "ALERT_SYN_RATE",
       "first_alert_rule": "tcp_syn_arrival_rate",
       "alert_count": 5,
       "capacity_evictions": 180000,
-      "timeout_expired": 0
+      "timeout_expired": 0,
+      "alerts_emitted": [
+        {
+          "ts": 1000.0375000000759,
+          "offset_sec": 0.03750000007585186,
+          "type": "ALERT_SYN_RATE",
+          "rule": "tcp_syn_arrival_rate"
+        },
+        {
+          "ts": 1001.0375000020986,
+          "offset_sec": 1.037500002098568,
+          "type": "ALERT_SYN_RATE",
+          "rule": "tcp_syn_arrival_rate"
+        },
+        {
+          "ts": 1002.0375000041213,
+          "offset_sec": 2.0375000041212843,
+          "type": "ALERT_SYN_RATE",
+          "rule": "tcp_syn_arrival_rate"
+        },
+        {
+          "ts": 1003.037500006144,
+          "offset_sec": 3.0375000061440005,
+          "type": "ALERT_SYN_RATE",
+          "rule": "tcp_syn_arrival_rate"
+        },
+        {
+          "ts": 1004.0375000081667,
+          "offset_sec": 4.037500008166717,
+          "type": "ALERT_SYN_RATE",
+          "rule": "tcp_syn_arrival_rate"
+        }
+      ]
     },
     {
       "pps": 80000,
       "table_cap": 20000,
+      "duration_sec": 5.0,
       "first_alert_delay_sec": 0.01875000003792593,
       "first_alert_class": "ALERT_SYN_RATE",
       "first_alert_rule": "tcp_syn_arrival_rate",
       "alert_count": 5,
       "capacity_evictions": 380000,
-      "timeout_expired": 0
+      "timeout_expired": 0,
+      "alerts_emitted": [
+        {
+          "ts": 1000.0187500000379,
+          "offset_sec": 0.01875000003792593,
+          "type": "ALERT_SYN_RATE",
+          "rule": "tcp_syn_arrival_rate"
+        },
+        {
+          "ts": 1001.0187500020606,
+          "offset_sec": 1.0187500020606421,
+          "type": "ALERT_SYN_RATE",
+          "rule": "tcp_syn_arrival_rate"
+        },
+        {
+          "ts": 1002.0187500040834,
+          "offset_sec": 2.0187500040833584,
+          "type": "ALERT_SYN_RATE",
+          "rule": "tcp_syn_arrival_rate"
+        },
+        {
+          "ts": 1003.0187500061061,
+          "offset_sec": 3.0187500061060746,
+          "type": "ALERT_SYN_RATE",
+          "rule": "tcp_syn_arrival_rate"
+        },
+        {
+          "ts": 1004.0187500081288,
+          "offset_sec": 4.018750008128791,
+          "type": "ALERT_SYN_RATE",
+          "rule": "tcp_syn_arrival_rate"
+        }
+      ]
     },
     {
       "pps": 20000,
       "table_cap": 160000,
+      "duration_sec": 5.0,
       "first_alert_delay_sec": 0.07499999998117346,
       "first_alert_class": "ALERT_SYN_RATE",
       "first_alert_rule": "tcp_syn_arrival_rate",
       "alert_count": 8,
       "capacity_evictions": 0,
-      "timeout_expired": 59999
+      "timeout_expired": 59999,
+      "alerts_emitted": [
+        {
+          "ts": 1000.0749999999812,
+          "offset_sec": 0.07499999998117346,
+          "type": "ALERT_SYN_RATE",
+          "rule": "tcp_syn_arrival_rate"
+        },
+        {
+          "ts": 1001.0750499997301,
+          "offset_sec": 1.0750499997301404,
+          "type": "ALERT_SYN_RATE",
+          "rule": "tcp_syn_arrival_rate"
+        },
+        {
+          "ts": 1002.0007499999998,
+          "offset_sec": 2.0007499999998117,
+          "type": "ALERT_SCAN",
+          "rule": "tcp_incomplete_handshake"
+        },
+        {
+          "ts": 1002.0750999994791,
+          "offset_sec": 2.0750999994791073,
+          "type": "ALERT_SYN_RATE",
+          "rule": "tcp_syn_arrival_rate"
+        },
+        {
+          "ts": 1003.0007999997488,
+          "offset_sec": 3.0007999997487786,
+          "type": "ALERT_SCAN",
+          "rule": "tcp_incomplete_handshake"
+        },
+        {
+          "ts": 1003.0751499992281,
+          "offset_sec": 3.075149999228074,
+          "type": "ALERT_SYN_RATE",
+          "rule": "tcp_syn_arrival_rate"
+        },
+        {
+          "ts": 1004.0008499994977,
+          "offset_sec": 4.000849999497746,
+          "type": "ALERT_SCAN",
+          "rule": "tcp_incomplete_handshake"
+        },
+        {
+          "ts": 1004.075199998977,
+          "offset_sec": 4.075199998977041,
+          "type": "ALERT_SYN_RATE",
+          "rule": "tcp_syn_arrival_rate"
+        }
+      ]
     },
     {
       "pps": 40000,
       "table_cap": 160000,
+      "duration_sec": 5.0,
       "first_alert_delay_sec": 0.03750000007585186,
       "first_alert_class": "ALERT_SYN_RATE",
       "first_alert_rule": "tcp_syn_arrival_rate",
       "alert_count": 5,
       "capacity_evictions": 0,
-      "timeout_expired": 0
+      "timeout_expired": 0,
+      "alerts_emitted": [
+        {
+          "ts": 1000.0375000000759,
+          "offset_sec": 0.03750000007585186,
+          "type": "ALERT_SYN_RATE",
+          "rule": "tcp_syn_arrival_rate"
+        },
+        {
+          "ts": 1001.0375000020986,
+          "offset_sec": 1.037500002098568,
+          "type": "ALERT_SYN_RATE",
+          "rule": "tcp_syn_arrival_rate"
+        },
+        {
+          "ts": 1002.0375000041213,
+          "offset_sec": 2.0375000041212843,
+          "type": "ALERT_SYN_RATE",
+          "rule": "tcp_syn_arrival_rate"
+        },
+        {
+          "ts": 1003.037500006144,
+          "offset_sec": 3.0375000061440005,
+          "type": "ALERT_SYN_RATE",
+          "rule": "tcp_syn_arrival_rate"
+        },
+        {
+          "ts": 1004.0375000081667,
+          "offset_sec": 4.037500008166717,
+          "type": "ALERT_SYN_RATE",
+          "rule": "tcp_syn_arrival_rate"
+        }
+      ]
     },
     {
       "pps": 80000,
       "table_cap": 160000,
+      "duration_sec": 5.0,
       "first_alert_delay_sec": 0.01875000003792593,
       "first_alert_class": "ALERT_SYN_RATE",
       "first_alert_rule": "tcp_syn_arrival_rate",
       "alert_count": 5,
       "capacity_evictions": 0,
-      "timeout_expired": 0
+      "timeout_expired": 0,
+      "alerts_emitted": [
+        {
+          "ts": 1000.0187500000379,
+          "offset_sec": 0.01875000003792593,
+          "type": "ALERT_SYN_RATE",
+          "rule": "tcp_syn_arrival_rate"
+        },
+        {
+          "ts": 1001.0187500020606,
+          "offset_sec": 1.0187500020606421,
+          "type": "ALERT_SYN_RATE",
+          "rule": "tcp_syn_arrival_rate"
+        },
+        {
+          "ts": 1002.0187500040834,
+          "offset_sec": 2.0187500040833584,
+          "type": "ALERT_SYN_RATE",
+          "rule": "tcp_syn_arrival_rate"
+        },
+        {
+          "ts": 1003.0187500061061,
+          "offset_sec": 3.0187500061060746,
+          "type": "ALERT_SYN_RATE",
+          "rule": "tcp_syn_arrival_rate"
+        },
+        {
+          "ts": 1004.0187500081288,
+          "offset_sec": 4.018750008128791,
+          "type": "ALERT_SYN_RATE",
+          "rule": "tcp_syn_arrival_rate"
+        }
+      ]
     }
   ],
   "spoofed_grid": [
     {
       "pps": 20000,
       "table_cap": 20000,
+      "duration_sec": 5.0,
       "first_alert_delay_sec": 0.007499999998117346,
       "first_alert_class": "ALERT_SYN_RATE",
       "first_alert_rule": "tcp_syn_arrival_rate",
       "alert_count": 5,
       "capacity_evictions": 80000,
-      "timeout_expired": 0
+      "timeout_expired": 0,
+      "alerts_emitted": [
+        {
+          "ts": 1000.0074999999981,
+          "offset_sec": 0.007499999998117346,
+          "type": "ALERT_SYN_RATE",
+          "rule": "tcp_syn_arrival_rate"
+        },
+        {
+          "ts": 1001.0075499997471,
+          "offset_sec": 1.0075499997470843,
+          "type": "ALERT_SYN_RATE",
+          "rule": "tcp_syn_arrival_rate"
+        },
+        {
+          "ts": 1002.007599999496,
+          "offset_sec": 2.007599999496051,
+          "type": "ALERT_SYN_RATE",
+          "rule": "tcp_syn_arrival_rate"
+        },
+        {
+          "ts": 1003.007649999245,
+          "offset_sec": 3.007649999245018,
+          "type": "ALERT_SYN_RATE",
+          "rule": "tcp_syn_arrival_rate"
+        },
+        {
+          "ts": 1004.007699998994,
+          "offset_sec": 4.007699998993985,
+          "type": "ALERT_SYN_RATE",
+          "rule": "tcp_syn_arrival_rate"
+        }
+      ]
     },
     {
       "pps": 40000,
       "table_cap": 20000,
+      "duration_sec": 5.0,
       "first_alert_delay_sec": 0.003750000007585186,
       "first_alert_class": "ALERT_SYN_RATE",
       "first_alert_rule": "tcp_syn_arrival_rate",
       "alert_count": 5,
       "capacity_evictions": 180000,
-      "timeout_expired": 0
+      "timeout_expired": 0,
+      "alerts_emitted": [
+        {
+          "ts": 1000.0037500000076,
+          "offset_sec": 0.003750000007585186,
+          "type": "ALERT_SYN_RATE",
+          "rule": "tcp_syn_arrival_rate"
+        },
+        {
+          "ts": 1001.0037500020303,
+          "offset_sec": 1.0037500020303014,
+          "type": "ALERT_SYN_RATE",
+          "rule": "tcp_syn_arrival_rate"
+        },
+        {
+          "ts": 1002.003750004053,
+          "offset_sec": 2.0037500040530176,
+          "type": "ALERT_SYN_RATE",
+          "rule": "tcp_syn_arrival_rate"
+        },
+        {
+          "ts": 1003.0037500060757,
+          "offset_sec": 3.003750006075734,
+          "type": "ALERT_SYN_RATE",
+          "rule": "tcp_syn_arrival_rate"
+        },
+        {
+          "ts": 1004.0037500080985,
+          "offset_sec": 4.00375000809845,
+          "type": "ALERT_SYN_RATE",
+          "rule": "tcp_syn_arrival_rate"
+        }
+      ]
     },
     {
       "pps": 80000,
       "table_cap": 20000,
+      "duration_sec": 5.0,
       "first_alert_delay_sec": 0.001875000003792593,
       "first_alert_class": "ALERT_SYN_RATE",
       "first_alert_rule": "tcp_syn_arrival_rate",
       "alert_count": 5,
       "capacity_evictions": 380000,
-      "timeout_expired": 0
+      "timeout_expired": 0,
+      "alerts_emitted": [
+        {
+          "ts": 1000.0018750000038,
+          "offset_sec": 0.001875000003792593,
+          "type": "ALERT_SYN_RATE",
+          "rule": "tcp_syn_arrival_rate"
+        },
+        {
+          "ts": 1001.0018750020265,
+          "offset_sec": 1.0018750020265088,
+          "type": "ALERT_SYN_RATE",
+          "rule": "tcp_syn_arrival_rate"
+        },
+        {
+          "ts": 1002.0018750040492,
+          "offset_sec": 2.001875004049225,
+          "type": "ALERT_SYN_RATE",
+          "rule": "tcp_syn_arrival_rate"
+        },
+        {
+          "ts": 1003.0018750060719,
+          "offset_sec": 3.0018750060719412,
+          "type": "ALERT_SYN_RATE",
+          "rule": "tcp_syn_arrival_rate"
+        },
+        {
+          "ts": 1004.0018750080947,
+          "offset_sec": 4.0018750080946575,
+          "type": "ALERT_SYN_RATE",
+          "rule": "tcp_syn_arrival_rate"
+        }
+      ]
     },
     {
       "pps": 20000,
       "table_cap": 160000,
+      "duration_sec": 5.0,
       "first_alert_delay_sec": 0.007499999998117346,
       "first_alert_class": "ALERT_SYN_RATE",
       "first_alert_rule": "tcp_syn_arrival_rate",
       "alert_count": 8,
       "capacity_evictions": 0,
-      "timeout_expired": 59999
+      "timeout_expired": 59999,
+      "alerts_emitted": [
+        {
+          "ts": 1000.0074999999981,
+          "offset_sec": 0.007499999998117346,
+          "type": "ALERT_SYN_RATE",
+          "rule": "tcp_syn_arrival_rate"
+        },
+        {
+          "ts": 1001.0075499997471,
+          "offset_sec": 1.0075499997470843,
+          "type": "ALERT_SYN_RATE",
+          "rule": "tcp_syn_arrival_rate"
+        },
+        {
+          "ts": 1002.0007499999998,
+          "offset_sec": 2.0007499999998117,
+          "type": "ALERT_SCAN",
+          "rule": "tcp_incomplete_handshake"
+        },
+        {
+          "ts": 1002.007599999496,
+          "offset_sec": 2.007599999496051,
+          "type": "ALERT_SYN_RATE",
+          "rule": "tcp_syn_arrival_rate"
+        },
+        {
+          "ts": 1003.0007999997488,
+          "offset_sec": 3.0007999997487786,
+          "type": "ALERT_SCAN",
+          "rule": "tcp_incomplete_handshake"
+        },
+        {
+          "ts": 1003.007649999245,
+          "offset_sec": 3.007649999245018,
+          "type": "ALERT_SYN_RATE",
+          "rule": "tcp_syn_arrival_rate"
+        },
+        {
+          "ts": 1004.0008499994977,
+          "offset_sec": 4.000849999497746,
+          "type": "ALERT_SCAN",
+          "rule": "tcp_incomplete_handshake"
+        },
+        {
+          "ts": 1004.007699998994,
+          "offset_sec": 4.007699998993985,
+          "type": "ALERT_SYN_RATE",
+          "rule": "tcp_syn_arrival_rate"
+        }
+      ]
     },
     {
       "pps": 40000,
       "table_cap": 160000,
+      "duration_sec": 5.0,
       "first_alert_delay_sec": 0.003750000007585186,
       "first_alert_class": "ALERT_SYN_RATE",
       "first_alert_rule": "tcp_syn_arrival_rate",
       "alert_count": 8,
       "capacity_evictions": 0,
-      "timeout_expired": 120000
+      "timeout_expired": 120000,
+      "alerts_emitted": [
+        {
+          "ts": 1000.0037500000076,
+          "offset_sec": 0.003750000007585186,
+          "type": "ALERT_SYN_RATE",
+          "rule": "tcp_syn_arrival_rate"
+        },
+        {
+          "ts": 1001.0037500020303,
+          "offset_sec": 1.0037500020303014,
+          "type": "ALERT_SYN_RATE",
+          "rule": "tcp_syn_arrival_rate"
+        },
+        {
+          "ts": 1002.0003750000008,
+          "offset_sec": 2.0003750000007585,
+          "type": "ALERT_SCAN",
+          "rule": "tcp_incomplete_handshake"
+        },
+        {
+          "ts": 1002.003750004053,
+          "offset_sec": 2.0037500040530176,
+          "type": "ALERT_SYN_RATE",
+          "rule": "tcp_syn_arrival_rate"
+        },
+        {
+          "ts": 1003.0003750020235,
+          "offset_sec": 3.0003750020234747,
+          "type": "ALERT_SCAN",
+          "rule": "tcp_incomplete_handshake"
+        },
+        {
+          "ts": 1003.0037500060757,
+          "offset_sec": 3.003750006075734,
+          "type": "ALERT_SYN_RATE",
+          "rule": "tcp_syn_arrival_rate"
+        },
+        {
+          "ts": 1004.0003750040462,
+          "offset_sec": 4.000375004046191,
+          "type": "ALERT_SCAN",
+          "rule": "tcp_incomplete_handshake"
+        },
+        {
+          "ts": 1004.0037500080985,
+          "offset_sec": 4.00375000809845,
+          "type": "ALERT_SYN_RATE",
+          "rule": "tcp_syn_arrival_rate"
+        }
+      ]
     },
     {
       "pps": 80000,
       "table_cap": 160000,
+      "duration_sec": 5.0,
       "first_alert_delay_sec": 0.001875000003792593,
       "first_alert_class": "ALERT_SYN_RATE",
       "first_alert_rule": "tcp_syn_arrival_rate",
       "alert_count": 8,
       "capacity_evictions": 0,
-      "timeout_expired": 240000
+      "timeout_expired": 240000,
+      "alerts_emitted": [
+        {
+          "ts": 1000.0018750000038,
+          "offset_sec": 0.001875000003792593,
+          "type": "ALERT_SYN_RATE",
+          "rule": "tcp_syn_arrival_rate"
+        },
+        {
+          "ts": 1001.0018750020265,
+          "offset_sec": 1.0018750020265088,
+          "type": "ALERT_SYN_RATE",
+          "rule": "tcp_syn_arrival_rate"
+        },
+        {
+          "ts": 1002.0001875000004,
+          "offset_sec": 2.0001875000003793,
+          "type": "ALERT_SCAN",
+          "rule": "tcp_incomplete_handshake"
+        },
+        {
+          "ts": 1002.0018750040492,
+          "offset_sec": 2.001875004049225,
+          "type": "ALERT_SYN_RATE",
+          "rule": "tcp_syn_arrival_rate"
+        },
+        {
+          "ts": 1003.0001875020231,
+          "offset_sec": 3.0001875020230955,
+          "type": "ALERT_SCAN",
+          "rule": "tcp_incomplete_handshake"
+        },
+        {
+          "ts": 1003.0018750060719,
+          "offset_sec": 3.0018750060719412,
+          "type": "ALERT_SYN_RATE",
+          "rule": "tcp_syn_arrival_rate"
+        },
+        {
+          "ts": 1004.0001875040458,
+          "offset_sec": 4.000187504045812,
+          "type": "ALERT_SCAN",
+          "rule": "tcp_incomplete_handshake"
+        },
+        {
+          "ts": 1004.0018750080947,
+          "offset_sec": 4.0018750080946575,
+          "type": "ALERT_SYN_RATE",
+          "rule": "tcp_syn_arrival_rate"
+        }
+      ]
     }
   ],
+  "session2b_alert_decomposition": {
+    "total_alerts": 22,
+    "alert_syn_rate_count": 12,
+    "alert_syn_flood_count": 10,
+    "duration_sec": 12.0,
+    "limiter_explanation": "The 1.0s rate limiter is maintained independently per alert type in self.last_alert_ts_by_type. ALERT_SYN_RATE fired 12 times (once per second from t=0.77s to t=11.80s). ALERT_SYN_FLOOD fired 10 times independently (once per second from t=2.07s to t=11.08s after the initial 2.0s handshake timeout). Because rate limiting is per-channel rather than global across all rules, both detectors emit concurrently, yielding 12 + 10 = 22 alerts.",
+    "alerts_timeline": [
+      {
+        "offset_sec": 0.7742154598236084,
+        "type": "ALERT_SYN_RATE",
+        "rule": "tcp_syn_arrival_rate",
+        "condition": "multi_source_arrival_rate"
+      },
+      {
+        "offset_sec": 1.778357982635498,
+        "type": "ALERT_SYN_RATE",
+        "rule": "tcp_syn_arrival_rate",
+        "condition": "multi_source_arrival_rate"
+      },
+      {
+        "offset_sec": 2.072267532348633,
+        "type": "ALERT_SYN_FLOOD",
+        "rule": "tcp_incomplete_handshake",
+        "condition": null
+      },
+      {
+        "offset_sec": 2.7804582118988037,
+        "type": "ALERT_SYN_RATE",
+        "rule": "tcp_syn_arrival_rate",
+        "condition": "multi_source_arrival_rate"
+      },
+      {
+        "offset_sec": 3.073065757751465,
+        "type": "ALERT_SYN_FLOOD",
+        "rule": "tcp_incomplete_handshake",
+        "condition": null
+      },
+      {
+        "offset_sec": 3.78277325630188,
+        "type": "ALERT_SYN_RATE",
+        "rule": "tcp_syn_arrival_rate",
+        "condition": "multi_source_arrival_rate"
+      },
+      {
+        "offset_sec": 4.0771729946136475,
+        "type": "ALERT_SYN_FLOOD",
+        "rule": "tcp_incomplete_handshake",
+        "condition": null
+      },
+      {
+        "offset_sec": 4.783904552459717,
+        "type": "ALERT_SYN_RATE",
+        "rule": "tcp_syn_arrival_rate",
+        "condition": "multi_source_arrival_rate"
+      },
+      {
+        "offset_sec": 5.077198266983032,
+        "type": "ALERT_SYN_FLOOD",
+        "rule": "tcp_incomplete_handshake",
+        "condition": null
+      },
+      {
+        "offset_sec": 5.788753032684326,
+        "type": "ALERT_SYN_RATE",
+        "rule": "tcp_syn_arrival_rate",
+        "condition": "multi_source_arrival_rate"
+      },
+      {
+        "offset_sec": 6.078036546707153,
+        "type": "ALERT_SYN_FLOOD",
+        "rule": "tcp_incomplete_handshake",
+        "condition": null
+      },
+      {
+        "offset_sec": 6.792389392852783,
+        "type": "ALERT_SYN_RATE",
+        "rule": "tcp_syn_arrival_rate",
+        "condition": "multi_source_arrival_rate"
+      },
+      {
+        "offset_sec": 7.0782859325408936,
+        "type": "ALERT_SYN_FLOOD",
+        "rule": "tcp_incomplete_handshake",
+        "condition": null
+      },
+      {
+        "offset_sec": 7.793788433074951,
+        "type": "ALERT_SYN_RATE",
+        "rule": "tcp_syn_arrival_rate",
+        "condition": "multi_source_arrival_rate"
+      },
+      {
+        "offset_sec": 8.082035303115845,
+        "type": "ALERT_SYN_FLOOD",
+        "rule": "tcp_incomplete_handshake",
+        "condition": null
+      },
+      {
+        "offset_sec": 8.79921817779541,
+        "type": "ALERT_SYN_RATE",
+        "rule": "tcp_syn_arrival_rate",
+        "condition": "multi_source_arrival_rate"
+      },
+      {
+        "offset_sec": 9.085769176483154,
+        "type": "ALERT_SYN_FLOOD",
+        "rule": "tcp_incomplete_handshake",
+        "condition": null
+      },
+      {
+        "offset_sec": 9.800189971923828,
+        "type": "ALERT_SYN_RATE",
+        "rule": "tcp_syn_arrival_rate",
+        "condition": "multi_source_arrival_rate"
+      },
+      {
+        "offset_sec": 10.086853265762329,
+        "type": "ALERT_SYN_FLOOD",
+        "rule": "tcp_incomplete_handshake",
+        "condition": null
+      },
+      {
+        "offset_sec": 10.800357103347778,
+        "type": "ALERT_SYN_RATE",
+        "rule": "tcp_syn_arrival_rate",
+        "condition": "multi_source_arrival_rate"
+      },
+      {
+        "offset_sec": 11.089248895645142,
+        "type": "ALERT_SYN_FLOOD",
+        "rule": "tcp_incomplete_handshake",
+        "condition": null
+      },
+      {
+        "offset_sec": 11.801700353622437,
+        "type": "ALERT_SYN_RATE",
+        "rule": "tcp_syn_arrival_rate",
+        "condition": "multi_source_arrival_rate"
+      }
+    ]
+  },
+  "session3_single_source_900_test": {
+    "pcap": "session3_tcp_syn_flood_1000pps_rep1.pcap",
+    "single_src_threshold": 900,
+    "total_alerts": 239,
+    "first_alert_ts": 1794832540.142199,
+    "first_alert_delay_sec": 0.9516384601593018,
+    "first_alert_class": "ALERT_SYN_RATE",
+    "first_alert_rule": "tcp_syn_arrival_rate",
+    "triggering_condition": "single_source_arrival_rate",
+    "unacked_syn_count": 900,
+    "distinct_src_ips": 2
+  },
+  "flash_crowd_multi_rate": {
+    "500": {
+      "rate_conn_per_sec": 500,
+      "in_flight_syns_at_200ms": 100,
+      "capacity_evictions": 0,
+      "completed_handshakes": 5000,
+      "total_alerts": 0,
+      "stateful_alerts": 0,
+      "arrival_alerts": 0,
+      "first_alert_delay_sec": null,
+      "sustained_variant_alerts": 0
+    },
+    "1000": {
+      "rate_conn_per_sec": 1000,
+      "in_flight_syns_at_200ms": 200,
+      "capacity_evictions": 0,
+      "completed_handshakes": 10000,
+      "total_alerts": 1,
+      "stateful_alerts": 0,
+      "arrival_alerts": 1,
+      "first_alert_delay_sec": 0.1490000000000009,
+      "sustained_variant_alerts": 0
+    },
+    "2000": {
+      "rate_conn_per_sec": 2000,
+      "in_flight_syns_at_200ms": 400,
+      "capacity_evictions": 0,
+      "completed_handshakes": 20000,
+      "total_alerts": 2,
+      "stateful_alerts": 0,
+      "arrival_alerts": 2,
+      "first_alert_delay_sec": 0.07450000000000045,
+      "sustained_variant_alerts": 0
+    },
+    "5000": {
+      "rate_conn_per_sec": 5000,
+      "in_flight_syns_at_200ms": 1000,
+      "capacity_evictions": 9802,
+      "completed_handshakes": 40198,
+      "total_alerts": 2,
+      "stateful_alerts": 0,
+      "arrival_alerts": 2,
+      "first_alert_delay_sec": 0.029799999999994498,
+      "sustained_variant_alerts": 0
+    }
+  },
   "ack_subtraction_bypass": {
     "arbitrary_ack_flood": {
       "description": "Attacker sends 20k SYNs/s + 20k bare ACKs from non-SYN sources",
@@ -143,195 +810,5 @@
       "first_alert_class": null,
       "status": "NOT DETECTED on arrival rate (Documented bypass: paired ACKs cancel SYNs)"
     }
-  },
-  "saturated_flash_crowd": {
-    "benign_flash_crowd": {
-      "rate_conns_per_sec": 5000,
-      "duration_sec": 10.0,
-      "rtt_sec": 0.2,
-      "num_clients": 10,
-      "table_cap": 1000,
-      "capacity_evictions": 9802,
-      "completed_handshakes": 40198,
-      "total_alerts": 2,
-      "stateful_rule_alerts": 0,
-      "arrival_rule_alerts": 2,
-      "first_alert_delay_sec": 0.029799999999994498,
-      "details": {
-        "syn_arrival_count": 150,
-        "ack_arrival_count": 0,
-        "unacked_syn_count": 150,
-        "distinct_src_ips": 10,
-        "condition": "multi_source_arrival_rate",
-        "status": "post-hoc, unregistered"
-      }
-    },
-    "pure_syn_flood_5k": {
-      "rate_conns_per_sec": 5000,
-      "total_alerts": 10,
-      "capacity_evictions": 49000,
-      "arrival_rule_alerts": 10,
-      "first_alert_delay_sec": 0.030000000000995897
-    }
-  },
-  "session2b_mutations": [
-    {
-      "configuration": "Baseline (thresh=150, srcs=3, single=1500)",
-      "status": "DETECTED",
-      "alert_count": 22,
-      "first_alert_ts": 1794816975.0484288,
-      "first_alert_delay_sec": 0.7742154598236084,
-      "first_alert_type": "ALERT_SYN_RATE",
-      "first_alert_rule": "tcp_syn_arrival_rate",
-      "differing_field": "Baseline reference",
-      "details": {
-        "syn_arrival_count": 150,
-        "ack_arrival_count": 0,
-        "unacked_syn_count": 150,
-        "distinct_src_ips": 88,
-        "condition": "multi_source_arrival_rate",
-        "status": "post-hoc, unregistered"
-      }
-    },
-    {
-      "configuration": "Mutation 1 (150 -> 200)",
-      "status": "NOT DETECTED",
-      "alert_count": 10,
-      "first_alert_ts": 1794816976.3464808,
-      "first_alert_delay_sec": 2.072267532348633,
-      "first_alert_type": "ALERT_SYN_FLOOD",
-      "first_alert_rule": "tcp_incomplete_handshake",
-      "differing_field": "alert_type (ALERT_SYN_FLOOD vs ALERT_SYN_RATE)",
-      "details": {
-        "incomplete_count": 15,
-        "distinct_dst_ports": 1,
-        "distinct_dst_ips": 1,
-        "distinct_src_ips": 13
-      }
-    },
-    {
-      "configuration": "Mutation 2 (sources 3 -> 5)",
-      "status": "DETECTED",
-      "alert_count": 22,
-      "first_alert_ts": 1794816975.0484288,
-      "first_alert_delay_sec": 0.7742154598236084,
-      "first_alert_type": "ALERT_SYN_RATE",
-      "first_alert_rule": "tcp_syn_arrival_rate",
-      "differing_field": "Identical first alert (high source entropy)",
-      "details": {
-        "syn_arrival_count": 150,
-        "ack_arrival_count": 0,
-        "unacked_syn_count": 150,
-        "distinct_src_ips": 88,
-        "condition": "multi_source_arrival_rate",
-        "status": "post-hoc, unregistered"
-      }
-    },
-    {
-      "configuration": "Mutation 3 (150 -> 100)",
-      "status": "DETECTED",
-      "alert_count": 22,
-      "first_alert_ts": 1794816974.7898872,
-      "first_alert_delay_sec": 0.5156738758087158,
-      "first_alert_type": "ALERT_SYN_RATE",
-      "first_alert_rule": "tcp_syn_arrival_rate",
-      "differing_field": "packet_ts (1794816974.7899 vs 1794816975.0484, delta: -0.2585s)",
-      "details": {
-        "syn_arrival_count": 100,
-        "ack_arrival_count": 0,
-        "unacked_syn_count": 100,
-        "distinct_src_ips": 68,
-        "condition": "multi_source_arrival_rate",
-        "status": "post-hoc, unregistered"
-      }
-    },
-    {
-      "configuration": "Mutation 4 (single 1500 -> 2000)",
-      "status": "DETECTED",
-      "alert_count": 22,
-      "first_alert_ts": 1794816975.0484288,
-      "first_alert_delay_sec": 0.7742154598236084,
-      "first_alert_type": "ALERT_SYN_RATE",
-      "first_alert_rule": "tcp_syn_arrival_rate",
-      "differing_field": "Identical first alert (high source entropy)",
-      "details": {
-        "syn_arrival_count": 150,
-        "ack_arrival_count": 0,
-        "unacked_syn_count": 150,
-        "distinct_src_ips": 88,
-        "condition": "multi_source_arrival_rate",
-        "status": "post-hoc, unregistered"
-      }
-    },
-    {
-      "configuration": "Mutation 5 (single 1500 -> 1000)",
-      "status": "DETECTED",
-      "alert_count": 22,
-      "first_alert_ts": 1794816975.0484288,
-      "first_alert_delay_sec": 0.7742154598236084,
-      "first_alert_type": "ALERT_SYN_RATE",
-      "first_alert_rule": "tcp_syn_arrival_rate",
-      "differing_field": "Identical first alert (high source entropy)",
-      "details": {
-        "syn_arrival_count": 150,
-        "ack_arrival_count": 0,
-        "unacked_syn_count": 150,
-        "distinct_src_ips": 88,
-        "condition": "multi_source_arrival_rate",
-        "status": "post-hoc, unregistered"
-      }
-    }
-  ],
-  "session4_and_session3_metrics": {
-    "session4": {
-      "overall_max_1s_syn_rate": 101,
-      "overall_max_unacked_count_1s": 1,
-      "overall_max_distinct_sources_1s": 5,
-      "per_client": {
-        "172.20.0.4": {
-          "max_1s_syn_rate": 34,
-          "max_unacked_1s": 1,
-          "max_distinct_sources": 1
-        },
-        "172.20.0.5": {
-          "max_1s_syn_rate": 35,
-          "max_unacked_1s": 1,
-          "max_distinct_sources": 1
-        },
-        "172.20.0.6": {
-          "max_1s_syn_rate": 33,
-          "max_unacked_1s": 1,
-          "max_distinct_sources": 1
-        },
-        "172.20.0.7": {
-          "max_1s_syn_rate": 32,
-          "max_unacked_1s": 1,
-          "max_distinct_sources": 1
-        },
-        "172.20.0.8": {
-          "max_1s_syn_rate": 35,
-          "max_unacked_1s": 1,
-          "max_distinct_sources": 1
-        }
-      },
-      "per_rule": {
-        "tcp_incomplete_handshake": {
-          "max_metric": 0,
-          "false_alarms": 0
-        },
-        "dual_condition_udp": {
-          "max_metric_pkts_s": 5,
-          "max_distinct_ports": 1,
-          "false_alarms": 0
-        },
-        "tcp_syn_arrival_rate": {
-          "max_unacked": 1,
-          "max_sources": 5,
-          "false_alarms": 0
-        }
-      }
-    },
-    "session3_fired_count": 0,
-    "session3_fired_pcaps": []
   }
 }
