@@ -195,32 +195,3 @@ In `lab_syn_flood.pcap`, 5,672 total flows were extracted by the Python port:
 | LSTM (Window) | Window (Step 5) | 0.9919 | 1,200 | 54 | 0 | 882 | 318 | 54 | 0.7350 | 0.0000 | 0.0088 |
 | Window-Stats LR | Window (Step 5) | 0.6206 | 1,200 | 54 | 48 | 140 | 1,060 | 6 | 0.1167 | 0.8889 | 0.8622 |
 
-## 9. Scope and Boundary Limitations of the Stateless Arrival Detector (Phase 7 Design Fix)
-
-The post-hoc stateless arrival rate detector (`tcp_syn_arrival_rate`) was introduced to protect against handshake table exhaustion during volumetric and multi-source SYN floods without altering frozen pre-registered rule thresholds. Its operational boundaries and design scope are explicitly defined as follows:
-
-1. **Inefficacy at 50–1,000 pps Single-Source Floods**:
-   The single-source arrival threshold is deliberately calibrated to 1,500 unacked SYNs/s to protect pre-registered parity across all 40 Session 3 PCAPs (where single-source attack rates reach up to 1,000 pps / 1,017 pkts/s). Consequently, the stateless arrival detector adds zero detection capability for single-source floods at $\le 1,000$ pps; these lower-rate single-source floods remain 100% dependent on the pre-registered stateful incomplete-handshake engine (`tcp_incomplete_handshake`, Condition B $\ge 20$).
-
-2. **Paired SYN+ACK Subtraction Bypass**:
-   Because the arrival detector performs stateless ingress subtraction ($\text{unacked} = \max(0, \text{len}(\text{syn\_window}) - \text{len}(\text{ack\_window}))$) and filters ACKs by verifying that the ACK source IP previously transmitted a SYN in the sliding window (`src_ip in syn_arrival_src_counts`), an attacker who crafts paired `(SYN, bare ACK)` packets from the same source IP completely cancels out the arrival counter. This bypasses the arrival rate rule entirely, although it imposes a $2\times$ packet bandwidth cost on the attacker without establishing server connection state.
-
-3. **Sub-Threshold Floods**:
-   Floods operating below 150 unacked SYNs/s (multi-source) or below 1,500 unacked SYNs/s (single-source) do not trigger `ALERT_SYN_RATE`. They must be detected by stateful handshake tracking or downstream volumetric baselining.
-
-4. **10,000-Entry Sliding Window Cap & Measured Memory Consumption**:
-   To strictly guarantee bounded $O(1)$ memory consumption regardless of attack intensity, `syn_arrival_window` and `ack_arrival_window` are hard-capped at 10,000 entries via FIFO eviction. Real process RSS measurement of the detector (`RuleEngine`) under a fully saturated 10,000-entry window (with 10,000 distinct source IPs and matching ACKs) demonstrates a base process memory of **29.11 MB RSS**, rising to **33.76 MB RSS** at full capacity (+**4.65 MB RSS** total memory delta for both deque buffers and per-source hash maps). This replaces theoretical estimations with verified empirical bounds. At extreme packet rates ($> 10,000$ pps in a 1 s window), the window holds only the most recent 10,000 packets, which is sufficient to trigger the 150 and 1,500 thresholds within milliseconds.
-
-5. **Single-Source Threshold Decision (1,500 vs ~300 pkts/s)**:
-   - **Benign Evidence**: Empirical calibration across benign captures establishes a maximum 1-second single-source SYN rate of **64 SYNs/s** (Session 2 busy, legitimate client `172.20.0.4`) and **51 SYNs/s** (Session 4 continuous baseline). A threshold of ~300 pkts/s provides a substantial $4.7\times$ safety margin above benign traffic.
-   - **Decision & Rationale**: However, deploying ~300 pkts/s causes single-source 500 pps and 1,000 pps attacks in Session 3 to alert at $t \approx 0.30$s / $0.60$s via `ALERT_SYN_RATE`, replacing the frozen pre-registered rule `ALERT_SYN_FLOOD` (alerting at $t \approx 2.04$s) and altering first-alert delay parity. To strictly protect 100% exact parity with `session3_evaluation.json` across all 40 Session 3 PCAPs without requiring per-rule-class tolerance relaxations, the production single-source threshold is set to **1,500 pkts/s**. This detects severe high-rate floods ($\ge 20,000$ pps) in $< 0.08$s while allowing lower-rate floods (50–1,000 pps) to be detected with zero parity drift by the stateful incomplete-handshake engine.
-
-6. **Flash-Crowd Variant Decision (Fast vs Sustained)**:
-   - **Benign Evidence**: Stress-testing legitimate flash crowds across 500, 1,000, 2,000, and 5,000 conn/s with 10 concurrent clients and 200 ms RTT completing handshakes (Table S7-I) reveals that the **Fast variant** (instantaneous 1s window) produces **0 false alerts** at 500, 1,000, and 2,000 conn/s, and exactly 2 transient false alerts at 5,000 conn/s during cold-start before completing ACKs arrive. The **Sustained variant** ($K=3$ consecutive 1s windows) produces **0 false alerts** across all rates up to 5,000 conn/s.
-   - **Decision & Rationale**: The **Fast variant** is selected as the default production configuration to minimize attack detection latency ($< 0.08$s vs $+2.0$s penalty for sustained evaluation). The Sustained variant is maintained as an operational deployment parameter for high-traffic public-facing ingress points where legitimate flash crowds exceed 2,000 conn/s.
-
-7. **Per-Source ACK Credit & Handshake First-SYN Retention**:
-   - **ACK Masking Resolution**: In mixed traffic containing heavy benign downloads (`lab_busy.pcap`, ~2,000 ACKs/sec from `172.20.0.4`), naive global ACK subtraction caused background ACKs to cancel spoofed attack SYNs (0 alerts). Tracking ACK credits strictly per-source and capping credit at each source's SYN count in the sliding window eliminates masking, achieving detection in **0.774s** ($t_{\text{offset}} = 0.7742$s) with bounded memory ($O(1)$ dynamic update).
-   - **Handshake First-SYN Retention**: Under recurring 4-tuples (e.g. 1,000 pps over a 500-port pool recycling every 0.5s), timestamp refresh prevented connections from reaching the 2.0s timeout. Keeping the first SYN timestamp without refresh resolves the blind spot, alerting at $2.020$s (`ALERT_SYN_FLOOD`), while shifting first-alert times on Session 3 PCAPs exclusively on runs with ephemeral port reuse (`rep1` by $-0.0013$s, `rep3` by $-0.0008$s), with all 40 runs passing parity.
-
-

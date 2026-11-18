@@ -145,6 +145,35 @@ def validate_table_c_pooled_summary(table_path: Path, eval_data: Dict[str, Any])
                     f"expected '{exp}', got '{act}'"
                 )
 
+def validate_table_d_flow_transfer(table_path: Path, flow_data: List[Dict[str, Any]]) -> None:
+    rows = parse_markdown_table_rows(table_path)
+    data_rows = rows[1:]
+    
+    # Check baseline row (row index 0 in data_rows)
+    baseline_entry = next((e for e in flow_data if "baseline" in e["pcap"]), None)
+    if baseline_entry:
+        b_row = data_rows[0]
+        rf = baseline_entry["rf_full_25"]
+        knn = baseline_entry["knn_full_25"]
+        rf_rob = baseline_entry["rf_robust_14"]
+        knn_rob = baseline_entry["knn_robust_14_diagnostic"]
+        
+        checks = {
+            "flows_ge_2_pkts": (b_row[1], f"{baseline_entry['flows_ge_2_pkts']:,}"),
+            "n_benign_flows": (b_row[2], f"{baseline_entry['n_benign_flows']:,}"),
+            "n_attack_flows": (b_row[3], f"{baseline_entry['n_attack_flows']:,}"),
+            "rf_full_25.fpr": (b_row[5], f"FPR: **{rf['fpr']*100:.2f}%** ({rf['fp']}/{baseline_entry['flows_ge_2_pkts']})"),
+            "knn_full_25.fpr": (b_row[6], f"FPR: **{knn['fpr']*100:.2f}%** ({knn['fp']}/{baseline_entry['flows_ge_2_pkts']})"),
+            "rf_robust_14.fpr": (b_row[7], f"FPR: **{rf_rob['fpr']*100:.2f}%** ({rf_rob['fp']}/{baseline_entry['flows_ge_2_pkts']})"),
+            "knn_robust_14_diagnostic.fpr": (b_row[8], f"FPR: **{knn_rob['fpr']*100:.2f}%** ({knn_rob['fp']}/{baseline_entry['flows_ge_2_pkts']})"),
+        }
+        for key_name, (act, exp) in checks.items():
+            if act != exp:
+                raise AssertionError(
+                    f"Table S3-D cell mismatch for Benign Baseline on JSON key '{key_name}': "
+                    f"expected '{exp}', got '{act}'"
+                )
+
 def validate_all_tables_against_json(results_dir: Path) -> None:
     eval_json = results_dir / "session3_evaluation.json"
     if not eval_json.exists():
@@ -155,6 +184,7 @@ def validate_all_tables_against_json(results_dir: Path) -> None:
     t_a = tables_dir / "table_s3_a_baseline.md"
     t_b = tables_dir / "table_s3_b_per_repeat.md"
     t_c = tables_dir / "table_s3_c_pooled_summary.md"
+    t_d = tables_dir / "table_s3_d_flow_transfer.md"
     
     if t_a.exists():
         validate_table_a_baseline(t_a, eval_data)
@@ -162,3 +192,8 @@ def validate_all_tables_against_json(results_dir: Path) -> None:
         validate_table_b_per_repeat(t_b, eval_data)
     if t_c.exists():
         validate_table_c_pooled_summary(t_c, eval_data)
+
+    flow_json = results_dir / "session3_flow_models_transfer.json"
+    if flow_json.exists() and t_d.exists():
+        flow_data = json.loads(flow_json.read_text(encoding="utf-8"))
+        validate_table_d_flow_transfer(t_d, flow_data)

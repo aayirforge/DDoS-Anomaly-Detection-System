@@ -199,7 +199,7 @@ def render_table_s3_flow_transfer() -> str:
 def render_table_s3_packets_per_flow_histograms() -> str:
     lines = []
     lines.append(r"### Table S3-D2: Attack Packets-Per-Flow Histograms & 5-Tuple Source-Port Reuse Verification (`session3_packets_per_flow_histograms.json`)")
-    lines.append(r"| Attack Scenario | Total Attack Packets | Unique 5-Tuples | Single-Pkt Tuples (Dropped by Java Meter) | Reused 5-Tuples ($\ge 2$ Pkts; Dumped by Java Meter) | Reused Tuples % | Reused Packets (% of Volume) | 2 Pkts | 3 Pkts | 4 Pkts | 5 Pkts | 6-10 Pkts | >10 Pkts |")
+    lines.append(r"| Attack Scenario | Total Attack Packets | Unique 5-Tuples | Single-Pkt Tuples (Dropped by Java Meter) | Reused 5-Tuples ($\ge 2$ Pkts, All Attacker Packets; Dumped by Java Meter) | Reused Tuples % | Reused Packets (% of Volume) | 2 Pkts | 3 Pkts | 4 Pkts | 5 Pkts | 6-10 Pkts | >10 Pkts |")
     lines.append(r"| :--- | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |")
     hist_file = BASE / "session3_packets_per_flow_histograms.json"
     if not hist_file.exists():
@@ -230,6 +230,7 @@ def render_table_s3_packets_per_flow_histograms() -> str:
         
         lines.append(f"| **{pretty}** | {tot_pkts:,} | {unique_tuples:,} | {b1:,} | **{reused_tuples:,}** | {pct_reused} | {pct_pkts_reused} | {b2:,} | {b3:,} | {b4:,} | {b5:,} | {b6_10:,} | {b_gt10:,} |")
     lines.append(r"*\*Mechanism Summary: Confirms that in random SYN and UDP floods, attack flows dumped by Java CICFlowMeter ($packetCount() > 1$) arise strictly from Birthday collisions in the 64,512 ephemeral source-port space within the 120s window. Single-packet attempts ($packetCount() == 1$) are discarded by the Java meter. In port scans, 0 source ports are reused, but all 10,800 probes elicit bidirectional RST-ACK responses from the victim host.*")
+    lines.append(r"*\*Flow Definition Note: The histogram generator script filters with -Y 'ip.src == 172.20.0.3' (All Attacker Packets), matching Java CICFlowMeter flow accumulation. Under this All Attacker TCP packet definition, SYN 1,000 pps Rep 1, 2, and 3 produce exactly 35,826, 35,826, and 35,886 reused 5-tuples. Under strict SYN-only filtering (`ip.src == 172.20.0.3 && tcp.flags.syn == 1 && tcp.flags.ack == 0`), they produce 35,748, 35,752, and 35,826 reused 5-tuples.*")
     out = "\n".join(lines) + "\n"
     (TABLES_DIR / "table_s3_d2_packets_per_flow_histograms.md").write_text(out)
     return out

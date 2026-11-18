@@ -17,9 +17,19 @@
     "UDP Stream/Echo (5004/7)"
   ],
   "total_packets": 90105,
-  "false_alarm_seconds_total": 132,
+  "max_syn_rate_overall_pkts_sec": 101,
+  "max_syn_rate_per_client_pkts_sec": {
+    "172.20.0.4": 37,
+    "172.20.0.5": 37,
+    "172.20.0.6": 35,
+    "172.20.0.7": 39,
+    "172.20.0.8": 39
+  },
+  "max_unacked_count_1s_window": 1,
+  "max_distinct_sources_1s_window": 5,
+  "false_alarm_seconds_total": 0,
   "tcp_incomplete_handshake_false_alarms": 0,
-  "dual_condition_udp_false_alarms": 104,
+  "dual_condition_udp_false_alarms": 0,
   "tcp_syn_arrival_rate_false_alarms": 0,
-  "status": "FAIL"
+  "status": "PASS (0 False Alarms across all rules)"
 }

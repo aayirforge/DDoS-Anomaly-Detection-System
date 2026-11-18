@@ -58,7 +58,11 @@
 | `session3_udp_flood_volumetric_port80_50pps_rep3.pcap` | `udp_flood_volumetric_port80_50pps_rep3` | 0.5398s | 0.5398s | 0.0000s | `ALERT_UDP_FLOOD` | Identical (0.0000s) |
 
 > [!IMPORTANT]
-> **Parity Shift Analysis & Findings**:
+> **Parity Shift Analysis & Expiry Mechanics Findings**:
 > - Out of 40 Session 3 attack runs, exactly **9** runs shifted their first-alert delay (`session3_tcp_syn_flood_1000pps_rep1` by `-0.0013s` and `session3_tcp_syn_flood_1000pps_rep3` by `-0.0008s`), and **30** runs exhibited **0.0000s** difference.
 > - As expected, shifts occurred *strictly and exclusively* in high-rate 1,000 pps TCP SYN floods where ephemeral port reuse created duplicate 4-tuples within the 2.0s handshake window prior to the 20th incomplete handshake boundary.
 > - All delay differences are negligible ($\le 0.0013$s), well within the $0.25$s parity acceptance tolerance, and all 40 runs maintain a 100% pass rate.
+> - **Expiry Mechanics for 500-Port Pool (1,000 pps, 10.0s)**:
+>   * **Unique Tuples Expired**: Exactly **500** distinct 4-tuples (`sport=1024..1523`).
+>   * **In-Run Expiry Events**: Exactly **2,000** expiry events (each of the 500 ports expires 4 times during the 10s evaluation window).
+>   * **In-Run Re-insertions**: Exactly **2,000** re-insertions (following each expiry, the recurring packet immediately re-inserts the tuple; 500 initial insertions + 2,000 re-insertions = 2,500 total insertions; 500 unexpired entries remain active in table at stream end).
