@@ -54,32 +54,31 @@ This document provides an end-to-end operational demonstration script and camera
 ### Scene 2: Replay Scenario 1 – TCP SYN Flood at 200 pps (0:45 - 1:45)
 1. **Execute Detector in Streaming Mode:**
    ```bash
-   .venv/bin/python3 -m ddos_ads.detector --db data/detection_events.db &
-   DETECTOR_PID=$!
+   .venv/bin/python3 -m ddos_ads.live_packet_detector \
+       --replay-pcap lab/captures/session3/session3_tcp_syn_flood_200pps_rep1.pcap \
+       --pace 1.0
    ```
-2. **Stream Session 3 PCAP (`session3_tcp_syn_flood_200pps_rep1.pcap`):**
+   *Or via the replay wrapper script:*
    ```bash
    .venv/bin/python3 scripts/replay_pcap_live.py \
        --pcap lab/captures/session3/session3_tcp_syn_flood_200pps_rep1.pcap \
-       --db data/detection_events.db \
-       --rate-multiplier 1.0
+       --pace 1.0
    ```
-3. **Observed Dashboard Behavior:**
+2. **Observed Dashboard Behavior:**
    - Incomplete handshake gauge rises rapidly past 20.
    - At $t \approx 2.05\text{ s}$, **Condition B** fires: `ALERT_SYN_FLOOD (Condition B: 20 incomplete, ratio 1.00)`.
    - Alert log populates with attacker 4-tuple and millisecond timestamp.
-4. **Narration:**
+3. **Narration:**
    > *"We now replay a 200 packets-per-second TCP SYN flood from Session 3. Notice that as incomplete handshakes cross the 2.0-second timeout threshold, Condition B triggers immediately at 2.05 seconds, achieving 100% attack recall with sub-second delay."*
 
 ---
 
 ### Scene 3: Replay Scenario 2 – Volumetric UDP Flood at 50 pps (1:45 - 2:30)
-1. **Stream Session 3 PCAP (`session3_udp_flood_50pps_rep1.pcap`):**
+1. **Stream Session 3 PCAP (`session3_udp_flood_random_ports_50pps_rep1.pcap`):**
    ```bash
    .venv/bin/python3 scripts/replay_pcap_live.py \
-       --pcap lab/captures/session3/session3_udp_flood_50pps_rep1.pcap \
-       --db data/detection_events.db \
-       --rate-multiplier 1.0
+       --pcap lab/captures/session3/session3_udp_flood_random_ports_50pps_rep1.pcap \
+       --pace 1.0
    ```
 2. **Observed Dashboard Behavior:**
    - Per-destination UDP rate crosses the 40 pps threshold.
@@ -90,12 +89,11 @@ This document provides an end-to-end operational demonstration script and camera
 ---
 
 ### Scene 4: Replay Scenario 3 – TCP Port Scan at 30 pps (2:30 - 3:15)
-1. **Stream Session 3 PCAP (`session3_tcp_port_scan_30pps.pcap`):**
+1. **Stream Session 3 PCAP (`session3_reconnaissance_port_scan_30pps_rep1.pcap`):**
    ```bash
    .venv/bin/python3 scripts/replay_pcap_live.py \
-       --pcap lab/captures/session3/session3_tcp_port_scan_30pps.pcap \
-       --db data/detection_events.db \
-       --rate-multiplier 1.0
+       --pcap lab/captures/session3/session3_reconnaissance_port_scan_30pps_rep1.pcap \
+       --pace 1.0
    ```
 2. **Observed Dashboard Behavior:**
    - Single source IP contacts &ge; 15 distinct ports.

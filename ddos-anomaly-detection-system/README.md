@@ -181,26 +181,29 @@ Verify streaming engine parity across all 40 captures against frozen ground trut
 *Expected: 40/40 passed (0 failed), max delay diff $\le 0.25\text{ s}$, alerted-second diff $= 0\text{ s}$.*
 
 #### Live Replay Examples
-Replay individual attack PCAPs through the streaming supervisor into the telemetry database:
+Replay individual attack PCAPs through the streaming supervisor:
 
 ```bash
+# Method A: Direct module invocation (built-in)
+.venv/bin/python3 -m ddos_ads.live_packet_detector \
+    --replay-pcap lab/captures/session3/session3_tcp_syn_flood_200pps_rep1.pcap \
+    --pace 1.0
+
+# Method B: Convenience script wrapper
 # 1. Replay a 200 pps TCP SYN Flood
 .venv/bin/python3 scripts/replay_pcap_live.py \
     --pcap lab/captures/session3/session3_tcp_syn_flood_200pps_rep1.pcap \
-    --db data/detection_events.db \
-    --rate-multiplier 1.0
+    --pace 1.0
 
 # 2. Replay a 50 pps Volumetric UDP Flood
 .venv/bin/python3 scripts/replay_pcap_live.py \
-    --pcap lab/captures/session3/session3_udp_flood_50pps_rep1.pcap \
-    --db data/detection_events.db \
-    --rate-multiplier 1.0
+    --pcap lab/captures/session3/session3_udp_flood_random_ports_50pps_rep1.pcap \
+    --pace 1.0
 
 # 3. Replay a 30 pps Reconnaissance Port Scan
 .venv/bin/python3 scripts/replay_pcap_live.py \
-    --pcap lab/captures/session3/session3_tcp_port_scan_30pps.pcap \
-    --db data/detection_events.db \
-    --rate-multiplier 1.0
+    --pcap lab/captures/session3/session3_reconnaissance_port_scan_30pps_rep1.pcap \
+    --pace 1.0
 ```
 
 ### 4.8 Interactive Monitoring Dashboard

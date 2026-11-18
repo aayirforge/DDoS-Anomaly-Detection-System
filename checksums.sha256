@@ -1,6 +1,6 @@
 # Authoritative Production Release Manifest (Phase 9 Final Verification, Report, and Release Freeze)
-# Covers 112 of 442 tracked repository files.
-# Scope Rationale: This manifest strictly tracks the 112 authoritative assets governing
+# Covers 113 of 443 tracked repository files.
+# Scope Rationale: This manifest strictly tracks the 113 authoritative assets governing
 # production detection, evaluation ground truth, frozen models, figures, and core test harnesses:
 # - Core algorithmic detection engine and live streaming pipeline (src/ddos_ads/)
 # - Authoritative evaluation and parity ground truth JSONs (results/)
@@ -9,12 +9,12 @@
 # - Canonical capture manifests and calibration PCAPs (lab/captures/)
 # - Core test suites and reproduction harnesses (tests/, scripts/)
 # - Phase 8 read-only monitoring dashboard figures and verification manifests (results/figures/)
-# - Demonstration script and screen recording plan (demo/)
-# The remaining 330 tracked repository files consist of secondary exploratory scripts,
+# - Demonstration script, replay wrappers, and screen recording plan (demo/, scripts/)
+# The remaining tracked repository files consist of secondary exploratory scripts,
 # raw per-session flow CSV dumps, Java CICFlowmeter artifacts, exploratory notebooks,
 # and developmental test files that are outside the frozen production evaluation boundary.
 
-6c631743699f2b8d53717f46492a7ca28a90aeffbc4a7a6caafae93d78072a94  ddos-anomaly-detection-system/demo/demo_script.md
+1bd8766fd39f960a38970ee09bb52dccd92ffba8db103de96c3a9ce226a070f4  ddos-anomaly-detection-system/demo/demo_script.md
 48b8a68f254441ce061ad1be7a642cbfa91446235f375776c2f3c38817bc776c  ddos-anomaly-detection-system/lab/captures/calibration/calib_syn_1000.pcap
 c2bc22cce475cfccacc0c9f69998db22766cc3c939b0b928d58f6a9cdd9f49e3  ddos-anomaly-detection-system/lab/captures/calibration/calib_syn_200.pcap
 dff2acebcdcf2ed69c7769d14ab3b70cd40269bc7d8ab6c8bfe5dcac1aa520c5  ddos-anomaly-detection-system/lab/captures/calibration/calib_syn_50.pcap
@@ -111,6 +111,7 @@ d6ed7ddf47c5931f0950e5aae5b829f8eb85e92100ab3e9eca12046a63e51269  ddos-anomaly-d
 5cd9ee9040cfc465e68cbb9796a0f3bacee1e8440803a17f519a6591c29d120e  ddos-anomaly-detection-system/scripts/render_all_verbatim_tables.py
 51c5ebda6ffdd7ac0313ce8dd215f7ca71c925f1c3bf6ecf4e5a5548608b363e  ddos-anomaly-detection-system/scripts/render_phase7_tables.py
 fcd72311909c97de9538299914724a3bdb960e0a9710624aededfcb5897b56b3  ddos-anomaly-detection-system/scripts/render_session3_tables.py
+44aa777f2f7d6956902abf5f55cf9a8f7bfc98cf9f34cb34598af6b2fe57427f  ddos-anomaly-detection-system/scripts/replay_pcap_live.py
 02a2f8b65f86fa29c07b7d1df3528a8c2aef9ab9941019b8e9fcb6db9553de29  ddos-anomaly-detection-system/scripts/run_live_path_replay.py
 4bb2b4107929af538d54687d4a33b33dddbf49fd3fe3713fb516008542824b78  ddos-anomaly-detection-system/scripts/run_parity_mutations.py
 66cf18cac063a3cfe2638dac73fb918fed685786c3c0cc801468afc5a449553c  ddos-anomaly-detection-system/scripts/run_phase7_final_checks.py

@@ -49,6 +49,9 @@ data/flows/*.csv
 logs/*.log
 logs/*.db
 logs/*.csv
+data/*.db
+data/*.db-wal
+data/*.db-shm
 
 # Temporary files
 *.swp
