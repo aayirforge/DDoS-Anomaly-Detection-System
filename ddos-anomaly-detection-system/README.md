@@ -2,12 +2,9 @@
 
 [![Python 3.10+](https://img.shields.io/badge/python-3.10+-blue.svg)](https://www.python.org/)
 [![License: MIT](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
-[![Tests Passing](https://img.shields.io/badge/tests-29%20passed-brightgreen.svg)](#test-suite)
+[![Tests Passing](https://img.shields.io/badge/tests-63%20passed-brightgreen.svg)](#test-suite)
 
-An enterprise-grade Machine Learning and Network Security system designed to detect, benchmark, and mitigate Distributed Denial-of-Service (DDoS) traffic using the **CIC-DDoS2019** dataset across three complementary architectures:
-- **Random Forest** (Tree ensemble with balanced class weights)
-- **K-Nearest Neighbors (KNN)** (Distance-weighted memory-efficient local boundary classifier)
-- **Long Short-Term Memory (LSTM)** (Deep sequence model capturing temporal window dynamics in PyTorch)
+An enterprise-grade, dual-path Network Security and Machine Learning system engineered to detect, benchmark, and monitor Distributed Denial-of-Service (DDoS) traffic across both offline flow-based benchmark modeling and live packet-level streaming detection.
 
 ---
 
@@ -15,185 +12,152 @@ An enterprise-grade Machine Learning and Network Security system designed to det
 
 ```text
                                +-----------------------------+
-                               |     Raw Network Traffic     |
-                               | (CIC-DDoS2019 CSV / tshark) |
+                               |     Raw Network Ingress     |
+                               | (Wire dumpcap / PCAP Replay)|
                                +--------------+--------------+
-                                              |
-                                              v
-+-----------------------------------------------------------------------------------------+
-|                                Data Processing & Alignment                              |
-|                                                                                         |
-|  +--------------------+    +--------------------+    +-------------------------------+  |
-|  | Chunked Ingestion  | -> | Column Alignment & | -> | Leakage Guards & Chronological|  |
-|  | & Inf/NaN Cleaning |    | Zero-Fill Mapping  |    | Train/Val/Test Splits         |  |
-|  +--------------------+    +--------------------+    +-------------------------------+  |
-+---------------------------------------------+-------------------------------------------+
                                               |
                        +----------------------+----------------------+
                        |                                             |
-                       v                                             v
+                       v (Path 1: Sub-Second)                        v (Path 2: Statistical Flow)
          +---------------------------+                 +---------------------------+
-         |     Tabular Modeling      |                 |     Sequence Modeling     |
-         |  - StandardScaler Fit     |                 |  - Sliding Windows (N=10) |
-         |  - Correlation Pruning    |                 |  - Temporal Isolation     |
-         |  - RF Top-25 Selection    |                 |  - PyTorch TensorDatasets |
+         | Packet-Level Engine       |                 | Flow Extraction & ML      |
+         | - Stateful Handshake Track|                 | - SimpleFlowMeterV4       |
+         | - 2.0s Incomplete Timeout |                 | - Robust 14-Feature Subset|
+         | - Conditions A & B        |                 | - Random Forest (0.999 AUC|
+         | - Port Scan Classifier    |                 | - KNN Boundary Classifier |
+         | - Stateless SYN Arrival   |                 | - PyTorch Sequence LSTM   |
+         | - Per-Destination UDP Rate|                 |                           |
          +-------------+-------------+                 +-------------+-------------+
                        |                                             |
-         +-------------+-------------+                               |
-         |                           |                               |
-         v                           v                               v
-+-----------------+         +-----------------+             +-----------------+
-|  Random Forest  |         |   KNN Tuning    |             |  PyTorch LSTM   |
-| (Class-Weighted)|         | (Val F1 Search) |             |(BCEWithLogits)  |
-+--------+--------+         +--------+--------+             +--------+--------+
-         |                           |                               |
-         +---------------------------+-------------------------------+
-                                     |
-                                     v
-+------------------------------------+----------------------------------------------------+
-|                               Operational Interfaces                                    |
-|                                                                                         |
-|  +-------------------------+   +-------------------------+   +-----------------------+  |
-|  |     FastAPI Service     |   |   Live Detector Loop    |   |  Streamlit Dashboard  |  |
-|  |  GET /health            |   |  - Passive Alert-Only   |   |  - Real-Time Timeline |  |
-|  |  POST /score (503 Guard)|   |  - Opt-In nftables Drop |   |  - Metric Comparisons |  |
-|  |  GET /alerts            |   |  - Whitelist Protection |   |  - Audit Event Tables |  |
-|  +-------------------------+   +-------------------------+   +-----------------------+  |
-+-----------------------------------------------------------------------------------------+
+                       +----------------------+----------------------+
+                                              |
+                                              v
+         +-------------------------------------------------------------------------+
+         |                         Operational Interfaces                          |
+         |                                                                         |
+         |  +-------------------------+   +-------------------------------------+  |
+         |  |   Streaming Supervisor  |   |    Streamlit Read-Only Dashboard    |  |
+         |  |  - Asynchronous Queue   |   |   - Strict `mode=ro` SQLite URI     |  |
+         |  |  - 0.50 ms State Recover|   |   - WAL Concurrency (Zero Lockouts) |  |
+         |  |  - 42k-84k pps Offline  |   |   - Real-Time Attack Telemetry      |  |
+         |  |  - Passive Alert-Only   |   |   - Automated DETECTOR BLIND Banner |  |
+         |  +-------------------------+   +-------------------------------------+  |
+         +-------------------------------------------------------------------------+
 ```
 
 ---
 
-## 🛡️ Safety & Mitigation Philosophy
+## 🛡️ Safety & Mitigation Boundaries
 
-1. **Passive Sensor Default**: The live engine operates strictly in **ALERT-ONLY** mode by default. Packet filtering via `nftables` remains simulated (dry-run mode).
-2. **Whitelist Alerting Integrity**: The whitelist **only suppresses active packet dropping**; it never suppresses logging or alerting. Suspicious activity from internal infrastructure is always recorded to `logs/detections.csv` and `logs/detections.db`.
-3. **Mandatory Infrastructure Protection**: Localhost (`127.0.0.1`, `::1`), default gateways, and system DNS resolvers (`/etc/resolv.conf`) are dynamically resolved and protected from accidental blocking.
-4. **RFC 1918 Exemption Toggle**: Private subnet exemptions (`10.0.0.0/8`, `172.16.0.0/12`, `192.168.0.0/16`) are controlled via `mitigation.exempt_rfc1918` (default: `false`).
-5. **Kernel Rule Auto-Expiration**: All dropped IP rules are applied as dynamic set elements with kernel timeouts (default: `3600s`) to prevent indefinite isolation.
-6. **Graceful Teardown**: Interruption via `SIGINT` (Ctrl+C) automatically flushes all temporary `nftables` chains and tables.
+1. **Passive Sensor Default (Alert-Only):** The streaming engine operates strictly in **ALERT-ONLY** mode by default. Packet filtering via `nftables` or `iptables` is disabled and configured strictly for dry-run logging. No firewall modifications or host routing table alterations occur.
+2. **Read-Only Dashboard Isolation:** The Streamlit dashboard accesses telemetry databases via `file:...mode=ro` SQLite URIs. It contains zero subprocess execution, zero database write queries, and zero active defense triggers.
+3. **Internal Lab Isolation:** All live replay and network generation testing is conducted inside isolated private network subnets (`172.20.0.0/16`). Reflection amplification attacks targeting public servers are prohibited and excluded by design.
 
 ---
 
-## 📦 Quickstart & Installation
+## 📦 Setup & Installation
 
 ### Requirements
-- Linux (Ubuntu/Debian, Fedora, Kali, or Arch)
-- Python 3.10+
-- `tshark` (Wireshark packet capture CLI)
-- `nftables` (Linux kernel firewall, optional for active mitigation)
+- Linux (Ubuntu/Debian, Kali, Arch, or Fedora on x86_64)
+- Python 3.10+ (tested on Python 3.11 and 3.13)
+- `tshark` / `dumpcap` (Wireshark packet capture CLI)
+- SQLite 3 (with WAL support)
 
+### Installation Steps
 ```bash
-# Clone the repository
+# 1. Clone repository and enter directory
 cd ddos-anomaly-detection-system
 
-# Create virtualenv and install dependencies
+# 2. Set up virtual environment and install dependencies
 make setup
 
-# Run the complete test suite (29 unit & integration tests)
+# 3. Run full verification test suite (63 unit and integration tests)
 make test
-
-# Verify all model trainers on isolated synthetic data
-make smoke
 ```
 
 ---
 
-## 💾 Dataset Acquisition (CIC-DDoS2019)
+## 📊 How to Regenerate Tables & Audit Manifest
 
-The project utilizes the [UNB Canadian Institute for Cybersecurity DDoS 2019 dataset](https://www.unb.ca/cic/datasets/ddos-2019.html).
+All benchmark and empirical evaluation tables in `results/tables/*.md` are generated directly from primary JSON artifacts (`results/metrics.json` and `results/session3_evaluation.json`) and verified by a strict per-cell validator.
 
-### Method A: Manual Download (Official Source)
-1. Register and request access at the official UNB portal:
-   `https://www.unb.ca/cic/datasets/ddos-2019.html`
-2. Download the Day 1 (`01-12`) and Day 2 (`03-11`) CSV flow files.
-3. Place the CSVs into `data/raw/`.
-4. Validate and generate `manifest.json`:
-   ```bash
-   make download
-   ```
+```bash
+# 1. Regenerate all authoritative results tables
+make report
 
-### Method B: Kaggle API / Mirror
-1. Configure your Kaggle credentials (`~/.kaggle/kaggle.json` or `KAGGLE_USERNAME` / `KAGGLE_KEY`).
-2. Update the `download.kaggle_dataset_slug` in `config.yaml` with your verified mirror.
-3. Run:
-   ```bash
-   python -m ddos_ads.download_data --source kaggle
-   ```
+# 2. Or regenerate individually via standalone scripts:
+.venv/bin/python3 scripts/render_session3_tables.py
+.venv/bin/python3 scripts/render_phase7_tables.py
+.venv/bin/python3 scripts/render_all_verbatim_tables.py
+.venv/bin/python3 scripts/build_claims_table.py
+```
 
-*Note: The uncompressed dataset requires approximately 10–15 GB of disk space.*
+### Table Consistency & Anti-Tamper Enforcement
+Running `make report` executes `ddos_ads.table_validator`. If any cell in `results/tables/*.md` or `results/session3_evaluation.json` is modified by even 0.001 s, `make report` immediately halts with an `AssertionError` identifying the exact mismatched cell and JSON key.
 
 ---
 
-## 🚀 Execution Pipeline
+## 🔄 How to Replay Captures & Evaluate Traffic
 
-### 1. Preprocessing & Leakage Guards
-Cleans infinite values, normalizes labels, removes 5-tuple identifier features, performs correlation pruning (> 0.95), ranks features with Random Forest (top 25), applies chronological time-splits, fits `StandardScaler` strictly on Train, and builds LSTM windows:
+Empirical evaluation captures recorded during Session 3 are located in `lab/captures/session3/`.
+
+### 1. Offline Engine Parity Evaluation
+To re-evaluate all 40 captures against frozen reference ground truth:
 ```bash
-make preprocess
+.venv/bin/python3 scripts/evaluate_phase7_parity.py
+```
+*Expected: 40/40 passed, 0 failed, maximum delay difference &le; 0.25 s, alerted-second difference = 0 s.*
+
+### 2. Live PCAP Replay Through Streaming Detector
+To replay an individual capture through the live packet detector:
+```bash
+# Example: Replay a 200 pps TCP SYN Flood
+.venv/bin/python3 scripts/replay_pcap_live.py \
+    --pcap lab/captures/session3/session3_tcp_syn_flood_200pps_rep1.pcap \
+    --db data/detection_events.db \
+    --rate-multiplier 1.0
+
+# Example: Replay a 50 pps Volumetric UDP Flood
+.venv/bin/python3 scripts/replay_pcap_live.py \
+    --pcap lab/captures/session3/session3_udp_flood_50pps_rep1.pcap \
+    --db data/detection_events.db \
+    --rate-multiplier 1.0
+
+# Example: Replay a 30 pps TCP Port Scan
+.venv/bin/python3 scripts/replay_pcap_live.py \
+    --pcap lab/captures/session3/session3_tcp_port_scan_30pps.pcap \
+    --db data/detection_events.db \
+    --rate-multiplier 1.0
 ```
 
-### 2. Model Training
-Train all three models sequentially or individually:
-```bash
-# Train all models
-make train
+---
 
-# Or train individually:
-make train_rf    # Outputs models/rf.joblib
-make train_knn   # Outputs models/knn.joblib
-make train_lstm  # Outputs models/lstm.pt
-```
-*Note: Any script can be tested without data via `--smoke-test`.*
+## 🖥️ How to Run the Monitoring Dashboard
 
-### 3. Comprehensive Evaluation
-Evaluates all trained models on same-day and cross-day test splits, searches for operating thresholds meeting target FPR ($\le 1\%$), and generates publication-quality plots:
-```bash
-make evaluate
-```
-Outputs:
-- `results/metrics.csv` & `results/metrics.json`
-- `results/roc_curves.png`
-- `results/pr_curves.png`
-- `results/model_comparison.png`
-
-### 4. Real-Time Detection & Mitigation
-Capture traffic on an interface (e.g., `eth0`), convert to flows, and score in real time:
-```bash
-# Run in default passive alert-only mode
-make live
-
-# Run with dry-run mitigation simulation
-python -m ddos_ads.live_detector --interface eth0 --dry-run
-
-# Run live monitor (alert-only, dry-run simulated mitigation)
-python -m ddos_ads.live_detector --interface eth0
-```
-
-### 5. Serving REST API
-Start the FastAPI inference service:
-```bash
-make api
-```
-Endpoints:
-- `GET /health`: Health status and loaded model confirmation.
-- `POST /score`: Submit flow batches for immediate inference (returns 503 if models are not trained).
-- `GET /alerts`: Fetch recent detection records from the SQLite database.
-
-### 6. Interactive Monitoring Dashboard
-Launch the Streamlit web dashboard:
+Launch the interactive web telemetry interface:
 ```bash
 make dashboard
+# Or run directly via Streamlit:
+.venv/bin/streamlit run src/ddos_ads/dashboard.py --server.port 8501
 ```
-Accessible at `http://localhost:8501`. Displays live flow rate timelines, anomaly probability distributions against decision thresholds, blocked IP tables, and offline benchmark comparisons.
+
+Access the dashboard in your browser at `http://localhost:8501`.
+Features:
+- **Live Threat Telemetry:** Real-time timelines of incomplete handshakes, arrival rates, and UDP volume.
+- **Threat State Indicator:** Instant visual alerts for `NORMAL`, `ALERT_SYN_FLOOD`, `ALERT_UDP_FLOOD`, and `ALERT_SCAN`.
+- **DETECTOR BLIND Watchdog:** Prominent full-screen banner alerting operators if the capture supervisor stops emitting heartbeats for >5.0 seconds.
+- **Read-Only Guarantee:** Concurrently viewable while replay or live detection is active with zero database lockups.
 
 ---
 
-## ⚠️ System Limitations & Research Caveats
+## 📑 Comprehensive Reports & Documentation
 
-- **Domain Gap & Dataset Age**: CIC-DDoS2019 was collected in a controlled testbed in 2019. Modern multi-vector DDoS attacks (e.g., encrypted HTTPS/QUIC floods, carpet-bombing, reflective DNS/NTP with randomized payload structures) may exhibit distribution shifts.
-- **Tooling Differences**: CICFlowMeter flow generation algorithms may exhibit slight statistical differences across operating systems or Java/Python versions. The system includes an automated fuzzy alignment and zero-fill mapper to mitigate schema discrepancies.
-- **Lab Testing**: It is strongly recommended to test active mitigation in a staged virtual network or testbed prior to deployment on production networks.
+- **Academic Report (PDF):** `results/report.pdf` (27 pages, publication-formatted with embedded figures)
+- **Academic Report (Word):** `results/report.docx`
+- **Presentation Slide Deck:** `results/presentation_slides.pdf` (11 widescreen vector slides)
+- **Presentation Deck Markdown:** `results/presentation_slides.md`
+- **Claim-to-Evidence Audit:** `results/tables/table_claims.md` (19 verified empirical claims, 2 explicitly disclosed unrun scenarios)
+- **Demonstration Script & Screen Recording Plan:** `demo/demo_script.md`
 
 ---
 
@@ -203,8 +167,8 @@ Accessible at `http://localhost:8501`. Displays live flow rate timelines, anomal
 ================================================================================
                     ETHICAL & LEGAL COMPLIANCE NOTICE
 This software is intended strictly for educational, defensive, and authorized
-security testing purposes on networks and systems you own or have explicit
-written permission to audit. Unauthorized sniffing, interception, or disruption
-of network communications violates international computer crime laws.
+security research on networks and systems you own or have explicit written
+permission to audit. Unauthorized sniffing, interception, or disruption of
+network communications violates international computer crime laws.
 ================================================================================
 ```
