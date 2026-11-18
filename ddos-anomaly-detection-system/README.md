@@ -51,7 +51,8 @@ An enterprise-grade, dual-path Network Security and Machine Learning system engi
 
 1. **Passive Sensor Default (Alert-Only):** The streaming engine operates strictly in **ALERT-ONLY** mode by default. Packet filtering via `nftables` or `iptables` is disabled and configured strictly for dry-run logging. No firewall modifications or host routing table alterations occur.
 2. **Read-Only Dashboard Isolation:** The Streamlit dashboard accesses telemetry databases via `file:...mode=ro` SQLite URIs. It contains zero subprocess execution, zero database write queries, and zero active defense triggers.
-3. **Internal Lab Isolation:** All live replay and network generation testing is conducted inside isolated private network subnets (`172.20.0.0/16`). Reflection amplification attacks targeting public servers are prohibited and excluded by design.
+3. **Internal Lab Isolation:** All live replay and network generation testing is conducted inside isolated private network subnets (`172.20.0.0/16`). Traffic generators are only aimed at the isolated 172.20.0.0/16 network, never at public or third-party systems.
+4. **Scope Note on Reflection Amplification:** Reflection amplification scenario: pre-registered in the Session 3 plan but not run. The reflector container named in the plan was never provisioned in docker-compose.yml (a planning error), and the traffic generator implements no reflection logic. The scenario would have run on the internal-only lab network. Source: lab/docker-compose.yml and the 'not run' rows of results/tables/table_s3_b_per_repeat.md. Status: NOT RUN.
 
 ---
 

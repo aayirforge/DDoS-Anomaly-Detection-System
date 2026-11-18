@@ -64,7 +64,7 @@
 - **TCP SYN Floods (12 Captures):** 12/12 detected (100% recall). Mean detection delay: 2.13 s (max: 2.42 s at 50 pps rep1), well within 5.0 s bound.
 - **Volumetric UDP Floods (24 Captures):** 24/24 detected (100% recall). Mean detection delay: 0.28 s (max: 0.80 s at 50 pps rep1), well within 1.0 s bound.
 - **TCP Port Scans (3 Captures):** 3/3 correctly classified as ALERT_SCAN (mean delay: 2.44 s; diagnostic evaluation).
-- **Benign Baseline (900 s):** 0 false alarm seconds across 900 seconds of concurrent HTTP/DNS/SSH (0.00% empirical FPR; 95% Wilson bound: 0.33%).
+- **Benign Baseline (900 s):** 0 false alarm seconds across 900 s of DNS, NTP, UDP echo, 15 pps RTP-like UDP, and bursty HTTP (0.00% empirical FPR; 95% bound: 0.33%).
 
 ---
 ## Slide 8: Adversarial Stress-Test Findings
@@ -91,7 +91,7 @@
 - **Topology Constraints:** Evaluated in a single container bridge topology on a single Linux kernel; physical switch fabric and NIC offloading not tested.
 - **Threshold Calibration:** Calibrated near 50 pps generator rates; sub-threshold distributed floods (<40 UDP pps, <20 unacked SYNs) will not trigger.
 - **Protocol Bypasses:** Adversaries transmitting paired bare ACKs for every SYN cancel the arrival counter; legitimate flash crowds >750 conn/s risk false alerts.
-- **Evaluation Scope:** Reflection amplification attacks explicitly excluded for lab safety; live-capture kernel socket drop limits unmeasured.
+- **Evaluation Scope:** Reflection amplification scenario: pre-registered in the Session 3 plan but not run. The reflector container named in the plan was never provisioned in docker-compose.yml (a planning error), and the traffic generator implements no reflection logic. The scenario would have run on the internal-only lab network. Source: lab/docker-compose.yml and the 'not run' rows of results/tables/table_s3_b_per_repeat.md. Status: NOT RUN.
 
 ---
 ## Slide 11: Future Roadmap & Project Conclusions
@@ -100,4 +100,4 @@
 - **Finding 1: Benchmark Disconnect:** High benchmark AUC does not equal operational viability. Flow models fail against single-packet floods due to extraction delay.
 - **Finding 2: The Dual-Path Imperative:** Production defense requires fast, stateless/stateful packet filters upfront, reserving flow ML for forensic analysis.
 - **Finding 3: Stress-Testing is Essential:** Table caps, collision re-transmissions, and ACK credit rules were only exposed through aggressive adversarial replay.
-- **Next Steps:** Multi-environment cloud deployments, safe virtualized reflection testing, and learned sub-microsecond eBPF/XDP kernel ensembles.
+- **Next Steps:** Provision a reflector container on the internal lab network and run the pre-registered scenario (DNS/NTP/Memcached-style reflection) as an exploratory session.

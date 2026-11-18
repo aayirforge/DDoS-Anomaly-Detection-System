@@ -6,12 +6,13 @@ This document provides an end-to-end operational demonstration script and camera
 
 ## 1. Demonstration Overview & Environment Setup
 
-### 1.1 Prerequisites
+### 1.1 Prerequisites & Scope Notes
 - **Target OS:** Linux (x86_64)
 - **Runtime Environment:** Python 3.11+ virtual environment (`.venv`)
 - **Working Directory:** `ddos-anomaly-detection-system/`
 - **Dashboard Service:** Streamlit on port `8501` (read-only SQLite mode)
 - **Database Path:** `data/detection_events.db` (auto-created in WAL mode)
+- **Scope Note on Reflection Amplification:** Reflection amplification scenario: pre-registered in the Session 3 plan but not run. The reflector container named in the plan was never provisioned in docker-compose.yml (a planning error), and the traffic generator implements no reflection logic. The scenario would have run on the internal-only lab network. Source: lab/docker-compose.yml and the 'not run' rows of results/tables/table_s3_b_per_repeat.md. Status: NOT RUN.
 
 ### 1.2 Layout Configuration (Screen Recording)
 - **Display Resolution:** 1920 &times; 1080 (1080p, 60 FPS)

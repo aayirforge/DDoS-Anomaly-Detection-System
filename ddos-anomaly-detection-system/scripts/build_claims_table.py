@@ -187,10 +187,10 @@ def build_claims_table() -> List[Dict[str, str]]:
     })
 
     claims.append({
-        "claim": "Reflection Amplification Scenario: Excluded from live lab execution due to safety policies preventing active public reflection.",
-        "source": "lab/session3_plan.md & results/report.md",
-        "key_or_table": "reflection_scenario_scope",
-        "value": "Reflection amplification attack vector explicitly omitted from active execution",
+        "claim": "Reflection amplification scenario: pre-registered in the Session 3 plan but not run. The reflector container named in the plan was never provisioned in docker-compose.yml (a planning error), and the traffic generator implements no reflection logic. The scenario would have run on the internal-only lab network. Source: lab/docker-compose.yml and the 'not run' rows of results/tables/table_s3_b_per_repeat.md. Status: NOT RUN.",
+        "source": "lab/docker-compose.yml & results/tables/table_s3_b_per_repeat.md",
+        "key_or_table": "reflection_scenario_planning_error",
+        "value": "Reflector container never provisioned in docker-compose.yml; generator has no reflection logic; scenario not run",
         "status": "NOT RUN",
     })
 
