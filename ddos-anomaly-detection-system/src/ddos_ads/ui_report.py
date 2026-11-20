@@ -28,14 +28,30 @@ MANDATORY_LIMITATIONS_TEXT = (
     "validated. Flow-based ML models are not used here because they did not transfer in the lab study."
 )
 
-CODE_TAG = "v3.3"
+CODE_TAG = "v3.4"
 
 
-def verify_analysis_integrity(data: Dict[str, Any]) -> None:
+def verify_analysis_integrity(data: Dict[str, Any], run_dir: Optional[Path] = None) -> None:
     """
     Verifies that analysis.json numbers and checksums are intact and untampered.
+    Compares against:
+    1. Independent external digest file (analysis_digest.sha256) stored at analysis time.
+    2. Internal canonical JSON SHA-256 integrity checksum (integrity_checksum).
+    3. Mathematical invariants across packet counts, duration, and class alert totals.
     If tampered, raises ValueError.
     """
+    if run_dir is not None:
+        digest_file = run_dir / "analysis_digest.sha256"
+        analysis_json_file = run_dir / "analysis.json"
+        if digest_file.is_file() and analysis_json_file.is_file():
+            expected_digest = digest_file.read_text(encoding="utf-8").split()[0].strip()
+            actual_digest = hashlib.sha256(analysis_json_file.read_bytes()).hexdigest()
+            if actual_digest != expected_digest:
+                raise ValueError(
+                    f"Report tamper check failed: independent analysis_digest.sha256 mismatch "
+                    f"(expected {expected_digest}, found {actual_digest})."
+                )
+
     if "integrity_checksum" in data:
         stored_chk = data["integrity_checksum"]
         # Create shallow copy without integrity_checksum
@@ -88,7 +104,7 @@ def generate_ui_report(
     Returns (html_path, pdf_path, docx_path).
     """
     # 1. Enforce tamper verification
-    verify_analysis_integrity(analysis_data)
+    verify_analysis_integrity(analysis_data, run_dir=run_dir)
 
     run_id = analysis_data["run_id"]
     timestamp = analysis_data["timestamp_analyzed"]

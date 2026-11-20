@@ -690,10 +690,14 @@ Detector performance was evaluated under real-time replay and high-rate packet p
   <li><strong>Supervisor Recovery:</strong> Simulated crash-restart benchmarking demonstrated supervisor state restoration and bookkeeping recovery in <strong>0.50 ms</strong>.</li>
 </ul>
 
-<h2>9.5 Dashboard and Safety Architecture</h2>
+<h2>9.5 UI and Safety Architecture</h2>
 <p>
-System telemetry is presented via a dedicated Streamlit monitoring dashboard (<code>ddos_ads.dashboard</code>). The dashboard connects to the detection database via a read-only SQLite URI (<code>file:...mode=ro</code>) and WAL concurrency mode, preventing database locks.
+The user interface (<code>ddos_ads.dashboard</code>) provides a dual-mode Streamlit architecture:
 </p>
+<ul>
+  <li><strong>One-Page Analysis Interface:</strong> Allows users to upload packet captures (.pcap/.pcapng) or launch <code>dumpcap</code> for controlled live captures. Subprocess execution in the UI is strictly restricted to the <code>ui_capture</code> helper module using argument lists (never <code>shell=True</code>), and all run outputs are isolated under <code>results/ui_runs/</code>. Uploads enforce positive magic-byte filtering, a 500 MB size cap, and path traversal sanitization.</li>
+  <li><strong>Advanced Live Monitor:</strong> Operates in strict read-only mode, connecting to the supervisor database via a read-only SQLite URI (<code>file:...mode=ro</code>) and WAL concurrency mode, preventing database locks.</li>
+</ul>
 <div class="callout">
   <strong>Safety Verification:</strong> Active firewall blocking is disabled by default. Source code auditing confirmed that active mitigation modules are configured strictly for <em>dry-run logging</em>; no iptables or nftables rules are injected into host routing tables.
 </div>

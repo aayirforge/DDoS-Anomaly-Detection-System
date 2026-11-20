@@ -33,6 +33,7 @@ VALID_PCAP_MAGICS = [
     b"\x4d\x3c\xb2\xa1",  # Nanosecond pcap (little-endian)
 ]
 VALID_PCAPNG_MAGIC = b"\x0a\x0d\x0d\x0a"  # pcapng section header block
+GZIP_MAGIC = b"\x1f\x8b"  # Gzip compression header
 EXE_MAGIC = b"\x4d\x5a"  # 'MZ' DOS/PE executable header
 
 DEFAULT_MAX_UPLOAD_BYTES = 500 * 1024 * 1024  # 500 MB
@@ -97,6 +98,10 @@ def validate_and_stream_upload(
 
                 if not header_checked and len(chunk) >= 4:
                     magic4 = chunk[:4]
+                    if magic4.startswith(GZIP_MAGIC):
+                        raise ValueError(
+                            "Rejected: Gzip compressed file detected. Only uncompressed .pcap/.pcapng files are accepted."
+                        )
                     if magic4.startswith(EXE_MAGIC):
                         raise ValueError(
                             "Rejected: Executable file signature (.exe 'MZ') detected. This file is not a valid packet capture."
@@ -178,8 +183,9 @@ def analyze_capture_file(
     detector_blind = (dropped_packets > 0 or is_truncated)
 
     # 3. Replay through RuleEngine
-    # We configure RuleEngine with enable_syn_arrival_rule to allow post-hoc detection
-    engine = RuleEngine(enable_syn_arrival_rule=enable_posthoc_rule)
+    # We configure RuleEngine with victim_ip=None to track any destination in UI mode,
+    # and enable_syn_arrival_rule to allow post-hoc detection if enabled
+    engine = RuleEngine(victim_ip=None, enable_syn_arrival_rule=enable_posthoc_rule)
     # Stream through pcap
     analysis_duration = max(1, int(round(duration_sec))) if duration_sec > 0 else 120
     # Run streaming evaluation
@@ -340,13 +346,19 @@ def analyze_capture_file(
         },
     }
 
-    # Data integrity checksum
+    # Internal data integrity checksum
     data_str = json.dumps(analysis_data, sort_keys=True)
     analysis_data["integrity_checksum"] = hashlib.sha256(data_str.encode("utf-8")).hexdigest()
 
     # Write analysis.json
     out_json = run_dir / "analysis.json"
-    with open(out_json, "w", encoding="utf-8") as f:
-        json.dump(analysis_data, f, indent=2)
+    json_bytes = json.dumps(analysis_data, indent=2).encode("utf-8")
+    with open(out_json, "wb") as f:
+        f.write(json_bytes)
+
+    # Independent file digest stored at analysis time (Requirement 6)
+    independent_digest = hashlib.sha256(json_bytes).hexdigest()
+    digest_path = run_dir / "analysis_digest.sha256"
+    digest_path.write_text(f"{independent_digest}  analysis.json\n", encoding="utf-8")
 
     return analysis_data

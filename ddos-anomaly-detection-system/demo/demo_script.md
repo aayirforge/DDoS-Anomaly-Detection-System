@@ -10,7 +10,7 @@ This document provides an end-to-end operational demonstration script and camera
 - **Target OS:** Linux (x86_64)
 - **Runtime Environment:** Python 3.11+ virtual environment (`.venv`)
 - **Working Directory:** `ddos-anomaly-detection-system/`
-- **Dashboard Service:** Streamlit on port `8501` (read-only SQLite mode)
+- **Dashboard Service:** Streamlit on port `8501` (One-page capture analysis UI with dumpcap writing under `results/ui_runs`; advanced live telemetry page operates in read-only SQLite mode)
 - **Database Path:** `data/detection_events.db` (auto-created in WAL mode)
 - **Scope Note on Reflection Amplification:** Reflection amplification scenario: pre-registered in the Session 3 plan but not run. The reflector container named in the plan was never provisioned in docker-compose.yml (a planning error), and the traffic generator implements no reflection logic. The scenario would have run on the internal-only lab network. Source: lab/docker-compose.yml and the 'not run' rows of results/tables/table_s3_b_per_repeat.md. Status: NOT RUN.
 
@@ -36,18 +36,18 @@ This document provides an end-to-end operational demonstration script and camera
 
 ## 2. Step-by-Step Demonstration Script
 
-### Scene 1: System Initialization and Read-Only Dashboard Launch (0:00 - 0:45)
+### Scene 1: System Initialization and Streamlit UI Launch (0:00 - 0:45)
 1. **Initialize Telemetry Database:**
    ```bash
    rm -f data/detection_events.db data/detection_events.db-wal data/detection_events.db-shm
    sqlite3 data/detection_events.db "VACUUM;"
    ```
-2. **Launch Read-Only Dashboard in Browser:**
+2. **Launch Streamlit UI in Browser:**
    ```bash
    .venv/bin/streamlit run src/ddos_ads/dashboard.py --server.port 8501 --server.headless true
    ```
 3. **Narration:**
-   > *"We start by launching the Streamlit monitoring interface. The dashboard connects to SQLite strictly via URI `file:data/detection_events.db?mode=ro`, guaranteeing zero write locks on active detection pipelines. Note the system status displays 'NORMAL' with zero active threats."*
+   > *"We start by launching the Streamlit interface. The UI provides a one-page capture analysis interface (which can analyze uploaded pcaps or launch dumpcap for controlled live captures with outputs written under results/ui_runs) as well as an advanced live monitoring page that connects to SQLite strictly via URI `file:data/detection_events.db?mode=ro`, guaranteeing zero write locks on active detection pipelines. Note the system status displays 'NORMAL' with zero active threats."*
 
 ---
 
@@ -149,7 +149,7 @@ This document provides an end-to-end operational demonstration script and camera
 
 | Scene | Timestamp | Visual Focus / Region | Audio Narration & Key Points |
 | :---: | :---: | :--- | :--- |
-| **1** | 0:00 - 0:45 | Full split screen: Terminal left, empty Streamlit dashboard right. | Introduce hybrid architecture; point out read-only mode and zero system load. |
+| **1** | 0:00 - 0:45 | Full split screen: Terminal left, Streamlit UI right. | Introduce hybrid architecture; point out capture analysis writing under results/ui_runs and advanced read-only monitoring. |
 | **2** | 0:45 - 1:45 | Zoom on Dashboard Incomplete Handshake chart and Alert feed. | Replay SYN 200 pps; highlight 2.05 s detection latency under Condition B. |
 | **3** | 1:45 - 2:30 | Zoom on Dashboard UDP rate chart and 40 pps threshold marker. | Replay UDP 50 pps; explain stateless sliding-window rate tracking. |
 | **4** | 2:30 - 3:15 | Zoom on Alert Classification badge (`ALERT_SCAN`). | Replay Scan 30 pps; explain scan classifier distinguishing scans from floods. |

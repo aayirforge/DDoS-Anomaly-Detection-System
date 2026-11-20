@@ -56,7 +56,7 @@ def build_slides_pdf_and_md(base_dir: Path) -> tuple[Path, Path]:
                 ("Path 1: Packet-Level Streaming Engine", "Processes wire datagrams with sub-microsecond latency. Tracks stateful TCP handshakes and stateless UDP/SYN arrival rates."),
                 ("Path 2: Statistical Flow Analytics", "Extracts bidirectional flows over 14 robust features for forensic auditing and background pattern analysis."),
                 ("Asynchronous Decoupling", "Capture ring buffers isolate network ingress from database logging, maintaining 42,000-84,000 pps offline throughput."),
-                ("Safety & Observability", "Zero-impact read-only dashboard with WAL concurrency; active firewall mitigation strictly dry-run by design.")
+                ("Safety & Observability", "Analysis UI launches dumpcap under results/ui_runs; only advanced page is read-only (mode=ro).")
             ]
         },
         {
@@ -128,9 +128,9 @@ def build_slides_pdf_and_md(base_dir: Path) -> tuple[Path, Path]:
         {
             "num": 9,
             "title": "Operational Telemetry & Safety Architecture",
-            "subtitle": "Read-Only Dashboard, Sub-Millisecond Recovery, Zero Active Risk",
+            "subtitle": "Analysis Page (Subprocess Under ui_runs), Read-Only Advanced Page, Zero Active Risk",
             "bullets": [
-                ("Read-Only Streamlit UI", "Connects via SQLite URI file:...mode=ro with WAL concurrency. Formally verified by 9/9 read-only test suite."),
+                ("UI Safety Architecture", "Analysis page can launch dumpcap via argument lists under results/ui_runs; only the advanced monitoring page is read-only (SQLite mode=ro)."),
                 ("Supervisor Recovery", "Simulated supervisor crash restored state tracking and database reconnection in 0.50 ms."),
                 ("DETECTOR BLIND Fixture", "Automated UI banners instantly alert operators if the capture daemon stalls or crashes."),
                 ("Strict Safety Guarantees", "Active firewall mitigation hardcoded to dry-run logging; zero automated routing changes or packet-drop injections.")

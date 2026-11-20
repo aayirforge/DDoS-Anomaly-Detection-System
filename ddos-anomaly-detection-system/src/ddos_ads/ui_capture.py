@@ -131,10 +131,15 @@ def build_dumpcap_command(
     return cmd
 
 
-def start_live_capture(cmd: List[str]) -> subprocess.Popen:
+def start_live_capture(cmd: List[str], permission_acknowledged: bool = False) -> subprocess.Popen:
     """
     Starts dumpcap as a background child process without shell.
+    Strictly enforces permission acknowledgment flag in the backend function.
     """
+    if not permission_acknowledged:
+        raise PermissionError(
+            "Start refused: You must confirm that you own this network or have permission to capture on it."
+        )
     proc = subprocess.Popen(
         cmd,
         stdout=subprocess.PIPE,
@@ -266,10 +271,14 @@ def get_pcap_metadata_and_packets(pcap_path: Path) -> Dict[str, Any]:
 
     _, stderr = proc.communicate()
     is_truncated = False
+    if proc.returncode != 0:
+        is_truncated = True
     if stderr:
         low_err = stderr.lower()
-        if "cut short" in low_err or "less than expected" in low_err or "truncated" in low_err:
+        if any(term in low_err for term in ["cut short", "less than expected", "truncated", "damaged", "corrupt", "malformed"]):
             is_truncated = True
+    if size_bytes > 24 and packet_count == 0:
+        is_truncated = True
 
     duration = round((last_ts - first_ts), 4) if (first_ts is not None and last_ts is not None) else 0.0
 

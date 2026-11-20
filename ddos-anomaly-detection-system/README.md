@@ -33,10 +33,10 @@ This project resolves the operational gap by implementing a **hybrid dual-path a
 | **Tabular ML & Analytics** | **Scikit-Learn 1.9** & **NumPy / Pandas** | Powers Random Forest ensembles with balanced class weighting, K-Nearest Neighbors (KNN), data cleaning, chronological time-splits, and ROC/PR metric computation. |
 | **Packet Capture & Dissection** | **`tshark` / `dumpcap` & Scapy 2.8** | Low-overhead wire capture via standard pipes and Scapy dissectors for packet-level header analysis (TCP flags, timestamps, port distributions). |
 | **Flow Feature Extractor** | **SimpleFlowMeterV4 / Java CICFlowMeter** | Custom-audited flow extraction engine. Rectified upstream payload truncation and Backward IAT scaling bugs to ensure absolute feature consistency. |
-| **Operational Telemetry UI** | **Streamlit 1.67** | Zero-lockout monitoring dashboard connected via read-only SQLite URIs (`mode=ro`) with WAL concurrency, timeline charts, and watchdog alerts. |
+| **Operational Telemetry UI** | **Streamlit 1.67** | Dual-mode monitoring interface: one-page capture analysis UI (dumpcap via ui_capture under results/ui_runs) and advanced read-only telemetry dashboard (SQLite mode=ro). |
 | **Embedded Database** | **SQLite 3 (WAL Mode)** | High-throughput, concurrent append-only event logging with sub-millisecond query recovery and zero database locking during active replays. |
 | **API Serving Layer** | **FastAPI & Uvicorn** | Asynchronous REST API providing `/health`, `/score`, and `/alerts` endpoints with 503 circuit-breaker guards when models are unloaded. |
-| **Verification & Testing** | **Pytest 9.2 & Typeguard** | 63 automated tests covering model training smoke tests, chronological leakage guards, streaming parity, and dashboard read-only enforcement. |
+| **Verification & Testing** | **Pytest 9.2 & Typeguard** | Comprehensive automated tests covering model training smoke tests, chronological leakage guards, streaming parity, and UI safety verification. |
 | **Document Generation** | **LibreOffice (Headless) & Matplotlib** | Generates verified, reproducible 27-page academic reports (PDF & DOCX) and 11 widescreen vector presentation slides with zero external cloud dependencies. |
 
 ---
@@ -69,10 +69,10 @@ This project resolves the operational gap by implementing a **hybrid dual-path a
          |                         Operational Interfaces                          |
          |                                                                         |
          |  +-------------------------+   +-------------------------------------+  |
-         |  |   Streaming Supervisor  |   |    Streamlit Read-Only Dashboard    |  |
-         |  |  - Asynchronous Queue   |   |   - Strict `mode=ro` SQLite URI     |  |
-         |  |  - 0.50 ms State Recover|   |   - WAL Concurrency (Zero Lockouts) |  |
-         |  |  - 42k-84k pps Offline  |   |   - Real-Time Attack Telemetry      |  |
+         |  |   Streaming Supervisor  |   |    Streamlit UI (Analysis & Monitor)|  |
+         |  |  - Asynchronous Queue   |   |   - Analysis Page (runs dumpcap)    |  |
+         |  |  - 0.50 ms State Recover|   |   - Writes under results/ui_runs    |  |
+         |  |  - 42k-84k pps Offline  |   |   - Advanced Page: SQLite `mode=ro` |  |
          |  |  - Passive Alert-Only   |   |   - Automated DETECTOR BLIND Banner |  |
          |  +-------------------------+   +-------------------------------------+  |
          +-------------------------------------------------------------------------+
@@ -103,7 +103,11 @@ Because single-packet floods cannot wait for flow aggregation, the system implem
 
 ### 3.3 Safety & Operational Boundaries
 1. **Passive Sensor Default (Alert-Only):** The streaming engine operates strictly in **ALERT-ONLY** mode by default. Packet filtering via `nftables` or `iptables` is disabled and hardcoded strictly for dry-run logging. Zero routing modifications or packet drops occur on host interfaces.
-2. **Read-Only Dashboard Isolation:** The Streamlit dashboard accesses telemetry databases via `file:...mode=ro` SQLite URIs. It contains zero subprocess execution, zero database write queries, and zero active defense triggers.
+2. **UI Safety Architecture & Isolation:** The Streamlit interface provides two dedicated pages:
+   - **One-Page Analysis Interface:** Allows operators to upload packet captures (.pcap/.pcapng) or launch `dumpcap` for controlled live packet captures. Subprocess execution in the UI is strictly restricted to `ui_capture.py` using argument lists (never `shell=True`), and all analysis runs write strictly under ephemeral run directories in `results/ui_runs/`. Uploads enforce positive magic-byte filtering, a 500 MB size cap, and path traversal sanitization.
+   - **Advanced Live Telemetry Page:** Operates in strict read-only mode, accessing supervisor telemetry databases via `file:...mode=ro` SQLite URIs with WAL concurrency.
+   - **Raw Payload Notice:** Network packet captures (.pcap/.pcapng) contain raw network payloads and packet headers. Ephemeral analysis runs can be cleaned up using `make clean_ui_runs`.
+   - **Exposure Warning:** The Streamlit interface is configured to bind strictly to localhost (`127.0.0.1` in `.streamlit/config.toml`). Do not expose this interface to untrusted public networks or `0.0.0.0`, as capture tools and upload processing are designed for local evaluation.
 3. **Isolated Lab Subnets:** All live replay and network generation testing is conducted inside isolated private network subnets (`172.20.0.0/16`). Traffic generators are only aimed at the isolated `172.20.0.0/16` network, never at public or third-party systems.
 4. **Scope Note on Reflection Amplification:** Reflection amplification scenario: pre-registered in the Session 3 plan but not run. The reflector container named in the plan was never provisioned in `docker-compose.yml` (a planning error), and the traffic generator implements no reflection logic. The scenario would have run on the internal-only lab network. Source: `lab/docker-compose.yml` and the "not run" rows of `results/tables/table_s3_b_per_repeat.md`. Status: **NOT RUN**.
 
@@ -126,7 +130,7 @@ make setup
 ```
 
 ### 4.2 Running the Full Verification Test Suite
-Execute the comprehensive 63-test suite covering unit logic, feature alignment, read-only safety, and streaming parity:
+Execute the comprehensive test suite covering unit logic, feature alignment, UI safety, and streaming parity:
 
 ```bash
 make test
@@ -266,7 +270,10 @@ ddos-anomaly-detection-system/
 ├── src/ddos_ads/                       # Production detection engine & application source
 │   ├── rule_engine.py                  # Core packet streaming rules (TCP handshake & UDP counters)
 │   ├── live_packet_detector.py         # Asynchronous supervisor loop and circular packet buffer
-│   ├── dashboard.py                    # Streamlit read-only monitoring interface
+│   ├── dashboard.py                    # Streamlit analysis UI and read-only telemetry interface
+│   ├── ui_capture.py                   # Isolated subprocess wrapper for dumpcap/tshark (argument lists only)
+│   ├── ui_analyzer.py                  # Pcap upload validation, streaming evaluator, and tamper digest
+│   ├── ui_report.py                    # Programmatic HTML/PDF/DOCX report generator from analysis.json
 │   ├── mitigation.py                   # Hardcoded dry-run firewall response manager
 │   ├── report.py & table_validator.py  # Report generator and per-cell table consistency validator
 │   ├── features.py                     # 25-feature and robust 14-feature invariant definitions
@@ -277,6 +284,7 @@ ddos-anomaly-detection-system/
 │   ├── presentation_slides.pdf         # 11-slide widescreen presentation deck
 │   ├── metrics.json                    # Primary frozen benchmark evaluation ground truth
 │   ├── session3_evaluation.json        # Primary frozen empirical capture ground truth
+│   ├── ui_runs/                        # Ephemeral UI run artifacts (.gitignore; clean via make clean_ui_runs)
 │   ├── figures/                        # Dashboard verification screenshots & figure manifests
 │   └── tables/                         # Script-generated markdown benchmark tables
 │       ├── table_claims.md             # Full claim-to-evidence traceability audit (21 claims)
@@ -291,9 +299,12 @@ ddos-anomaly-detection-system/
 │   ├── generate_slides.py              # Programmatic builder for presentation_slides.pdf
 │   ├── build_claims_table.py           # Programmatic builder for table_claims.md
 │   ├── evaluate_phase7_parity.py       # Replay parity evaluator across 40 Session 3 PCAPs
+│   ├── rewrite_pcaps.py                # Subnet address rewriter (172.20.0.0/16 -> 10.50.0.0/16)
+│   ├── generate_unrelated_captures.py  # Synthesizes 4 unrelated traffic captures
 │   └── run_parity_mutations.py         # 5 parameter mutation sensitivity tests
-└── tests/                              # Comprehensive test suite (63 unit & integration tests)
-    ├── test_dashboard_readonly.py      # Verifies strict read-only SQLite URI and zero write queries
+└── tests/                              # Comprehensive test suite (unit, safety & integration tests)
+    ├── test_dashboard_readonly.py      # Verifies UI AST safety, subprocess containment, and mode=ro
+    ├── test_phase10_ui.py              # Verifies upload security, command template, tamper digests, and generality
     ├── test_live_packet_detector_parity.py # Verifies parity against session3_evaluation.json
     └── test_table_cell_grounding.py    # Verifies table cells match exact JSON keys
 ```

@@ -299,7 +299,7 @@ def render_analysis_ui() -> None:
                 permission_acknowledged=permission_box,
                 allowed_ifaces=allowed_list,
             )
-            proc = start_live_capture(cmd)
+            proc = start_live_capture(cmd, permission_acknowledged=permission_box)
             st.session_state["is_capturing"] = True
             st.session_state["capture_proc"] = proc
             st.session_state["capture_pcapng"] = str(out_pcapng)

@@ -168,12 +168,12 @@ def build_claims_table() -> List[Dict[str, str]]:
         "status": "VERIFIED",
     })
 
-    # 14. Dashboard Read-Only Operation
+    # 14. UI Safety Architecture & Dashboard Read-Only Operation
     claims.append({
-        "claim": "Read-Only Dashboard: Streamlit monitoring interface enforces strict read-only SQLite URI, WAL concurrency, and DETECTOR BLIND alerts.",
+        "claim": "UI Safety Architecture: Streamlit analysis page can launch dumpcap and writes under results/ui_runs; only the advanced monitoring page is read-only (SQLite mode=ro). Subprocess execution is strictly restricted to ui_capture with argument lists.",
         "source": "results/figures/figures_manifest.json & tests/test_dashboard_readonly.py",
-        "key_or_table": "dashboard_readonly_suite",
-        "value": "9 tests passed; mode=ro enforced; WAL concurrency verified; 0 write capabilities",
+        "key_or_table": "dashboard_safety_suite",
+        "value": "Analysis page launches dumpcap via argument lists under results/ui_runs; only advanced page is read-only (mode=ro)",
         "status": "VERIFIED",
     })
 

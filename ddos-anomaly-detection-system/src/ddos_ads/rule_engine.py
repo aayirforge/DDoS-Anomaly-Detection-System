@@ -57,7 +57,7 @@ class RuleEngine:
 
     def __init__(
         self,
-        victim_ip: str = "172.20.0.2",
+        victim_ip: Optional[str] = "172.20.0.2",
         handshake_timeout: float = 2.0,
         sliding_window_sec: float = 1.0,
         max_handshakes: int = 100_000,
@@ -108,7 +108,9 @@ class RuleEngine:
         self.src_ip_counts: Dict[str, int] = defaultdict(int)
         self.dst_ip_counts: Dict[str, int] = defaultdict(int)
 
-        # State: UDP sliding window: deque of (ts, dst_ip, dst_port)
+        # State: UDP sliding window per destination
+        self.udp_windows: Dict[str, deque[Tuple[float, str, int]]] = defaultdict(deque)
+        self.udp_dst_port_counts_map: Dict[str, Dict[int, int]] = defaultdict(lambda: defaultdict(int))
         self.udp_window: deque[Tuple[float, str, int]] = deque()
         self.udp_dst_port_counts: Dict[int, int] = defaultdict(int)
 
@@ -137,6 +139,8 @@ class RuleEngine:
         self.dst_ip_counts.clear()
         self.udp_window.clear()
         self.udp_dst_port_counts.clear()
+        self.udp_windows.clear()
+        self.udp_dst_port_counts_map.clear()
         self.alerts_emitted.clear()
         self.last_processed_ts = None
         self.first_alert_ts = None
@@ -177,71 +181,88 @@ class RuleEngine:
             if self.dst_ip_counts[old_dip] == 0:
                 del self.dst_ip_counts[old_dip]
 
-        # Evaluate sliding condition
-        cnt = len(self.incomplete_window)
-        distinct_dst_ports = len(self.dst_port_counts)
-        distinct_dst_ips = len(self.dst_ip_counts)
-        distinct_src_ips = len(self.src_ip_counts)
+        # Determine target destinations to evaluate
+        targets = [self.victim_ip] if self.victim_ip is not None else list(self.dst_ip_counts.keys())
 
-        # Check Reconnaissance Scan
-        if cnt >= self.scan_thresh and (distinct_dst_ports >= 3 or distinct_dst_ips >= 3):
-            if self.first_alert_ts is None:
-                self.first_alert_ts = eval_time
-                self.first_alert_type = "ALERT_SCAN"
-            if t_start is not None:
-                self.alert_seconds.add(int(eval_time - t_start))
+        for target_ip in targets:
+            if target_ip is None:
+                continue
 
-            last_alert = self.last_alert_ts_by_type.get("ALERT_SCAN", -999.0)
-            if eval_time - last_alert >= 1.0:
-                self.last_alert_ts_by_type["ALERT_SCAN"] = eval_time
-                alert = Alert(
-                    wall_time=time.time(),
-                    packet_ts=eval_time,
-                    alert_type="ALERT_SCAN",
-                    rule="tcp_incomplete_handshake",
-                    victim_ip=self.victim_ip,
-                    details={
-                        "incomplete_count": cnt,
-                        "distinct_dst_ports": distinct_dst_ports,
-                        "distinct_dst_ips": distinct_dst_ips,
-                        "distinct_src_ips": distinct_src_ips,
-                        "note": (
-                            f"distinct_src_ips={distinct_src_ips}: distributed multi-port flood pattern (satisfies distinct_dst_ports >= {self.handshake_ports_thresh})"
-                            if distinct_src_ips >= 3
-                            else f"distinct_src_ips={distinct_src_ips}: port scan pattern"
-                        ),
-                    }
-                )
-                new_alerts.append(alert)
-                self.alerts_emitted.append(alert)
+            if self.victim_ip is not None:
+                cnt = len(self.incomplete_window)
+                distinct_dst_ports = len(self.dst_port_counts)
+                distinct_dst_ips = len(self.dst_ip_counts)
+                distinct_src_ips = len(self.src_ip_counts)
+            else:
+                events = [e for e in self.incomplete_window if e[2] == target_ip]
+                if not events:
+                    continue
+                cnt = len(events)
+                distinct_dst_ports = len(set(e[4] for e in events))
+                distinct_dst_ips = 1
+                distinct_src_ips = len(set(e[1] for e in events))
 
-        # Check SYN Flood
-        elif distinct_dst_ports <= 2 and distinct_dst_ips <= 2:
-            if (cnt >= self.syn_flood_thresh_cond_a and distinct_src_ips >= 3) or (cnt >= self.syn_flood_thresh_cond_b):
+            # Check Reconnaissance Scan
+            if cnt >= self.scan_thresh and (distinct_dst_ports >= 3 or distinct_dst_ips >= 3):
                 if self.first_alert_ts is None:
                     self.first_alert_ts = eval_time
-                    self.first_alert_type = "ALERT_SYN_FLOOD"
+                    self.first_alert_type = "ALERT_SCAN"
                 if t_start is not None:
                     self.alert_seconds.add(int(eval_time - t_start))
 
-                last_alert = self.last_alert_ts_by_type.get("ALERT_SYN_FLOOD", -999.0)
+                last_alert = self.last_alert_ts_by_type.get(f"ALERT_SCAN_{target_ip}", -999.0)
                 if eval_time - last_alert >= 1.0:
-                    self.last_alert_ts_by_type["ALERT_SYN_FLOOD"] = eval_time
+                    self.last_alert_ts_by_type[f"ALERT_SCAN_{target_ip}"] = eval_time
+                    self.last_alert_ts_by_type["ALERT_SCAN"] = eval_time
                     alert = Alert(
                         wall_time=time.time(),
                         packet_ts=eval_time,
-                        alert_type="ALERT_SYN_FLOOD",
+                        alert_type="ALERT_SCAN",
                         rule="tcp_incomplete_handshake",
-                        victim_ip=self.victim_ip,
+                        victim_ip=target_ip,
                         details={
                             "incomplete_count": cnt,
                             "distinct_dst_ports": distinct_dst_ports,
                             "distinct_dst_ips": distinct_dst_ips,
                             "distinct_src_ips": distinct_src_ips,
+                            "note": (
+                                f"distinct_src_ips={distinct_src_ips}: distributed multi-port flood pattern"
+                                if distinct_src_ips >= 3
+                                else f"distinct_src_ips={distinct_src_ips}: port scan pattern"
+                            ),
                         }
                     )
                     new_alerts.append(alert)
                     self.alerts_emitted.append(alert)
+
+            # Check SYN Flood
+            elif distinct_dst_ports <= 2 and distinct_dst_ips <= 2:
+                if (cnt >= self.syn_flood_thresh_cond_a and distinct_src_ips >= 3) or (cnt >= self.syn_flood_thresh_cond_b):
+                    if self.first_alert_ts is None:
+                        self.first_alert_ts = eval_time
+                        self.first_alert_type = "ALERT_SYN_FLOOD"
+                    if t_start is not None:
+                        self.alert_seconds.add(int(eval_time - t_start))
+
+                    last_alert = self.last_alert_ts_by_type.get(f"ALERT_SYN_FLOOD_{target_ip}", -999.0)
+                    if eval_time - last_alert >= 1.0:
+                        self.last_alert_ts_by_type[f"ALERT_SYN_FLOOD_{target_ip}"] = eval_time
+                        self.last_alert_ts_by_type["ALERT_SYN_FLOOD"] = eval_time
+                        alert = Alert(
+                            wall_time=time.time(),
+                            packet_ts=eval_time,
+                            alert_type="ALERT_SYN_FLOOD",
+                            rule="tcp_incomplete_handshake",
+                            victim_ip=target_ip,
+                            details={
+                                "incomplete_count": cnt,
+                                "distinct_dst_ports": distinct_dst_ports,
+                                "distinct_dst_ips": distinct_dst_ips,
+                                "distinct_src_ips": distinct_src_ips,
+                            }
+                        )
+                        new_alerts.append(alert)
+                        self.alerts_emitted.append(alert)
 
         return new_alerts
 
@@ -291,7 +312,7 @@ class RuleEngine:
         if proto in ("tcp", "6", 6):
             fwd_key = (src_ip, dst_ip, sport, dport)
 
-            if syn == 1 and ack == 0 and dst_ip == self.victim_ip:
+            if syn == 1 and ack == 0 and (self.victim_ip is None or dst_ip == self.victim_ip):
                 # Capacity eviction if active table exceeds bound: evict oldest in FIFO order
                 # Evicted entries do NOT count as incomplete handshakes to protect flash crowds
                 # Keep first SYN timestamp: do NOT refresh if tuple is already pending
@@ -319,7 +340,7 @@ class RuleEngine:
                     self.unacked_syn_count += (new_u - old_u)
                     self.syn_arrival_window.append((ts, src_ip))
 
-            elif ack == 1 and syn == 0 and dst_ip == self.victim_ip:
+            elif ack == 1 and syn == 0 and (self.victim_ip is None or dst_ip == self.victim_ip):
                 if fwd_key in self.active_handshakes:
                     syn_ts = self.active_handshakes[fwd_key][0]
                     if ts - syn_ts <= self.handshake_timeout:
@@ -344,7 +365,7 @@ class RuleEngine:
                         self.ack_arrival_window.append((ts, src_ip))
 
             # Evaluate Stateless SYN Arrival Rate Detector (independent of per-connection state)
-            if self.enable_syn_arrival_rule and dst_ip == self.victim_ip:
+            if self.enable_syn_arrival_rule and (self.victim_ip is None or dst_ip == self.victim_ip):
                 cutoff = ts - self.sliding_window_sec
                 while self.syn_arrival_window and self.syn_arrival_window[0][0] <= cutoff:
                     _, old_sip = self.syn_arrival_window.popleft()
@@ -381,15 +402,17 @@ class RuleEngine:
                     if t_start is not None:
                         self.alert_seconds.add(int(ts - t_start))
 
-                    last_alert = self.last_alert_ts_by_type.get("ALERT_SYN_RATE", -999.0)
+                    target_ip = self.victim_ip if self.victim_ip is not None else dst_ip
+                    last_alert = self.last_alert_ts_by_type.get(f"ALERT_SYN_RATE_{target_ip}", -999.0)
                     if ts - last_alert >= 1.0:
+                        self.last_alert_ts_by_type[f"ALERT_SYN_RATE_{target_ip}"] = ts
                         self.last_alert_ts_by_type["ALERT_SYN_RATE"] = ts
                         alert = Alert(
                             wall_time=time.time(),
                             packet_ts=ts,
                             alert_type="ALERT_SYN_RATE",
                             rule="tcp_syn_arrival_rate",
-                            victim_ip=self.victim_ip,
+                            victim_ip=target_ip,
                             details={
                                 "syn_arrival_count": syn_cnt,
                                 "ack_arrival_count": ack_cnt,
@@ -404,21 +427,65 @@ class RuleEngine:
 
         # 3. Process UDP Packet (excluding ICMP)
         elif proto in ("udp", "17", 17):
-            if dst_ip == self.victim_ip:
-                self.udp_window.append((ts, dst_ip, dport))
-                self.udp_dst_port_counts[dport] += 1
+            if self.victim_ip is not None:
+                if dst_ip == self.victim_ip:
+                    self.udp_window.append((ts, dst_ip, dport))
+                    self.udp_dst_port_counts[dport] += 1
 
-                # Prune UDP packets older than sliding 1.0s window
+                    # Prune UDP packets older than sliding 1.0s window
+                    udp_cutoff = ts - self.sliding_window_sec
+                    while self.udp_window and self.udp_window[0][0] <= udp_cutoff:
+                        _, _, old_dp = self.udp_window.popleft()
+                        self.udp_dst_port_counts[old_dp] -= 1
+                        if self.udp_dst_port_counts[old_dp] == 0:
+                            del self.udp_dst_port_counts[old_dp]
+
+                    # Evaluate Dual-Condition UDP Rule
+                    cnt = len(self.udp_window)
+                    distinct_p = len(self.udp_dst_port_counts)
+
+                    if cnt >= self.udp_volumetric_thresh or (
+                        cnt >= self.udp_random_port_thresh and distinct_p >= self.udp_distinct_ports_thresh
+                    ):
+                        if self.first_alert_ts is None:
+                            self.first_alert_ts = ts
+                            self.first_alert_type = "ALERT_UDP_FLOOD"
+                        if t_start is not None:
+                            self.alert_seconds.add(int(ts - t_start))
+
+                        last_alert = self.last_alert_ts_by_type.get("ALERT_UDP_FLOOD", -999.0)
+                        if ts - last_alert >= 1.0:
+                            self.last_alert_ts_by_type["ALERT_UDP_FLOOD"] = ts
+                            alert = Alert(
+                                wall_time=time.time(),
+                                packet_ts=ts,
+                                alert_type="ALERT_UDP_FLOOD",
+                                rule="dual_condition_udp",
+                                victim_ip=self.victim_ip,
+                                details={
+                                    "udp_count_1s": cnt,
+                                    "distinct_dst_ports": distinct_p,
+                                    "condition": "volumetric" if cnt >= self.udp_volumetric_thresh else "random_port",
+                                }
+                            )
+                            alerts.append(alert)
+                            self.alerts_emitted.append(alert)
+            else:
+                # victim_ip is None: evaluate per dst_ip
+                u_win = self.udp_windows[dst_ip]
+                u_ports = self.udp_dst_port_counts_map[dst_ip]
+                u_win.append((ts, dst_ip, dport))
+                u_ports[dport] += 1
+
                 udp_cutoff = ts - self.sliding_window_sec
-                while self.udp_window and self.udp_window[0][0] <= udp_cutoff:
-                    _, _, old_dp = self.udp_window.popleft()
-                    self.udp_dst_port_counts[old_dp] -= 1
-                    if self.udp_dst_port_counts[old_dp] == 0:
-                        del self.udp_dst_port_counts[old_dp]
+                while u_win and u_win[0][0] <= udp_cutoff:
+                    _, _, old_dp = u_win.popleft()
+                    u_ports[old_dp] -= 1
+                    if u_ports[old_dp] == 0:
+                        del u_ports[old_dp]
 
-                # Evaluate Dual-Condition UDP Rule
-                cnt = len(self.udp_window)
-                distinct_p = len(self.udp_dst_port_counts)
+                cnt = len(u_win)
+                distinct_p = len(u_ports)
 
                 if cnt >= self.udp_volumetric_thresh or (
                     cnt >= self.udp_random_port_thresh and distinct_p >= self.udp_distinct_ports_thresh
@@ -429,15 +496,16 @@ class RuleEngine:
                     if t_start is not None:
                         self.alert_seconds.add(int(ts - t_start))
 
-                    last_alert = self.last_alert_ts_by_type.get("ALERT_UDP_FLOOD", -999.0)
+                    last_alert = self.last_alert_ts_by_type.get(f"ALERT_UDP_FLOOD_{dst_ip}", -999.0)
                     if ts - last_alert >= 1.0:
+                        self.last_alert_ts_by_type[f"ALERT_UDP_FLOOD_{dst_ip}"] = ts
                         self.last_alert_ts_by_type["ALERT_UDP_FLOOD"] = ts
                         alert = Alert(
                             wall_time=time.time(),
                             packet_ts=ts,
                             alert_type="ALERT_UDP_FLOOD",
                             rule="dual_condition_udp",
-                            victim_ip=self.victim_ip,
+                            victim_ip=dst_ip,
                             details={
                                 "udp_count_1s": cnt,
                                 "distinct_dst_ports": distinct_p,
@@ -651,11 +719,11 @@ class RuleEngine:
                 dp = int(parts[10]) if len(parts) > 10 and parts[10] else 0
                 syn = ack = rst = 0
 
-            target_t_start = t_start if t_start is not None else (first_pkt_ts if is_baseline else first_attack_ts)
+            target_t_start = t_start if t_start is not None else (first_attack_ts if (first_attack_ts is not None and not is_baseline) else first_pkt_ts)
             self.process_packet(ts, s_ip, d_ip, sp, dp, proto, syn=syn, ack=ack, rst=rst, t_start=target_t_start)
 
         proc.wait()
-        target_t_start = t_start if t_start is not None else (first_pkt_ts if is_baseline else first_attack_ts)
+        target_t_start = t_start if t_start is not None else (first_attack_ts if (first_attack_ts is not None and not is_baseline) else first_pkt_ts)
         self.flush(t_start=target_t_start)
 
         delay = None

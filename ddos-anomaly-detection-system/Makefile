@@ -1,4 +1,4 @@
-.PHONY: help setup download preprocess train train_rf train_knn train_lstm evaluate report capture convert live api dashboard test smoke clean
+.PHONY: help setup download preprocess train train_rf train_knn train_lstm evaluate report capture convert live api dashboard test smoke clean clean_ui_runs
 
 PYTHON ?= .venv/bin/python
 PIP ?= .venv/bin/pip
@@ -91,3 +91,7 @@ clean:
 	rm -rf __pycache__ src/*/__pycache__ tests/__pycache__
 	rm -rf .pytest_cache data/capture/*.pcap data/flows/*.csv
 	find . -type f -name "*.pyc" -delete
+
+clean_ui_runs:
+	@echo "==> Cleaning ephemeral UI runs (preserving sample_run)..."
+	find results/ui_runs -mindepth 1 -maxdepth 1 ! -name "sample_run" -exec rm -rf {} +
