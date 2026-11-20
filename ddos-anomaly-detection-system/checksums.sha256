@@ -1,19 +1,7 @@
-# Authoritative Production Release Manifest (Phase 9 Final Verification, Report, and Release Freeze)
-# Covers 113 of 443 tracked repository files.
-# Scope Rationale: This manifest strictly tracks the 113 authoritative assets governing
-# production detection, evaluation ground truth, frozen models, figures, and core test harnesses:
-# - Core algorithmic detection engine and live streaming pipeline (src/ddos_ads/)
-# - Authoritative evaluation and parity ground truth JSONs (results/)
-# - Benchmark reports, presentations, and verification tables (results/tables/, results/)
-# - Frozen model checkpoints and feature definitions (models/)
-# - Canonical capture manifests and calibration PCAPs (lab/captures/)
-# - Core test suites and reproduction harnesses (tests/, scripts/)
-# - Phase 8 read-only monitoring dashboard figures and verification manifests (results/figures/)
-# - Demonstration script, replay wrappers, and screen recording plan (demo/, scripts/)
-# The remaining tracked repository files consist of secondary exploratory scripts,
-# raw per-session flow CSV dumps, Java CICFlowmeter artifacts, exploratory notebooks,
-# and developmental test files that are outside the frozen production evaluation boundary.
-
+# Authoritative Production Release Manifest (Phase 10 Analysis UI & Freeze)
+# Covers 126 authoritative repository assets.
+# Scope Rationale: Tracks authoritative assets governing production detection,
+# evaluation ground truth, Phase 10 Analysis UI components, reports, and test harnesses.
 1bd8766fd39f960a38970ee09bb52dccd92ffba8db103de96c3a9ce226a070f4  ddos-anomaly-detection-system/demo/demo_script.md
 48b8a68f254441ce061ad1be7a642cbfa91446235f375776c2f3c38817bc776c  ddos-anomaly-detection-system/lab/captures/calibration/calib_syn_1000.pcap
 c2bc22cce475cfccacc0c9f69998db22766cc3c939b0b928d58f6a9cdd9f49e3  ddos-anomaly-detection-system/lab/captures/calibration/calib_syn_200.pcap
@@ -53,6 +41,10 @@ f3da8af004e59da8e159369517ca6cbf7e5722b3511bd3eecfc2a4c3f596e393  ddos-anomaly-d
 1ec30db6074bf885d6c458f2cb95be4a7c618c29cf0bce8fe0edca9e31815103  ddos-anomaly-detection-system/results/figures/dashboard_syn_200pps.png
 51801fb02fd35afa3b43bee62770fc4b6987543b2094861daaf5a4c295facf69  ddos-anomaly-detection-system/results/figures/dashboard_udp_50pps.png
 0217f4eaa3808c721c9ed2a74c4825e5dd66d7b4b8a821aa8e8350fb2ffb5184  ddos-anomaly-detection-system/results/figures/figures_manifest.json
+a2399c5ed4a2bbb56e16dfbf6cb10a62d72ed0e82b746e8b6d8beb5fef538034  ddos-anomaly-detection-system/results/figures/ui_blind_banner.png
+3c51a45eea3ff97e4179a574e51731c40968241ad3a23f23e1aa9f278c0aec32  ddos-anomaly-detection-system/results/figures/ui_live_capture.png
+b6009832ae28ba95ca6fe3df9c0842c99a2c99ac0f0dfe73f94dac4011cf9469  ddos-anomaly-detection-system/results/figures/ui_results_view.png
+14a241a7377462f446470d385e0c66bcc6db06b3c216e2c898040bd87c84d910  ddos-anomaly-detection-system/results/figures/ui_upload_result.png
 30c778a119eeb54d797b2cb91ca9e18787fd869532604a0c59f678e419a9c1d5  ddos-anomaly-detection-system/results/flag_audit_java_source_and_jar_run.json
 4fb0494eb894edff76fda8e6fe8c609da46ae7867269e796f12d5d7a392b9df1  ddos-anomaly-detection-system/results/flag_audit_old_vs_new_comparison.json
 418bb6a2dcd1b9390acc60388460a54789304f54c37e136c19b693271573ae54  ddos-anomaly-detection-system/results/handshake_rule_sliding_eval.json
@@ -95,6 +87,10 @@ f6a9e0bd57623b4b7ae6b731bbbaf64f9024661de344e99a2f3b38d020b1d340  ddos-anomaly-d
 5cf081c651959316357bf25638152f94c090a038b5141eecd1805ab5d6fbff7c  ddos-anomaly-detection-system/results/tables/table_s7_n_handshake_refresh_test.md
 12606a9841791ea6f6fdc9376cb8877f8acd38519529344dc5a6f3dc6135a18f  ddos-anomaly-detection-system/results/thresholds.json
 161e7aaebe1390ecc0481619950bc9515dee4036cd2e45a4b74c4a1ce9dddcf5  ddos-anomaly-detection-system/results/udp_rule_comparison_at_rates.json
+5e35ea695eb321f36dd316dd84074066bb0eb577048fc7864caea1ce705ca38e  ddos-anomaly-detection-system/results/ui_runs/sample_run/analysis.json
+fa3d0cdad94e63d34ea626b3862e058f2ed2e235afe8a18283d03c34ce55a95a  ddos-anomaly-detection-system/results/ui_runs/sample_run/report.docx
+b4ea0f490bfc49946e3ab6a602d85230f799531502f025e29e350514926bd984  ddos-anomaly-detection-system/results/ui_runs/sample_run/report.html
+939d310bd0c752e41e08f66e56ba78d8f756c6e7778d656afd2010d9f6bd21a1  ddos-anomaly-detection-system/results/ui_runs/sample_run/report.pdf
 daf3046740673e3b2a08361db2610647998789a8d6374b956c616d2229eb656e  ddos-anomaly-detection-system/scripts/analyze_calibration_runs.py
 727e0ea24b6ce5dd5e8ad38c87f90f71154ad53a20ca4145ba1641562096160a  ddos-anomaly-detection-system/scripts/benchmark_live_detector.py
 dd6c45ae4153fc42793a85dca88995b9ec589761ab65b116a2c230ab36d1853e  ddos-anomaly-detection-system/scripts/build_claims_table.py
@@ -104,6 +100,7 @@ ba1ef5f3e0836360b410f0a1369c8ced8cf9be38a377f6d46f101cbf102d59a8  ddos-anomaly-d
 c3d679e23a32c52d081a493b88b4000b4002f790095ac727a4ff0b066d066c05  ddos-anomaly-detection-system/scripts/evaluate_session2c_udp_rule.py
 34eab550633fd2f39465bbaac85ee2d3e406bcb74cf45333f575e17c14be2534  ddos-anomaly-detection-system/scripts/generate_dashboard_figures.py
 f29dee5ebc4ad43d4d8c4d32ca1143de2605ba8b56aadf06367f4eecd67343e8  ddos-anomaly-detection-system/scripts/generate_final_report.py
+f21006462c241ef023717ecc0b27ad2c2fea90f04e562cef82946b1e41db24ce  ddos-anomaly-detection-system/scripts/generate_phase10_screenshots.py
 d64be5cd9909518b4613a45ec40709b1bed9cb0c441835b7e28de78633b29771  ddos-anomaly-detection-system/scripts/generate_session3_packets_per_flow_histograms.py
 6a9a01a786f009f92d1609c8fc8fbcc377f2f0156b442f0c24748b50676c4f2c  ddos-anomaly-detection-system/scripts/generate_slides.py
 1d056d1dee80192711c0afea6c9c3ca5ebf4b237db35f9840b0a15edf0882980  ddos-anomaly-detection-system/scripts/recompute_all_authoritative_json.py
@@ -116,14 +113,18 @@ fcd72311909c97de9538299914724a3bdb960e0a9710624aededfcb5897b56b3  ddos-anomaly-d
 4bb2b4107929af538d54687d4a33b33dddbf49fd3fe3713fb516008542824b78  ddos-anomaly-detection-system/scripts/run_parity_mutations.py
 66cf18cac063a3cfe2638dac73fb918fed685786c3c0cc801468afc5a449553c  ddos-anomaly-detection-system/scripts/run_phase7_final_checks.py
 fbe8ba9d2b6003e1faec38c407adf7c1c0ebdb8e4ef096d806c4b125f3336927  ddos-anomaly-detection-system/scripts/run_phase7_round3_tests.py
-6508f578a58926df9f6b7e028456b4aba66f0160cf890076fef013603203f887  ddos-anomaly-detection-system/src/ddos_ads/dashboard.py
+4c4056db27e15c0146c8990b97aeac706b2e8bfdbaadebec08ab3272d0f2d16a  ddos-anomaly-detection-system/src/ddos_ads/dashboard.py
 6786e99ef0416ece36eb04f0e31300f037830c2b93ca55ef770306ca204158b9  ddos-anomaly-detection-system/src/ddos_ads/live_packet_detector.py
 d5b8af6f137bc0549a3725e00cd9de813d46f0b64d831ca3e1a6f0933a2912d0  ddos-anomaly-detection-system/src/ddos_ads/report.py
 6ba3752c754684f8e11fbb1f66e9497317849ccbdda9a5f94c0dd85ca3012629  ddos-anomaly-detection-system/src/ddos_ads/rule_engine.py
 703770e74ae959858068abad176bf707213a2519a4ed8b563ffafc0e17811a3f  ddos-anomaly-detection-system/src/ddos_ads/table_validator.py
-ce457f08e6a37bdc55d3267c8811c2254ebb76d0325f098e3e1dea3c8b01a111  ddos-anomaly-detection-system/tests/test_dashboard_readonly.py
+db30b02e099e53206d66231bcfda899d829c4409507286ec91c821606a2e1462  ddos-anomaly-detection-system/src/ddos_ads/ui_analyzer.py
+eab4f4750930663437e909640fca85ebc4130957e086506e7762f88c8841af37  ddos-anomaly-detection-system/src/ddos_ads/ui_capture.py
+4ac6edd8a345f418197ecad45e04503742112c8a264c586099ea0dec08f096d7  ddos-anomaly-detection-system/src/ddos_ads/ui_report.py
+f1f198478f4170faa0920ad814cfe254402ce228690f670564ec314bce27ebfc  ddos-anomaly-detection-system/tests/test_dashboard_readonly.py
 c12a787d861dd236192e81196f55e3db8cf38700bb71986b1ac0881ba90ea929  ddos-anomaly-detection-system/tests/test_live_detector_robustness.py
 5372baec149a672ee5ddc997233c1cd68afb6ab161a2e5a2b2ce3e032deafe78  ddos-anomaly-detection-system/tests/test_live_packet_detector_parity.py
+56ef09a044c11930e325bfb29634d99734d48697140d36d781c79585886a0f59  ddos-anomaly-detection-system/tests/test_phase10_ui.py
 16cb7d6baf4f63da7d5751353a238732daa8c163f5e62652ee4569a2118d2cd1  ddos-anomaly-detection-system/tests/test_table_cell_grounding.py
 36f37220fbec411c5bf01a198528bc6795df3e89b3f07c171ad6dbc2f37444be  ddos-anomaly-detection-system/tests/test_udp_counting.py
 49dd33a76386e85e7915ab9065ea07ee92820e9732411238c70705e2e9835593  ddos-anomaly-detection-system/tools/SimpleFlowMeterV4-0.0.4-SNAPSHOT.jar

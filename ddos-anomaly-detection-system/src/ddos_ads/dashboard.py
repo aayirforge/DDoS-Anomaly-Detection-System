@@ -1,13 +1,18 @@
 """
-Phase 8 Streamlit Interactive Monitoring Dashboard (Strictly Read-Only).
-========================================================================
+Phase 10 Streamlit Interactive Analysis & Monitoring Dashboard.
+==============================================================
 SAFETY GUARANTEES:
-1. Opened strictly READ-ONLY over SQLite (mode=ro) and JSONL.
-2. Does NOT import active defense response or any blocking/firewall modules.
-3. Exposes ZERO controls for altering rules, thresholds, or response actions.
-4. Thresholds read directly from thresholds.json for display only.
-5. Displays "DETECTOR BLIND" warning banner when kernel packet drops > 0, supervisor restarted, or detector_blind is active.
-6. Includes "No data yet" state and full 40-capture Session 3 replay incident selector.
+1. Alert-only throughout: ZERO blocking, ZERO mitigation imports.
+2. AST safety: Does NOT import subprocess directly (imports ui_capture exclusively for capture management).
+3. Zero shell execution: NO calls to firewall tools (iptables/nftables) or OS system commands anywhere in UI code.
+4. Upload safety: Magic bytes validation, 500 MB stream cap, path traversal immunization.
+5. Live capture safety: dumpcap fixed template, allowlisted interfaces only, duration capped (30s-15min),
+   mandatory user permission confirmation checkbox.
+6. Offline replay mode: Runs the SAME RuleEngine used by replay parity tests.
+7. Prominent 'DETECTOR BLIND' warning if drops > 0 or pcap is truncated.
+8. Post-hoc ALERT_SYN_RATE rule explicitly tagged as 'post-hoc, unregistered'.
+9. Programmatic reports (HTML, PDF, DOCX) generated strictly from analysis.json.
+10. Preserves legacy read-only incident monitor under 'Advanced' page.
 """
 
 from __future__ import annotations
@@ -15,23 +20,43 @@ from __future__ import annotations
 import json
 from pathlib import Path
 import sqlite3
+import time
 from typing import Any, Dict, List, Optional, Tuple
+import uuid
+
 import pandas as pd
 import plotly.express as px
 import plotly.graph_objects as go
 import streamlit as st
 
 from ddos_ads.config import load_config
+from ddos_ads.ui_analyzer import (
+    analyze_capture_file,
+    calculate_sha256,
+    load_frozen_thresholds,
+    validate_and_stream_upload,
+)
+from ddos_ads.ui_capture import (
+    UNPRIVILEGED_CAPTURE_MSG,
+    build_dumpcap_command,
+    check_dumpcap_privileges,
+    get_allowed_interfaces,
+    parse_dumpcap_drops,
+    start_live_capture,
+    stop_live_capture,
+)
+from ddos_ads.ui_report import generate_ui_report
 
-# Page Configuration
+REPO_ROOT = Path(__file__).resolve().parents[2]
+UI_RUNS_DIR = REPO_ROOT / "results/ui_runs"
+
+# Page configuration
 st.set_page_config(
-    page_title="DDoS ADS - Live Alert Monitor (Read-Only)",
+    page_title="DDoS ADS - Capture Analysis & Alert Monitor",
     page_icon="🛡️",
     layout="wide",
     initial_sidebar_state="expanded",
 )
-
-REPO_ROOT = Path(__file__).resolve().parents[2]
 
 
 def load_thresholds_readonly() -> Dict[str, Any]:
@@ -50,9 +75,7 @@ def load_thresholds_readonly() -> Dict[str, Any]:
 
 
 def load_alerts_from_db_readonly(db_path: Path) -> Tuple[pd.DataFrame, Dict[str, Any]]:
-    """
-    Connect to SQLite strictly in READ-ONLY mode using SQLite URI mode=ro.
-    """
+    """Connect to SQLite strictly in READ-ONLY mode using SQLite URI mode=ro."""
     if not db_path.is_file():
         return pd.DataFrame(), {"drops": 0, "restarts": 0, "evictions": 0, "table_size": 0, "detector_blind": False}
 
@@ -85,9 +108,7 @@ def load_alerts_from_db_readonly(db_path: Path) -> Tuple[pd.DataFrame, Dict[str,
 
 
 def load_ground_truth_for_run(run_stem: str) -> Dict[str, Any]:
-    """
-    Load frozen evaluation ground truth metrics for an incident run.
-    """
+    """Load frozen evaluation ground truth metrics for an incident run."""
     eval_json = REPO_ROOT / "results/session3_evaluation.json"
     parity_json = REPO_ROOT / "results/phase7_parity_eval.json"
     bench_json = REPO_ROOT / "results/phase7_live_detector_benchmark.json"
@@ -155,11 +176,312 @@ def load_ground_truth_for_run(run_stem: str) -> Dict[str, Any]:
     return meta
 
 
-def main() -> None:
-    config = load_config(REPO_ROOT / "config.yaml")
-    thresholds = load_thresholds_readonly()
+# -----------------------------------------------------------------------------
+# Main Application
+# -----------------------------------------------------------------------------
 
-    # Load frozen threshold values from thresholds.json (no hardcoding)
+def render_analysis_ui() -> None:
+    """One-page analysis UI: Upload or Live Capture -> Results -> Download Report."""
+    st.title("🛡️ DDoS Anomaly Detection System — Traffic Analysis")
+    st.caption("Offline Replay Anomaly Analysis & Live Packet Capture (Alert-Only)")
+
+    # 1. Analyze a capture file
+    st.markdown("### 1. Analyze a Capture File")
+    uploaded_file = st.file_uploader(
+        "Upload a packet capture (.pcap or .pcapng, max 500 MB)",
+        type=["pcap", "pcapng"],
+        help="Streams capture directly to disk. Executable signatures (.exe) and invalid magic bytes are rejected.",
+    )
+
+    if uploaded_file is not None:
+        file_key = f"{uploaded_file.name}_{uploaded_file.size}"
+        if st.session_state.get("last_uploaded_key") != file_key:
+            run_id = uuid.uuid4().hex[:12]
+            run_dir = UI_RUNS_DIR / run_id
+            with st.spinner("Validating and streaming capture to disk..."):
+                try:
+                    saved_path, ext, size_bytes, sha256 = validate_and_stream_upload(
+                        uploaded_file, uploaded_file.name, run_dir
+                    )
+                    st.success(
+                        f"**Upload Accepted**: `{uploaded_file.name}` ({size_bytes:,} bytes, {size_bytes / (1024*1024):.2f} MB)"
+                    )
+                    st.code(f"SHA-256: {sha256}", language="text")
+
+                    # Run offline analysis via RuleEngine
+                    with st.spinner("Analyzing capture traffic against frozen detection rules..."):
+                        analysis_res = analyze_capture_file(
+                            saved_path,
+                            uploaded_file.name,
+                            run_id,
+                            dropped_packets=0,
+                            enable_posthoc_rule=True,
+                        )
+                        # Generate HTML, PDF, DOCX
+                        generate_ui_report(analysis_res, run_dir)
+                        st.session_state["current_analysis"] = analysis_res
+                        st.session_state["current_run_dir"] = str(run_dir)
+                        st.session_state["last_uploaded_key"] = file_key
+                except Exception as e:
+                    st.error(f"Upload Analysis Failed: {e}")
+
+    st.markdown("---")
+
+    # 2. Capture live traffic
+    st.markdown("### 2. Capture Live Traffic")
+    st.info(
+        "ℹ️ **Legal & Operational Notice**: Only capture traffic on networks you own or are explicitly authorized to monitor."
+    )
+
+    # Check dumpcap privilege status
+    has_privs, priv_msg = check_dumpcap_privileges()
+    if not has_privs:
+        st.warning(f"⚠️ **Capture Privileges Warning**:\n{priv_msg}")
+
+    # Interface selection
+    available_interfaces = get_allowed_interfaces()
+    iface_options = [iface[0] for iface in available_interfaces] if available_interfaces else ["eth0", "lo"]
+    iface_labels = {iface[0]: iface[1] for iface in available_interfaces}
+
+    col_c1, col_c2 = st.columns(2)
+    with col_c1:
+        selected_iface = st.selectbox(
+            "Capture Interface",
+            iface_options,
+            format_func=lambda x: iface_labels.get(x, x),
+            help="Only network interfaces enumerated by dumpcap -D are selectable.",
+        )
+    with col_c2:
+        capture_duration = st.slider(
+            "Capture Duration (seconds)",
+            min_value=30,
+            max_value=900,
+            value=60,
+            step=10,
+            help="Live capture is strictly capped between 30 s and 15 minutes (900 s).",
+        )
+
+    permission_box = st.checkbox(
+        "I own this network or have permission to capture on it",
+        value=False,
+        help="Mandatory safety acknowledgment. Capture cannot start without this confirmation.",
+    )
+
+    btn_col1, btn_col2 = st.columns([1, 1])
+    is_capturing = st.session_state.get("is_capturing", False)
+
+    with btn_col1:
+        start_btn = st.button(
+            "▶️ Start Capture",
+            disabled=(not permission_box or is_capturing or not has_privs),
+            help="Start dumpcap background capture." if permission_box else "Tick permission checkbox to enable.",
+        )
+    with btn_col2:
+        stop_btn = st.button(
+            "⏹️ Stop Capture",
+            disabled=(not is_capturing),
+            help="Send SIGTERM to stop capture and analyze output.",
+        )
+
+    # Handle Start Capture
+    if start_btn:
+        run_id = uuid.uuid4().hex[:12]
+        run_dir = UI_RUNS_DIR / run_id
+        run_dir.mkdir(parents=True, exist_ok=True)
+        out_pcapng = run_dir / "capture.pcapng"
+
+        allowed_list = [i[0] for i in available_interfaces] if available_interfaces else None
+        try:
+            cmd = build_dumpcap_command(
+                iface=selected_iface,
+                duration_sec=capture_duration,
+                out_pcapng=out_pcapng,
+                permission_acknowledged=permission_box,
+                allowed_ifaces=allowed_list,
+            )
+            proc = start_live_capture(cmd)
+            st.session_state["is_capturing"] = True
+            st.session_state["capture_proc"] = proc
+            st.session_state["capture_pcapng"] = str(out_pcapng)
+            st.session_state["capture_run_dir"] = str(run_dir)
+            st.session_state["capture_run_id"] = run_id
+            st.session_state["capture_start_time"] = time.time()
+            st.session_state["capture_duration"] = capture_duration
+            st.rerun()
+        except Exception as e:
+            st.error(f"Failed to start live capture: {e}")
+
+    # Display active capture progress
+    if is_capturing:
+        start_t = st.session_state.get("capture_start_time", time.time())
+        dur_target = st.session_state.get("capture_duration", 60)
+        elapsed = time.time() - start_t
+        progress_val = min(1.0, elapsed / dur_target)
+        st.progress(progress_val)
+        st.caption(f"Capture in progress... {int(elapsed)}s / {dur_target}s on `{selected_iface}`")
+
+        # Auto-finish if duration elapsed
+        proc = st.session_state.get("capture_proc")
+        if proc and proc.poll() is not None:
+            stop_btn = True
+
+    # Handle Stop Capture
+    if stop_btn and is_capturing:
+        proc = st.session_state.get("capture_proc")
+        pcapng_path = Path(st.session_state.get("capture_pcapng"))
+        run_dir = Path(st.session_state.get("capture_run_dir"))
+        run_id = st.session_state.get("capture_run_id")
+
+        with st.spinner("Stopping capture and finalizing packets..."):
+            ret_code, stdout, stderr = stop_live_capture(proc)
+            drops = parse_dumpcap_drops(stderr)
+            st.session_state["is_capturing"] = False
+
+            if pcapng_path.is_file():
+                st.success(f"Capture complete. Saved to `{pcapng_path}` (Drops: {drops})")
+                with st.spinner("Analyzing capture traffic..."):
+                    analysis_res = analyze_capture_file(
+                        pcapng_path,
+                        "live_capture.pcapng",
+                        run_id,
+                        dropped_packets=drops,
+                        enable_posthoc_rule=True,
+                    )
+                    generate_ui_report(analysis_res, run_dir)
+                    st.session_state["current_analysis"] = analysis_res
+                    st.session_state["current_run_dir"] = str(run_dir)
+            else:
+                st.error("Capture file was not created. Verify permissions.")
+        st.rerun()
+
+    # 3. Results Section
+    current_analysis = st.session_state.get("current_analysis")
+    if current_analysis:
+        st.markdown("---")
+        st.markdown("### 3. Analysis Results")
+
+        res = current_analysis["results"]
+        health = current_analysis["detector_health"]
+        in_meta = current_analysis["input_metadata"]
+        run_id = current_analysis["run_id"]
+        run_dir = Path(st.session_state.get("current_run_dir", UI_RUNS_DIR / run_id))
+
+        total_alerts = res["total_alerts"]
+        verdict = res["verdict"]
+
+        # Detector Blind Warning Banner
+        if health.get("detector_blind", False):
+            st.error(
+                f"🚨 **DETECTOR BLIND WARNING**: Packet drops ({health.get('dropped_packets', 0)}) "
+                f"or truncated capture detected ({health.get('is_truncated', False)}). "
+                "The detector may have missed anomalies."
+            )
+
+        # Verdict Line
+        if total_alerts > 0:
+            st.error(f"⚠️ **Verdict**: {verdict.upper()} ({total_alerts} alerts triggered)")
+        else:
+            st.success("✅ **Verdict**: NO ALERTS FOUND (Traffic rates remained within calibrated baseline thresholds)")
+
+        # Metrics cards
+        m1, m2, m3, m4 = st.columns(4)
+        m1.metric("Packets Analyzed", f"{in_meta['packet_count']:,}")
+        m2.metric("Duration", f"{in_meta['duration_sec']} s")
+        m3.metric("First Alert", f"{res['first_alert_delay_sec']} s" if res['first_alert_delay_sec'] is not None else "None")
+        m4.metric("Alerted Seconds", f"{res['total_alerted_seconds']} s")
+
+        # Alert Timeline Chart
+        st.markdown("#### Alert Timeline by Rule")
+        alerts_list = res.get("alerts", [])
+        if alerts_list:
+            df_timeline = pd.DataFrame(alerts_list)
+            fig_timeline = px.scatter(
+                df_timeline,
+                x="relative_time_sec",
+                y="rate_pps",
+                color="alert_class",
+                symbol="status",
+                hover_data=["rule", "destination", "distinct_sources", "distinct_ports"],
+                title="Alert Occurrence Over Capture Timeline",
+                labels={"relative_time_sec": "Time (seconds from start)", "rate_pps": "Trigger Rate (pps)"},
+            )
+            st.plotly_chart(fig_timeline, use_container_width=True)
+        else:
+            st.info("No alert events to display on timeline.")
+
+        # Table of Alerts
+        st.markdown("#### Detected Alerts")
+        if alerts_list:
+            df_display = pd.DataFrame(alerts_list)[
+                ["time_epoch", "relative_time_sec", "rule", "alert_class", "status", "destination", "rate_pps", "distinct_sources", "distinct_ports"]
+            ]
+            st.dataframe(df_display, use_container_width=True)
+        else:
+            st.write("No alerts recorded.")
+
+        # Per-destination Rate Charts with Frozen Threshold Lines
+        st.markdown("#### Per-Destination Traffic Rates vs. Frozen Thresholds")
+        dst_rates = res.get("per_destination_rates", {})
+        if dst_rates:
+            for dst_ip, rate_info in dst_rates.items():
+                bins = rate_info["bins"]
+                x_vals = list(range(len(bins)))
+                fig_rate = go.Figure()
+                fig_rate.add_trace(go.Scatter(x=x_vals, y=bins, mode="lines+markers", name=f"Rate to {dst_ip} (pps)"))
+                # Frozen threshold horizontal lines
+                fig_rate.add_hline(y=40, line_dash="dash", line_color="orange", annotation_text="UDP Volumetric Threshold (40 pps)")
+                fig_rate.add_hline(y=20, line_dash="dash", line_color="red", annotation_text="SYN Incomplete Concentrated (20 inc/s)")
+                fig_rate.add_hline(y=150, line_dash="dash", line_color="purple", annotation_text="Post-Hoc SYN Rate (150 pps)")
+                fig_rate.update_layout(
+                    title=f"Destination {dst_ip} Traffic Rate vs. Detection Thresholds",
+                    xaxis_title="Time Bin (seconds)",
+                    yaxis_title="Packets / Incompletes per Second",
+                )
+                st.plotly_chart(fig_rate, use_container_width=True)
+
+        # 4. Download Report Section
+        st.markdown("---")
+        st.markdown("### 4. Download Analysis Report")
+        d_col1, d_col2, d_col3 = st.columns(3)
+
+        html_file = run_dir / "report.html"
+        pdf_file = run_dir / "report.pdf"
+        docx_file = run_dir / "report.docx"
+
+        with d_col1:
+            if html_file.is_file():
+                with open(html_file, "r", encoding="utf-8") as f:
+                    st.download_button(
+                        "📄 Download HTML Report",
+                        data=f.read(),
+                        file_name=f"analysis_report_{run_id}.html",
+                        mime="text/html",
+                    )
+        with d_col2:
+            if pdf_file.is_file():
+                with open(pdf_file, "rb") as f:
+                    st.download_button(
+                        "📑 Download PDF Report",
+                        data=f.read(),
+                        file_name=f"analysis_report_{run_id}.pdf",
+                        mime="application/pdf",
+                    )
+            else:
+                st.caption("PDF conversion requires LibreOffice.")
+        with d_col3:
+            if docx_file.is_file():
+                with open(docx_file, "rb") as f:
+                    st.download_button(
+                        "📝 Download DOCX Report",
+                        data=f.read(),
+                        file_name=f"analysis_report_{run_id}.docx",
+                        mime="application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+                    )
+
+
+def render_advanced_monitor_ui() -> None:
+    """Preserved Phase 8 read-only monitoring dashboard."""
+    thresholds = load_thresholds_readonly()
     hs_rules = thresholds.get("packet_incomplete_tcp_handshake_rule", {})
     udp_rules = thresholds.get("packet_dual_condition_udp_rule", {})
     syn_arrival_rules = thresholds.get("packet_syn_arrival_rate_rule", {})
@@ -176,11 +498,9 @@ def main() -> None:
     if not default_db_path.is_file():
         default_db_path = logs_dir / "alerts.db"
 
-    # Header
     st.title("🛡️ DDoS Anomaly Detection System — Real-Time Alert Monitor")
     st.caption("Live Packet-Rule Anomaly Defense Dashboard (Strictly Read-Only)")
 
-    # Sidebar: Data Source & Replay Selector
     with st.sidebar:
         st.header("📂 Data Source & Incident Replay")
         s3_captures = sorted((REPO_ROOT / "lab/captures/session3").glob("session3_*.pcap"))
@@ -209,7 +529,6 @@ def main() -> None:
         st.markdown(f"**SYN Arrival Multi-Source**: `≥{th_syn_arr_multi} unacked/s` (≥3 src)")
         st.markdown(f"**SYN Arrival Single-Source**: `≥{th_syn_arr_single} unacked/s`")
 
-    # Data Loading
     df_alerts = pd.DataFrame()
     incident_meta: Dict[str, Any] = {
         "drops": 0,
@@ -232,142 +551,44 @@ def main() -> None:
         run_stem = selected_source.replace("Replay: ", "")
         incident_meta = load_ground_truth_for_run(run_stem)
 
-    # 1. "DETECTOR BLIND" Warning Banner
     is_blind = incident_meta["drops"] > 0 or incident_meta["restarts"] > 0 or incident_meta.get("detector_blind", False)
     if is_blind:
         st.error(
             f"🚨 **DETECTOR BLIND WARNING**: Kernel packet drops ({incident_meta['drops']} dropped), "
             f"supervisor auto-restarts ({incident_meta['restarts']} restarts), or detector_blind event detected! "
-            f"Inspection window may contain unobserved packets."
+            "Traffic volumes exceeded processing limits. Active defense response must treat this interval as compromised."
         )
 
-    # 2. System Status & Operational Metrics Bar
-    col1, col2, col3, col4, col5 = st.columns(5)
-    with col1:
-        st.metric("24h Benign False Alarms", "0 FA", delta="PASS (0.0% FPR)")
-    with col2:
-        d_val = incident_meta.get("first_alert_delay_sec")
-        delay_str = f"{d_val:.3f} s" if d_val is not None else "N/A"
-        st.metric("First-Alert Delay", delay_str, help="Elapsed time from first offered attack packet to alert")
-    with col3:
-        st.metric("Kernel Packet Drops", f"{incident_meta['drops']} pkts", delta="Lossless" if incident_meta['drops'] == 0 else "LOSS DETECTED")
-    with col4:
-        st.metric("Supervisor Restarts", f"{incident_meta['restarts']} restarts", delta="Stable" if incident_meta['restarts'] == 0 else "Restarted")
-    with col5:
-        st.metric(
-            "Table Occupancy / Capacity",
-            f"{incident_meta['table_occupancy']:,} / {incident_meta['table_capacity']:,}",
-            help=f"Evictions: {incident_meta['evictions']:,} bounded FIFO drops",
-        )
+    st.subheader(f"Incident Overview: {selected_source}")
+    kpi1, kpi2, kpi3, kpi4 = st.columns(4)
+    kpi1.metric("First Alert Delay", f"{incident_meta['first_alert_delay_sec']:.4f}s" if incident_meta["first_alert_delay_sec"] is not None else "N/A")
+    kpi2.metric("Alerted Duration", f"{incident_meta['alerted_duration_sec']}s")
+    kpi3.metric("Peak Attack Rate", f"{incident_meta['peak_rate_pps']} pps")
+    kpi4.metric("First Alert Class", incident_meta["first_alert_type"])
 
     st.markdown("---")
+    st.subheader("Incident Alerts Stream")
+    if not df_alerts.empty:
+        st.dataframe(df_alerts, use_container_width=True)
+    else:
+        st.info("No alert records found for the selected data source.")
 
-    # 3. Handle "No Data Yet" State
-    if df_alerts.empty and (incident_meta.get("first_alert_delay_sec") is None and "baseline" not in selected_source):
-        st.info("ℹ️ **No Alert Data Available**: The detector database is currently empty. Awaiting live traffic or replay selection.")
-        st.stop()
 
-    if "baseline" in selected_source:
-        st.success("✅ **Clean Benign Traffic**: 0 alerts emitted across 900 seconds of multi-protocol benign baseline. Active defense false alarm rate: 0.00%.")
-        st.stop()
-
-    # 4. Rule-Class Legend
-    st.subheader("📋 Detection Rule Classes & Registry Status")
-    col_reg, col_posthoc = st.columns(2)
-    with col_reg:
-        st.markdown(
-            "> **Pre-Registered Rules (Frozen Evaluation Baseline)**\n"
-            f"> - **Condition A (`ALERT_SCAN`)**: Incomplete handshakes $\\ge {th_scan}$/s to $\\ge 3$ dst ports/IPs.\n"
-            f"> - **Condition B (`ALERT_SYN_FLOOD`)**: Incomplete handshakes $\\ge {th_syn_flood}$/s (or $\\ge 15$/s with $\\ge 3$ src IPs).\n"
-            f"> - **Dual-Condition UDP (`ALERT_UDP_FLOOD`)**: UDP pkts $\\ge {th_udp_vol}$/s volumetric OR $\\ge {th_udp_rnd}$/s across $\\ge 10$ dst ports."
+def main() -> None:
+    # Sidebar navigation to switch between modern Phase 10 Analysis UI and Phase 8 Advanced Monitor
+    with st.sidebar:
+        st.title("🛡️ Navigation")
+        app_mode = st.radio(
+            "Select Dashboard View",
+            ["Traffic Analysis UI", "Advanced: Live Incident Monitor (Read-Only)"],
+            index=0,
         )
-    with col_posthoc:
-        st.markdown(
-            "> **Post-Hoc Unregistered Rule (Phase 7 Design Fix)**\n"
-            f"> - **Stateless Arrival Rate (`ALERT_SYN_RATE`)**: Multi-source unacked SYNs $\\ge {th_syn_arr_multi}$/s ($\\ge 3$ src IPs) "
-            f"OR single-source unacked SYNs $\\ge {th_syn_arr_single}$/s.\n"
-            "> - **Design Purpose**: Protects handshake table under high-rate floods ($\\ge 20,000$ pps) without altering pre-registered parity."
-        )
+        st.markdown("---")
 
-    st.markdown("---")
-
-    # 5. Incident Verification Table (Incident List)
-    st.subheader("📑 Incident Verification & Parity Ground Truth")
-    gt_delay_str = f"{incident_meta['ground_truth_delay_sec']:.4f} s" if incident_meta['ground_truth_delay_sec'] is not None else "N/A"
-    meas_delay_str = f"{incident_meta['first_alert_delay_sec']:.4f} s" if incident_meta['first_alert_delay_sec'] is not None else "N/A"
-    diff_str = f"{incident_meta['delay_diff_sec']:+.4f} s" if incident_meta['ground_truth_delay_sec'] is not None and incident_meta['first_alert_delay_sec'] is not None else "0.0000 s"
-    parity_badge = "PASS (<= 0.25s)" if abs(incident_meta['delay_diff_sec']) <= 0.25 else "FAIL"
-
-    incident_df = pd.DataFrame([{
-        "Incident ID": selected_source.replace("Replay: ", ""),
-        "Rule Category": incident_meta["first_alert_type"],
-        "Offered Peak Rate": f"{incident_meta['peak_rate_pps']} pps" if incident_meta['peak_rate_pps'] > 0 else "Live Stream",
-        "Alerted Duration": f"{incident_meta['alerted_duration_sec']} s",
-        "Ground Truth Delay": gt_delay_str,
-        "Measured Delay": meas_delay_str,
-        "Signed Delay Delta": diff_str,
-        "Parity Status": parity_badge,
-    }])
-    st.dataframe(incident_df, use_container_width=True)
-
-    # 6. Timeline Curves & Horizontal Threshold Lines
-    st.subheader("🎯 Per-Destination Traffic Curves vs. Frozen Thresholds")
-    col_syn, col_udp = st.columns(2)
-
-    t_steps = list(range(120))
-    d_sec = int(incident_meta.get("first_alert_delay_sec") or 2)
-
-    with col_syn:
-        st.markdown("**TCP Incomplete Handshake Rate (Target: `172.20.0.2`)**")
-        fig_syn = go.Figure()
-
-        if "syn" in selected_source:
-            rate_val = 200 if "200pps" in selected_source else (1000 if "1000pps" in selected_source else (500 if "500pps" in selected_source else 50))
-            syn_curve = [0 if t < d_sec else rate_val for t in t_steps]
-        elif "scan" in selected_source:
-            syn_curve = [0 if t < d_sec else 30 for t in t_steps]
-        else:
-            syn_curve = [0 for _ in t_steps]
-
-        fig_syn.add_trace(go.Scatter(x=t_steps, y=syn_curve, mode="lines", name="Incomplete SYNs/s", line=dict(color="#1f77b4", width=2)))
-        fig_syn.add_hline(y=th_syn_flood, line_dash="dash", line_color="red", annotation_text=f"Flood Thresh ({th_syn_flood} inc/s)")
-        fig_syn.add_hline(y=th_scan, line_dash="dot", line_color="orange", annotation_text=f"Scan Thresh ({th_scan} inc/s)")
-        fig_syn.update_layout(xaxis_title="Incident Seconds", yaxis_title="Incomplete Handshakes / sec", height=320)
-        st.plotly_chart(fig_syn, use_container_width=True)
-
-    with col_udp:
-        st.markdown("**UDP Datagram Rate (Target: `172.20.0.2`, excl. ICMP)**")
-        fig_udp = go.Figure()
-
-        if "udp" in selected_source:
-            rate_val = 50 if "50pps" in selected_source else (500 if "500pps" in selected_source else (1000 if "1000pps" in selected_source else 200))
-            udp_curve = [0 if t < d_sec else rate_val for t in t_steps]
-        else:
-            udp_curve = [20 for _ in t_steps]
-
-        fig_udp.add_trace(go.Scatter(x=t_steps, y=udp_curve, mode="lines", name="UDP pkts/s", line=dict(color="#2ca02c", width=2)))
-        fig_udp.add_hline(y=th_udp_vol, line_dash="dash", line_color="red", annotation_text=f"Volumetric Thresh ({th_udp_vol} pkts/s)")
-        fig_udp.add_hline(y=th_udp_rnd, line_dash="dot", line_color="orange", annotation_text=f"Random Port Thresh ({th_udp_rnd} pkts/s)")
-        fig_udp.update_layout(xaxis_title="Incident Seconds", yaxis_title="UDP Packets / sec", height=320)
-        st.plotly_chart(fig_udp, use_container_width=True)
-
-    # 7. Distinct Sources and Destination Ports Panel
-    st.subheader("🌐 Source Dispersion & Destination Port Spread")
-    col_src, col_dst = st.columns(2)
-    with col_src:
-        if "spoofed" in selected_source:
-            st.metric("Distinct Active Source IPs / sec", "18,400+ IPs/s", delta="Distributed Attack Pattern")
-        elif "scan" in selected_source:
-            st.metric("Distinct Active Source IPs / sec", "1 IP", delta="Single Recon Scanner (172.20.0.3)")
-        else:
-            st.metric("Distinct Active Source IPs / sec", "1 IP", delta="Single Source (172.20.0.3)")
-    with col_dst:
-        if "scan" in selected_source:
-            st.metric("Distinct Destination Ports Probed / sec", "30 ports/s", delta="Sequential Port Sweep (>3 ports)")
-        elif "random_ports" in selected_source:
-            st.metric("Distinct Destination Ports / sec", "50+ ports/s", delta="Randomized Port Flood (≥10 ports)")
-        else:
-            st.metric("Distinct Destination Ports / sec", "1 port (Port 80)", delta="Concentrated Target Service")
+    if app_mode == "Traffic Analysis UI":
+        render_analysis_ui()
+    else:
+        render_advanced_monitor_ui()
 
 
 if __name__ == "__main__":

@@ -1,0 +1,1630 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Analysis Report - Run sample_run</title>
+  <style>
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      line-height: 1.5;
+      color: #1f2937;
+      margin: 40px auto;
+      max-width: 900px;
+      padding: 0 20px;
+    }
+    h1 { color: #111827; border-bottom: 2px solid #e5e7eb; padding-bottom: 8px; }
+    h2 { color: #1f2937; margin-top: 32px; border-bottom: 1px solid #e5e7eb; padding-bottom: 4px; }
+    table { width: 100%; border-collapse: collapse; margin: 16px 0; font-size: 14px; }
+    th, td { border: 1px solid #d1d5db; padding: 8px 12px; text-align: left; }
+    th { background-color: #f3f4f6; }
+    .verdict-box {
+      padding: 16px;
+      border-radius: 6px;
+      margin: 20px 0;
+      font-size: 18px;
+      font-weight: bold;
+      background-color: #fef2f2;
+      border: 1px solid #f87171;
+      color: #991b1b;
+    }
+    .limitations-box {
+      background-color: #f9fafb;
+      border-left: 4px solid #6b7280;
+      padding: 12px 16px;
+      margin: 24px 0;
+      font-size: 13px;
+      color: #374151;
+    }
+    footer {
+      margin-top: 48px;
+      padding-top: 16px;
+      border-top: 1px solid #e5e7eb;
+      font-size: 12px;
+      color: #6b7280;
+    }
+    code { background: #f3f4f6; padding: 2px 4px; border-radius: 4px; font-family: monospace; }
+  </style>
+</head>
+<body>
+  <h1>DDoS ADS - Packet Capture Analysis Report</h1>
+  <p><strong>Analysis Run ID:</strong> <code>sample_run</code> &nbsp;|&nbsp; <strong>Generated:</strong> 2026-11-20 12:41:18 UTC</p>
+
+  
+
+  <div class="verdict-box">
+    Verdict: 120 ALERTS FOUND (120 alerts total)
+  </div>
+
+  <h2>1. Input Metadata</h2>
+  <table>
+    <tr><th>File Name</th><td>session3_tcp_syn_flood_200pps_rep1.pcap</td></tr>
+    <tr><th>File Size</th><td>3367837 bytes (3.21 MB)</td></tr>
+    <tr><th>SHA-256</th><td><code>f64590ffcef90ea0b8104999281c9a4b2ea43701fdd771c993b7ee627c7f3d55</code></td></tr>
+    <tr><th>Packet Count</th><td>35753 packets</td></tr>
+    <tr><th>First Packet Timestamp</th><td>1794831734.2794</td></tr>
+    <tr><th>Last Packet Timestamp</th><td>1794831858.3089</td></tr>
+    <tr><th>Capture Duration</th><td>124.0295 seconds</td></tr>
+  </table>
+
+  <h2>2. Detection Rules and Thresholds</h2>
+  <p>Thresholds frozen provenance file: <code>results/thresholds.json</code> (SHA-256: <code>12606a9841791ea6f6fdc9376cb8877f8acd38519529344dc5a6f3dc6135a18f</code>)</p>
+  <table>
+    <tr><th>Rule Name</th><th>Status</th><th>Configured Parameters</th></tr>
+    <tr>
+      <td><strong>TCP Incomplete Handshake Rule</strong></td>
+      <td><span style="color: #065f46; background: #d1fae5; padding: 2px 6px; border-radius: 4px;">pre-registered</span></td>
+      <td>Sliding concentrated incomplete &ge; 20, min rate &ge; 15, timeout 2.0 s, scan distinct &ge; 3</td>
+    </tr>
+    <tr>
+      <td><strong>Dual-Condition UDP Rule</strong></td>
+      <td><span style="color: #065f46; background: #d1fae5; padding: 2px 6px; border-radius: 4px;">pre-registered</span></td>
+      <td>Volumetric &ge; 40 pkts/s, Random port &ge; 30 pkts/s with &ge; 10 distinct ports</td>
+    </tr>
+    <tr>
+      <td><strong>Stateless TCP SYN Arrival Rate Rule</strong></td>
+      <td><span style="color: #b45309; background: #fef3c7; padding: 2px 6px; border-radius: 4px;">post-hoc, unregistered</span></td>
+      <td>Arrival rate &ge; 150 pps with &ge; 3 sources, or single source &ge; 500 pps</td>
+    </tr>
+  </table>
+
+  <h2>3. Incident & Alert Summary by Class</h2>
+  <p>
+    <strong>First Alert Time:</strong> 2.0953 s (delay) &nbsp;|&nbsp;
+    <strong>First Alert Class:</strong> <code>ALERT_SYN_FLOOD</code> &nbsp;|&nbsp;
+    <strong>Total Alerted Seconds:</strong> 120 s
+  </p>
+  <table>
+    <tr>
+      <th>Alert Class</th>
+      <th>Status</th>
+      <th>Count</th>
+      <th>First Alert Time</th>
+      <th>Alerted Seconds</th>
+      <th>Peak Rate</th>
+      <th>Max Sources</th>
+    </tr>
+    
+        <tr>
+          <td><strong>ALERT_SYN_FLOOD</strong></td>
+          <td><span style='color: #065f46; background: #d1fae5; padding: 2px 6px; border-radius: 4px;'>pre-registered</span></td>
+          <td>120</td>
+          <td>1794831736.3747 s</td>
+          <td>120 s</td>
+          <td>201 pps</td>
+          <td>1</td>
+        </tr>
+        
+        <tr>
+          <td><strong>ALERT_UDP_FLOOD</strong></td>
+          <td><span style='color: #065f46; background: #d1fae5; padding: 2px 6px; border-radius: 4px;'>pre-registered</span></td>
+          <td>0</td>
+          <td>None</td>
+          <td>0 s</td>
+          <td>0 pps</td>
+          <td>0</td>
+        </tr>
+        
+        <tr>
+          <td><strong>ALERT_SCAN</strong></td>
+          <td><span style='color: #065f46; background: #d1fae5; padding: 2px 6px; border-radius: 4px;'>pre-registered</span></td>
+          <td>0</td>
+          <td>None</td>
+          <td>0 s</td>
+          <td>0 pps</td>
+          <td>0</td>
+        </tr>
+        
+        <tr>
+          <td><strong>ALERT_SYN_RATE</strong></td>
+          <td><span style='color: #b45309; background: #fef3c7; padding: 2px 6px; border-radius: 4px;'>post-hoc, unregistered</span></td>
+          <td>0</td>
+          <td>None</td>
+          <td>0 s</td>
+          <td>0 pps</td>
+          <td>0</td>
+        </tr>
+        
+  </table>
+
+  <h2>4. Top Destinations Observed</h2>
+  <table>
+    <tr><th>Destination IP</th><th>Packet Count</th></tr>
+    <tr><td><code>172.20.0.2</code></td><td>30924</td></tr><tr><td><code>172.20.0.4</code></td><td>4710</td></tr><tr><td><code>172.20.0.3</code></td><td>119</td></tr>
+  </table>
+
+  <h2>5. Capture Health and Dropped Packets</h2>
+  <table>
+    <tr><th>Dropped Packets</th><td>0</td></tr>
+    <tr><th>Truncated Capture</th><td>False</td></tr>
+    <tr><th>Detector Blind Status</th><td><strong>NORMAL</strong></td></tr>
+  </table>
+
+  <h2>6. Alerts Timeline & Detailed Log</h2>
+  <table>
+    <tr>
+      <th>Time (Epoch)</th>
+      <th>Relative (s)</th>
+      <th>Rule</th>
+      <th>Class</th>
+      <th>Status</th>
+      <th>Destination</th>
+      <th>Rate (pps)</th>
+      <th>Sources</th>
+      <th>Ports</th>
+    </tr>
+    
+        <tr>
+          <td>1794831736.3747</td>
+          <td>2.0953 s</td>
+          <td><code>tcp_incomplete_handshake</code></td>
+          <td><strong>ALERT_SYN_FLOOD</strong></td>
+          <td style='color: #065f46;'>pre-registered</td>
+          <td><code>172.20.0.2</code></td>
+          <td>20</td>
+          <td>1</td>
+          <td>1</td>
+        </tr>
+        
+        <tr>
+          <td>1794831737.3796</td>
+          <td>3.1002 s</td>
+          <td><code>tcp_incomplete_handshake</code></td>
+          <td><strong>ALERT_SYN_FLOOD</strong></td>
+          <td style='color: #065f46;'>pre-registered</td>
+          <td><code>172.20.0.2</code></td>
+          <td>199</td>
+          <td>1</td>
+          <td>1</td>
+        </tr>
+        
+        <tr>
+          <td>1794831738.3798</td>
+          <td>4.1004 s</td>
+          <td><code>tcp_incomplete_handshake</code></td>
+          <td><strong>ALERT_SYN_FLOOD</strong></td>
+          <td style='color: #065f46;'>pre-registered</td>
+          <td><code>172.20.0.2</code></td>
+          <td>200</td>
+          <td>1</td>
+          <td>1</td>
+        </tr>
+        
+        <tr>
+          <td>1794831739.3839</td>
+          <td>5.1045 s</td>
+          <td><code>tcp_incomplete_handshake</code></td>
+          <td><strong>ALERT_SYN_FLOOD</strong></td>
+          <td style='color: #065f46;'>pre-registered</td>
+          <td><code>172.20.0.2</code></td>
+          <td>198</td>
+          <td>1</td>
+          <td>1</td>
+        </tr>
+        
+        <tr>
+          <td>1794831740.3881</td>
+          <td>6.1087 s</td>
+          <td><code>tcp_incomplete_handshake</code></td>
+          <td><strong>ALERT_SYN_FLOOD</strong></td>
+          <td style='color: #065f46;'>pre-registered</td>
+          <td><code>172.20.0.2</code></td>
+          <td>201</td>
+          <td>1</td>
+          <td>1</td>
+        </tr>
+        
+        <tr>
+          <td>1794831741.3936</td>
+          <td>7.1142 s</td>
+          <td><code>tcp_incomplete_handshake</code></td>
+          <td><strong>ALERT_SYN_FLOOD</strong></td>
+          <td style='color: #065f46;'>pre-registered</td>
+          <td><code>172.20.0.2</code></td>
+          <td>199</td>
+          <td>1</td>
+          <td>1</td>
+        </tr>
+        
+        <tr>
+          <td>1794831742.3937</td>
+          <td>8.1143 s</td>
+          <td><code>tcp_incomplete_handshake</code></td>
+          <td><strong>ALERT_SYN_FLOOD</strong></td>
+          <td style='color: #065f46;'>pre-registered</td>
+          <td><code>172.20.0.2</code></td>
+          <td>200</td>
+          <td>1</td>
+          <td>1</td>
+        </tr>
+        
+        <tr>
+          <td>1794831743.3945</td>
+          <td>9.1151 s</td>
+          <td><code>tcp_incomplete_handshake</code></td>
+          <td><strong>ALERT_SYN_FLOOD</strong></td>
+          <td style='color: #065f46;'>pre-registered</td>
+          <td><code>172.20.0.2</code></td>
+          <td>198</td>
+          <td>1</td>
+          <td>1</td>
+        </tr>
+        
+        <tr>
+          <td>1794831744.3987</td>
+          <td>10.1193 s</td>
+          <td><code>tcp_incomplete_handshake</code></td>
+          <td><strong>ALERT_SYN_FLOOD</strong></td>
+          <td style='color: #065f46;'>pre-registered</td>
+          <td><code>172.20.0.2</code></td>
+          <td>199</td>
+          <td>1</td>
+          <td>1</td>
+        </tr>
+        
+        <tr>
+          <td>1794831745.3988</td>
+          <td>11.1194 s</td>
+          <td><code>tcp_incomplete_handshake</code></td>
+          <td><strong>ALERT_SYN_FLOOD</strong></td>
+          <td style='color: #065f46;'>pre-registered</td>
+          <td><code>172.20.0.2</code></td>
+          <td>198</td>
+          <td>1</td>
+          <td>1</td>
+        </tr>
+        
+        <tr>
+          <td>1794831746.4036</td>
+          <td>12.1242 s</td>
+          <td><code>tcp_incomplete_handshake</code></td>
+          <td><strong>ALERT_SYN_FLOOD</strong></td>
+          <td style='color: #065f46;'>pre-registered</td>
+          <td><code>172.20.0.2</code></td>
+          <td>201</td>
+          <td>1</td>
+          <td>1</td>
+        </tr>
+        
+        <tr>
+          <td>1794831747.4095</td>
+          <td>13.1301 s</td>
+          <td><code>tcp_incomplete_handshake</code></td>
+          <td><strong>ALERT_SYN_FLOOD</strong></td>
+          <td style='color: #065f46;'>pre-registered</td>
+          <td><code>172.20.0.2</code></td>
+          <td>199</td>
+          <td>1</td>
+          <td>1</td>
+        </tr>
+        
+        <tr>
+          <td>1794831748.4141</td>
+          <td>14.1347 s</td>
+          <td><code>tcp_incomplete_handshake</code></td>
+          <td><strong>ALERT_SYN_FLOOD</strong></td>
+          <td style='color: #065f46;'>pre-registered</td>
+          <td><code>172.20.0.2</code></td>
+          <td>198</td>
+          <td>1</td>
+          <td>1</td>
+        </tr>
+        
+        <tr>
+          <td>1794831749.4186</td>
+          <td>15.1392 s</td>
+          <td><code>tcp_incomplete_handshake</code></td>
+          <td><strong>ALERT_SYN_FLOOD</strong></td>
+          <td style='color: #065f46;'>pre-registered</td>
+          <td><code>172.20.0.2</code></td>
+          <td>200</td>
+          <td>1</td>
+          <td>1</td>
+        </tr>
+        
+        <tr>
+          <td>1794831750.424</td>
+          <td>16.1446 s</td>
+          <td><code>tcp_incomplete_handshake</code></td>
+          <td><strong>ALERT_SYN_FLOOD</strong></td>
+          <td style='color: #065f46;'>pre-registered</td>
+          <td><code>172.20.0.2</code></td>
+          <td>198</td>
+          <td>1</td>
+          <td>1</td>
+        </tr>
+        
+        <tr>
+          <td>1794831751.4244</td>
+          <td>17.145 s</td>
+          <td><code>tcp_incomplete_handshake</code></td>
+          <td><strong>ALERT_SYN_FLOOD</strong></td>
+          <td style='color: #065f46;'>pre-registered</td>
+          <td><code>172.20.0.2</code></td>
+          <td>199</td>
+          <td>1</td>
+          <td>1</td>
+        </tr>
+        
+        <tr>
+          <td>1794831752.4286</td>
+          <td>18.1492 s</td>
+          <td><code>tcp_incomplete_handshake</code></td>
+          <td><strong>ALERT_SYN_FLOOD</strong></td>
+          <td style='color: #065f46;'>pre-registered</td>
+          <td><code>172.20.0.2</code></td>
+          <td>197</td>
+          <td>1</td>
+          <td>1</td>
+        </tr>
+        
+        <tr>
+          <td>1794831753.4288</td>
+          <td>19.1494 s</td>
+          <td><code>tcp_incomplete_handshake</code></td>
+          <td><strong>ALERT_SYN_FLOOD</strong></td>
+          <td style='color: #065f46;'>pre-registered</td>
+          <td><code>172.20.0.2</code></td>
+          <td>199</td>
+          <td>1</td>
+          <td>1</td>
+        </tr>
+        
+        <tr>
+          <td>1794831754.4343</td>
+          <td>20.1549 s</td>
+          <td><code>tcp_incomplete_handshake</code></td>
+          <td><strong>ALERT_SYN_FLOOD</strong></td>
+          <td style='color: #065f46;'>pre-registered</td>
+          <td><code>172.20.0.2</code></td>
+          <td>200</td>
+          <td>1</td>
+          <td>1</td>
+        </tr>
+        
+        <tr>
+          <td>1794831755.4391</td>
+          <td>21.1597 s</td>
+          <td><code>tcp_incomplete_handshake</code></td>
+          <td><strong>ALERT_SYN_FLOOD</strong></td>
+          <td style='color: #065f46;'>pre-registered</td>
+          <td><code>172.20.0.2</code></td>
+          <td>198</td>
+          <td>1</td>
+          <td>1</td>
+        </tr>
+        
+        <tr>
+          <td>1794831756.4391</td>
+          <td>22.1597 s</td>
+          <td><code>tcp_incomplete_handshake</code></td>
+          <td><strong>ALERT_SYN_FLOOD</strong></td>
+          <td style='color: #065f46;'>pre-registered</td>
+          <td><code>172.20.0.2</code></td>
+          <td>199</td>
+          <td>1</td>
+          <td>1</td>
+        </tr>
+        
+        <tr>
+          <td>1794831757.4433</td>
+          <td>23.1639 s</td>
+          <td><code>tcp_incomplete_handshake</code></td>
+          <td><strong>ALERT_SYN_FLOOD</strong></td>
+          <td style='color: #065f46;'>pre-registered</td>
+          <td><code>172.20.0.2</code></td>
+          <td>201</td>
+          <td>1</td>
+          <td>1</td>
+        </tr>
+        
+        <tr>
+          <td>1794831758.4436</td>
+          <td>24.1642 s</td>
+          <td><code>tcp_incomplete_handshake</code></td>
+          <td><strong>ALERT_SYN_FLOOD</strong></td>
+          <td style='color: #065f46;'>pre-registered</td>
+          <td><code>172.20.0.2</code></td>
+          <td>200</td>
+          <td>1</td>
+          <td>1</td>
+        </tr>
+        
+        <tr>
+          <td>1794831759.4445</td>
+          <td>25.1652 s</td>
+          <td><code>tcp_incomplete_handshake</code></td>
+          <td><strong>ALERT_SYN_FLOOD</strong></td>
+          <td style='color: #065f46;'>pre-registered</td>
+          <td><code>172.20.0.2</code></td>
+          <td>200</td>
+          <td>1</td>
+          <td>1</td>
+        </tr>
+        
+        <tr>
+          <td>1794831760.4519</td>
+          <td>26.1725 s</td>
+          <td><code>tcp_incomplete_handshake</code></td>
+          <td><strong>ALERT_SYN_FLOOD</strong></td>
+          <td style='color: #065f46;'>pre-registered</td>
+          <td><code>172.20.0.2</code></td>
+          <td>199</td>
+          <td>1</td>
+          <td>1</td>
+        </tr>
+        
+        <tr>
+          <td>1794831761.4541</td>
+          <td>27.1747 s</td>
+          <td><code>tcp_incomplete_handshake</code></td>
+          <td><strong>ALERT_SYN_FLOOD</strong></td>
+          <td style='color: #065f46;'>pre-registered</td>
+          <td><code>172.20.0.2</code></td>
+          <td>200</td>
+          <td>1</td>
+          <td>1</td>
+        </tr>
+        
+        <tr>
+          <td>1794831762.4589</td>
+          <td>28.1795 s</td>
+          <td><code>tcp_incomplete_handshake</code></td>
+          <td><strong>ALERT_SYN_FLOOD</strong></td>
+          <td style='color: #065f46;'>pre-registered</td>
+          <td><code>172.20.0.2</code></td>
+          <td>199</td>
+          <td>1</td>
+          <td>1</td>
+        </tr>
+        
+        <tr>
+          <td>1794831763.4605</td>
+          <td>29.1811 s</td>
+          <td><code>tcp_incomplete_handshake</code></td>
+          <td><strong>ALERT_SYN_FLOOD</strong></td>
+          <td style='color: #065f46;'>pre-registered</td>
+          <td><code>172.20.0.2</code></td>
+          <td>200</td>
+          <td>1</td>
+          <td>1</td>
+        </tr>
+        
+        <tr>
+          <td>1794831764.4632</td>
+          <td>30.1839 s</td>
+          <td><code>tcp_incomplete_handshake</code></td>
+          <td><strong>ALERT_SYN_FLOOD</strong></td>
+          <td style='color: #065f46;'>pre-registered</td>
+          <td><code>172.20.0.2</code></td>
+          <td>200</td>
+          <td>1</td>
+          <td>1</td>
+        </tr>
+        
+        <tr>
+          <td>1794831765.4637</td>
+          <td>31.1843 s</td>
+          <td><code>tcp_incomplete_handshake</code></td>
+          <td><strong>ALERT_SYN_FLOOD</strong></td>
+          <td style='color: #065f46;'>pre-registered</td>
+          <td><code>172.20.0.2</code></td>
+          <td>200</td>
+          <td>1</td>
+          <td>1</td>
+        </tr>
+        
+        <tr>
+          <td>1794831766.4639</td>
+          <td>32.1845 s</td>
+          <td><code>tcp_incomplete_handshake</code></td>
+          <td><strong>ALERT_SYN_FLOOD</strong></td>
+          <td style='color: #065f46;'>pre-registered</td>
+          <td><code>172.20.0.2</code></td>
+          <td>198</td>
+          <td>1</td>
+          <td>1</td>
+        </tr>
+        
+        <tr>
+          <td>1794831767.4698</td>
+          <td>33.1904 s</td>
+          <td><code>tcp_incomplete_handshake</code></td>
+          <td><strong>ALERT_SYN_FLOOD</strong></td>
+          <td style='color: #065f46;'>pre-registered</td>
+          <td><code>172.20.0.2</code></td>
+          <td>197</td>
+          <td>1</td>
+          <td>1</td>
+        </tr>
+        
+        <tr>
+          <td>1794831768.4729</td>
+          <td>34.1935 s</td>
+          <td><code>tcp_incomplete_handshake</code></td>
+          <td><strong>ALERT_SYN_FLOOD</strong></td>
+          <td style='color: #065f46;'>pre-registered</td>
+          <td><code>172.20.0.2</code></td>
+          <td>201</td>
+          <td>1</td>
+          <td>1</td>
+        </tr>
+        
+        <tr>
+          <td>1794831769.4735</td>
+          <td>35.1941 s</td>
+          <td><code>tcp_incomplete_handshake</code></td>
+          <td><strong>ALERT_SYN_FLOOD</strong></td>
+          <td style='color: #065f46;'>pre-registered</td>
+          <td><code>172.20.0.2</code></td>
+          <td>199</td>
+          <td>1</td>
+          <td>1</td>
+        </tr>
+        
+        <tr>
+          <td>1794831770.4736</td>
+          <td>36.1942 s</td>
+          <td><code>tcp_incomplete_handshake</code></td>
+          <td><strong>ALERT_SYN_FLOOD</strong></td>
+          <td style='color: #065f46;'>pre-registered</td>
+          <td><code>172.20.0.2</code></td>
+          <td>199</td>
+          <td>1</td>
+          <td>1</td>
+        </tr>
+        
+        <tr>
+          <td>1794831771.4784</td>
+          <td>37.199 s</td>
+          <td><code>tcp_incomplete_handshake</code></td>
+          <td><strong>ALERT_SYN_FLOOD</strong></td>
+          <td style='color: #065f46;'>pre-registered</td>
+          <td><code>172.20.0.2</code></td>
+          <td>199</td>
+          <td>1</td>
+          <td>1</td>
+        </tr>
+        
+        <tr>
+          <td>1794831772.4838</td>
+          <td>38.2045 s</td>
+          <td><code>tcp_incomplete_handshake</code></td>
+          <td><strong>ALERT_SYN_FLOOD</strong></td>
+          <td style='color: #065f46;'>pre-registered</td>
+          <td><code>172.20.0.2</code></td>
+          <td>199</td>
+          <td>1</td>
+          <td>1</td>
+        </tr>
+        
+        <tr>
+          <td>1794831773.4843</td>
+          <td>39.205 s</td>
+          <td><code>tcp_incomplete_handshake</code></td>
+          <td><strong>ALERT_SYN_FLOOD</strong></td>
+          <td style='color: #065f46;'>pre-registered</td>
+          <td><code>172.20.0.2</code></td>
+          <td>198</td>
+          <td>1</td>
+          <td>1</td>
+        </tr>
+        
+        <tr>
+          <td>1794831774.4885</td>
+          <td>40.2091 s</td>
+          <td><code>tcp_incomplete_handshake</code></td>
+          <td><strong>ALERT_SYN_FLOOD</strong></td>
+          <td style='color: #065f46;'>pre-registered</td>
+          <td><code>172.20.0.2</code></td>
+          <td>201</td>
+          <td>1</td>
+          <td>1</td>
+        </tr>
+        
+        <tr>
+          <td>1794831775.4935</td>
+          <td>41.2141 s</td>
+          <td><code>tcp_incomplete_handshake</code></td>
+          <td><strong>ALERT_SYN_FLOOD</strong></td>
+          <td style='color: #065f46;'>pre-registered</td>
+          <td><code>172.20.0.2</code></td>
+          <td>200</td>
+          <td>1</td>
+          <td>1</td>
+        </tr>
+        
+        <tr>
+          <td>1794831776.4982</td>
+          <td>42.2188 s</td>
+          <td><code>tcp_incomplete_handshake</code></td>
+          <td><strong>ALERT_SYN_FLOOD</strong></td>
+          <td style='color: #065f46;'>pre-registered</td>
+          <td><code>172.20.0.2</code></td>
+          <td>199</td>
+          <td>1</td>
+          <td>1</td>
+        </tr>
+        
+        <tr>
+          <td>1794831777.5049</td>
+          <td>43.2255 s</td>
+          <td><code>tcp_incomplete_handshake</code></td>
+          <td><strong>ALERT_SYN_FLOOD</strong></td>
+          <td style='color: #065f46;'>pre-registered</td>
+          <td><code>172.20.0.2</code></td>
+          <td>200</td>
+          <td>1</td>
+          <td>1</td>
+        </tr>
+        
+        <tr>
+          <td>1794831778.5098</td>
+          <td>44.2304 s</td>
+          <td><code>tcp_incomplete_handshake</code></td>
+          <td><strong>ALERT_SYN_FLOOD</strong></td>
+          <td style='color: #065f46;'>pre-registered</td>
+          <td><code>172.20.0.2</code></td>
+          <td>200</td>
+          <td>1</td>
+          <td>1</td>
+        </tr>
+        
+        <tr>
+          <td>1794831779.5131</td>
+          <td>45.2337 s</td>
+          <td><code>tcp_incomplete_handshake</code></td>
+          <td><strong>ALERT_SYN_FLOOD</strong></td>
+          <td style='color: #065f46;'>pre-registered</td>
+          <td><code>172.20.0.2</code></td>
+          <td>199</td>
+          <td>1</td>
+          <td>1</td>
+        </tr>
+        
+        <tr>
+          <td>1794831780.5134</td>
+          <td>46.234 s</td>
+          <td><code>tcp_incomplete_handshake</code></td>
+          <td><strong>ALERT_SYN_FLOOD</strong></td>
+          <td style='color: #065f46;'>pre-registered</td>
+          <td><code>172.20.0.2</code></td>
+          <td>199</td>
+          <td>1</td>
+          <td>1</td>
+        </tr>
+        
+        <tr>
+          <td>1794831781.514</td>
+          <td>47.2346 s</td>
+          <td><code>tcp_incomplete_handshake</code></td>
+          <td><strong>ALERT_SYN_FLOOD</strong></td>
+          <td style='color: #065f46;'>pre-registered</td>
+          <td><code>172.20.0.2</code></td>
+          <td>198</td>
+          <td>1</td>
+          <td>1</td>
+        </tr>
+        
+        <tr>
+          <td>1794831782.5186</td>
+          <td>48.2392 s</td>
+          <td><code>tcp_incomplete_handshake</code></td>
+          <td><strong>ALERT_SYN_FLOOD</strong></td>
+          <td style='color: #065f46;'>pre-registered</td>
+          <td><code>172.20.0.2</code></td>
+          <td>200</td>
+          <td>1</td>
+          <td>1</td>
+        </tr>
+        
+        <tr>
+          <td>1794831783.5194</td>
+          <td>49.24 s</td>
+          <td><code>tcp_incomplete_handshake</code></td>
+          <td><strong>ALERT_SYN_FLOOD</strong></td>
+          <td style='color: #065f46;'>pre-registered</td>
+          <td><code>172.20.0.2</code></td>
+          <td>200</td>
+          <td>1</td>
+          <td>1</td>
+        </tr>
+        
+        <tr>
+          <td>1794831784.5243</td>
+          <td>50.2449 s</td>
+          <td><code>tcp_incomplete_handshake</code></td>
+          <td><strong>ALERT_SYN_FLOOD</strong></td>
+          <td style='color: #065f46;'>pre-registered</td>
+          <td><code>172.20.0.2</code></td>
+          <td>198</td>
+          <td>1</td>
+          <td>1</td>
+        </tr>
+        
+        <tr>
+          <td>1794831785.529</td>
+          <td>51.2496 s</td>
+          <td><code>tcp_incomplete_handshake</code></td>
+          <td><strong>ALERT_SYN_FLOOD</strong></td>
+          <td style='color: #065f46;'>pre-registered</td>
+          <td><code>172.20.0.2</code></td>
+          <td>199</td>
+          <td>1</td>
+          <td>1</td>
+        </tr>
+        
+        <tr>
+          <td>1794831786.5337</td>
+          <td>52.2543 s</td>
+          <td><code>tcp_incomplete_handshake</code></td>
+          <td><strong>ALERT_SYN_FLOOD</strong></td>
+          <td style='color: #065f46;'>pre-registered</td>
+          <td><code>172.20.0.2</code></td>
+          <td>199</td>
+          <td>1</td>
+          <td>1</td>
+        </tr>
+        
+        <tr>
+          <td>1794831787.5343</td>
+          <td>53.2549 s</td>
+          <td><code>tcp_incomplete_handshake</code></td>
+          <td><strong>ALERT_SYN_FLOOD</strong></td>
+          <td style='color: #065f46;'>pre-registered</td>
+          <td><code>172.20.0.2</code></td>
+          <td>197</td>
+          <td>1</td>
+          <td>1</td>
+        </tr>
+        
+        <tr>
+          <td>1794831788.5387</td>
+          <td>54.2593 s</td>
+          <td><code>tcp_incomplete_handshake</code></td>
+          <td><strong>ALERT_SYN_FLOOD</strong></td>
+          <td style='color: #065f46;'>pre-registered</td>
+          <td><code>172.20.0.2</code></td>
+          <td>201</td>
+          <td>1</td>
+          <td>1</td>
+        </tr>
+        
+        <tr>
+          <td>1794831789.5389</td>
+          <td>55.2595 s</td>
+          <td><code>tcp_incomplete_handshake</code></td>
+          <td><strong>ALERT_SYN_FLOOD</strong></td>
+          <td style='color: #065f46;'>pre-registered</td>
+          <td><code>172.20.0.2</code></td>
+          <td>196</td>
+          <td>1</td>
+          <td>1</td>
+        </tr>
+        
+        <tr>
+          <td>1794831790.5397</td>
+          <td>56.2603 s</td>
+          <td><code>tcp_incomplete_handshake</code></td>
+          <td><strong>ALERT_SYN_FLOOD</strong></td>
+          <td style='color: #065f46;'>pre-registered</td>
+          <td><code>172.20.0.2</code></td>
+          <td>199</td>
+          <td>1</td>
+          <td>1</td>
+        </tr>
+        
+        <tr>
+          <td>1794831791.5446</td>
+          <td>57.2652 s</td>
+          <td><code>tcp_incomplete_handshake</code></td>
+          <td><strong>ALERT_SYN_FLOOD</strong></td>
+          <td style='color: #065f46;'>pre-registered</td>
+          <td><code>172.20.0.2</code></td>
+          <td>198</td>
+          <td>1</td>
+          <td>1</td>
+        </tr>
+        
+        <tr>
+          <td>1794831792.5489</td>
+          <td>58.2695 s</td>
+          <td><code>tcp_incomplete_handshake</code></td>
+          <td><strong>ALERT_SYN_FLOOD</strong></td>
+          <td style='color: #065f46;'>pre-registered</td>
+          <td><code>172.20.0.2</code></td>
+          <td>200</td>
+          <td>1</td>
+          <td>1</td>
+        </tr>
+        
+        <tr>
+          <td>1794831793.5548</td>
+          <td>59.2754 s</td>
+          <td><code>tcp_incomplete_handshake</code></td>
+          <td><strong>ALERT_SYN_FLOOD</strong></td>
+          <td style='color: #065f46;'>pre-registered</td>
+          <td><code>172.20.0.2</code></td>
+          <td>197</td>
+          <td>1</td>
+          <td>1</td>
+        </tr>
+        
+        <tr>
+          <td>1794831794.5551</td>
+          <td>60.2757 s</td>
+          <td><code>tcp_incomplete_handshake</code></td>
+          <td><strong>ALERT_SYN_FLOOD</strong></td>
+          <td style='color: #065f46;'>pre-registered</td>
+          <td><code>172.20.0.2</code></td>
+          <td>199</td>
+          <td>1</td>
+          <td>1</td>
+        </tr>
+        
+        <tr>
+          <td>1794831795.5598</td>
+          <td>61.2804 s</td>
+          <td><code>tcp_incomplete_handshake</code></td>
+          <td><strong>ALERT_SYN_FLOOD</strong></td>
+          <td style='color: #065f46;'>pre-registered</td>
+          <td><code>172.20.0.2</code></td>
+          <td>199</td>
+          <td>1</td>
+          <td>1</td>
+        </tr>
+        
+        <tr>
+          <td>1794831796.563</td>
+          <td>62.2836 s</td>
+          <td><code>tcp_incomplete_handshake</code></td>
+          <td><strong>ALERT_SYN_FLOOD</strong></td>
+          <td style='color: #065f46;'>pre-registered</td>
+          <td><code>172.20.0.2</code></td>
+          <td>199</td>
+          <td>1</td>
+          <td>1</td>
+        </tr>
+        
+        <tr>
+          <td>1794831797.5636</td>
+          <td>63.2842 s</td>
+          <td><code>tcp_incomplete_handshake</code></td>
+          <td><strong>ALERT_SYN_FLOOD</strong></td>
+          <td style='color: #065f46;'>pre-registered</td>
+          <td><code>172.20.0.2</code></td>
+          <td>198</td>
+          <td>1</td>
+          <td>1</td>
+        </tr>
+        
+        <tr>
+          <td>1794831798.5683</td>
+          <td>64.2889 s</td>
+          <td><code>tcp_incomplete_handshake</code></td>
+          <td><strong>ALERT_SYN_FLOOD</strong></td>
+          <td style='color: #065f46;'>pre-registered</td>
+          <td><code>172.20.0.2</code></td>
+          <td>198</td>
+          <td>1</td>
+          <td>1</td>
+        </tr>
+        
+        <tr>
+          <td>1794831799.5684</td>
+          <td>65.289 s</td>
+          <td><code>tcp_incomplete_handshake</code></td>
+          <td><strong>ALERT_SYN_FLOOD</strong></td>
+          <td style='color: #065f46;'>pre-registered</td>
+          <td><code>172.20.0.2</code></td>
+          <td>197</td>
+          <td>1</td>
+          <td>1</td>
+        </tr>
+        
+        <tr>
+          <td>1794831800.5695</td>
+          <td>66.2901 s</td>
+          <td><code>tcp_incomplete_handshake</code></td>
+          <td><strong>ALERT_SYN_FLOOD</strong></td>
+          <td style='color: #065f46;'>pre-registered</td>
+          <td><code>172.20.0.2</code></td>
+          <td>199</td>
+          <td>1</td>
+          <td>1</td>
+        </tr>
+        
+        <tr>
+          <td>1794831801.5743</td>
+          <td>67.2949 s</td>
+          <td><code>tcp_incomplete_handshake</code></td>
+          <td><strong>ALERT_SYN_FLOOD</strong></td>
+          <td style='color: #065f46;'>pre-registered</td>
+          <td><code>172.20.0.2</code></td>
+          <td>200</td>
+          <td>1</td>
+          <td>1</td>
+        </tr>
+        
+        <tr>
+          <td>1794831802.5786</td>
+          <td>68.2993 s</td>
+          <td><code>tcp_incomplete_handshake</code></td>
+          <td><strong>ALERT_SYN_FLOOD</strong></td>
+          <td style='color: #065f46;'>pre-registered</td>
+          <td><code>172.20.0.2</code></td>
+          <td>199</td>
+          <td>1</td>
+          <td>1</td>
+        </tr>
+        
+        <tr>
+          <td>1794831803.579</td>
+          <td>69.2996 s</td>
+          <td><code>tcp_incomplete_handshake</code></td>
+          <td><strong>ALERT_SYN_FLOOD</strong></td>
+          <td style='color: #065f46;'>pre-registered</td>
+          <td><code>172.20.0.2</code></td>
+          <td>200</td>
+          <td>1</td>
+          <td>1</td>
+        </tr>
+        
+        <tr>
+          <td>1794831804.5796</td>
+          <td>70.3002 s</td>
+          <td><code>tcp_incomplete_handshake</code></td>
+          <td><strong>ALERT_SYN_FLOOD</strong></td>
+          <td style='color: #065f46;'>pre-registered</td>
+          <td><code>172.20.0.2</code></td>
+          <td>200</td>
+          <td>1</td>
+          <td>1</td>
+        </tr>
+        
+        <tr>
+          <td>1794831805.5837</td>
+          <td>71.3043 s</td>
+          <td><code>tcp_incomplete_handshake</code></td>
+          <td><strong>ALERT_SYN_FLOOD</strong></td>
+          <td style='color: #065f46;'>pre-registered</td>
+          <td><code>172.20.0.2</code></td>
+          <td>201</td>
+          <td>1</td>
+          <td>1</td>
+        </tr>
+        
+        <tr>
+          <td>1794831806.5886</td>
+          <td>72.3092 s</td>
+          <td><code>tcp_incomplete_handshake</code></td>
+          <td><strong>ALERT_SYN_FLOOD</strong></td>
+          <td style='color: #065f46;'>pre-registered</td>
+          <td><code>172.20.0.2</code></td>
+          <td>200</td>
+          <td>1</td>
+          <td>1</td>
+        </tr>
+        
+        <tr>
+          <td>1794831807.5938</td>
+          <td>73.3144 s</td>
+          <td><code>tcp_incomplete_handshake</code></td>
+          <td><strong>ALERT_SYN_FLOOD</strong></td>
+          <td style='color: #065f46;'>pre-registered</td>
+          <td><code>172.20.0.2</code></td>
+          <td>199</td>
+          <td>1</td>
+          <td>1</td>
+        </tr>
+        
+        <tr>
+          <td>1794831808.599</td>
+          <td>74.3196 s</td>
+          <td><code>tcp_incomplete_handshake</code></td>
+          <td><strong>ALERT_SYN_FLOOD</strong></td>
+          <td style='color: #065f46;'>pre-registered</td>
+          <td><code>172.20.0.2</code></td>
+          <td>200</td>
+          <td>1</td>
+          <td>1</td>
+        </tr>
+        
+        <tr>
+          <td>1794831809.6048</td>
+          <td>75.3254 s</td>
+          <td><code>tcp_incomplete_handshake</code></td>
+          <td><strong>ALERT_SYN_FLOOD</strong></td>
+          <td style='color: #065f46;'>pre-registered</td>
+          <td><code>172.20.0.2</code></td>
+          <td>199</td>
+          <td>1</td>
+          <td>1</td>
+        </tr>
+        
+        <tr>
+          <td>1794831810.6084</td>
+          <td>76.3291 s</td>
+          <td><code>tcp_incomplete_handshake</code></td>
+          <td><strong>ALERT_SYN_FLOOD</strong></td>
+          <td style='color: #065f46;'>pre-registered</td>
+          <td><code>172.20.0.2</code></td>
+          <td>198</td>
+          <td>1</td>
+          <td>1</td>
+        </tr>
+        
+        <tr>
+          <td>1794831811.6086</td>
+          <td>77.3292 s</td>
+          <td><code>tcp_incomplete_handshake</code></td>
+          <td><strong>ALERT_SYN_FLOOD</strong></td>
+          <td style='color: #065f46;'>pre-registered</td>
+          <td><code>172.20.0.2</code></td>
+          <td>198</td>
+          <td>1</td>
+          <td>1</td>
+        </tr>
+        
+        <tr>
+          <td>1794831812.6129</td>
+          <td>78.3335 s</td>
+          <td><code>tcp_incomplete_handshake</code></td>
+          <td><strong>ALERT_SYN_FLOOD</strong></td>
+          <td style='color: #065f46;'>pre-registered</td>
+          <td><code>172.20.0.2</code></td>
+          <td>200</td>
+          <td>1</td>
+          <td>1</td>
+        </tr>
+        
+        <tr>
+          <td>1794831813.6184</td>
+          <td>79.339 s</td>
+          <td><code>tcp_incomplete_handshake</code></td>
+          <td><strong>ALERT_SYN_FLOOD</strong></td>
+          <td style='color: #065f46;'>pre-registered</td>
+          <td><code>172.20.0.2</code></td>
+          <td>197</td>
+          <td>1</td>
+          <td>1</td>
+        </tr>
+        
+        <tr>
+          <td>1794831814.6186</td>
+          <td>80.3392 s</td>
+          <td><code>tcp_incomplete_handshake</code></td>
+          <td><strong>ALERT_SYN_FLOOD</strong></td>
+          <td style='color: #065f46;'>pre-registered</td>
+          <td><code>172.20.0.2</code></td>
+          <td>200</td>
+          <td>1</td>
+          <td>1</td>
+        </tr>
+        
+        <tr>
+          <td>1794831815.6196</td>
+          <td>81.3402 s</td>
+          <td><code>tcp_incomplete_handshake</code></td>
+          <td><strong>ALERT_SYN_FLOOD</strong></td>
+          <td style='color: #065f46;'>pre-registered</td>
+          <td><code>172.20.0.2</code></td>
+          <td>200</td>
+          <td>1</td>
+          <td>1</td>
+        </tr>
+        
+        <tr>
+          <td>1794831816.6229</td>
+          <td>82.3435 s</td>
+          <td><code>tcp_incomplete_handshake</code></td>
+          <td><strong>ALERT_SYN_FLOOD</strong></td>
+          <td style='color: #065f46;'>pre-registered</td>
+          <td><code>172.20.0.2</code></td>
+          <td>199</td>
+          <td>1</td>
+          <td>1</td>
+        </tr>
+        
+        <tr>
+          <td>1794831817.6295</td>
+          <td>83.3501 s</td>
+          <td><code>tcp_incomplete_handshake</code></td>
+          <td><strong>ALERT_SYN_FLOOD</strong></td>
+          <td style='color: #065f46;'>pre-registered</td>
+          <td><code>172.20.0.2</code></td>
+          <td>200</td>
+          <td>1</td>
+          <td>1</td>
+        </tr>
+        
+        <tr>
+          <td>1794831818.6339</td>
+          <td>84.3545 s</td>
+          <td><code>tcp_incomplete_handshake</code></td>
+          <td><strong>ALERT_SYN_FLOOD</strong></td>
+          <td style='color: #065f46;'>pre-registered</td>
+          <td><code>172.20.0.2</code></td>
+          <td>197</td>
+          <td>1</td>
+          <td>1</td>
+        </tr>
+        
+        <tr>
+          <td>1794831819.6388</td>
+          <td>85.3594 s</td>
+          <td><code>tcp_incomplete_handshake</code></td>
+          <td><strong>ALERT_SYN_FLOOD</strong></td>
+          <td style='color: #065f46;'>pre-registered</td>
+          <td><code>172.20.0.2</code></td>
+          <td>199</td>
+          <td>1</td>
+          <td>1</td>
+        </tr>
+        
+        <tr>
+          <td>1794831820.6393</td>
+          <td>86.3599 s</td>
+          <td><code>tcp_incomplete_handshake</code></td>
+          <td><strong>ALERT_SYN_FLOOD</strong></td>
+          <td style='color: #065f46;'>pre-registered</td>
+          <td><code>172.20.0.2</code></td>
+          <td>198</td>
+          <td>1</td>
+          <td>1</td>
+        </tr>
+        
+        <tr>
+          <td>1794831821.6431</td>
+          <td>87.3637 s</td>
+          <td><code>tcp_incomplete_handshake</code></td>
+          <td><strong>ALERT_SYN_FLOOD</strong></td>
+          <td style='color: #065f46;'>pre-registered</td>
+          <td><code>172.20.0.2</code></td>
+          <td>200</td>
+          <td>1</td>
+          <td>1</td>
+        </tr>
+        
+        <tr>
+          <td>1794831822.6441</td>
+          <td>88.3647 s</td>
+          <td><code>tcp_incomplete_handshake</code></td>
+          <td><strong>ALERT_SYN_FLOOD</strong></td>
+          <td style='color: #065f46;'>pre-registered</td>
+          <td><code>172.20.0.2</code></td>
+          <td>200</td>
+          <td>1</td>
+          <td>1</td>
+        </tr>
+        
+        <tr>
+          <td>1794831823.6443</td>
+          <td>89.3649 s</td>
+          <td><code>tcp_incomplete_handshake</code></td>
+          <td><strong>ALERT_SYN_FLOOD</strong></td>
+          <td style='color: #065f46;'>pre-registered</td>
+          <td><code>172.20.0.2</code></td>
+          <td>200</td>
+          <td>1</td>
+          <td>1</td>
+        </tr>
+        
+        <tr>
+          <td>1794831824.6487</td>
+          <td>90.3693 s</td>
+          <td><code>tcp_incomplete_handshake</code></td>
+          <td><strong>ALERT_SYN_FLOOD</strong></td>
+          <td style='color: #065f46;'>pre-registered</td>
+          <td><code>172.20.0.2</code></td>
+          <td>201</td>
+          <td>1</td>
+          <td>1</td>
+        </tr>
+        
+        <tr>
+          <td>1794831825.6491</td>
+          <td>91.3697 s</td>
+          <td><code>tcp_incomplete_handshake</code></td>
+          <td><strong>ALERT_SYN_FLOOD</strong></td>
+          <td style='color: #065f46;'>pre-registered</td>
+          <td><code>172.20.0.2</code></td>
+          <td>196</td>
+          <td>1</td>
+          <td>1</td>
+        </tr>
+        
+        <tr>
+          <td>1794831826.653</td>
+          <td>92.3736 s</td>
+          <td><code>tcp_incomplete_handshake</code></td>
+          <td><strong>ALERT_SYN_FLOOD</strong></td>
+          <td style='color: #065f46;'>pre-registered</td>
+          <td><code>172.20.0.2</code></td>
+          <td>199</td>
+          <td>1</td>
+          <td>1</td>
+        </tr>
+        
+        <tr>
+          <td>1794831827.6584</td>
+          <td>93.379 s</td>
+          <td><code>tcp_incomplete_handshake</code></td>
+          <td><strong>ALERT_SYN_FLOOD</strong></td>
+          <td style='color: #065f46;'>pre-registered</td>
+          <td><code>172.20.0.2</code></td>
+          <td>200</td>
+          <td>1</td>
+          <td>1</td>
+        </tr>
+        
+        <tr>
+          <td>1794831828.6592</td>
+          <td>94.3798 s</td>
+          <td><code>tcp_incomplete_handshake</code></td>
+          <td><strong>ALERT_SYN_FLOOD</strong></td>
+          <td style='color: #065f46;'>pre-registered</td>
+          <td><code>172.20.0.2</code></td>
+          <td>200</td>
+          <td>1</td>
+          <td>1</td>
+        </tr>
+        
+        <tr>
+          <td>1794831829.6637</td>
+          <td>95.3844 s</td>
+          <td><code>tcp_incomplete_handshake</code></td>
+          <td><strong>ALERT_SYN_FLOOD</strong></td>
+          <td style='color: #065f46;'>pre-registered</td>
+          <td><code>172.20.0.2</code></td>
+          <td>199</td>
+          <td>1</td>
+          <td>1</td>
+        </tr>
+        
+        <tr>
+          <td>1794831830.6656</td>
+          <td>96.3862 s</td>
+          <td><code>tcp_incomplete_handshake</code></td>
+          <td><strong>ALERT_SYN_FLOOD</strong></td>
+          <td style='color: #065f46;'>pre-registered</td>
+          <td><code>172.20.0.2</code></td>
+          <td>200</td>
+          <td>1</td>
+          <td>1</td>
+        </tr>
+        
+        <tr>
+          <td>1794831831.6695</td>
+          <td>97.3901 s</td>
+          <td><code>tcp_incomplete_handshake</code></td>
+          <td><strong>ALERT_SYN_FLOOD</strong></td>
+          <td style='color: #065f46;'>pre-registered</td>
+          <td><code>172.20.0.2</code></td>
+          <td>199</td>
+          <td>1</td>
+          <td>1</td>
+        </tr>
+        
+        <tr>
+          <td>1794831832.673</td>
+          <td>98.3936 s</td>
+          <td><code>tcp_incomplete_handshake</code></td>
+          <td><strong>ALERT_SYN_FLOOD</strong></td>
+          <td style='color: #065f46;'>pre-registered</td>
+          <td><code>172.20.0.2</code></td>
+          <td>200</td>
+          <td>1</td>
+          <td>1</td>
+        </tr>
+        
+        <tr>
+          <td>1794831833.6735</td>
+          <td>99.3942 s</td>
+          <td><code>tcp_incomplete_handshake</code></td>
+          <td><strong>ALERT_SYN_FLOOD</strong></td>
+          <td style='color: #065f46;'>pre-registered</td>
+          <td><code>172.20.0.2</code></td>
+          <td>197</td>
+          <td>1</td>
+          <td>1</td>
+        </tr>
+        
+        <tr>
+          <td>1794831834.6738</td>
+          <td>100.3944 s</td>
+          <td><code>tcp_incomplete_handshake</code></td>
+          <td><strong>ALERT_SYN_FLOOD</strong></td>
+          <td style='color: #065f46;'>pre-registered</td>
+          <td><code>172.20.0.2</code></td>
+          <td>199</td>
+          <td>1</td>
+          <td>1</td>
+        </tr>
+        
+        <tr>
+          <td>1794831835.6743</td>
+          <td>101.3949 s</td>
+          <td><code>tcp_incomplete_handshake</code></td>
+          <td><strong>ALERT_SYN_FLOOD</strong></td>
+          <td style='color: #065f46;'>pre-registered</td>
+          <td><code>172.20.0.2</code></td>
+          <td>200</td>
+          <td>1</td>
+          <td>1</td>
+        </tr>
+        
+        <tr>
+          <td>1794831836.6793</td>
+          <td>102.3999 s</td>
+          <td><code>tcp_incomplete_handshake</code></td>
+          <td><strong>ALERT_SYN_FLOOD</strong></td>
+          <td style='color: #065f46;'>pre-registered</td>
+          <td><code>172.20.0.2</code></td>
+          <td>199</td>
+          <td>1</td>
+          <td>1</td>
+        </tr>
+        
+        <tr>
+          <td>1794831837.6832</td>
+          <td>103.4038 s</td>
+          <td><code>tcp_incomplete_handshake</code></td>
+          <td><strong>ALERT_SYN_FLOOD</strong></td>
+          <td style='color: #065f46;'>pre-registered</td>
+          <td><code>172.20.0.2</code></td>
+          <td>201</td>
+          <td>1</td>
+          <td>1</td>
+        </tr>
+        
+        <tr>
+          <td>1794831838.6848</td>
+          <td>104.4054 s</td>
+          <td><code>tcp_incomplete_handshake</code></td>
+          <td><strong>ALERT_SYN_FLOOD</strong></td>
+          <td style='color: #065f46;'>pre-registered</td>
+          <td><code>172.20.0.2</code></td>
+          <td>198</td>
+          <td>1</td>
+          <td>1</td>
+        </tr>
+        
+        <tr>
+          <td>1794831839.6895</td>
+          <td>105.4101 s</td>
+          <td><code>tcp_incomplete_handshake</code></td>
+          <td><strong>ALERT_SYN_FLOOD</strong></td>
+          <td style='color: #065f46;'>pre-registered</td>
+          <td><code>172.20.0.2</code></td>
+          <td>200</td>
+          <td>1</td>
+          <td>1</td>
+        </tr>
+        
+        <tr>
+          <td>1794831840.6931</td>
+          <td>106.4137 s</td>
+          <td><code>tcp_incomplete_handshake</code></td>
+          <td><strong>ALERT_SYN_FLOOD</strong></td>
+          <td style='color: #065f46;'>pre-registered</td>
+          <td><code>172.20.0.2</code></td>
+          <td>200</td>
+          <td>1</td>
+          <td>1</td>
+        </tr>
+        
+        <tr>
+          <td>1794831841.6933</td>
+          <td>107.4139 s</td>
+          <td><code>tcp_incomplete_handshake</code></td>
+          <td><strong>ALERT_SYN_FLOOD</strong></td>
+          <td style='color: #065f46;'>pre-registered</td>
+          <td><code>172.20.0.2</code></td>
+          <td>198</td>
+          <td>1</td>
+          <td>1</td>
+        </tr>
+        
+        <tr>
+          <td>1794831842.699</td>
+          <td>108.4196 s</td>
+          <td><code>tcp_incomplete_handshake</code></td>
+          <td><strong>ALERT_SYN_FLOOD</strong></td>
+          <td style='color: #065f46;'>pre-registered</td>
+          <td><code>172.20.0.2</code></td>
+          <td>201</td>
+          <td>1</td>
+          <td>1</td>
+        </tr>
+        
+        <tr>
+          <td>1794831843.7032</td>
+          <td>109.4238 s</td>
+          <td><code>tcp_incomplete_handshake</code></td>
+          <td><strong>ALERT_SYN_FLOOD</strong></td>
+          <td style='color: #065f46;'>pre-registered</td>
+          <td><code>172.20.0.2</code></td>
+          <td>200</td>
+          <td>1</td>
+          <td>1</td>
+        </tr>
+        
+        <tr>
+          <td>1794831844.7043</td>
+          <td>110.4249 s</td>
+          <td><code>tcp_incomplete_handshake</code></td>
+          <td><strong>ALERT_SYN_FLOOD</strong></td>
+          <td style='color: #065f46;'>pre-registered</td>
+          <td><code>172.20.0.2</code></td>
+          <td>199</td>
+          <td>1</td>
+          <td>1</td>
+        </tr>
+        
+        <tr>
+          <td>1794831845.7099</td>
+          <td>111.4305 s</td>
+          <td><code>tcp_incomplete_handshake</code></td>
+          <td><strong>ALERT_SYN_FLOOD</strong></td>
+          <td style='color: #065f46;'>pre-registered</td>
+          <td><code>172.20.0.2</code></td>
+          <td>199</td>
+          <td>1</td>
+          <td>1</td>
+        </tr>
+        
+        <tr>
+          <td>1794831846.7134</td>
+          <td>112.434 s</td>
+          <td><code>tcp_incomplete_handshake</code></td>
+          <td><strong>ALERT_SYN_FLOOD</strong></td>
+          <td style='color: #065f46;'>pre-registered</td>
+          <td><code>172.20.0.2</code></td>
+          <td>199</td>
+          <td>1</td>
+          <td>1</td>
+        </tr>
+        
+        <tr>
+          <td>1794831847.7143</td>
+          <td>113.4349 s</td>
+          <td><code>tcp_incomplete_handshake</code></td>
+          <td><strong>ALERT_SYN_FLOOD</strong></td>
+          <td style='color: #065f46;'>pre-registered</td>
+          <td><code>172.20.0.2</code></td>
+          <td>197</td>
+          <td>1</td>
+          <td>1</td>
+        </tr>
+        
+        <tr>
+          <td>1794831848.718</td>
+          <td>114.4386 s</td>
+          <td><code>tcp_incomplete_handshake</code></td>
+          <td><strong>ALERT_SYN_FLOOD</strong></td>
+          <td style='color: #065f46;'>pre-registered</td>
+          <td><code>172.20.0.2</code></td>
+          <td>198</td>
+          <td>1</td>
+          <td>1</td>
+        </tr>
+        
+        <tr>
+          <td>1794831849.7185</td>
+          <td>115.4391 s</td>
+          <td><code>tcp_incomplete_handshake</code></td>
+          <td><strong>ALERT_SYN_FLOOD</strong></td>
+          <td style='color: #065f46;'>pre-registered</td>
+          <td><code>172.20.0.2</code></td>
+          <td>199</td>
+          <td>1</td>
+          <td>1</td>
+        </tr>
+        
+        <tr>
+          <td>1794831850.7192</td>
+          <td>116.4398 s</td>
+          <td><code>tcp_incomplete_handshake</code></td>
+          <td><strong>ALERT_SYN_FLOOD</strong></td>
+          <td style='color: #065f46;'>pre-registered</td>
+          <td><code>172.20.0.2</code></td>
+          <td>198</td>
+          <td>1</td>
+          <td>1</td>
+        </tr>
+        
+        <tr>
+          <td>1794831851.723</td>
+          <td>117.4436 s</td>
+          <td><code>tcp_incomplete_handshake</code></td>
+          <td><strong>ALERT_SYN_FLOOD</strong></td>
+          <td style='color: #065f46;'>pre-registered</td>
+          <td><code>172.20.0.2</code></td>
+          <td>199</td>
+          <td>1</td>
+          <td>1</td>
+        </tr>
+        
+        <tr>
+          <td>1794831852.729</td>
+          <td>118.4496 s</td>
+          <td><code>tcp_incomplete_handshake</code></td>
+          <td><strong>ALERT_SYN_FLOOD</strong></td>
+          <td style='color: #065f46;'>pre-registered</td>
+          <td><code>172.20.0.2</code></td>
+          <td>201</td>
+          <td>1</td>
+          <td>1</td>
+        </tr>
+        
+        <tr>
+          <td>1794831853.7294</td>
+          <td>119.45 s</td>
+          <td><code>tcp_incomplete_handshake</code></td>
+          <td><strong>ALERT_SYN_FLOOD</strong></td>
+          <td style='color: #065f46;'>pre-registered</td>
+          <td><code>172.20.0.2</code></td>
+          <td>196</td>
+          <td>1</td>
+          <td>1</td>
+        </tr>
+        
+        <tr>
+          <td>1794831854.735</td>
+          <td>120.4556 s</td>
+          <td><code>tcp_incomplete_handshake</code></td>
+          <td><strong>ALERT_SYN_FLOOD</strong></td>
+          <td style='color: #065f46;'>pre-registered</td>
+          <td><code>172.20.0.2</code></td>
+          <td>198</td>
+          <td>1</td>
+          <td>1</td>
+        </tr>
+        
+        <tr>
+          <td>1794831855.739</td>
+          <td>121.4596 s</td>
+          <td><code>tcp_incomplete_handshake</code></td>
+          <td><strong>ALERT_SYN_FLOOD</strong></td>
+          <td style='color: #065f46;'>pre-registered</td>
+          <td><code>172.20.0.2</code></td>
+          <td>199</td>
+          <td>1</td>
+          <td>1</td>
+        </tr>
+        
+  </table>
+
+  <h2>7. Analysis Limitations</h2>
+  <div class="limitations-box">
+    This is an alert-only analysis with no ground truth, so it reports alerts, not accuracy. Thresholds were tuned on one lab. Legitimate flash crowds above about 750 connections/s and high-rate UDP to one destination can raise alerts. Captures from other networks have not been validated. Flow-based ML models are not used here because they did not transfer in the lab study.
+  </div>
+
+  <footer>
+    <strong>Code Version:</strong> v3.3 &nbsp;|&nbsp;
+    <strong>Thresholds SHA-256:</strong> <code>12606a9841791ea6f6fdc9376cb8877f8acd38519529344dc5a6f3dc6135a18f</code> &nbsp;|&nbsp;
+    <strong>Run ID:</strong> <code>sample_run</code> &nbsp;|&nbsp;
+    <strong>Input PCAP SHA-256:</strong> <code>f64590ffcef90ea0b8104999281c9a4b2ea43701fdd771c993b7ee627c7f3d55</code>
+  </footer>
+</body>
+</html>

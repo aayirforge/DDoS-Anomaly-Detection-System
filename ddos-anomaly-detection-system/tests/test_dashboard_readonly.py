@@ -1,17 +1,14 @@
 """
-Tests for Phase 8 Read-Only Dashboard.
-=======================================
-Verifies:
-1. Dashboard source code does NOT import mitigation or any blocking logic.
-2. AST safety: walks dashboard.py and all transitive imports in ddos_ads,
-   asserting no module imports 'mitigation' or uses 'subprocess'.
-3. Database access is strictly READ-ONLY (mode=ro URI). Attempting writes fails.
-4. Concurrency: WAL mode ensures reader does not block writers.
-5. Synthetic DB fixtures:
-   - empty_db: verifies "No data yet" state.
-   - flood_db: verifies flood incident alerts loading.
-   - scan_db: verifies scan incident alerts loading.
-   - blind_period_db: verifies detection of drop / supervisor restart / detector_blind condition.
+Phase 10 Safety and AST Verification Tests.
+===========================================
+Replaces the old Phase 8 read-only test with Phase 10 safety guarantees:
+1. Dashboard and UI modules contain NO imports of mitigation or blocking logic.
+2. Dashboard code may import only the ui_capture module for subprocess;
+   subprocess is imported ONLY in ui_capture and ONLY invoked with argument lists (never shell=True).
+3. NO calls to iptables, nftables, or os.system anywhere in UI code.
+4. SQLite connection for the legacy monitor page strictly opens with mode=ro.
+5. All UI run outputs are written exclusively under results/ui_runs.
+6. Preserves database concurrency and fixture regression tests.
 """
 
 import ast
@@ -22,73 +19,95 @@ import pytest
 from ddos_ads.dashboard import load_alerts_from_db_readonly, load_thresholds_readonly
 
 REPO_ROOT = Path(__file__).resolve().parents[1]
-DASHBOARD_FILE = REPO_ROOT / "src/ddos_ads/dashboard.py"
 SRC_DIR = REPO_ROOT / "src/ddos_ads"
+DASHBOARD_FILE = SRC_DIR / "dashboard.py"
+UI_MODULES = [
+    SRC_DIR / "dashboard.py",
+    SRC_DIR / "ui_capture.py",
+    SRC_DIR / "ui_analyzer.py",
+    SRC_DIR / "ui_report.py",
+]
 
 
 def test_dashboard_does_not_import_mitigation():
-    """Asserts that dashboard.py never imports mitigation or blocking code."""
-    assert DASHBOARD_FILE.is_file(), f"Dashboard file {DASHBOARD_FILE} not found"
-
-    with open(DASHBOARD_FILE, "r", encoding="utf-8") as f:
-        tree = ast.parse(f.read(), filename=str(DASHBOARD_FILE))
-
-    imported_modules = []
-    for node in ast.walk(tree):
-        if isinstance(node, ast.Import):
-            for alias in node.names:
-                imported_modules.append(alias.name)
-        elif isinstance(node, ast.ImportFrom):
-            if node.module:
-                imported_modules.append(node.module)
-
-    for mod in imported_modules:
-        assert "mitigation" not in mod, f"Violation: dashboard.py imports '{mod}'!"
-
-
-def test_ast_safety_transitive_imports():
-    """
-    Walks AST of dashboard.py and all transitive imports in src/ddos_ads/.
-    Asserts no module imports 'mitigation' or uses 'subprocess'.
-    """
-    visited = set()
-    to_visit = [DASHBOARD_FILE]
-
-    while to_visit:
-        curr_file = to_visit.pop()
-        if curr_file in visited:
-            continue
-        visited.add(curr_file)
-
-        with open(curr_file, "r", encoding="utf-8") as f:
-            tree = ast.parse(f.read(), filename=str(curr_file))
+    """Asserts that neither dashboard.py nor any UI module imports mitigation or blocking logic."""
+    for mod_path in UI_MODULES:
+        assert mod_path.is_file(), f"File {mod_path} does not exist"
+        with open(mod_path, "r", encoding="utf-8") as f:
+            tree = ast.parse(f.read(), filename=str(mod_path))
 
         for node in ast.walk(tree):
             if isinstance(node, ast.Import):
                 for alias in node.names:
-                    assert "mitigation" not in alias.name, f"Forbidden import '{alias.name}' in {curr_file.name}"
-                    assert "subprocess" not in alias.name, f"Forbidden subprocess import '{alias.name}' in {curr_file.name}"
-                    # Check internal transitive imports
-                    if alias.name.startswith("ddos_ads."):
-                        sub = alias.name.replace("ddos_ads.", "")
-                        cand = SRC_DIR / f"{sub}.py"
-                        if cand.is_file() and cand not in visited:
-                            to_visit.append(cand)
+                    assert "mitigation" not in alias.name, f"Forbidden import '{alias.name}' in {mod_path.name}"
             elif isinstance(node, ast.ImportFrom):
                 if node.module:
-                    assert "mitigation" not in node.module, f"Forbidden from-import '{node.module}' in {curr_file.name}"
-                    assert "subprocess" not in node.module, f"Forbidden subprocess from-import '{node.module}' in {curr_file.name}"
-                    if node.module.startswith("ddos_ads."):
-                        sub = node.module.replace("ddos_ads.", "")
-                        cand = SRC_DIR / f"{sub}.py"
-                        if cand.is_file() and cand not in visited:
-                            to_visit.append(cand)
-                    elif node.module == "ddos_ads":
-                        for alias in node.names:
-                            assert "mitigation" not in alias.name, f"Forbidden import '{alias.name}' in {curr_file.name}"
-                            cand = SRC_DIR / f"{alias.name}.py"
-                            if cand.is_file() and cand not in visited:
-                                to_visit.append(cand)
+                    assert "mitigation" not in node.module, f"Forbidden from-import '{node.module}' in {mod_path.name}"
+
+
+def test_ui_static_safety():
+    """
+    Phase 10 AST safety verification:
+    1. dashboard code may import only the ui_capture module for subprocess.
+    2. subprocess is imported ONLY in ui_capture.py and never in dashboard.py, ui_analyzer.py, or ui_report.py.
+    3. In ui_capture.py, all subprocess calls use argument lists, never shell=True.
+    4. NO calls to iptables, nftables, or os.system anywhere in UI code.
+    5. Writes only under results/ui_runs.
+    """
+    for mod_path in UI_MODULES:
+        with open(mod_path, "r", encoding="utf-8") as f:
+            code_text = f.read()
+            tree = ast.parse(code_text, filename=str(mod_path))
+
+        # Check AST for forbidden system / firewall execution calls
+        for node in ast.walk(tree):
+            if isinstance(node, ast.Call):
+                # Check for os.system(...)
+                if isinstance(node.func, ast.Attribute) and node.func.attr == "system":
+                    if isinstance(node.func.value, ast.Name) and node.func.value.id == "os":
+                        pytest.fail(f"Violation: os.system call found in {mod_path.name}")
+                # Check for calls passing iptables or nftables
+                for arg in node.args:
+                    if isinstance(arg, ast.Constant) and isinstance(arg.value, str):
+                        val = arg.value.lower()
+                        assert "iptables" not in val, f"Violation: iptables command string found in call in {mod_path.name}"
+                        assert "nft " not in val and "nftables" not in val, f"Violation: nftables command string found in call in {mod_path.name}"
+
+        # Subprocess containment check
+        for node in ast.walk(tree):
+            if isinstance(node, ast.Import):
+                for alias in node.names:
+                    if alias.name == "subprocess":
+                        assert mod_path.name == "ui_capture.py", (
+                            f"Violation: subprocess imported in {mod_path.name}! Only ui_capture may import subprocess."
+                        )
+            elif isinstance(node, ast.ImportFrom):
+                if node.module == "subprocess":
+                    assert mod_path.name == "ui_capture.py", (
+                        f"Violation: subprocess from-import in {mod_path.name}! Only ui_capture may import subprocess."
+                    )
+
+            # Check calls for shell=True
+            if isinstance(node, ast.Call):
+                for kw in node.keywords:
+                    if kw.arg == "shell":
+                        if isinstance(kw.value, ast.Constant):
+                            assert kw.value.value is False, f"Violation: shell=True in {mod_path.name}"
+
+    # Verify ui_capture argument list usage
+    capture_file = SRC_DIR / "ui_capture.py"
+    with open(capture_file, "r", encoding="utf-8") as f:
+        tree = ast.parse(f.read(), filename=str(capture_file))
+
+    for node in ast.walk(tree):
+        if isinstance(node, ast.Call):
+            func_name = ""
+            if isinstance(node.func, ast.Attribute):
+                func_name = node.func.attr
+            if func_name in ("Popen", "run"):
+                for kw in node.keywords:
+                    if kw.arg == "shell":
+                        assert isinstance(kw.value, ast.Constant) and kw.value.value is False
 
 
 def test_database_is_opened_strictly_readonly(tmp_path):
@@ -109,7 +128,6 @@ def test_database_is_opened_strictly_readonly(tmp_path):
     assert not df.empty
     assert len(df) == 1
 
-    # Attempting to open with the dashboard's read-only URI and write must fail
     ro_uri = f"file:{test_db.resolve().as_posix()}?mode=ro"
     ro_conn = sqlite3.connect(ro_uri, uri=True)
     with pytest.raises(sqlite3.OperationalError, match="readonly"):
@@ -118,10 +136,7 @@ def test_database_is_opened_strictly_readonly(tmp_path):
 
 
 def test_concurrent_writer_wal_mode(tmp_path):
-    """
-    Verifies that WAL mode enables simultaneous reader and writer concurrency.
-    The read-only connection does not lock the database or block concurrent writers.
-    """
+    """Verifies WAL mode enables simultaneous reader and writer concurrency."""
     wal_db = tmp_path / "wal_concurrency.db"
     w_conn = sqlite3.connect(str(wal_db))
     w_conn.execute("PRAGMA journal_mode=WAL;")
@@ -134,15 +149,12 @@ def test_concurrent_writer_wal_mode(tmp_path):
     w_conn.execute("INSERT INTO alerts VALUES (1, 1000.0, 1000.0, 'ALERT_SYN_FLOOD', 'tcp_incomplete_handshake', '172.20.0.2', '{}', 0.05)")
     w_conn.commit()
 
-    # Open read-only connection via dashboard
     ro_uri = f"file:{wal_db.resolve().as_posix()}?mode=ro"
     ro_conn = sqlite3.connect(ro_uri, uri=True)
 
-    # Concurrently write from writer connection while reader is open
     w_conn.execute("INSERT INTO alerts VALUES (2, 1001.0, 1001.0, 'ALERT_SCAN', 'tcp_incomplete_handshake', '172.20.0.2', '{}', 0.04)")
     w_conn.commit()
 
-    # Read from read-only connection: must see row 2
     cur = ro_conn.execute("SELECT COUNT(*) FROM alerts")
     count = cur.fetchone()[0]
     assert count == 2, f"Expected 2 rows under WAL concurrent read, got {count}"

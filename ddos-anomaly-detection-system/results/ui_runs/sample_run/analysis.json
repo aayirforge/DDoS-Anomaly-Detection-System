@@ -1,0 +1,2532 @@
+{
+  "run_id": "sample_run",
+  "timestamp_analyzed": "2026-11-20 12:41:18 UTC",
+  "input_metadata": {
+    "original_filename": "session3_tcp_syn_flood_200pps_rep1.pcap",
+    "size_bytes": 3367837,
+    "size_mb": 3.21,
+    "sha256": "f64590ffcef90ea0b8104999281c9a4b2ea43701fdd771c993b7ee627c7f3d55",
+    "packet_count": 35753,
+    "first_packet_ts": 1794831734.279394,
+    "last_packet_ts": 1794831858.308865,
+    "duration_sec": 124.0295
+  },
+  "detector_health": {
+    "dropped_packets": 0,
+    "is_truncated": false,
+    "detector_blind": false
+  },
+  "thresholds_used": {
+    "sha256": "12606a9841791ea6f6fdc9376cb8877f8acd38519529344dc5a6f3dc6135a18f",
+    "rules": {
+      "packet_incomplete_tcp_handshake_rule": {
+        "status": "pre-registered",
+        "incomplete_syn_threshold": 20,
+        "min_incomplete_rate": 15,
+        "handshake_timeout_sec": 2.0
+      },
+      "packet_dual_condition_udp_rule": {
+        "status": "pre-registered",
+        "volumetric_threshold_pps": 40,
+        "random_port_threshold_pps": 30,
+        "distinct_ports_threshold": 10
+      },
+      "packet_syn_arrival_rate_rule": {
+        "status": "post-hoc, unregistered",
+        "stateless_syn_threshold_pps": 150,
+        "min_sources": 3
+      }
+    }
+  },
+  "results": {
+    "verdict": "120 alerts found",
+    "total_alerts": 120,
+    "first_alert_delay_sec": 2.0953,
+    "first_alert_epoch": 1794831736.3747,
+    "first_alert_type": "ALERT_SYN_FLOOD",
+    "total_alerted_seconds": 120,
+    "class_summary": {
+      "ALERT_SYN_FLOOD": {
+        "count": 120,
+        "first_alert_ts": 1794831736.3747,
+        "alerted_seconds": 120,
+        "peak_rate": 201,
+        "max_sources": 1,
+        "status": "pre-registered"
+      },
+      "ALERT_UDP_FLOOD": {
+        "count": 0,
+        "first_alert_ts": null,
+        "alerted_seconds": 0,
+        "peak_rate": 0,
+        "max_sources": 0,
+        "status": "pre-registered"
+      },
+      "ALERT_SCAN": {
+        "count": 0,
+        "first_alert_ts": null,
+        "alerted_seconds": 0,
+        "peak_rate": 0,
+        "max_sources": 0,
+        "status": "pre-registered"
+      },
+      "ALERT_SYN_RATE": {
+        "count": 0,
+        "first_alert_ts": null,
+        "alerted_seconds": 0,
+        "peak_rate": 0,
+        "max_sources": 0,
+        "status": "post-hoc, unregistered"
+      }
+    },
+    "top_destinations": [
+      {
+        "ip": "172.20.0.2",
+        "packet_count": 30924
+      },
+      {
+        "ip": "172.20.0.4",
+        "packet_count": 4710
+      },
+      {
+        "ip": "172.20.0.3",
+        "packet_count": 119
+      }
+    ],
+    "per_destination_rates": {
+      "172.20.0.2": {
+        "bins": [
+          318,
+          220,
+          330,
+          218,
+          238,
+          251,
+          254,
+          247,
+          228,
+          265,
+          254,
+          218,
+          310,
+          246,
+          250,
+          251,
+          272,
+          272,
+          275,
+          225,
+          256,
+          259,
+          258,
+          220,
+          279,
+          238,
+          280,
+          220,
+          293,
+          218,
+          239,
+          291,
+          224,
+          287,
+          220,
+          264,
+          276,
+          279,
+          219,
+          254,
+          288,
+          251,
+          267,
+          262,
+          247,
+          239,
+          260,
+          262,
+          221,
+          316,
+          236,
+          266,
+          274,
+          249,
+          261,
+          277,
+          218,
+          282,
+          236,
+          273,
+          227,
+          308,
+          220,
+          234,
+          320,
+          251,
+          231,
+          226,
+          248,
+          267,
+          241,
+          311,
+          217,
+          266,
+          262,
+          226,
+          262,
+          271,
+          223,
+          273,
+          260,
+          248,
+          219,
+          267,
+          274,
+          250,
+          263,
+          278,
+          260,
+          235,
+          285,
+          267,
+          231,
+          270,
+          227,
+          321,
+          226,
+          218,
+          299,
+          259,
+          220,
+          267,
+          255,
+          264,
+          281,
+          217,
+          332,
+          221,
+          218,
+          339,
+          221,
+          219,
+          284,
+          237,
+          257,
+          250,
+          242,
+          258,
+          256,
+          255,
+          53,
+          18,
+          64,
+          53,
+          1
+        ],
+        "max_rate": 339
+      },
+      "172.20.0.4": {
+        "bins": [
+          96,
+          3,
+          105,
+          3,
+          23,
+          31,
+          36,
+          26,
+          13,
+          51,
+          35,
+          3,
+          89,
+          29,
+          30,
+          37,
+          47,
+          53,
+          63,
+          5,
+          40,
+          46,
+          41,
+          4,
+          62,
+          20,
+          63,
+          4,
+          76,
+          2,
+          23,
+          75,
+          10,
+          66,
+          4,
+          45,
+          57,
+          59,
+          4,
+          39,
+          70,
+          35,
+          50,
+          43,
+          29,
+          20,
+          42,
+          44,
+          3,
+          99,
+          20,
+          45,
+          51,
+          33,
+          40,
+          64,
+          2,
+          63,
+          18,
+          56,
+          10,
+          89,
+          3,
+          16,
+          98,
+          34,
+          15,
+          11,
+          31,
+          49,
+          22,
+          88,
+          2,
+          44,
+          45,
+          8,
+          42,
+          50,
+          4,
+          54,
+          45,
+          33,
+          3,
+          51,
+          58,
+          32,
+          41,
+          62,
+          39,
+          18,
+          69,
+          49,
+          14,
+          49,
+          9,
+          95,
+          10,
+          2,
+          80,
+          36,
+          4,
+          48,
+          38,
+          46,
+          57,
+          3,
+          107,
+          5,
+          3,
+          114,
+          4,
+          2,
+          67,
+          21,
+          39,
+          31,
+          26,
+          39,
+          39,
+          37,
+          35,
+          3,
+          48,
+          39,
+          0
+        ],
+        "max_rate": 114
+      },
+      "172.20.0.3": {
+        "bins": [
+          1,
+          2,
+          5,
+          0,
+          1,
+          0,
+          3,
+          2,
+          1,
+          1,
+          0,
+          0,
+          0,
+          3,
+          0,
+          0,
+          0,
+          0,
+          0,
+          3,
+          1,
+          0,
+          1,
+          1,
+          1,
+          1,
+          1,
+          0,
+          0,
+          1,
+          3,
+          1,
+          0,
+          2,
+          1,
+          0,
+          2,
+          1,
+          0,
+          0,
+          1,
+          0,
+          0,
+          2,
+          1,
+          1,
+          0,
+          2,
+          3,
+          0,
+          0,
+          3,
+          1,
+          0,
+          2,
+          0,
+          1,
+          2,
+          0,
+          0,
+          0,
+          0,
+          2,
+          2,
+          1,
+          1,
+          1,
+          0,
+          1,
+          1,
+          2,
+          3,
+          0,
+          0,
+          0,
+          2,
+          0,
+          1,
+          4,
+          1,
+          0,
+          0,
+          0,
+          0,
+          1,
+          1,
+          1,
+          2,
+          2,
+          0,
+          0,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          0,
+          3,
+          0,
+          1,
+          0,
+          2,
+          0,
+          0,
+          2,
+          1,
+          1,
+          3,
+          2,
+          1,
+          2,
+          1,
+          1,
+          2,
+          0,
+          2,
+          0,
+          1,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "max_rate": 5
+      }
+    },
+    "alerts": [
+      {
+        "time_epoch": 1794831736.3747,
+        "relative_time_sec": 2.0953,
+        "rule": "tcp_incomplete_handshake",
+        "alert_class": "ALERT_SYN_FLOOD",
+        "status": "pre-registered",
+        "destination": "172.20.0.2",
+        "rate_pps": 20,
+        "distinct_sources": 1,
+        "distinct_ports": 1,
+        "details": {
+          "incomplete_count": 20,
+          "distinct_dst_ports": 1,
+          "distinct_dst_ips": 1,
+          "distinct_src_ips": 1
+        }
+      },
+      {
+        "time_epoch": 1794831737.3796,
+        "relative_time_sec": 3.1002,
+        "rule": "tcp_incomplete_handshake",
+        "alert_class": "ALERT_SYN_FLOOD",
+        "status": "pre-registered",
+        "destination": "172.20.0.2",
+        "rate_pps": 199,
+        "distinct_sources": 1,
+        "distinct_ports": 1,
+        "details": {
+          "incomplete_count": 199,
+          "distinct_dst_ports": 1,
+          "distinct_dst_ips": 1,
+          "distinct_src_ips": 1
+        }
+      },
+      {
+        "time_epoch": 1794831738.3798,
+        "relative_time_sec": 4.1004,
+        "rule": "tcp_incomplete_handshake",
+        "alert_class": "ALERT_SYN_FLOOD",
+        "status": "pre-registered",
+        "destination": "172.20.0.2",
+        "rate_pps": 200,
+        "distinct_sources": 1,
+        "distinct_ports": 1,
+        "details": {
+          "incomplete_count": 200,
+          "distinct_dst_ports": 1,
+          "distinct_dst_ips": 1,
+          "distinct_src_ips": 1
+        }
+      },
+      {
+        "time_epoch": 1794831739.3839,
+        "relative_time_sec": 5.1045,
+        "rule": "tcp_incomplete_handshake",
+        "alert_class": "ALERT_SYN_FLOOD",
+        "status": "pre-registered",
+        "destination": "172.20.0.2",
+        "rate_pps": 198,
+        "distinct_sources": 1,
+        "distinct_ports": 1,
+        "details": {
+          "incomplete_count": 198,
+          "distinct_dst_ports": 1,
+          "distinct_dst_ips": 1,
+          "distinct_src_ips": 1
+        }
+      },
+      {
+        "time_epoch": 1794831740.3881,
+        "relative_time_sec": 6.1087,
+        "rule": "tcp_incomplete_handshake",
+        "alert_class": "ALERT_SYN_FLOOD",
+        "status": "pre-registered",
+        "destination": "172.20.0.2",
+        "rate_pps": 201,
+        "distinct_sources": 1,
+        "distinct_ports": 1,
+        "details": {
+          "incomplete_count": 201,
+          "distinct_dst_ports": 1,
+          "distinct_dst_ips": 1,
+          "distinct_src_ips": 1
+        }
+      },
+      {
+        "time_epoch": 1794831741.3936,
+        "relative_time_sec": 7.1142,
+        "rule": "tcp_incomplete_handshake",
+        "alert_class": "ALERT_SYN_FLOOD",
+        "status": "pre-registered",
+        "destination": "172.20.0.2",
+        "rate_pps": 199,
+        "distinct_sources": 1,
+        "distinct_ports": 1,
+        "details": {
+          "incomplete_count": 199,
+          "distinct_dst_ports": 1,
+          "distinct_dst_ips": 1,
+          "distinct_src_ips": 1
+        }
+      },
+      {
+        "time_epoch": 1794831742.3937,
+        "relative_time_sec": 8.1143,
+        "rule": "tcp_incomplete_handshake",
+        "alert_class": "ALERT_SYN_FLOOD",
+        "status": "pre-registered",
+        "destination": "172.20.0.2",
+        "rate_pps": 200,
+        "distinct_sources": 1,
+        "distinct_ports": 1,
+        "details": {
+          "incomplete_count": 200,
+          "distinct_dst_ports": 1,
+          "distinct_dst_ips": 1,
+          "distinct_src_ips": 1
+        }
+      },
+      {
+        "time_epoch": 1794831743.3945,
+        "relative_time_sec": 9.1151,
+        "rule": "tcp_incomplete_handshake",
+        "alert_class": "ALERT_SYN_FLOOD",
+        "status": "pre-registered",
+        "destination": "172.20.0.2",
+        "rate_pps": 198,
+        "distinct_sources": 1,
+        "distinct_ports": 1,
+        "details": {
+          "incomplete_count": 198,
+          "distinct_dst_ports": 1,
+          "distinct_dst_ips": 1,
+          "distinct_src_ips": 1
+        }
+      },
+      {
+        "time_epoch": 1794831744.3987,
+        "relative_time_sec": 10.1193,
+        "rule": "tcp_incomplete_handshake",
+        "alert_class": "ALERT_SYN_FLOOD",
+        "status": "pre-registered",
+        "destination": "172.20.0.2",
+        "rate_pps": 199,
+        "distinct_sources": 1,
+        "distinct_ports": 1,
+        "details": {
+          "incomplete_count": 199,
+          "distinct_dst_ports": 1,
+          "distinct_dst_ips": 1,
+          "distinct_src_ips": 1
+        }
+      },
+      {
+        "time_epoch": 1794831745.3988,
+        "relative_time_sec": 11.1194,
+        "rule": "tcp_incomplete_handshake",
+        "alert_class": "ALERT_SYN_FLOOD",
+        "status": "pre-registered",
+        "destination": "172.20.0.2",
+        "rate_pps": 198,
+        "distinct_sources": 1,
+        "distinct_ports": 1,
+        "details": {
+          "incomplete_count": 198,
+          "distinct_dst_ports": 1,
+          "distinct_dst_ips": 1,
+          "distinct_src_ips": 1
+        }
+      },
+      {
+        "time_epoch": 1794831746.4036,
+        "relative_time_sec": 12.1242,
+        "rule": "tcp_incomplete_handshake",
+        "alert_class": "ALERT_SYN_FLOOD",
+        "status": "pre-registered",
+        "destination": "172.20.0.2",
+        "rate_pps": 201,
+        "distinct_sources": 1,
+        "distinct_ports": 1,
+        "details": {
+          "incomplete_count": 201,
+          "distinct_dst_ports": 1,
+          "distinct_dst_ips": 1,
+          "distinct_src_ips": 1
+        }
+      },
+      {
+        "time_epoch": 1794831747.4095,
+        "relative_time_sec": 13.1301,
+        "rule": "tcp_incomplete_handshake",
+        "alert_class": "ALERT_SYN_FLOOD",
+        "status": "pre-registered",
+        "destination": "172.20.0.2",
+        "rate_pps": 199,
+        "distinct_sources": 1,
+        "distinct_ports": 1,
+        "details": {
+          "incomplete_count": 199,
+          "distinct_dst_ports": 1,
+          "distinct_dst_ips": 1,
+          "distinct_src_ips": 1
+        }
+      },
+      {
+        "time_epoch": 1794831748.4141,
+        "relative_time_sec": 14.1347,
+        "rule": "tcp_incomplete_handshake",
+        "alert_class": "ALERT_SYN_FLOOD",
+        "status": "pre-registered",
+        "destination": "172.20.0.2",
+        "rate_pps": 198,
+        "distinct_sources": 1,
+        "distinct_ports": 1,
+        "details": {
+          "incomplete_count": 198,
+          "distinct_dst_ports": 1,
+          "distinct_dst_ips": 1,
+          "distinct_src_ips": 1
+        }
+      },
+      {
+        "time_epoch": 1794831749.4186,
+        "relative_time_sec": 15.1392,
+        "rule": "tcp_incomplete_handshake",
+        "alert_class": "ALERT_SYN_FLOOD",
+        "status": "pre-registered",
+        "destination": "172.20.0.2",
+        "rate_pps": 200,
+        "distinct_sources": 1,
+        "distinct_ports": 1,
+        "details": {
+          "incomplete_count": 200,
+          "distinct_dst_ports": 1,
+          "distinct_dst_ips": 1,
+          "distinct_src_ips": 1
+        }
+      },
+      {
+        "time_epoch": 1794831750.424,
+        "relative_time_sec": 16.1446,
+        "rule": "tcp_incomplete_handshake",
+        "alert_class": "ALERT_SYN_FLOOD",
+        "status": "pre-registered",
+        "destination": "172.20.0.2",
+        "rate_pps": 198,
+        "distinct_sources": 1,
+        "distinct_ports": 1,
+        "details": {
+          "incomplete_count": 198,
+          "distinct_dst_ports": 1,
+          "distinct_dst_ips": 1,
+          "distinct_src_ips": 1
+        }
+      },
+      {
+        "time_epoch": 1794831751.4244,
+        "relative_time_sec": 17.145,
+        "rule": "tcp_incomplete_handshake",
+        "alert_class": "ALERT_SYN_FLOOD",
+        "status": "pre-registered",
+        "destination": "172.20.0.2",
+        "rate_pps": 199,
+        "distinct_sources": 1,
+        "distinct_ports": 1,
+        "details": {
+          "incomplete_count": 199,
+          "distinct_dst_ports": 1,
+          "distinct_dst_ips": 1,
+          "distinct_src_ips": 1
+        }
+      },
+      {
+        "time_epoch": 1794831752.4286,
+        "relative_time_sec": 18.1492,
+        "rule": "tcp_incomplete_handshake",
+        "alert_class": "ALERT_SYN_FLOOD",
+        "status": "pre-registered",
+        "destination": "172.20.0.2",
+        "rate_pps": 197,
+        "distinct_sources": 1,
+        "distinct_ports": 1,
+        "details": {
+          "incomplete_count": 197,
+          "distinct_dst_ports": 1,
+          "distinct_dst_ips": 1,
+          "distinct_src_ips": 1
+        }
+      },
+      {
+        "time_epoch": 1794831753.4288,
+        "relative_time_sec": 19.1494,
+        "rule": "tcp_incomplete_handshake",
+        "alert_class": "ALERT_SYN_FLOOD",
+        "status": "pre-registered",
+        "destination": "172.20.0.2",
+        "rate_pps": 199,
+        "distinct_sources": 1,
+        "distinct_ports": 1,
+        "details": {
+          "incomplete_count": 199,
+          "distinct_dst_ports": 1,
+          "distinct_dst_ips": 1,
+          "distinct_src_ips": 1
+        }
+      },
+      {
+        "time_epoch": 1794831754.4343,
+        "relative_time_sec": 20.1549,
+        "rule": "tcp_incomplete_handshake",
+        "alert_class": "ALERT_SYN_FLOOD",
+        "status": "pre-registered",
+        "destination": "172.20.0.2",
+        "rate_pps": 200,
+        "distinct_sources": 1,
+        "distinct_ports": 1,
+        "details": {
+          "incomplete_count": 200,
+          "distinct_dst_ports": 1,
+          "distinct_dst_ips": 1,
+          "distinct_src_ips": 1
+        }
+      },
+      {
+        "time_epoch": 1794831755.4391,
+        "relative_time_sec": 21.1597,
+        "rule": "tcp_incomplete_handshake",
+        "alert_class": "ALERT_SYN_FLOOD",
+        "status": "pre-registered",
+        "destination": "172.20.0.2",
+        "rate_pps": 198,
+        "distinct_sources": 1,
+        "distinct_ports": 1,
+        "details": {
+          "incomplete_count": 198,
+          "distinct_dst_ports": 1,
+          "distinct_dst_ips": 1,
+          "distinct_src_ips": 1
+        }
+      },
+      {
+        "time_epoch": 1794831756.4391,
+        "relative_time_sec": 22.1597,
+        "rule": "tcp_incomplete_handshake",
+        "alert_class": "ALERT_SYN_FLOOD",
+        "status": "pre-registered",
+        "destination": "172.20.0.2",
+        "rate_pps": 199,
+        "distinct_sources": 1,
+        "distinct_ports": 1,
+        "details": {
+          "incomplete_count": 199,
+          "distinct_dst_ports": 1,
+          "distinct_dst_ips": 1,
+          "distinct_src_ips": 1
+        }
+      },
+      {
+        "time_epoch": 1794831757.4433,
+        "relative_time_sec": 23.1639,
+        "rule": "tcp_incomplete_handshake",
+        "alert_class": "ALERT_SYN_FLOOD",
+        "status": "pre-registered",
+        "destination": "172.20.0.2",
+        "rate_pps": 201,
+        "distinct_sources": 1,
+        "distinct_ports": 1,
+        "details": {
+          "incomplete_count": 201,
+          "distinct_dst_ports": 1,
+          "distinct_dst_ips": 1,
+          "distinct_src_ips": 1
+        }
+      },
+      {
+        "time_epoch": 1794831758.4436,
+        "relative_time_sec": 24.1642,
+        "rule": "tcp_incomplete_handshake",
+        "alert_class": "ALERT_SYN_FLOOD",
+        "status": "pre-registered",
+        "destination": "172.20.0.2",
+        "rate_pps": 200,
+        "distinct_sources": 1,
+        "distinct_ports": 1,
+        "details": {
+          "incomplete_count": 200,
+          "distinct_dst_ports": 1,
+          "distinct_dst_ips": 1,
+          "distinct_src_ips": 1
+        }
+      },
+      {
+        "time_epoch": 1794831759.4445,
+        "relative_time_sec": 25.1652,
+        "rule": "tcp_incomplete_handshake",
+        "alert_class": "ALERT_SYN_FLOOD",
+        "status": "pre-registered",
+        "destination": "172.20.0.2",
+        "rate_pps": 200,
+        "distinct_sources": 1,
+        "distinct_ports": 1,
+        "details": {
+          "incomplete_count": 200,
+          "distinct_dst_ports": 1,
+          "distinct_dst_ips": 1,
+          "distinct_src_ips": 1
+        }
+      },
+      {
+        "time_epoch": 1794831760.4519,
+        "relative_time_sec": 26.1725,
+        "rule": "tcp_incomplete_handshake",
+        "alert_class": "ALERT_SYN_FLOOD",
+        "status": "pre-registered",
+        "destination": "172.20.0.2",
+        "rate_pps": 199,
+        "distinct_sources": 1,
+        "distinct_ports": 1,
+        "details": {
+          "incomplete_count": 199,
+          "distinct_dst_ports": 1,
+          "distinct_dst_ips": 1,
+          "distinct_src_ips": 1
+        }
+      },
+      {
+        "time_epoch": 1794831761.4541,
+        "relative_time_sec": 27.1747,
+        "rule": "tcp_incomplete_handshake",
+        "alert_class": "ALERT_SYN_FLOOD",
+        "status": "pre-registered",
+        "destination": "172.20.0.2",
+        "rate_pps": 200,
+        "distinct_sources": 1,
+        "distinct_ports": 1,
+        "details": {
+          "incomplete_count": 200,
+          "distinct_dst_ports": 1,
+          "distinct_dst_ips": 1,
+          "distinct_src_ips": 1
+        }
+      },
+      {
+        "time_epoch": 1794831762.4589,
+        "relative_time_sec": 28.1795,
+        "rule": "tcp_incomplete_handshake",
+        "alert_class": "ALERT_SYN_FLOOD",
+        "status": "pre-registered",
+        "destination": "172.20.0.2",
+        "rate_pps": 199,
+        "distinct_sources": 1,
+        "distinct_ports": 1,
+        "details": {
+          "incomplete_count": 199,
+          "distinct_dst_ports": 1,
+          "distinct_dst_ips": 1,
+          "distinct_src_ips": 1
+        }
+      },
+      {
+        "time_epoch": 1794831763.4605,
+        "relative_time_sec": 29.1811,
+        "rule": "tcp_incomplete_handshake",
+        "alert_class": "ALERT_SYN_FLOOD",
+        "status": "pre-registered",
+        "destination": "172.20.0.2",
+        "rate_pps": 200,
+        "distinct_sources": 1,
+        "distinct_ports": 1,
+        "details": {
+          "incomplete_count": 200,
+          "distinct_dst_ports": 1,
+          "distinct_dst_ips": 1,
+          "distinct_src_ips": 1
+        }
+      },
+      {
+        "time_epoch": 1794831764.4632,
+        "relative_time_sec": 30.1839,
+        "rule": "tcp_incomplete_handshake",
+        "alert_class": "ALERT_SYN_FLOOD",
+        "status": "pre-registered",
+        "destination": "172.20.0.2",
+        "rate_pps": 200,
+        "distinct_sources": 1,
+        "distinct_ports": 1,
+        "details": {
+          "incomplete_count": 200,
+          "distinct_dst_ports": 1,
+          "distinct_dst_ips": 1,
+          "distinct_src_ips": 1
+        }
+      },
+      {
+        "time_epoch": 1794831765.4637,
+        "relative_time_sec": 31.1843,
+        "rule": "tcp_incomplete_handshake",
+        "alert_class": "ALERT_SYN_FLOOD",
+        "status": "pre-registered",
+        "destination": "172.20.0.2",
+        "rate_pps": 200,
+        "distinct_sources": 1,
+        "distinct_ports": 1,
+        "details": {
+          "incomplete_count": 200,
+          "distinct_dst_ports": 1,
+          "distinct_dst_ips": 1,
+          "distinct_src_ips": 1
+        }
+      },
+      {
+        "time_epoch": 1794831766.4639,
+        "relative_time_sec": 32.1845,
+        "rule": "tcp_incomplete_handshake",
+        "alert_class": "ALERT_SYN_FLOOD",
+        "status": "pre-registered",
+        "destination": "172.20.0.2",
+        "rate_pps": 198,
+        "distinct_sources": 1,
+        "distinct_ports": 1,
+        "details": {
+          "incomplete_count": 198,
+          "distinct_dst_ports": 1,
+          "distinct_dst_ips": 1,
+          "distinct_src_ips": 1
+        }
+      },
+      {
+        "time_epoch": 1794831767.4698,
+        "relative_time_sec": 33.1904,
+        "rule": "tcp_incomplete_handshake",
+        "alert_class": "ALERT_SYN_FLOOD",
+        "status": "pre-registered",
+        "destination": "172.20.0.2",
+        "rate_pps": 197,
+        "distinct_sources": 1,
+        "distinct_ports": 1,
+        "details": {
+          "incomplete_count": 197,
+          "distinct_dst_ports": 1,
+          "distinct_dst_ips": 1,
+          "distinct_src_ips": 1
+        }
+      },
+      {
+        "time_epoch": 1794831768.4729,
+        "relative_time_sec": 34.1935,
+        "rule": "tcp_incomplete_handshake",
+        "alert_class": "ALERT_SYN_FLOOD",
+        "status": "pre-registered",
+        "destination": "172.20.0.2",
+        "rate_pps": 201,
+        "distinct_sources": 1,
+        "distinct_ports": 1,
+        "details": {
+          "incomplete_count": 201,
+          "distinct_dst_ports": 1,
+          "distinct_dst_ips": 1,
+          "distinct_src_ips": 1
+        }
+      },
+      {
+        "time_epoch": 1794831769.4735,
+        "relative_time_sec": 35.1941,
+        "rule": "tcp_incomplete_handshake",
+        "alert_class": "ALERT_SYN_FLOOD",
+        "status": "pre-registered",
+        "destination": "172.20.0.2",
+        "rate_pps": 199,
+        "distinct_sources": 1,
+        "distinct_ports": 1,
+        "details": {
+          "incomplete_count": 199,
+          "distinct_dst_ports": 1,
+          "distinct_dst_ips": 1,
+          "distinct_src_ips": 1
+        }
+      },
+      {
+        "time_epoch": 1794831770.4736,
+        "relative_time_sec": 36.1942,
+        "rule": "tcp_incomplete_handshake",
+        "alert_class": "ALERT_SYN_FLOOD",
+        "status": "pre-registered",
+        "destination": "172.20.0.2",
+        "rate_pps": 199,
+        "distinct_sources": 1,
+        "distinct_ports": 1,
+        "details": {
+          "incomplete_count": 199,
+          "distinct_dst_ports": 1,
+          "distinct_dst_ips": 1,
+          "distinct_src_ips": 1
+        }
+      },
+      {
+        "time_epoch": 1794831771.4784,
+        "relative_time_sec": 37.199,
+        "rule": "tcp_incomplete_handshake",
+        "alert_class": "ALERT_SYN_FLOOD",
+        "status": "pre-registered",
+        "destination": "172.20.0.2",
+        "rate_pps": 199,
+        "distinct_sources": 1,
+        "distinct_ports": 1,
+        "details": {
+          "incomplete_count": 199,
+          "distinct_dst_ports": 1,
+          "distinct_dst_ips": 1,
+          "distinct_src_ips": 1
+        }
+      },
+      {
+        "time_epoch": 1794831772.4838,
+        "relative_time_sec": 38.2045,
+        "rule": "tcp_incomplete_handshake",
+        "alert_class": "ALERT_SYN_FLOOD",
+        "status": "pre-registered",
+        "destination": "172.20.0.2",
+        "rate_pps": 199,
+        "distinct_sources": 1,
+        "distinct_ports": 1,
+        "details": {
+          "incomplete_count": 199,
+          "distinct_dst_ports": 1,
+          "distinct_dst_ips": 1,
+          "distinct_src_ips": 1
+        }
+      },
+      {
+        "time_epoch": 1794831773.4843,
+        "relative_time_sec": 39.205,
+        "rule": "tcp_incomplete_handshake",
+        "alert_class": "ALERT_SYN_FLOOD",
+        "status": "pre-registered",
+        "destination": "172.20.0.2",
+        "rate_pps": 198,
+        "distinct_sources": 1,
+        "distinct_ports": 1,
+        "details": {
+          "incomplete_count": 198,
+          "distinct_dst_ports": 1,
+          "distinct_dst_ips": 1,
+          "distinct_src_ips": 1
+        }
+      },
+      {
+        "time_epoch": 1794831774.4885,
+        "relative_time_sec": 40.2091,
+        "rule": "tcp_incomplete_handshake",
+        "alert_class": "ALERT_SYN_FLOOD",
+        "status": "pre-registered",
+        "destination": "172.20.0.2",
+        "rate_pps": 201,
+        "distinct_sources": 1,
+        "distinct_ports": 1,
+        "details": {
+          "incomplete_count": 201,
+          "distinct_dst_ports": 1,
+          "distinct_dst_ips": 1,
+          "distinct_src_ips": 1
+        }
+      },
+      {
+        "time_epoch": 1794831775.4935,
+        "relative_time_sec": 41.2141,
+        "rule": "tcp_incomplete_handshake",
+        "alert_class": "ALERT_SYN_FLOOD",
+        "status": "pre-registered",
+        "destination": "172.20.0.2",
+        "rate_pps": 200,
+        "distinct_sources": 1,
+        "distinct_ports": 1,
+        "details": {
+          "incomplete_count": 200,
+          "distinct_dst_ports": 1,
+          "distinct_dst_ips": 1,
+          "distinct_src_ips": 1
+        }
+      },
+      {
+        "time_epoch": 1794831776.4982,
+        "relative_time_sec": 42.2188,
+        "rule": "tcp_incomplete_handshake",
+        "alert_class": "ALERT_SYN_FLOOD",
+        "status": "pre-registered",
+        "destination": "172.20.0.2",
+        "rate_pps": 199,
+        "distinct_sources": 1,
+        "distinct_ports": 1,
+        "details": {
+          "incomplete_count": 199,
+          "distinct_dst_ports": 1,
+          "distinct_dst_ips": 1,
+          "distinct_src_ips": 1
+        }
+      },
+      {
+        "time_epoch": 1794831777.5049,
+        "relative_time_sec": 43.2255,
+        "rule": "tcp_incomplete_handshake",
+        "alert_class": "ALERT_SYN_FLOOD",
+        "status": "pre-registered",
+        "destination": "172.20.0.2",
+        "rate_pps": 200,
+        "distinct_sources": 1,
+        "distinct_ports": 1,
+        "details": {
+          "incomplete_count": 200,
+          "distinct_dst_ports": 1,
+          "distinct_dst_ips": 1,
+          "distinct_src_ips": 1
+        }
+      },
+      {
+        "time_epoch": 1794831778.5098,
+        "relative_time_sec": 44.2304,
+        "rule": "tcp_incomplete_handshake",
+        "alert_class": "ALERT_SYN_FLOOD",
+        "status": "pre-registered",
+        "destination": "172.20.0.2",
+        "rate_pps": 200,
+        "distinct_sources": 1,
+        "distinct_ports": 1,
+        "details": {
+          "incomplete_count": 200,
+          "distinct_dst_ports": 1,
+          "distinct_dst_ips": 1,
+          "distinct_src_ips": 1
+        }
+      },
+      {
+        "time_epoch": 1794831779.5131,
+        "relative_time_sec": 45.2337,
+        "rule": "tcp_incomplete_handshake",
+        "alert_class": "ALERT_SYN_FLOOD",
+        "status": "pre-registered",
+        "destination": "172.20.0.2",
+        "rate_pps": 199,
+        "distinct_sources": 1,
+        "distinct_ports": 1,
+        "details": {
+          "incomplete_count": 199,
+          "distinct_dst_ports": 1,
+          "distinct_dst_ips": 1,
+          "distinct_src_ips": 1
+        }
+      },
+      {
+        "time_epoch": 1794831780.5134,
+        "relative_time_sec": 46.234,
+        "rule": "tcp_incomplete_handshake",
+        "alert_class": "ALERT_SYN_FLOOD",
+        "status": "pre-registered",
+        "destination": "172.20.0.2",
+        "rate_pps": 199,
+        "distinct_sources": 1,
+        "distinct_ports": 1,
+        "details": {
+          "incomplete_count": 199,
+          "distinct_dst_ports": 1,
+          "distinct_dst_ips": 1,
+          "distinct_src_ips": 1
+        }
+      },
+      {
+        "time_epoch": 1794831781.514,
+        "relative_time_sec": 47.2346,
+        "rule": "tcp_incomplete_handshake",
+        "alert_class": "ALERT_SYN_FLOOD",
+        "status": "pre-registered",
+        "destination": "172.20.0.2",
+        "rate_pps": 198,
+        "distinct_sources": 1,
+        "distinct_ports": 1,
+        "details": {
+          "incomplete_count": 198,
+          "distinct_dst_ports": 1,
+          "distinct_dst_ips": 1,
+          "distinct_src_ips": 1
+        }
+      },
+      {
+        "time_epoch": 1794831782.5186,
+        "relative_time_sec": 48.2392,
+        "rule": "tcp_incomplete_handshake",
+        "alert_class": "ALERT_SYN_FLOOD",
+        "status": "pre-registered",
+        "destination": "172.20.0.2",
+        "rate_pps": 200,
+        "distinct_sources": 1,
+        "distinct_ports": 1,
+        "details": {
+          "incomplete_count": 200,
+          "distinct_dst_ports": 1,
+          "distinct_dst_ips": 1,
+          "distinct_src_ips": 1
+        }
+      },
+      {
+        "time_epoch": 1794831783.5194,
+        "relative_time_sec": 49.24,
+        "rule": "tcp_incomplete_handshake",
+        "alert_class": "ALERT_SYN_FLOOD",
+        "status": "pre-registered",
+        "destination": "172.20.0.2",
+        "rate_pps": 200,
+        "distinct_sources": 1,
+        "distinct_ports": 1,
+        "details": {
+          "incomplete_count": 200,
+          "distinct_dst_ports": 1,
+          "distinct_dst_ips": 1,
+          "distinct_src_ips": 1
+        }
+      },
+      {
+        "time_epoch": 1794831784.5243,
+        "relative_time_sec": 50.2449,
+        "rule": "tcp_incomplete_handshake",
+        "alert_class": "ALERT_SYN_FLOOD",
+        "status": "pre-registered",
+        "destination": "172.20.0.2",
+        "rate_pps": 198,
+        "distinct_sources": 1,
+        "distinct_ports": 1,
+        "details": {
+          "incomplete_count": 198,
+          "distinct_dst_ports": 1,
+          "distinct_dst_ips": 1,
+          "distinct_src_ips": 1
+        }
+      },
+      {
+        "time_epoch": 1794831785.529,
+        "relative_time_sec": 51.2496,
+        "rule": "tcp_incomplete_handshake",
+        "alert_class": "ALERT_SYN_FLOOD",
+        "status": "pre-registered",
+        "destination": "172.20.0.2",
+        "rate_pps": 199,
+        "distinct_sources": 1,
+        "distinct_ports": 1,
+        "details": {
+          "incomplete_count": 199,
+          "distinct_dst_ports": 1,
+          "distinct_dst_ips": 1,
+          "distinct_src_ips": 1
+        }
+      },
+      {
+        "time_epoch": 1794831786.5337,
+        "relative_time_sec": 52.2543,
+        "rule": "tcp_incomplete_handshake",
+        "alert_class": "ALERT_SYN_FLOOD",
+        "status": "pre-registered",
+        "destination": "172.20.0.2",
+        "rate_pps": 199,
+        "distinct_sources": 1,
+        "distinct_ports": 1,
+        "details": {
+          "incomplete_count": 199,
+          "distinct_dst_ports": 1,
+          "distinct_dst_ips": 1,
+          "distinct_src_ips": 1
+        }
+      },
+      {
+        "time_epoch": 1794831787.5343,
+        "relative_time_sec": 53.2549,
+        "rule": "tcp_incomplete_handshake",
+        "alert_class": "ALERT_SYN_FLOOD",
+        "status": "pre-registered",
+        "destination": "172.20.0.2",
+        "rate_pps": 197,
+        "distinct_sources": 1,
+        "distinct_ports": 1,
+        "details": {
+          "incomplete_count": 197,
+          "distinct_dst_ports": 1,
+          "distinct_dst_ips": 1,
+          "distinct_src_ips": 1
+        }
+      },
+      {
+        "time_epoch": 1794831788.5387,
+        "relative_time_sec": 54.2593,
+        "rule": "tcp_incomplete_handshake",
+        "alert_class": "ALERT_SYN_FLOOD",
+        "status": "pre-registered",
+        "destination": "172.20.0.2",
+        "rate_pps": 201,
+        "distinct_sources": 1,
+        "distinct_ports": 1,
+        "details": {
+          "incomplete_count": 201,
+          "distinct_dst_ports": 1,
+          "distinct_dst_ips": 1,
+          "distinct_src_ips": 1
+        }
+      },
+      {
+        "time_epoch": 1794831789.5389,
+        "relative_time_sec": 55.2595,
+        "rule": "tcp_incomplete_handshake",
+        "alert_class": "ALERT_SYN_FLOOD",
+        "status": "pre-registered",
+        "destination": "172.20.0.2",
+        "rate_pps": 196,
+        "distinct_sources": 1,
+        "distinct_ports": 1,
+        "details": {
+          "incomplete_count": 196,
+          "distinct_dst_ports": 1,
+          "distinct_dst_ips": 1,
+          "distinct_src_ips": 1
+        }
+      },
+      {
+        "time_epoch": 1794831790.5397,
+        "relative_time_sec": 56.2603,
+        "rule": "tcp_incomplete_handshake",
+        "alert_class": "ALERT_SYN_FLOOD",
+        "status": "pre-registered",
+        "destination": "172.20.0.2",
+        "rate_pps": 199,
+        "distinct_sources": 1,
+        "distinct_ports": 1,
+        "details": {
+          "incomplete_count": 199,
+          "distinct_dst_ports": 1,
+          "distinct_dst_ips": 1,
+          "distinct_src_ips": 1
+        }
+      },
+      {
+        "time_epoch": 1794831791.5446,
+        "relative_time_sec": 57.2652,
+        "rule": "tcp_incomplete_handshake",
+        "alert_class": "ALERT_SYN_FLOOD",
+        "status": "pre-registered",
+        "destination": "172.20.0.2",
+        "rate_pps": 198,
+        "distinct_sources": 1,
+        "distinct_ports": 1,
+        "details": {
+          "incomplete_count": 198,
+          "distinct_dst_ports": 1,
+          "distinct_dst_ips": 1,
+          "distinct_src_ips": 1
+        }
+      },
+      {
+        "time_epoch": 1794831792.5489,
+        "relative_time_sec": 58.2695,
+        "rule": "tcp_incomplete_handshake",
+        "alert_class": "ALERT_SYN_FLOOD",
+        "status": "pre-registered",
+        "destination": "172.20.0.2",
+        "rate_pps": 200,
+        "distinct_sources": 1,
+        "distinct_ports": 1,
+        "details": {
+          "incomplete_count": 200,
+          "distinct_dst_ports": 1,
+          "distinct_dst_ips": 1,
+          "distinct_src_ips": 1
+        }
+      },
+      {
+        "time_epoch": 1794831793.5548,
+        "relative_time_sec": 59.2754,
+        "rule": "tcp_incomplete_handshake",
+        "alert_class": "ALERT_SYN_FLOOD",
+        "status": "pre-registered",
+        "destination": "172.20.0.2",
+        "rate_pps": 197,
+        "distinct_sources": 1,
+        "distinct_ports": 1,
+        "details": {
+          "incomplete_count": 197,
+          "distinct_dst_ports": 1,
+          "distinct_dst_ips": 1,
+          "distinct_src_ips": 1
+        }
+      },
+      {
+        "time_epoch": 1794831794.5551,
+        "relative_time_sec": 60.2757,
+        "rule": "tcp_incomplete_handshake",
+        "alert_class": "ALERT_SYN_FLOOD",
+        "status": "pre-registered",
+        "destination": "172.20.0.2",
+        "rate_pps": 199,
+        "distinct_sources": 1,
+        "distinct_ports": 1,
+        "details": {
+          "incomplete_count": 199,
+          "distinct_dst_ports": 1,
+          "distinct_dst_ips": 1,
+          "distinct_src_ips": 1
+        }
+      },
+      {
+        "time_epoch": 1794831795.5598,
+        "relative_time_sec": 61.2804,
+        "rule": "tcp_incomplete_handshake",
+        "alert_class": "ALERT_SYN_FLOOD",
+        "status": "pre-registered",
+        "destination": "172.20.0.2",
+        "rate_pps": 199,
+        "distinct_sources": 1,
+        "distinct_ports": 1,
+        "details": {
+          "incomplete_count": 199,
+          "distinct_dst_ports": 1,
+          "distinct_dst_ips": 1,
+          "distinct_src_ips": 1
+        }
+      },
+      {
+        "time_epoch": 1794831796.563,
+        "relative_time_sec": 62.2836,
+        "rule": "tcp_incomplete_handshake",
+        "alert_class": "ALERT_SYN_FLOOD",
+        "status": "pre-registered",
+        "destination": "172.20.0.2",
+        "rate_pps": 199,
+        "distinct_sources": 1,
+        "distinct_ports": 1,
+        "details": {
+          "incomplete_count": 199,
+          "distinct_dst_ports": 1,
+          "distinct_dst_ips": 1,
+          "distinct_src_ips": 1
+        }
+      },
+      {
+        "time_epoch": 1794831797.5636,
+        "relative_time_sec": 63.2842,
+        "rule": "tcp_incomplete_handshake",
+        "alert_class": "ALERT_SYN_FLOOD",
+        "status": "pre-registered",
+        "destination": "172.20.0.2",
+        "rate_pps": 198,
+        "distinct_sources": 1,
+        "distinct_ports": 1,
+        "details": {
+          "incomplete_count": 198,
+          "distinct_dst_ports": 1,
+          "distinct_dst_ips": 1,
+          "distinct_src_ips": 1
+        }
+      },
+      {
+        "time_epoch": 1794831798.5683,
+        "relative_time_sec": 64.2889,
+        "rule": "tcp_incomplete_handshake",
+        "alert_class": "ALERT_SYN_FLOOD",
+        "status": "pre-registered",
+        "destination": "172.20.0.2",
+        "rate_pps": 198,
+        "distinct_sources": 1,
+        "distinct_ports": 1,
+        "details": {
+          "incomplete_count": 198,
+          "distinct_dst_ports": 1,
+          "distinct_dst_ips": 1,
+          "distinct_src_ips": 1
+        }
+      },
+      {
+        "time_epoch": 1794831799.5684,
+        "relative_time_sec": 65.289,
+        "rule": "tcp_incomplete_handshake",
+        "alert_class": "ALERT_SYN_FLOOD",
+        "status": "pre-registered",
+        "destination": "172.20.0.2",
+        "rate_pps": 197,
+        "distinct_sources": 1,
+        "distinct_ports": 1,
+        "details": {
+          "incomplete_count": 197,
+          "distinct_dst_ports": 1,
+          "distinct_dst_ips": 1,
+          "distinct_src_ips": 1
+        }
+      },
+      {
+        "time_epoch": 1794831800.5695,
+        "relative_time_sec": 66.2901,
+        "rule": "tcp_incomplete_handshake",
+        "alert_class": "ALERT_SYN_FLOOD",
+        "status": "pre-registered",
+        "destination": "172.20.0.2",
+        "rate_pps": 199,
+        "distinct_sources": 1,
+        "distinct_ports": 1,
+        "details": {
+          "incomplete_count": 199,
+          "distinct_dst_ports": 1,
+          "distinct_dst_ips": 1,
+          "distinct_src_ips": 1
+        }
+      },
+      {
+        "time_epoch": 1794831801.5743,
+        "relative_time_sec": 67.2949,
+        "rule": "tcp_incomplete_handshake",
+        "alert_class": "ALERT_SYN_FLOOD",
+        "status": "pre-registered",
+        "destination": "172.20.0.2",
+        "rate_pps": 200,
+        "distinct_sources": 1,
+        "distinct_ports": 1,
+        "details": {
+          "incomplete_count": 200,
+          "distinct_dst_ports": 1,
+          "distinct_dst_ips": 1,
+          "distinct_src_ips": 1
+        }
+      },
+      {
+        "time_epoch": 1794831802.5786,
+        "relative_time_sec": 68.2993,
+        "rule": "tcp_incomplete_handshake",
+        "alert_class": "ALERT_SYN_FLOOD",
+        "status": "pre-registered",
+        "destination": "172.20.0.2",
+        "rate_pps": 199,
+        "distinct_sources": 1,
+        "distinct_ports": 1,
+        "details": {
+          "incomplete_count": 199,
+          "distinct_dst_ports": 1,
+          "distinct_dst_ips": 1,
+          "distinct_src_ips": 1
+        }
+      },
+      {
+        "time_epoch": 1794831803.579,
+        "relative_time_sec": 69.2996,
+        "rule": "tcp_incomplete_handshake",
+        "alert_class": "ALERT_SYN_FLOOD",
+        "status": "pre-registered",
+        "destination": "172.20.0.2",
+        "rate_pps": 200,
+        "distinct_sources": 1,
+        "distinct_ports": 1,
+        "details": {
+          "incomplete_count": 200,
+          "distinct_dst_ports": 1,
+          "distinct_dst_ips": 1,
+          "distinct_src_ips": 1
+        }
+      },
+      {
+        "time_epoch": 1794831804.5796,
+        "relative_time_sec": 70.3002,
+        "rule": "tcp_incomplete_handshake",
+        "alert_class": "ALERT_SYN_FLOOD",
+        "status": "pre-registered",
+        "destination": "172.20.0.2",
+        "rate_pps": 200,
+        "distinct_sources": 1,
+        "distinct_ports": 1,
+        "details": {
+          "incomplete_count": 200,
+          "distinct_dst_ports": 1,
+          "distinct_dst_ips": 1,
+          "distinct_src_ips": 1
+        }
+      },
+      {
+        "time_epoch": 1794831805.5837,
+        "relative_time_sec": 71.3043,
+        "rule": "tcp_incomplete_handshake",
+        "alert_class": "ALERT_SYN_FLOOD",
+        "status": "pre-registered",
+        "destination": "172.20.0.2",
+        "rate_pps": 201,
+        "distinct_sources": 1,
+        "distinct_ports": 1,
+        "details": {
+          "incomplete_count": 201,
+          "distinct_dst_ports": 1,
+          "distinct_dst_ips": 1,
+          "distinct_src_ips": 1
+        }
+      },
+      {
+        "time_epoch": 1794831806.5886,
+        "relative_time_sec": 72.3092,
+        "rule": "tcp_incomplete_handshake",
+        "alert_class": "ALERT_SYN_FLOOD",
+        "status": "pre-registered",
+        "destination": "172.20.0.2",
+        "rate_pps": 200,
+        "distinct_sources": 1,
+        "distinct_ports": 1,
+        "details": {
+          "incomplete_count": 200,
+          "distinct_dst_ports": 1,
+          "distinct_dst_ips": 1,
+          "distinct_src_ips": 1
+        }
+      },
+      {
+        "time_epoch": 1794831807.5938,
+        "relative_time_sec": 73.3144,
+        "rule": "tcp_incomplete_handshake",
+        "alert_class": "ALERT_SYN_FLOOD",
+        "status": "pre-registered",
+        "destination": "172.20.0.2",
+        "rate_pps": 199,
+        "distinct_sources": 1,
+        "distinct_ports": 1,
+        "details": {
+          "incomplete_count": 199,
+          "distinct_dst_ports": 1,
+          "distinct_dst_ips": 1,
+          "distinct_src_ips": 1
+        }
+      },
+      {
+        "time_epoch": 1794831808.599,
+        "relative_time_sec": 74.3196,
+        "rule": "tcp_incomplete_handshake",
+        "alert_class": "ALERT_SYN_FLOOD",
+        "status": "pre-registered",
+        "destination": "172.20.0.2",
+        "rate_pps": 200,
+        "distinct_sources": 1,
+        "distinct_ports": 1,
+        "details": {
+          "incomplete_count": 200,
+          "distinct_dst_ports": 1,
+          "distinct_dst_ips": 1,
+          "distinct_src_ips": 1
+        }
+      },
+      {
+        "time_epoch": 1794831809.6048,
+        "relative_time_sec": 75.3254,
+        "rule": "tcp_incomplete_handshake",
+        "alert_class": "ALERT_SYN_FLOOD",
+        "status": "pre-registered",
+        "destination": "172.20.0.2",
+        "rate_pps": 199,
+        "distinct_sources": 1,
+        "distinct_ports": 1,
+        "details": {
+          "incomplete_count": 199,
+          "distinct_dst_ports": 1,
+          "distinct_dst_ips": 1,
+          "distinct_src_ips": 1
+        }
+      },
+      {
+        "time_epoch": 1794831810.6084,
+        "relative_time_sec": 76.3291,
+        "rule": "tcp_incomplete_handshake",
+        "alert_class": "ALERT_SYN_FLOOD",
+        "status": "pre-registered",
+        "destination": "172.20.0.2",
+        "rate_pps": 198,
+        "distinct_sources": 1,
+        "distinct_ports": 1,
+        "details": {
+          "incomplete_count": 198,
+          "distinct_dst_ports": 1,
+          "distinct_dst_ips": 1,
+          "distinct_src_ips": 1
+        }
+      },
+      {
+        "time_epoch": 1794831811.6086,
+        "relative_time_sec": 77.3292,
+        "rule": "tcp_incomplete_handshake",
+        "alert_class": "ALERT_SYN_FLOOD",
+        "status": "pre-registered",
+        "destination": "172.20.0.2",
+        "rate_pps": 198,
+        "distinct_sources": 1,
+        "distinct_ports": 1,
+        "details": {
+          "incomplete_count": 198,
+          "distinct_dst_ports": 1,
+          "distinct_dst_ips": 1,
+          "distinct_src_ips": 1
+        }
+      },
+      {
+        "time_epoch": 1794831812.6129,
+        "relative_time_sec": 78.3335,
+        "rule": "tcp_incomplete_handshake",
+        "alert_class": "ALERT_SYN_FLOOD",
+        "status": "pre-registered",
+        "destination": "172.20.0.2",
+        "rate_pps": 200,
+        "distinct_sources": 1,
+        "distinct_ports": 1,
+        "details": {
+          "incomplete_count": 200,
+          "distinct_dst_ports": 1,
+          "distinct_dst_ips": 1,
+          "distinct_src_ips": 1
+        }
+      },
+      {
+        "time_epoch": 1794831813.6184,
+        "relative_time_sec": 79.339,
+        "rule": "tcp_incomplete_handshake",
+        "alert_class": "ALERT_SYN_FLOOD",
+        "status": "pre-registered",
+        "destination": "172.20.0.2",
+        "rate_pps": 197,
+        "distinct_sources": 1,
+        "distinct_ports": 1,
+        "details": {
+          "incomplete_count": 197,
+          "distinct_dst_ports": 1,
+          "distinct_dst_ips": 1,
+          "distinct_src_ips": 1
+        }
+      },
+      {
+        "time_epoch": 1794831814.6186,
+        "relative_time_sec": 80.3392,
+        "rule": "tcp_incomplete_handshake",
+        "alert_class": "ALERT_SYN_FLOOD",
+        "status": "pre-registered",
+        "destination": "172.20.0.2",
+        "rate_pps": 200,
+        "distinct_sources": 1,
+        "distinct_ports": 1,
+        "details": {
+          "incomplete_count": 200,
+          "distinct_dst_ports": 1,
+          "distinct_dst_ips": 1,
+          "distinct_src_ips": 1
+        }
+      },
+      {
+        "time_epoch": 1794831815.6196,
+        "relative_time_sec": 81.3402,
+        "rule": "tcp_incomplete_handshake",
+        "alert_class": "ALERT_SYN_FLOOD",
+        "status": "pre-registered",
+        "destination": "172.20.0.2",
+        "rate_pps": 200,
+        "distinct_sources": 1,
+        "distinct_ports": 1,
+        "details": {
+          "incomplete_count": 200,
+          "distinct_dst_ports": 1,
+          "distinct_dst_ips": 1,
+          "distinct_src_ips": 1
+        }
+      },
+      {
+        "time_epoch": 1794831816.6229,
+        "relative_time_sec": 82.3435,
+        "rule": "tcp_incomplete_handshake",
+        "alert_class": "ALERT_SYN_FLOOD",
+        "status": "pre-registered",
+        "destination": "172.20.0.2",
+        "rate_pps": 199,
+        "distinct_sources": 1,
+        "distinct_ports": 1,
+        "details": {
+          "incomplete_count": 199,
+          "distinct_dst_ports": 1,
+          "distinct_dst_ips": 1,
+          "distinct_src_ips": 1
+        }
+      },
+      {
+        "time_epoch": 1794831817.6295,
+        "relative_time_sec": 83.3501,
+        "rule": "tcp_incomplete_handshake",
+        "alert_class": "ALERT_SYN_FLOOD",
+        "status": "pre-registered",
+        "destination": "172.20.0.2",
+        "rate_pps": 200,
+        "distinct_sources": 1,
+        "distinct_ports": 1,
+        "details": {
+          "incomplete_count": 200,
+          "distinct_dst_ports": 1,
+          "distinct_dst_ips": 1,
+          "distinct_src_ips": 1
+        }
+      },
+      {
+        "time_epoch": 1794831818.6339,
+        "relative_time_sec": 84.3545,
+        "rule": "tcp_incomplete_handshake",
+        "alert_class": "ALERT_SYN_FLOOD",
+        "status": "pre-registered",
+        "destination": "172.20.0.2",
+        "rate_pps": 197,
+        "distinct_sources": 1,
+        "distinct_ports": 1,
+        "details": {
+          "incomplete_count": 197,
+          "distinct_dst_ports": 1,
+          "distinct_dst_ips": 1,
+          "distinct_src_ips": 1
+        }
+      },
+      {
+        "time_epoch": 1794831819.6388,
+        "relative_time_sec": 85.3594,
+        "rule": "tcp_incomplete_handshake",
+        "alert_class": "ALERT_SYN_FLOOD",
+        "status": "pre-registered",
+        "destination": "172.20.0.2",
+        "rate_pps": 199,
+        "distinct_sources": 1,
+        "distinct_ports": 1,
+        "details": {
+          "incomplete_count": 199,
+          "distinct_dst_ports": 1,
+          "distinct_dst_ips": 1,
+          "distinct_src_ips": 1
+        }
+      },
+      {
+        "time_epoch": 1794831820.6393,
+        "relative_time_sec": 86.3599,
+        "rule": "tcp_incomplete_handshake",
+        "alert_class": "ALERT_SYN_FLOOD",
+        "status": "pre-registered",
+        "destination": "172.20.0.2",
+        "rate_pps": 198,
+        "distinct_sources": 1,
+        "distinct_ports": 1,
+        "details": {
+          "incomplete_count": 198,
+          "distinct_dst_ports": 1,
+          "distinct_dst_ips": 1,
+          "distinct_src_ips": 1
+        }
+      },
+      {
+        "time_epoch": 1794831821.6431,
+        "relative_time_sec": 87.3637,
+        "rule": "tcp_incomplete_handshake",
+        "alert_class": "ALERT_SYN_FLOOD",
+        "status": "pre-registered",
+        "destination": "172.20.0.2",
+        "rate_pps": 200,
+        "distinct_sources": 1,
+        "distinct_ports": 1,
+        "details": {
+          "incomplete_count": 200,
+          "distinct_dst_ports": 1,
+          "distinct_dst_ips": 1,
+          "distinct_src_ips": 1
+        }
+      },
+      {
+        "time_epoch": 1794831822.6441,
+        "relative_time_sec": 88.3647,
+        "rule": "tcp_incomplete_handshake",
+        "alert_class": "ALERT_SYN_FLOOD",
+        "status": "pre-registered",
+        "destination": "172.20.0.2",
+        "rate_pps": 200,
+        "distinct_sources": 1,
+        "distinct_ports": 1,
+        "details": {
+          "incomplete_count": 200,
+          "distinct_dst_ports": 1,
+          "distinct_dst_ips": 1,
+          "distinct_src_ips": 1
+        }
+      },
+      {
+        "time_epoch": 1794831823.6443,
+        "relative_time_sec": 89.3649,
+        "rule": "tcp_incomplete_handshake",
+        "alert_class": "ALERT_SYN_FLOOD",
+        "status": "pre-registered",
+        "destination": "172.20.0.2",
+        "rate_pps": 200,
+        "distinct_sources": 1,
+        "distinct_ports": 1,
+        "details": {
+          "incomplete_count": 200,
+          "distinct_dst_ports": 1,
+          "distinct_dst_ips": 1,
+          "distinct_src_ips": 1
+        }
+      },
+      {
+        "time_epoch": 1794831824.6487,
+        "relative_time_sec": 90.3693,
+        "rule": "tcp_incomplete_handshake",
+        "alert_class": "ALERT_SYN_FLOOD",
+        "status": "pre-registered",
+        "destination": "172.20.0.2",
+        "rate_pps": 201,
+        "distinct_sources": 1,
+        "distinct_ports": 1,
+        "details": {
+          "incomplete_count": 201,
+          "distinct_dst_ports": 1,
+          "distinct_dst_ips": 1,
+          "distinct_src_ips": 1
+        }
+      },
+      {
+        "time_epoch": 1794831825.6491,
+        "relative_time_sec": 91.3697,
+        "rule": "tcp_incomplete_handshake",
+        "alert_class": "ALERT_SYN_FLOOD",
+        "status": "pre-registered",
+        "destination": "172.20.0.2",
+        "rate_pps": 196,
+        "distinct_sources": 1,
+        "distinct_ports": 1,
+        "details": {
+          "incomplete_count": 196,
+          "distinct_dst_ports": 1,
+          "distinct_dst_ips": 1,
+          "distinct_src_ips": 1
+        }
+      },
+      {
+        "time_epoch": 1794831826.653,
+        "relative_time_sec": 92.3736,
+        "rule": "tcp_incomplete_handshake",
+        "alert_class": "ALERT_SYN_FLOOD",
+        "status": "pre-registered",
+        "destination": "172.20.0.2",
+        "rate_pps": 199,
+        "distinct_sources": 1,
+        "distinct_ports": 1,
+        "details": {
+          "incomplete_count": 199,
+          "distinct_dst_ports": 1,
+          "distinct_dst_ips": 1,
+          "distinct_src_ips": 1
+        }
+      },
+      {
+        "time_epoch": 1794831827.6584,
+        "relative_time_sec": 93.379,
+        "rule": "tcp_incomplete_handshake",
+        "alert_class": "ALERT_SYN_FLOOD",
+        "status": "pre-registered",
+        "destination": "172.20.0.2",
+        "rate_pps": 200,
+        "distinct_sources": 1,
+        "distinct_ports": 1,
+        "details": {
+          "incomplete_count": 200,
+          "distinct_dst_ports": 1,
+          "distinct_dst_ips": 1,
+          "distinct_src_ips": 1
+        }
+      },
+      {
+        "time_epoch": 1794831828.6592,
+        "relative_time_sec": 94.3798,
+        "rule": "tcp_incomplete_handshake",
+        "alert_class": "ALERT_SYN_FLOOD",
+        "status": "pre-registered",
+        "destination": "172.20.0.2",
+        "rate_pps": 200,
+        "distinct_sources": 1,
+        "distinct_ports": 1,
+        "details": {
+          "incomplete_count": 200,
+          "distinct_dst_ports": 1,
+          "distinct_dst_ips": 1,
+          "distinct_src_ips": 1
+        }
+      },
+      {
+        "time_epoch": 1794831829.6637,
+        "relative_time_sec": 95.3844,
+        "rule": "tcp_incomplete_handshake",
+        "alert_class": "ALERT_SYN_FLOOD",
+        "status": "pre-registered",
+        "destination": "172.20.0.2",
+        "rate_pps": 199,
+        "distinct_sources": 1,
+        "distinct_ports": 1,
+        "details": {
+          "incomplete_count": 199,
+          "distinct_dst_ports": 1,
+          "distinct_dst_ips": 1,
+          "distinct_src_ips": 1
+        }
+      },
+      {
+        "time_epoch": 1794831830.6656,
+        "relative_time_sec": 96.3862,
+        "rule": "tcp_incomplete_handshake",
+        "alert_class": "ALERT_SYN_FLOOD",
+        "status": "pre-registered",
+        "destination": "172.20.0.2",
+        "rate_pps": 200,
+        "distinct_sources": 1,
+        "distinct_ports": 1,
+        "details": {
+          "incomplete_count": 200,
+          "distinct_dst_ports": 1,
+          "distinct_dst_ips": 1,
+          "distinct_src_ips": 1
+        }
+      },
+      {
+        "time_epoch": 1794831831.6695,
+        "relative_time_sec": 97.3901,
+        "rule": "tcp_incomplete_handshake",
+        "alert_class": "ALERT_SYN_FLOOD",
+        "status": "pre-registered",
+        "destination": "172.20.0.2",
+        "rate_pps": 199,
+        "distinct_sources": 1,
+        "distinct_ports": 1,
+        "details": {
+          "incomplete_count": 199,
+          "distinct_dst_ports": 1,
+          "distinct_dst_ips": 1,
+          "distinct_src_ips": 1
+        }
+      },
+      {
+        "time_epoch": 1794831832.673,
+        "relative_time_sec": 98.3936,
+        "rule": "tcp_incomplete_handshake",
+        "alert_class": "ALERT_SYN_FLOOD",
+        "status": "pre-registered",
+        "destination": "172.20.0.2",
+        "rate_pps": 200,
+        "distinct_sources": 1,
+        "distinct_ports": 1,
+        "details": {
+          "incomplete_count": 200,
+          "distinct_dst_ports": 1,
+          "distinct_dst_ips": 1,
+          "distinct_src_ips": 1
+        }
+      },
+      {
+        "time_epoch": 1794831833.6735,
+        "relative_time_sec": 99.3942,
+        "rule": "tcp_incomplete_handshake",
+        "alert_class": "ALERT_SYN_FLOOD",
+        "status": "pre-registered",
+        "destination": "172.20.0.2",
+        "rate_pps": 197,
+        "distinct_sources": 1,
+        "distinct_ports": 1,
+        "details": {
+          "incomplete_count": 197,
+          "distinct_dst_ports": 1,
+          "distinct_dst_ips": 1,
+          "distinct_src_ips": 1
+        }
+      },
+      {
+        "time_epoch": 1794831834.6738,
+        "relative_time_sec": 100.3944,
+        "rule": "tcp_incomplete_handshake",
+        "alert_class": "ALERT_SYN_FLOOD",
+        "status": "pre-registered",
+        "destination": "172.20.0.2",
+        "rate_pps": 199,
+        "distinct_sources": 1,
+        "distinct_ports": 1,
+        "details": {
+          "incomplete_count": 199,
+          "distinct_dst_ports": 1,
+          "distinct_dst_ips": 1,
+          "distinct_src_ips": 1
+        }
+      },
+      {
+        "time_epoch": 1794831835.6743,
+        "relative_time_sec": 101.3949,
+        "rule": "tcp_incomplete_handshake",
+        "alert_class": "ALERT_SYN_FLOOD",
+        "status": "pre-registered",
+        "destination": "172.20.0.2",
+        "rate_pps": 200,
+        "distinct_sources": 1,
+        "distinct_ports": 1,
+        "details": {
+          "incomplete_count": 200,
+          "distinct_dst_ports": 1,
+          "distinct_dst_ips": 1,
+          "distinct_src_ips": 1
+        }
+      },
+      {
+        "time_epoch": 1794831836.6793,
+        "relative_time_sec": 102.3999,
+        "rule": "tcp_incomplete_handshake",
+        "alert_class": "ALERT_SYN_FLOOD",
+        "status": "pre-registered",
+        "destination": "172.20.0.2",
+        "rate_pps": 199,
+        "distinct_sources": 1,
+        "distinct_ports": 1,
+        "details": {
+          "incomplete_count": 199,
+          "distinct_dst_ports": 1,
+          "distinct_dst_ips": 1,
+          "distinct_src_ips": 1
+        }
+      },
+      {
+        "time_epoch": 1794831837.6832,
+        "relative_time_sec": 103.4038,
+        "rule": "tcp_incomplete_handshake",
+        "alert_class": "ALERT_SYN_FLOOD",
+        "status": "pre-registered",
+        "destination": "172.20.0.2",
+        "rate_pps": 201,
+        "distinct_sources": 1,
+        "distinct_ports": 1,
+        "details": {
+          "incomplete_count": 201,
+          "distinct_dst_ports": 1,
+          "distinct_dst_ips": 1,
+          "distinct_src_ips": 1
+        }
+      },
+      {
+        "time_epoch": 1794831838.6848,
+        "relative_time_sec": 104.4054,
+        "rule": "tcp_incomplete_handshake",
+        "alert_class": "ALERT_SYN_FLOOD",
+        "status": "pre-registered",
+        "destination": "172.20.0.2",
+        "rate_pps": 198,
+        "distinct_sources": 1,
+        "distinct_ports": 1,
+        "details": {
+          "incomplete_count": 198,
+          "distinct_dst_ports": 1,
+          "distinct_dst_ips": 1,
+          "distinct_src_ips": 1
+        }
+      },
+      {
+        "time_epoch": 1794831839.6895,
+        "relative_time_sec": 105.4101,
+        "rule": "tcp_incomplete_handshake",
+        "alert_class": "ALERT_SYN_FLOOD",
+        "status": "pre-registered",
+        "destination": "172.20.0.2",
+        "rate_pps": 200,
+        "distinct_sources": 1,
+        "distinct_ports": 1,
+        "details": {
+          "incomplete_count": 200,
+          "distinct_dst_ports": 1,
+          "distinct_dst_ips": 1,
+          "distinct_src_ips": 1
+        }
+      },
+      {
+        "time_epoch": 1794831840.6931,
+        "relative_time_sec": 106.4137,
+        "rule": "tcp_incomplete_handshake",
+        "alert_class": "ALERT_SYN_FLOOD",
+        "status": "pre-registered",
+        "destination": "172.20.0.2",
+        "rate_pps": 200,
+        "distinct_sources": 1,
+        "distinct_ports": 1,
+        "details": {
+          "incomplete_count": 200,
+          "distinct_dst_ports": 1,
+          "distinct_dst_ips": 1,
+          "distinct_src_ips": 1
+        }
+      },
+      {
+        "time_epoch": 1794831841.6933,
+        "relative_time_sec": 107.4139,
+        "rule": "tcp_incomplete_handshake",
+        "alert_class": "ALERT_SYN_FLOOD",
+        "status": "pre-registered",
+        "destination": "172.20.0.2",
+        "rate_pps": 198,
+        "distinct_sources": 1,
+        "distinct_ports": 1,
+        "details": {
+          "incomplete_count": 198,
+          "distinct_dst_ports": 1,
+          "distinct_dst_ips": 1,
+          "distinct_src_ips": 1
+        }
+      },
+      {
+        "time_epoch": 1794831842.699,
+        "relative_time_sec": 108.4196,
+        "rule": "tcp_incomplete_handshake",
+        "alert_class": "ALERT_SYN_FLOOD",
+        "status": "pre-registered",
+        "destination": "172.20.0.2",
+        "rate_pps": 201,
+        "distinct_sources": 1,
+        "distinct_ports": 1,
+        "details": {
+          "incomplete_count": 201,
+          "distinct_dst_ports": 1,
+          "distinct_dst_ips": 1,
+          "distinct_src_ips": 1
+        }
+      },
+      {
+        "time_epoch": 1794831843.7032,
+        "relative_time_sec": 109.4238,
+        "rule": "tcp_incomplete_handshake",
+        "alert_class": "ALERT_SYN_FLOOD",
+        "status": "pre-registered",
+        "destination": "172.20.0.2",
+        "rate_pps": 200,
+        "distinct_sources": 1,
+        "distinct_ports": 1,
+        "details": {
+          "incomplete_count": 200,
+          "distinct_dst_ports": 1,
+          "distinct_dst_ips": 1,
+          "distinct_src_ips": 1
+        }
+      },
+      {
+        "time_epoch": 1794831844.7043,
+        "relative_time_sec": 110.4249,
+        "rule": "tcp_incomplete_handshake",
+        "alert_class": "ALERT_SYN_FLOOD",
+        "status": "pre-registered",
+        "destination": "172.20.0.2",
+        "rate_pps": 199,
+        "distinct_sources": 1,
+        "distinct_ports": 1,
+        "details": {
+          "incomplete_count": 199,
+          "distinct_dst_ports": 1,
+          "distinct_dst_ips": 1,
+          "distinct_src_ips": 1
+        }
+      },
+      {
+        "time_epoch": 1794831845.7099,
+        "relative_time_sec": 111.4305,
+        "rule": "tcp_incomplete_handshake",
+        "alert_class": "ALERT_SYN_FLOOD",
+        "status": "pre-registered",
+        "destination": "172.20.0.2",
+        "rate_pps": 199,
+        "distinct_sources": 1,
+        "distinct_ports": 1,
+        "details": {
+          "incomplete_count": 199,
+          "distinct_dst_ports": 1,
+          "distinct_dst_ips": 1,
+          "distinct_src_ips": 1
+        }
+      },
+      {
+        "time_epoch": 1794831846.7134,
+        "relative_time_sec": 112.434,
+        "rule": "tcp_incomplete_handshake",
+        "alert_class": "ALERT_SYN_FLOOD",
+        "status": "pre-registered",
+        "destination": "172.20.0.2",
+        "rate_pps": 199,
+        "distinct_sources": 1,
+        "distinct_ports": 1,
+        "details": {
+          "incomplete_count": 199,
+          "distinct_dst_ports": 1,
+          "distinct_dst_ips": 1,
+          "distinct_src_ips": 1
+        }
+      },
+      {
+        "time_epoch": 1794831847.7143,
+        "relative_time_sec": 113.4349,
+        "rule": "tcp_incomplete_handshake",
+        "alert_class": "ALERT_SYN_FLOOD",
+        "status": "pre-registered",
+        "destination": "172.20.0.2",
+        "rate_pps": 197,
+        "distinct_sources": 1,
+        "distinct_ports": 1,
+        "details": {
+          "incomplete_count": 197,
+          "distinct_dst_ports": 1,
+          "distinct_dst_ips": 1,
+          "distinct_src_ips": 1
+        }
+      },
+      {
+        "time_epoch": 1794831848.718,
+        "relative_time_sec": 114.4386,
+        "rule": "tcp_incomplete_handshake",
+        "alert_class": "ALERT_SYN_FLOOD",
+        "status": "pre-registered",
+        "destination": "172.20.0.2",
+        "rate_pps": 198,
+        "distinct_sources": 1,
+        "distinct_ports": 1,
+        "details": {
+          "incomplete_count": 198,
+          "distinct_dst_ports": 1,
+          "distinct_dst_ips": 1,
+          "distinct_src_ips": 1
+        }
+      },
+      {
+        "time_epoch": 1794831849.7185,
+        "relative_time_sec": 115.4391,
+        "rule": "tcp_incomplete_handshake",
+        "alert_class": "ALERT_SYN_FLOOD",
+        "status": "pre-registered",
+        "destination": "172.20.0.2",
+        "rate_pps": 199,
+        "distinct_sources": 1,
+        "distinct_ports": 1,
+        "details": {
+          "incomplete_count": 199,
+          "distinct_dst_ports": 1,
+          "distinct_dst_ips": 1,
+          "distinct_src_ips": 1
+        }
+      },
+      {
+        "time_epoch": 1794831850.7192,
+        "relative_time_sec": 116.4398,
+        "rule": "tcp_incomplete_handshake",
+        "alert_class": "ALERT_SYN_FLOOD",
+        "status": "pre-registered",
+        "destination": "172.20.0.2",
+        "rate_pps": 198,
+        "distinct_sources": 1,
+        "distinct_ports": 1,
+        "details": {
+          "incomplete_count": 198,
+          "distinct_dst_ports": 1,
+          "distinct_dst_ips": 1,
+          "distinct_src_ips": 1
+        }
+      },
+      {
+        "time_epoch": 1794831851.723,
+        "relative_time_sec": 117.4436,
+        "rule": "tcp_incomplete_handshake",
+        "alert_class": "ALERT_SYN_FLOOD",
+        "status": "pre-registered",
+        "destination": "172.20.0.2",
+        "rate_pps": 199,
+        "distinct_sources": 1,
+        "distinct_ports": 1,
+        "details": {
+          "incomplete_count": 199,
+          "distinct_dst_ports": 1,
+          "distinct_dst_ips": 1,
+          "distinct_src_ips": 1
+        }
+      },
+      {
+        "time_epoch": 1794831852.729,
+        "relative_time_sec": 118.4496,
+        "rule": "tcp_incomplete_handshake",
+        "alert_class": "ALERT_SYN_FLOOD",
+        "status": "pre-registered",
+        "destination": "172.20.0.2",
+        "rate_pps": 201,
+        "distinct_sources": 1,
+        "distinct_ports": 1,
+        "details": {
+          "incomplete_count": 201,
+          "distinct_dst_ports": 1,
+          "distinct_dst_ips": 1,
+          "distinct_src_ips": 1
+        }
+      },
+      {
+        "time_epoch": 1794831853.7294,
+        "relative_time_sec": 119.45,
+        "rule": "tcp_incomplete_handshake",
+        "alert_class": "ALERT_SYN_FLOOD",
+        "status": "pre-registered",
+        "destination": "172.20.0.2",
+        "rate_pps": 196,
+        "distinct_sources": 1,
+        "distinct_ports": 1,
+        "details": {
+          "incomplete_count": 196,
+          "distinct_dst_ports": 1,
+          "distinct_dst_ips": 1,
+          "distinct_src_ips": 1
+        }
+      },
+      {
+        "time_epoch": 1794831854.735,
+        "relative_time_sec": 120.4556,
+        "rule": "tcp_incomplete_handshake",
+        "alert_class": "ALERT_SYN_FLOOD",
+        "status": "pre-registered",
+        "destination": "172.20.0.2",
+        "rate_pps": 198,
+        "distinct_sources": 1,
+        "distinct_ports": 1,
+        "details": {
+          "incomplete_count": 198,
+          "distinct_dst_ports": 1,
+          "distinct_dst_ips": 1,
+          "distinct_src_ips": 1
+        }
+      },
+      {
+        "time_epoch": 1794831855.739,
+        "relative_time_sec": 121.4596,
+        "rule": "tcp_incomplete_handshake",
+        "alert_class": "ALERT_SYN_FLOOD",
+        "status": "pre-registered",
+        "destination": "172.20.0.2",
+        "rate_pps": 199,
+        "distinct_sources": 1,
+        "distinct_ports": 1,
+        "details": {
+          "incomplete_count": 199,
+          "distinct_dst_ports": 1,
+          "distinct_dst_ips": 1,
+          "distinct_src_ips": 1
+        }
+      }
+    ]
+  },
+  "integrity_checksum": "3ddf3b47b076c46f7fd4e849f2a9de02a0fc774d77ac74ec0cd8ea0e3cea2b7d"
+}

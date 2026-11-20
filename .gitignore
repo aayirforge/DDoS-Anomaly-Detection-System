@@ -19,3 +19,5 @@ tools/cicflowmeter-java/*.pcap
 
 logs/
 target/
+**/results/ui_runs/*
+!**/results/ui_runs/sample_run/**

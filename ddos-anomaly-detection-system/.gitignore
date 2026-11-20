@@ -53,6 +53,11 @@ data/*.db
 data/*.db-wal
 data/*.db-shm
 
+# Ephemeral UI runs
+results/ui_runs/*
+!results/ui_runs/sample_run/
+!results/ui_runs/sample_run/*
+
 # Temporary files
 *.swp
 *~
