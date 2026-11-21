@@ -82,10 +82,10 @@
 - **UI Safety Architecture:** Analysis page can launch dumpcap via argument lists under results/ui_runs; only the advanced monitoring page is read-only (SQLite mode=ro).
 - **Supervisor Recovery:** Simulated supervisor crash restored state tracking and database reconnection in 0.50 ms.
 - **DETECTOR BLIND Fixture:** Automated UI banners instantly alert operators if the capture daemon stalls or crashes.
-- **Strict Safety Guarantees:** Active firewall mitigation hardcoded to dry-run logging; zero automated routing changes or packet-drop injections.
+- **Passive Safety Posture:** Active firewall mitigation hardcoded to dry-run logging; zero automated routing changes or packet-drop injections.
 
 ---
-## Slide 10: Explicit Engineering Limitations
+## Slide 10: Documented Engineering Limitations
 *Honest Empirical Boundaries (No Softening)*
 
 - **Topology Constraints:** Evaluated in a single container bridge topology on a single Linux kernel; physical switch fabric and NIC offloading not tested.

@@ -406,7 +406,7 @@ To evaluate whether the LSTM sequence model truly learned temporal flow dynamics
   <li><strong>Shuffled Windows:</strong> ROC-AUC = 0.9996 (&Delta;AUC &lt; 0.0002).</li>
 </ul>
 <p>
-The negligible degradation in AUC proves that the recurrent network did not exploit sequence ordering; rather, it functioned as an effective multivariant pooling aggregator. To verify this hypothesis, static window-summary baselines (Multilayer Perceptron and Logistic Regression trained on 50 summary statistics of the window) were evaluated. As documented in <code>results/candidate_model_selection.json</code>, the summary MLP achieved an AUC of 0.9995, matching the complex recurrent model at a fraction of computational complexity.
+Order-ablation testing (shuffling flow sequence within 10-flow evaluation windows) showed negligible degradation in ROC-AUC (0.9996 shuffled vs 0.9997 ordered), indicating that the recurrent network did not exploit temporal sequence ordering but functioned primarily as a multi-flow pooling aggregator. This finding is subject to the caveat that benchmark windows were constructed from chronologically sorted flows without preserving microsecond inter-arrival times or packet-level interleaving. To verify this hypothesis, static window-summary baselines (Multilayer Perceptron and Logistic Regression trained on 50 summary statistics of the window) were evaluated. As documented in <code>results/candidate_model_selection.json</code>, the summary MLP achieved an AUC of 0.9995, matching the complex recurrent model at a fraction of computational complexity.
 </p>
 
 
@@ -660,9 +660,9 @@ Attacks operating strictly below calibrated thresholds (e.g., a distributed botn
 As established in Section 10.5, an adversary who transmits a paired bare ACK for every generated SYN datagram cancels the stateless arrival counter, bypassing the arrival heuristic.
 </p>
 
-<h3>11.5 Legitimate Flash Crowds Above 750 conn/s</h3>
+<h3>11.5 Legitimate Flash Crowds and Table Capacity Saturation</h3>
 <p>
-Stress-testing demonstrated that a benign flash crowd exceeding ~750 new completing connections per second under high network latency (&gt;200 ms RTT) causes transient in-flight unacknowledged SYN accumulation, risking false positive alerts.
+Stress-testing across offered rates of 500, 1,000, 2,000, and 5,000 conn/s demonstrated that completing handshakes under 200 ms RTT produce 0 stateful false alarms even under severe table capacity saturation (9,802 capacity evictions at 5,000 conn/s with a 1,000-entry table). Standard arrival rate-limiting triggers 0 alerts at 500 conn/s, 1 alert at 1,000 conn/s (0.149 s delay), 2 alerts at 2,000 conn/s (0.075 s delay), and 2 alerts at 5,000 conn/s (0.030 s delay) due to in-flight unacknowledged SYN accumulation, while the 3-window sustained variant completely suppresses false alarms (0 alerts / 0.00% across all evaluated rates).
 </p>
 
 <h3>11.6 Legitimate High-Rate UDP to Single Destination</h3>
