@@ -24,6 +24,7 @@ import time
 from typing import Any, Dict, List, Optional, Tuple
 import uuid
 
+import numpy as np
 import pandas as pd
 import plotly.express as px
 import plotly.graph_objects as go
@@ -554,9 +555,9 @@ def render_advanced_monitor_ui() -> None:
             elif "alert_type" in df_alerts.columns:
                 incident_meta["first_alert_type"] = str(df_alerts["alert_type"].iloc[0])
             if "packet_ts" in df_alerts.columns:
-                ts_vals = df_alerts["packet_ts"].dropna().values
+                ts_vals = df_alerts["packet_ts"].dropna().tolist()
                 if len(ts_vals) > 0:
-                    incident_meta["alerted_duration_sec"] = int(np.ptp(ts_vals))
+                    incident_meta["alerted_duration_sec"] = int(max(ts_vals) - min(ts_vals))
     else:
         run_stem = selected_source.replace("Replay: ", "")
         gt_meta = load_ground_truth_for_run(run_stem)
