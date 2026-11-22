@@ -338,7 +338,7 @@ Three representative supervised architectures were evaluated on identical featur
 <ul>
   <li><strong>Random Forest (RF):</strong> Ensemble of 100 decision trees with balanced class weighting and max depth constraints.</li>
   <li><strong>K-Nearest Neighbors (KNN):</strong> Non-parametric instance-based classifier (k=5) utilizing Euclidean distance over standardized features.</li>
-  <li><strong>Long Short-Term Memory (LSTM):</strong> Recurrent sequence model operating over windows of 10 consecutive flows with a step size of 5, featuring a 64-unit hidden layer and dropout.</li>
+  <li><strong>Long Short-Term Memory (LSTM):</strong> Recurrent sequence model operating over windows of 10 consecutive flows with a step size of 5, featuring a 64-unit hidden layer and dropout. Training code converges; the saved checkpoint's metrics are reproduced from stored scores.</li>
 </ul>
 
 <h2>5.2 Same-Day vs Cross-Day Generalization Collapse</h2>
@@ -789,7 +789,7 @@ As established in Section 10.5, an adversary who transmits a paired bare ACK for
 
 <h3>11.5 Legitimate Flash Crowds and Table Capacity Saturation</h3>
 <p>
-Stress-testing across offered rates of 500, 1,000, 2,000, and 5,000 conn/s demonstrated that completing handshakes under 200 ms RTT produce 0 stateful false alarms even under severe table capacity saturation (9,802 capacity evictions at 5,000 conn/s with a 1,000-entry table). Standard arrival rate-limiting triggers 0 alerts at 500 conn/s, 1 alert at 1,000 conn/s (0.149 s delay), 2 alerts at 2,000 conn/s (0.075 s delay), and 2 alerts at 5,000 conn/s (0.030 s delay) due to in-flight unacknowledged SYN accumulation, while the 3-window sustained variant completely suppresses false alarms (0 alerts / 0.00% across all evaluated rates).
+Stress-testing across offered rates demonstrated that for completing handshakes under 200 ms RTT, 500 conn/s produces 0 arrival alerts, while 1,000, 2,000, and 5,000 conn/s trigger 1, 2, and 2 arrival alerts respectively due to in-flight SYN accumulation. Across all offered rates, the stateful rule produces 0 false alarms (even under 9,802 capacity evictions at 5,000 conn/s with a 1,000-entry table), and the sustained variant produces 0 false alarms with ~3 s delay (Table S7-I).
 </p>
 
 <h3>11.6 Legitimate High-Rate UDP to Single Destination</h3>
@@ -928,7 +928,7 @@ Source: <code>results/tables/table_claims.md</code>.
 
 
 def main() -> None:
-    base_dir = Path("/home/kartik/Documents/AAYIR FORGE/DDoS Anomaly Detection System/ddos-anomaly-detection-system")
+    base_dir = Path(__file__).resolve().parent.parent
     results_dir = base_dir / "results"
 
     print("Generating comprehensive HTML report...")

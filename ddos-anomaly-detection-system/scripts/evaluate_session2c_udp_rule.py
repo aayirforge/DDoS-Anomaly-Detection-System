@@ -14,7 +14,7 @@ from pathlib import Path
 import subprocess
 import numpy as np
 
-REPO_ROOT = Path("/home/kartik/Documents/AAYIR FORGE/DDoS Anomaly Detection System/ddos-anomaly-detection-system")
+REPO_ROOT = Path(__file__).resolve().parent.parent
 CAPTURES_DIR = REPO_ROOT / "lab/captures/session2c"
 RESULTS_DIR = REPO_ROOT / "results"
 

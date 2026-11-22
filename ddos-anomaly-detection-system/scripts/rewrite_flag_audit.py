@@ -9,7 +9,7 @@ Rewrites raw_day1_flag_audit.json:
 import json
 from pathlib import Path
 
-REPO_ROOT = Path("/home/kartik/Documents/AAYIR FORGE/DDoS Anomaly Detection System/ddos-anomaly-detection-system")
+REPO_ROOT = Path(__file__).resolve().parent.parent
 RESULTS_DIR = REPO_ROOT / "results"
 
 # Load existing counts from raw_day1_flag_audit.json

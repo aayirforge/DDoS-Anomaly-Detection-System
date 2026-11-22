@@ -243,8 +243,8 @@ def render_table_s3_timestamps() -> str:
     pcaps = sorted(CAPTURES_DIR.glob("*.pcap"))
     runs = []
     for p in pcaps:
-        cmd = f"capinfos -a -e -u -c \"{p}\""
-        out = subprocess.check_output(cmd, shell=True, text=True)
+        cmd = ["capinfos", "-a", "-e", "-u", "-c", str(p)]
+        out = subprocess.check_output(cmd, text=True)
         start, end, dur, count = None, None, None, None
         for line in out.splitlines():
             if "Earliest packet time:" in line:
@@ -288,8 +288,8 @@ def render_table_s3_manifest() -> str:
         h_disk = hashlib.sha256(data).hexdigest()
         sz_disk = len(data)
         
-        cmd = f"capinfos -a -e -c -u -T -m \"{p}\""
-        out = subprocess.check_output(cmd, shell=True, text=True).splitlines()
+        cmd = ["capinfos", "-a", "-e", "-c", "-u", "-T", "-m", str(p)]
+        out = subprocess.check_output(cmd, text=True).splitlines()
         row_data = out[1].split(",")
         pkts = int(row_data[1])
         start = row_data[3][:19]

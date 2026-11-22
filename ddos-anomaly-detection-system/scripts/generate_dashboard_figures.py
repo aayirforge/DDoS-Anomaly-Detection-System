@@ -179,30 +179,30 @@ def main():
     pcap_syn = CAPTURES_DIR / "session3_tcp_syn_flood_200pps_rep1.pcap"
     out_syn = FIGURES_DIR / "dashboard_syn_200pps.png"
     h_syn = generate_dashboard_figure(pcap_syn, "TCP SYN Flood 200 pps", out_syn, is_syn=True, nominal_rate=200)
-    manifest[out_syn.name] = {"path": str(out_syn), "sha256": h_syn, "scenario": "TCP SYN Flood 200 pps"}
+    manifest[out_syn.name] = {"path": str(out_syn.relative_to(REPO_ROOT)), "sha256": h_syn, "scenario": "TCP SYN Flood 200 pps"}
 
     # Run 2: UDP 50 pps
     pcap_udp = CAPTURES_DIR / "session3_udp_flood_random_ports_50pps_rep1.pcap"
     out_udp = FIGURES_DIR / "dashboard_udp_50pps.png"
     h_udp = generate_dashboard_figure(pcap_udp, "UDP Flood Random Ports 50 pps", out_udp, is_udp=True, nominal_rate=50)
-    manifest[out_udp.name] = {"path": str(out_udp), "sha256": h_udp, "scenario": "UDP Flood Random Ports 50 pps"}
+    manifest[out_udp.name] = {"path": str(out_udp.relative_to(REPO_ROOT)), "sha256": h_udp, "scenario": "UDP Flood Random Ports 50 pps"}
 
     # Run 3: Reconnaissance Port Scan
     pcap_scan = CAPTURES_DIR / "session3_reconnaissance_port_scan_30pps_rep1.pcap"
     out_scan = FIGURES_DIR / "dashboard_scan_30pps.png"
     h_scan = generate_dashboard_figure(pcap_scan, "Reconnaissance Port Scan 30 pps", out_scan, is_scan=True, nominal_rate=30)
-    manifest[out_scan.name] = {"path": str(out_scan), "sha256": h_scan, "scenario": "Reconnaissance Port Scan 30 pps"}
+    manifest[out_scan.name] = {"path": str(out_scan.relative_to(REPO_ROOT)), "sha256": h_scan, "scenario": "Reconnaissance Port Scan 30 pps"}
 
     # Run 4: Benign Baseline
     pcap_benign = CAPTURES_DIR / "session3_benign_baseline_900s.pcap"
     out_benign = FIGURES_DIR / "dashboard_benign_baseline.png"
     h_benign = generate_dashboard_figure(pcap_benign, "Benign Baseline 900s (Clean)", out_benign, is_benign=True)
-    manifest[out_benign.name] = {"path": str(out_benign), "sha256": h_benign, "scenario": "Benign Baseline 900s (Clean)"}
+    manifest[out_benign.name] = {"path": str(out_benign.relative_to(REPO_ROOT)), "sha256": h_benign, "scenario": "Benign Baseline 900s (Clean)"}
 
     # Run 5: Blind Fixture (Drops / Restarts warning banner)
     out_blind = FIGURES_DIR / "dashboard_blind_fixture.png"
     h_blind = generate_dashboard_figure(pcap_syn, "TCP SYN Flood (Detector Blind State)", out_blind, is_syn=True, is_blind=True, nominal_rate=200)
-    manifest[out_blind.name] = {"path": str(out_blind), "sha256": h_blind, "scenario": "Detector Blind Warning Banner Fixture"}
+    manifest[out_blind.name] = {"path": str(out_blind.relative_to(REPO_ROOT)), "sha256": h_blind, "scenario": "Detector Blind Warning Banner Fixture"}
 
     manifest_path = FIGURES_DIR / "figures_manifest.json"
     with open(manifest_path, "w", encoding="utf-8") as f:

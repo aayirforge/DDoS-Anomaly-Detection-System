@@ -90,7 +90,7 @@
 
 - **Topology Constraints:** Evaluated in a single container bridge topology on a single Linux kernel; physical switch fabric and NIC offloading not tested.
 - **Threshold Calibration:** Calibrated near 50 pps generator rates; sub-threshold distributed floods (<40 UDP pps, <20 unacked SYNs) will not trigger.
-- **Protocol Bypasses:** Adversaries transmitting paired bare ACKs for every SYN cancel the arrival counter; legitimate flash crowds >750 conn/s risk false alerts.
+- **Protocol Bypasses:** Paired bare ACKs cancel the arrival counter; flash crowds (1,000–5,000 conn/s) trigger 1–2 arrival alerts (stateful rule: 0; sustained variant: 0 with ~3 s delay).
 - **Evaluation Scope:** Reflection amplification scenario: pre-registered in the Session 3 plan but not run. The reflector container named in the plan was never provisioned in docker-compose.yml (a planning error), and the traffic generator implements no reflection logic. The scenario would have run on the internal-only lab network. Source: lab/docker-compose.yml and the 'not run' rows of results/tables/table_s3_b_per_repeat.md. Status: NOT RUN.
 
 ---

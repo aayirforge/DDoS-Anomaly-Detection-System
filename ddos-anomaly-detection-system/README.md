@@ -129,6 +129,8 @@ cd ddos-anomaly-detection-system
 make setup
 ```
 
+> **Note on Evaluation Captures:** Large binary packet captures (`lab/captures/session3/*.pcap`) are preserved in the lab archive or reproduced locally via `python lab/scripts/run_session3_suite.py`. When running on a fresh clone without binary pcaps, capture-dependent tests automatically skip while core logic tests continue to pass.
+
 ### 4.2 Running the Full Verification Test Suite
 Execute the comprehensive test suite covering unit logic, feature alignment, UI safety, and streaming parity:
 
@@ -257,6 +259,8 @@ Across 40 independent evaluation captures recorded during Session 3:
 | **TCP Port Scans** | 10, 30, 100 pps | Classified as `ALERT_SCAN` | **3 / 3 (100%)** | **2.44 s** | Verified (`table_s3_b_per_repeat.md`) |
 | **Benign Baseline** | Concurrent HTTP, DNS, NTP, RTP stream | FPR $\le 0.1\%$ | **0 False Alarms** | **0.00% empirical FPR** (95% CI bound: 0.33%) | Verified across 900 s baseline |
 
+> **Flash Crowd & Table Saturation Finding (Table S7-I):** Stress-testing under completing handshakes (200 ms RTT, 1,000-entry table) produced 0 arrival alerts at 500 conn/s, and 1, 2, and 2 arrival alerts at 1,000, 2,000, and 5,000 conn/s due to in-flight SYN accumulation. Across all offered rates, the stateful rule triggered 0 false alarms (even under 9,802 capacity evictions at 5,000 conn/s), and the 3-window sustained variant produced 0 false alarms with ~3 s delay.
+
 ---
 
 ## 📂 6. Repository Layout & File Index
@@ -311,7 +315,7 @@ ddos-anomaly-detection-system/
 
 ---
 
-## ⚖️ 7. Ethics & Legal Compliance Notice
+## ⚖️ 7. Ethics, Authorized Use & Legal Compliance Notice
 
 ```text
 ================================================================================
@@ -322,3 +326,11 @@ permission to audit. Unauthorized sniffing, packet injection, or disruption of
 network communications violates international computer crime laws.
 ================================================================================
 ```
+
+### Notice on Authorized Use
+This framework and its diagnostic scripts are provided solely for authorized defensive monitoring, algorithmic auditing, and academic research. Operators must ensure explicit permission before initiating captures on any network interface.
+
+### Third-Party Licensing & Attributions
+- Primary project codebase is distributed under the MIT/permissive project LICENSE.
+- Standalone extraction tools located in `tools/` (including `SimpleFlowMeterV4` Java source and compiled bytecode) are derived from the University of New Brunswick (UNB) / Canadian Institute for Cybersecurity (CIC) CICFlowMeter project, distributed under the GNU Lesser General Public License (LGPL v3.0) and Apache 2.0 terms.
+- JNetPcap library wrappers are governed by their respective LGPL v3 open-source licensing.

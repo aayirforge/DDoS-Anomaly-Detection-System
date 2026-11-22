@@ -9,7 +9,7 @@ import os
 import subprocess
 from pathlib import Path
 
-REPO_ROOT = Path("/home/kartik/Documents/AAYIR FORGE/DDoS Anomaly Detection System")
+REPO_ROOT = Path(__file__).resolve().parent.parent.parent
 SYSTEM_DIR = REPO_ROOT / "ddos-anomaly-detection-system"
 
 def get_git_hash(commit, path):

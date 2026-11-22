@@ -86,6 +86,8 @@ def test_extractor_vs_tshark_idle():
     root = Path(__file__).resolve().parent.parent
     csv_path = root / "lab/captures/session2_java/idle_classic.pcap_Flow.csv"
     pcap_path = root / "lab/captures/session2/lab_idle.pcap"
+    if not pcap_path.is_file() or not csv_path.is_file():
+        pytest.skip(f"Capture fixture missing ({pcap_path.name}); refer to README.md Section 4.1.")
     assert_flows_match_tshark(csv_path, pcap_path, min_flows=50)
 
 
@@ -93,6 +95,8 @@ def test_extractor_vs_tshark_busy():
     root = Path(__file__).resolve().parent.parent
     csv_path = root / "lab/captures/session2_java/busy_classic.pcap_Flow.csv"
     pcap_path = root / "lab/captures/session2/lab_busy.pcap"
+    if not pcap_path.is_file() or not csv_path.is_file():
+        pytest.skip(f"Capture fixture missing ({pcap_path.name}); refer to README.md Section 4.1.")
     assert_flows_match_tshark(csv_path, pcap_path, min_flows=50)
 
 
@@ -100,4 +104,6 @@ def test_extractor_vs_tshark_syn_flood():
     root = Path(__file__).resolve().parent.parent
     csv_path = root / "lab/captures/session2_java/syn_classic.pcap_Flow.csv"
     pcap_path = root / "lab/captures/session2/lab_syn_flood.pcap"
+    if not pcap_path.is_file() or not csv_path.is_file():
+        pytest.skip(f"Capture fixture missing ({pcap_path.name}); refer to README.md Section 4.1.")
     assert_flows_match_tshark(csv_path, pcap_path, min_flows=50)

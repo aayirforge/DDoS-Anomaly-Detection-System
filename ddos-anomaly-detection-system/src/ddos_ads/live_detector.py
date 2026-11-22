@@ -364,7 +364,7 @@ class LiveDetector:
         logger.info(
             f"Starting Live Detector on interface '{interface}' (chunk duration: {chunk_duration_sec}s)\n"
             f"Active Model: {self.model_name} | Decision Threshold: {self.threshold}\n"
-            f"Mitigation Mode: {'ACTIVE BLOCKING' if self.mitigation.enable_blocking else 'ALERT-ONLY'}\n"
+            f"Mitigation Mode: ALERT-ONLY\n"
         )
 
         self.running = True

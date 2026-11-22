@@ -14,7 +14,7 @@ Saves to results/candidate_model_selection.json.
 import json
 from pathlib import Path
 
-REPO_ROOT = Path("/home/kartik/Documents/AAYIR FORGE/DDoS Anomaly Detection System/ddos-anomaly-detection-system")
+REPO_ROOT = Path(__file__).resolve().parent.parent
 RESULTS_DIR = REPO_ROOT / "results"
 
 def validate_auc_bound(recall, auc, fp, total_benign, name=""):

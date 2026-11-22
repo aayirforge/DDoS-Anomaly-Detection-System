@@ -414,7 +414,12 @@ def extract_flows_java(
     pcap_path = Path(pcap_path).resolve()
 
     base_dir = Path(__file__).resolve().parents[2]  # ddos-anomaly-detection-system root
-    jar_path = base_dir / "tools" / "cicflowmeter-java" / "target" / "SimpleFlowMeterV4-0.0.4-SNAPSHOT.jar"
+    jar_env = os.environ.get("FLOWMETER_JAR")
+    jar_path = Path(jar_env) if jar_env else (base_dir / "tools" / "cicflowmeter-java" / "target" / "SimpleFlowMeterV4-0.0.4-SNAPSHOT.jar")
+    if not jar_path.exists():
+        fallback_jar = base_dir / "tools" / "SimpleFlowMeterV4-0.0.4-SNAPSHOT.jar"
+        if fallback_jar.exists():
+            jar_path = fallback_jar
     jnetpcap_dir = base_dir / "tools" / "cicflowmeter-java" / "jnetpcap" / "linux" / "jnetpcap-1.4.r1425"
     lib_dir = base_dir / "tools" / "lib"
     lib_dir.mkdir(parents=True, exist_ok=True)
@@ -431,8 +436,9 @@ def extract_flows_java(
                 break
 
     # Build classpath from maven repository
-    m2 = Path("/home/kartik/.m2/repository")
-    jars = [str(j) for j in m2.glob("**/*.jar")]
+    m2_env = os.environ.get("M2_REPO")
+    m2 = Path(m2_env) if m2_env else (Path.home() / ".m2/repository")
+    jars = [str(j) for j in m2.glob("**/*.jar")] if m2.exists() else []
     jars.append(str(base_dir / "tools" / "cicflowmeter-java" / "target" / "classes"))
     jars.append(str(jar_path))
     cp_str = ":".join(jars)

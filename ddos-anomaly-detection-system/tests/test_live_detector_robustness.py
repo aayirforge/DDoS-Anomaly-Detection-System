@@ -174,7 +174,8 @@ def test_replay_determinism_across_two_runs():
     identical alert records, counts, and sequences.
     """
     pcap = CAPTURES_DIR / "session3_tcp_syn_flood_50pps_rep1.pcap"
-    assert pcap.is_file(), f"Missing PCAP {pcap}"
+    if not pcap.is_file():
+        pytest.skip(f"Capture fixture missing ({pcap.name}); refer to README.md Section 4.1.")
 
     with tempfile.TemporaryDirectory() as tmp_dir:
         # Run 1
