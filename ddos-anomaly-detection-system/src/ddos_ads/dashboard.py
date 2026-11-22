@@ -546,25 +546,40 @@ def render_advanced_monitor_ui() -> None:
     }
 
     if selected_source == "Live Alert Database (alerts.db)":
-        df_alerts, incident_meta = load_alerts_from_db_readonly(default_db_path)
+        df_alerts, db_meta = load_alerts_from_db_readonly(default_db_path)
+        incident_meta.update(db_meta)
+        if not df_alerts.empty:
+            if "rule_name" in df_alerts.columns:
+                incident_meta["first_alert_type"] = str(df_alerts["rule_name"].iloc[0])
+            elif "alert_type" in df_alerts.columns:
+                incident_meta["first_alert_type"] = str(df_alerts["alert_type"].iloc[0])
+            if "packet_ts" in df_alerts.columns:
+                ts_vals = df_alerts["packet_ts"].dropna().values
+                if len(ts_vals) > 0:
+                    incident_meta["alerted_duration_sec"] = int(np.ptp(ts_vals))
     else:
         run_stem = selected_source.replace("Replay: ", "")
-        incident_meta = load_ground_truth_for_run(run_stem)
+        gt_meta = load_ground_truth_for_run(run_stem)
+        incident_meta.update(gt_meta)
 
-    is_blind = incident_meta["drops"] > 0 or incident_meta["restarts"] > 0 or incident_meta.get("detector_blind", False)
+    drops = incident_meta.get("drops", 0)
+    restarts = incident_meta.get("restarts", 0)
+    is_blind = drops > 0 or restarts > 0 or incident_meta.get("detector_blind", False)
     if is_blind:
         st.error(
-            f"🚨 **DETECTOR BLIND WARNING**: Kernel packet drops ({incident_meta['drops']} dropped), "
-            f"supervisor auto-restarts ({incident_meta['restarts']} restarts), or detector_blind event detected! "
+            f"🚨 **DETECTOR BLIND WARNING**: Kernel packet drops ({drops} dropped), "
+            f"supervisor auto-restarts ({restarts} restarts), or detector_blind event detected! "
             "Traffic volumes exceeded processing limits. Active defense response must treat this interval as compromised."
         )
 
     st.subheader(f"Incident Overview: {selected_source}")
     kpi1, kpi2, kpi3, kpi4 = st.columns(4)
-    kpi1.metric("First Alert Delay", f"{incident_meta['first_alert_delay_sec']:.4f}s" if incident_meta["first_alert_delay_sec"] is not None else "N/A")
-    kpi2.metric("Alerted Duration", f"{incident_meta['alerted_duration_sec']}s")
-    kpi3.metric("Peak Attack Rate", f"{incident_meta['peak_rate_pps']} pps")
-    kpi4.metric("First Alert Class", incident_meta["first_alert_type"])
+    delay_val = incident_meta.get("first_alert_delay_sec")
+    delay_str = f"{delay_val:.4f}s" if delay_val is not None else "N/A"
+    kpi1.metric("First Alert Delay", delay_str)
+    kpi2.metric("Alerted Duration", f"{incident_meta.get('alerted_duration_sec', 0)}s")
+    kpi3.metric("Peak Attack Rate", f"{incident_meta.get('peak_rate_pps', 0)} pps")
+    kpi4.metric("First Alert Class", str(incident_meta.get("first_alert_type", "N/A")))
 
     st.markdown("---")
     st.subheader("Incident Alerts Stream")
