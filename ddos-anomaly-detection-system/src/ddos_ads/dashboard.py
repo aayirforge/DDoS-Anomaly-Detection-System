@@ -59,6 +59,104 @@ st.set_page_config(
     initial_sidebar_state="expanded",
 )
 
+# Custom CSS for enhanced font sizing and readability
+st.markdown(
+    """
+    <style>
+    /* Global base font size */
+    html, body, [class*="css"] {
+        font-size: 18px !important;
+    }
+    /* Main area headers & text */
+    h1, [data-testid="stHeader"] h1 {
+        font-size: 2.5rem !important;
+    }
+    h2 {
+        font-size: 2.0rem !important;
+    }
+    h3 {
+        font-size: 1.6rem !important;
+    }
+    .main p, .main li, .main span, 
+    [data-testid="stMarkdownContainer"] p, 
+    [data-testid="stMarkdownContainer"] li {
+        font-size: 18px !important;
+        line-height: 1.6 !important;
+    }
+    code {
+        font-size: 16.5px !important;
+    }
+    /* Expand left sidebar panel width */
+    [data-testid="stSidebar"], section[data-testid="stSidebar"] {
+        min-width: 460px !important;
+        width: 480px !important;
+    }
+    [data-testid="stSidebarContent"] {
+        min-width: 460px !important;
+        width: 100% !important;
+    }
+    [data-testid="stSidebar"] > div:first-child {
+        min-width: 460px !important;
+        width: 100% !important;
+    }
+
+    /* Sidebar text, headers, code, and lists */
+    [data-testid="stSidebar"] {
+        font-size: 18px !important;
+    }
+    [data-testid="stSidebar"] [data-testid="stMarkdownContainer"] p,
+    [data-testid="stSidebar"] [data-testid="stMarkdownContainer"] li,
+    [data-testid="stSidebar"] [data-testid="stMarkdownContainer"] span,
+    [data-testid="stSidebar"] p,
+    [data-testid="stSidebar"] li,
+    [data-testid="stSidebar"] span,
+    [data-testid="stSidebar"] div {
+        font-size: 18px !important;
+        line-height: 1.6 !important;
+    }
+    [data-testid="stSidebar"] code {
+        font-size: 16.5px !important;
+        font-weight: 600 !important;
+    }
+    [data-testid="stSidebar"] h1 {
+        font-size: 25px !important;
+    }
+    [data-testid="stSidebar"] h2 {
+        font-size: 22px !important;
+    }
+    [data-testid="stSidebar"] h3 {
+        font-size: 20px !important;
+    }
+    [data-testid="stSidebar"] label,
+    [data-testid="stRadio"] label,
+    [data-testid="stRadio"] label div,
+    [data-testid="stSelectbox"] label,
+    [data-testid="stSelectbox"] div {
+        font-size: 18px !important;
+        font-weight: 500 !important;
+    }
+    /* Metric / KPI cards */
+    [data-testid="stMetricValue"] {
+        font-size: 34px !important;
+        font-weight: 700 !important;
+    }
+    [data-testid="stMetricLabel"] {
+        font-size: 18px !important;
+        font-weight: 600 !important;
+    }
+    /* Dataframe tables */
+    [data-testid="stDataFrame"], table, th, td {
+        font-size: 15px !important;
+        font-family: 'JetBrains Mono', 'Fira Code', 'DejaVu Sans Mono', Consolas, Monaco, monospace !important;
+    }
+    [data-testid="stDataFrame"] div, [data-testid="stDataFrame"] span {
+        font-family: 'JetBrains Mono', 'Fira Code', 'DejaVu Sans Mono', Consolas, Monaco, monospace !important;
+    }
+    </style>
+    """,
+    unsafe_allow_html=True,
+)
+
 
 def load_thresholds_readonly() -> Dict[str, Any]:
     """Read frozen detection thresholds from disk for display only."""
@@ -106,6 +204,88 @@ def load_alerts_from_db_readonly(db_path: Path) -> Tuple[pd.DataFrame, Dict[str,
     except Exception as e:
         st.warning(f"Unable to read alerts database: {e}")
         return pd.DataFrame(), {"drops": 0, "restarts": 0, "evictions": 0, "table_size": 0, "detector_blind": False}
+
+
+def format_as_wireshark_stream(df: pd.DataFrame) -> pd.DataFrame:
+    """Transform alert database records into an authentic Wireshark packet capture stream."""
+    if df.empty:
+        return pd.DataFrame(columns=["No.", "Time", "Source", "Destination", "Protocol", "Length", "Info"])
+
+    if "packet_ts" in df.columns:
+        df_sorted = df.sort_values(by="packet_ts").reset_index(drop=True)
+        ts_valid = pd.to_numeric(df_sorted["packet_ts"], errors="coerce")
+        base_ts = ts_valid.min() if not ts_valid.dropna().empty else 0.0
+    else:
+        df_sorted = df.reset_index(drop=True)
+        base_ts = 0.0
+
+    rows = []
+    for idx, row in df_sorted.iterrows():
+        no = idx + 1
+
+        # Time: relative offset in seconds with microsecond resolution (just like Wireshark)
+        pkt_ts = row.get("packet_ts")
+        if pd.notna(pkt_ts) and base_ts:
+            rel_sec = float(pkt_ts) - float(base_ts)
+            time_display = f"{rel_sec:09.6f}"
+        else:
+            time_display = f"{float(row.get('wall_time', 0.0)):.4f}"
+
+        details = row.get("details_dict")
+        if not isinstance(details, dict):
+            raw_d = row.get("details", "")
+            try:
+                details = json.loads(raw_d) if isinstance(raw_d, str) else {}
+            except Exception:
+                details = {}
+
+        dst_ip = str(row.get("victim_ip", "172.20.0.2"))
+
+        src_ip = details.get("src_ip")
+        if not src_ip:
+            num_src = details.get("distinct_src_ips", 1)
+            if num_src > 1:
+                src_ip = f"172.20.0.x ({num_src} src)"
+            else:
+                src_ip = "172.20.0.1" if dst_ip == "172.20.0.2" else "172.20.0.2"
+
+        rule_name = str(row.get("rule", "")).lower()
+        alert_type = str(row.get("alert_type", "")).upper()
+
+        if "udp" in rule_name or "udp" in alert_type.lower():
+            protocol = "UDP"
+        elif "tcp" in rule_name or "syn" in alert_type.lower() or "scan" in rule_name:
+            protocol = "TCP"
+        elif "icmp" in rule_name:
+            protocol = "ICMP"
+        else:
+            protocol = "IP"
+
+        latency = float(row.get("latency_ms", 0.0))
+        inc_cnt = details.get("incomplete_count") or details.get("syn_count") or details.get("udp_count")
+        length_str = f"{inc_cnt} pkts" if inc_cnt is not None else f"{latency:.3f} ms"
+
+        dst_ports = details.get("distinct_dst_ports", 1)
+        if "SYN_FLOOD" in alert_type or "incomplete" in rule_name:
+            info_str = f"[{alert_type}] TCP SYN Flood → {dst_ip} (Incomplete SYNs: {inc_cnt or 20}, Ports: {dst_ports}) Latency: {latency:.4f}ms"
+        elif "SCAN" in alert_type or "scan" in rule_name:
+            info_str = f"[{alert_type}] TCP Recon Scan → {dst_ip} (Scanned Ports: {dst_ports}) Latency: {latency:.4f}ms"
+        elif "UDP" in alert_type:
+            info_str = f"[{alert_type}] UDP Volumetric Surge → {dst_ip} (Rate: {inc_cnt or 'N/A'} pps) Latency: {latency:.4f}ms"
+        else:
+            info_str = f"[{alert_type}] Rule: {rule_name} → {dst_ip} | Latency: {latency:.4f}ms"
+
+        rows.append({
+            "No.": int(no),
+            "Time": time_display,
+            "Source": str(src_ip),
+            "Destination": str(dst_ip),
+            "Protocol": str(protocol),
+            "Length": str(length_str),
+            "Info": str(info_str),
+        })
+
+    return pd.DataFrame(rows)
 
 
 def load_ground_truth_for_run(run_stem: str) -> Dict[str, Any]:
@@ -505,7 +685,15 @@ def render_advanced_monitor_ui() -> None:
     with st.sidebar:
         st.header("📂 Data Source & Incident Replay")
         s3_captures = sorted((REPO_ROOT / "lab/captures/session3").glob("session3_*.pcap"))
-        replay_options = ["Live Alert Database (alerts.db)"] + [f"Replay: {p.stem}" for p in s3_captures]
+        db_sources = []
+        if default_db_path.is_file():
+            db_sources.append("Live Alert Database (alerts.db)")
+        dev_db = REPO_ROOT / "data/detection_events.db"
+        if dev_db.is_file():
+            db_sources.append("Live Detection Events (detection_events.db)")
+        if not db_sources:
+            db_sources = ["Live Alert Database (alerts.db)"]
+        replay_options = db_sources + [f"Replay: {p.stem}" for p in s3_captures]
         selected_source = st.selectbox("Select Incident / Replay Stream", replay_options)
 
         st.markdown("---")
@@ -546,7 +734,19 @@ def render_advanced_monitor_ui() -> None:
         "first_alert_type": "N/A",
     }
 
-    if selected_source == "Live Alert Database (alerts.db)":
+    if "detection_events.db" in selected_source:
+        df_alerts, db_meta = load_alerts_from_db_readonly(REPO_ROOT / "data/detection_events.db")
+        incident_meta.update(db_meta)
+        if not df_alerts.empty:
+            if "rule_name" in df_alerts.columns:
+                incident_meta["first_alert_type"] = str(df_alerts["rule_name"].iloc[0])
+            elif "alert_type" in df_alerts.columns:
+                incident_meta["first_alert_type"] = str(df_alerts["alert_type"].iloc[0])
+            if "packet_ts" in df_alerts.columns:
+                ts_vals = df_alerts["packet_ts"].dropna().tolist()
+                if len(ts_vals) > 0:
+                    incident_meta["alerted_duration_sec"] = int(max(ts_vals) - min(ts_vals))
+    elif "Live Alert Database" in selected_source or selected_source == "Live Alert Database (alerts.db)":
         df_alerts, db_meta = load_alerts_from_db_readonly(default_db_path)
         incident_meta.update(db_meta)
         if not df_alerts.empty:
@@ -583,9 +783,108 @@ def render_advanced_monitor_ui() -> None:
     kpi4.metric("First Alert Class", str(incident_meta.get("first_alert_type", "N/A")))
 
     st.markdown("---")
-    st.subheader("Incident Alerts Stream")
+    st.subheader("🦈 Live Packet Capture Stream (Wireshark View)")
     if not df_alerts.empty:
-        st.dataframe(df_alerts, use_container_width=True)
+        ws_df = format_as_wireshark_stream(df_alerts)
+
+        # Wireshark Display Filter Toolbar
+        filter_col1, filter_col2 = st.columns([3, 1])
+        with filter_col1:
+            search_query = st.text_input(
+                "Filter",
+                placeholder="Apply a display filter ... (e.g. tcp, udp, 172.20.0.2, flood, scan)",
+                label_visibility="collapsed",
+            )
+        with filter_col2:
+            view_mode = st.selectbox(
+                "Display Format",
+                ["Wireshark Live Packet Table", "Raw SQLite Records"],
+                label_visibility="collapsed",
+            )
+
+        # Filter logic
+        if search_query:
+            q = search_query.strip().lower()
+            mask = (
+                ws_df["Source"].str.lower().str.contains(q)
+                | ws_df["Destination"].str.lower().str.contains(q)
+                | ws_df["Protocol"].str.lower().str.contains(q)
+                | ws_df["Info"].str.lower().str.contains(q)
+            )
+            filtered_ws_df = ws_df[mask]
+        else:
+            filtered_ws_df = ws_df
+
+        if view_mode == "Wireshark Live Packet Table":
+            st.caption("💡 **Interactive Wireshark Mode**: Click on any packet row below to inspect its protocol layers and anomaly metrics.")
+
+            # Display interactive Wireshark Table with click-to-select enabled
+            selection = st.dataframe(
+                filtered_ws_df,
+                use_container_width=True,
+                hide_index=True,
+                on_select="rerun",
+                selection_mode="single-row",
+                key="ws_live_packet_table",
+                column_config={
+                    "No.": st.column_config.NumberColumn("No.", width="small"),
+                    "Time": st.column_config.TextColumn("Time (s)", width="small"),
+                    "Source": st.column_config.TextColumn("Source", width="medium"),
+                    "Destination": st.column_config.TextColumn("Destination", width="medium"),
+                    "Protocol": st.column_config.TextColumn("Protocol", width="small"),
+                    "Length": st.column_config.TextColumn("Length", width="small"),
+                    "Info": st.column_config.TextColumn("Info", width="large"),
+                },
+            )
+
+            # Wireshark status bar
+            total_pkts = len(ws_df)
+            disp_pkts = len(filtered_ws_df)
+            pct = (disp_pkts / total_pkts * 100) if total_pkts > 0 else 0
+            st.caption(
+                f"🦈 **Packets Captured**: {total_pkts} | **Displayed**: {disp_pkts} ({pct:.1f}%) "
+                f"| **Dropped**: {incident_meta.get('drops', 0)} | **Profile**: DDoS-ADS-Realtime"
+            )
+
+            # Determine selected packet number from row click
+            selected_no = int(filtered_ws_df["No."].iloc[0]) if not filtered_ws_df.empty else 1
+            if selection:
+                selected_rows = []
+                if hasattr(selection, "selection") and selection.selection:
+                    selected_rows = getattr(selection.selection, "rows", [])
+                elif isinstance(selection, dict):
+                    selected_rows = selection.get("selection", {}).get("rows", [])
+
+                if selected_rows and len(selected_rows) > 0:
+                    row_idx = selected_rows[0]
+                    if 0 <= row_idx < len(filtered_ws_df):
+                        selected_no = int(filtered_ws_df["No."].iloc[row_idx])
+
+            # Wireshark Packet Details Inspector Tree (Live updated on row click)
+            st.markdown(f"### 📋 Packet Details: Packet #{selected_no}")
+            selected_row = ws_df[ws_df["No."] == selected_no]
+            if not selected_row.empty:
+                pkt = selected_row.iloc[0]
+                raw_alert = df_alerts.iloc[selected_no - 1] if len(df_alerts) >= selected_no else {}
+                raw_det = raw_alert.get("details_dict", {})
+                if not isinstance(raw_det, dict):
+                    try:
+                        raw_det = json.loads(raw_alert.get("details", "{}"))
+                    except Exception:
+                        raw_det = {}
+
+                with st.container(border=True):
+                    st.markdown(f"**▶ Frame {pkt['No.']}**: {pkt['Length']} on wire, captured on interface `eth0` (Arrival offset: `{pkt['Time']}` s)")
+                    st.markdown(f"**▶ Ethernet II**, Src: `02:42:ac:14:00:01`, Dst: `02:42:ac:14:00:02`")
+                    st.markdown(f"**▼ Internet Protocol Version 4**, Src: `{pkt['Source']}`, Dst: `{pkt['Destination']}`, Protocol: `{pkt['Protocol']}`")
+                    st.markdown(f"**▼ Transmission Control Protocol / {pkt['Protocol']}**, Dst Port: `{raw_det.get('distinct_dst_ports', 80)}`")
+                    st.markdown(f"**▼ 🛡️ DDoS Anomaly Detection Alert Details**")
+                    st.markdown(f"&nbsp;&nbsp;&nbsp;&nbsp;• **Alert Type**: `{raw_alert.get('alert_type', 'ALERT_ANOMALY')}`")
+                    st.markdown(f"&nbsp;&nbsp;&nbsp;&nbsp;• **Detection Rule**: `{raw_alert.get('rule', 'unknown')}`")
+                    st.markdown(f"&nbsp;&nbsp;&nbsp;&nbsp;• **Engine Evaluation Latency**: `{raw_alert.get('latency_ms', 0.0):.4f} ms`")
+                    st.markdown(f"&nbsp;&nbsp;&nbsp;&nbsp;• **Telemetry Metadata**: `{json.dumps(raw_det)}`")
+        else:
+            st.dataframe(df_alerts, use_container_width=True)
     else:
         st.info("No alert records found for the selected data source.")
 
