@@ -400,11 +400,3 @@ permission to audit. Unauthorized sniffing, packet injection, or disruption of
 network communications violates international computer crime laws.
 ================================================================================
 ```
-
-### Notice on Authorized Use
-This framework and its diagnostic scripts are provided solely for authorized defensive monitoring, algorithmic auditing, and academic research. Operators must ensure explicit permission before initiating captures on any network interface. All lab replays are targeted strictly at the internal isolated subnet `172.20.0.0/16`.
-
-### Third-Party Licensing & Attributions
-- Primary project codebase is distributed under the [MIT License](LICENSE).
-- Standalone extraction tools located in `tools/` (including `SimpleFlowMeterV4` Java source and compiled bytecode) are derived from the University of New Brunswick (UNB) / Canadian Institute for Cybersecurity (CIC) CICFlowMeter project, distributed under the GNU Lesser General Public License (LGPL v3.0) and Apache 2.0 terms.
-- JNetPcap library wrappers are governed by their respective LGPL v3 open-source licensing.
