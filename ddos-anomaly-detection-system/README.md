@@ -26,6 +26,7 @@ An enterprise-grade, dual-path Network Security and Machine Learning system engi
 7. [How Fast is It? (Real-World Numbers)](#7-how-fast-is-it-real-world-numbers)
 8. [Behind the Scenes: How the Pieces Fit Together](#8-behind-the-scenes-how-the-pieces-fit-together)
 9. [Detailed Guides for Developers & Engineers](#9-detailed-guides-for-developers--engineers)
+10. [Author & Copyright](#10-author--copyright)
 
 ---
 
@@ -387,3 +388,23 @@ ddos-anomaly-detection-system/
 ```
 
 ---
+
+## 10. Author & Copyright
+
+```text
+================================================================================
+                    ETHICAL & LEGAL COMPLIANCE NOTICE
+This software is intended strictly for educational, defensive, and authorized
+security research on networks and systems you own or have explicit written
+permission to audit. Unauthorized sniffing, packet injection, or disruption of
+network communications violates international computer crime laws.
+================================================================================
+```
+
+### Notice on Authorized Use
+This framework and its diagnostic scripts are provided solely for authorized defensive monitoring, algorithmic auditing, and academic research. Operators must ensure explicit permission before initiating captures on any network interface. All lab replays are targeted strictly at the internal isolated subnet `172.20.0.0/16`.
+
+### Third-Party Licensing & Attributions
+- Primary project codebase is distributed under the [MIT License](LICENSE).
+- Standalone extraction tools located in `tools/` (including `SimpleFlowMeterV4` Java source and compiled bytecode) are derived from the University of New Brunswick (UNB) / Canadian Institute for Cybersecurity (CIC) CICFlowMeter project, distributed under the GNU Lesser General Public License (LGPL v3.0) and Apache 2.0 terms.
+- JNetPcap library wrappers are governed by their respective LGPL v3 open-source licensing.
